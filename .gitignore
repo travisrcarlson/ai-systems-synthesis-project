@@ -1,0 +1,30 @@
+# Python environments and caches
+.venv/
+venv/
+app/.venv/
+__pycache__/
+*.pyc
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Secrets: an API key is never committed
+.env
+*.env
+
+# Local test copies of the executed notebook
+executed_*.ipynb
+
+# Runs made with the stand-in model during development, and smoke-test runs
+# (the committed runs are in runs/)
+runs_dev/
+runs_smoke/
+
+# The application's own build files, if its stack makes them
+app/node_modules/
+app/dist/
+
+# OS files
+.DS_Store
+Thumbs.db
+desktop.ini
