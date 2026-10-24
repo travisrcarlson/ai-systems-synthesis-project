@@ -26,8 +26,6 @@ class Policy:
     ranking: str = "gated"        # "gated" (the baseline-first gate), "baseline", "lr", "hgb" or "random"
     allocation: str = "victims"   # how the capacity is shared: "victims", "suspected" or "areas"
     follow_up: bool = True        # neighbours of an area where mines were found are surveyed next
-    strict_sign_off: bool = False # a comparison, not the main policy: the person signing off does not cancel an
-                                  # area with a past accident recorded inside on non-technical survey alone
 
     def label(self):
         """The policy in words, by how it differs from the main policy."""
@@ -39,8 +37,6 @@ class Policy:
             parts.append({"suspected": "shares by suspected areas", "areas": "shares by number of areas"}[self.allocation])
         if not self.follow_up:
             parts.append("no follow-up of areas with mines")
-        if self.strict_sign_off:
-            parts.append("strict sign-off")
         return "; ".join(parts) if parts else "main policy"
 
 
@@ -197,11 +193,6 @@ class Replay:
                     decision = "FURTHER_NTS"
                     reason = ("The rule check vetoes the recommendation on its own register, so it is not signed "
                               "off; the area goes back for more survey.")
-                elif self.policy.strict_sign_off and decision == "CANCEL" and twin.areas.loc[a, "event_inside"]:
-                    ts = rules.rule_check("TECHNICAL_SURVEY", review.register, twin.evidence[a], twin.criteria)
-                    decision = "TECHNICAL_SURVEY" if ts["result"] == "pass" else "FURTHER_NTS"
-                    reason = ("Sign-off policy: a past landmine accident is recorded inside the area, so it is not "
-                              "cancelled on non-technical survey alone.")
                 twin.sign_off(a, decision, round_number=r, decided_by=SIGN_OFF, recommended_by=review.by,
                               recommendation=review.outcome, register=review.register, reason=reason)
                 rows.append({"round": r, "area_id": a, "municipality": NAME_OF[twin.areas.loc[a, "municipality_code"]],

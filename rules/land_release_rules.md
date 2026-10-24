@@ -39,7 +39,7 @@ IMAS 08.10 (§8.2) suggests these broad classes of sources, from the most confid
 - Cancelled land is an SHA or CHA concluded not to contain evidence of EO, on reliable information that meets set cancellation criteria (IMAS 07.11, §3.2).
 - Cancellation through non-technical survey needs all reasonable effort, and high confidence that there is no evidence of EO in the area. Absence of evidence counts only if the efforts made could reasonably have found evidence, had contamination been present (IMAS 08.10, §6.2; IMAS 07.11, §4.3).
 - The use of land may be weighed when considering cancellation, systematically: which land is used and which is not, how it is used, and for how long (IMAS 08.10, §8.3).
-- The pilot's national criteria set how many reliable first-hand sources, and how many years of safe use, cancellation needs, and that there may be no direct evidence and no unexplained indirect evidence. See the dossier's `national_criteria`.
+- The pilot's national criteria set how many reliable first-hand sources, and how many years of safe use, cancellation needs, and that there may be no direct evidence and no unexplained indirect evidence. They can also rule out cancellation of an area where the national database records a past accident inside: such an area is released only after TS. See the dossier's `national_criteria`.
 - Project rule: sources are counted by person. The evidence log numbers each informant, and one person counts once, however many items they give.
 - Project rule: land the survey team could not see is not evidence either way. Where the team could reach only part of an area, cancellation rests on the reports of the people who use the land, if they meet the national criteria.
 
@@ -48,7 +48,7 @@ IMAS 08.10 (§8.2) suggests these broad classes of sources, from the most confid
 - Indirect evidence supports an SHA and needs checking by TS before any decision to clear (IMAS 07.11, §4.4).
 - An SHA should normally go through non-technical survey before TS assets are committed, and targeted TS is preferred to systematic TS (IMAS 08.20, §4.1, §4.2).
 - Land can be reduced by TS when the efforts applied could reasonably have found evidence of contamination, had it been present (IMAS 08.20, §5.3).
-- Project rule: TS needs a target. Direct evidence, and indirect evidence that the survey team saw or that a first-hand source reported (class 1 to 4), are targets. Weaker indirect evidence (class 5 to 7: second-hand reports, rumours, and the national database's unchecked record) is followed up first by non-technical survey, to find first-hand sources who can confirm or explain it; it becomes a target only if it is still unexplained after the number of visits that the pilot's national criteria set.
+- Project rule: TS needs a target. Direct evidence, and indirect evidence that the survey team saw or that a first-hand source reported (class 1 to 4), are targets. So is the national database's record of a past accident inside the area, after the first visit, where the national criteria need TS before such an area is released, since a further visit could not release it. Other weaker indirect evidence (class 5 to 7: second-hand reports, rumours, and the database's record where the criteria do not need TS) is followed up first by non-technical survey, to find first-hand sources who can confirm or explain it; it becomes a target only if it is still unexplained after the number of visits that the pilot's national criteria set.
 
 ## clearance: Clearance
 - Cleared land is land from which all specified EO hazards have been removed or destroyed to a specified depth (IMAS 07.11, §3.3).
@@ -58,7 +58,7 @@ IMAS 08.10 (§8.2) suggests these broad classes of sources, from the most confid
 
 ## further_survey: Returning an area for more non-technical survey
 - Areas about which little is known are not recorded as SHAs or CHAs by default (IMAS 07.11, §4.2).
-- Project rule: an area goes back for more non-technical survey when the evidence is too thin for any other decision: when there is no target for TS (see `technical_survey`) and not enough evidence of absence to cancel. For example: nobody who knows the land could be found; only one source reports enough years of safe use; or the only evidence of EO is a second-hand report, a rumour or the national database's record, and the area has had fewer visits than the national criteria set for following it up.
+- Project rule: an area goes back for more non-technical survey when the evidence is too thin for any other decision: when there is no target for TS (see `technical_survey`) and not enough evidence of absence to cancel. For example: nobody who knows the land could be found; only one source reports enough years of safe use; or the only evidence of EO is a second-hand report or a rumour, and the area has had fewer visits than the national criteria set for following it up.
 
 ## outcomes: The outcomes the reviewer may recommend (project rule)
 - `CANCEL`: release by non-technical survey, because all reasonable effort found no evidence of EO and the national criteria are met (IMAS 07.11, §3.2).

@@ -94,16 +94,20 @@ class Assumptions:
 class Criteria:
     """The pilot's national criteria for cancellation, which the rule check enforces.
 
-    Invented, like P6's criteria boxes, since IMAS sets no numbers (Travis's choice, interview question 19). This
-    project reads "no unexplained direct evidence" strictly: evidence of absence never explains direct evidence
-    away, since direct evidence leads to technical survey or clearance (IMAS 07.11, §4.4).
+    Invented, like P6's criteria boxes, since IMAS sets no numbers (Travis's choices, interview questions 19 to 23).
+    "No unexplained direct evidence" is read strictly (question 22): evidence of absence never explains direct
+    evidence away, since direct evidence leads to technical survey or clearance (IMAS 07.11, §4.4).
     """
     min_years: int = 5        # years of safe use each source must report
     sources: int = 2          # reliable first-hand sources needed
-    # This project's setting, for Travis to confirm: weaker indirect evidence (class 5 to 7: second-hand reports,
-    # rumours, the national database's unchecked record) becomes a target for technical survey only if it is still
-    # unexplained after this many non-technical survey visits (1: technical survey after the first visit).
+    # Travis's setting (question 21): weaker indirect evidence (class 5 to 7: second-hand reports, rumours, the
+    # national database's unchecked record) becomes a target for technical survey only if it is still unexplained
+    # after this many non-technical survey visits (1: technical survey after the first visit).
     follow_up_visits: int = 2
+    # Travis's setting (question 23): an area where the national database records a past landmine accident inside
+    # is released only after technical survey, never by non-technical survey alone. Its record is then a target for
+    # technical survey after the first visit, since a second visit could not release it.
+    recorded_accident_needs_ts: bool = True
 
     def as_text(self):
         visits = f"{self.follow_up_visits} visit{'s' if self.follow_up_visits != 1 else ''}"
@@ -113,4 +117,7 @@ class Criteria:
                 "Clearance without technical survey is allowed where direct evidence of reliability class 1 to 4 "
                 "defines the hazard. Weaker indirect evidence (reliability class 5 to 7) is followed up by "
                 "non-technical survey before technical survey: it becomes a target for technical survey if it is still "
-                f"unexplained after {visits}.")
+                f"unexplained after {visits}."
+                + (" An area where the national database records a past landmine accident inside is released only "
+                   "after technical survey, never by non-technical survey alone; its record is a target for technical "
+                   "survey after the first visit." if self.recorded_accident_needs_ts else ""))

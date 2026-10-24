@@ -13,6 +13,8 @@ of safe use it reports). It vetoes a decision if any rule fails:
 - R3 (clearance): there is direct evidence of class 1 to 4 to define the hazard.
 - R4 (technical survey): there is direct or indirect evidence to target.
 - R5 (cancellation, technical survey, clearance): every item of the evidence log is in the register.
+- R6 (cancellation): where the national criteria need technical survey before an area with a past accident
+  recorded inside is released, there is no such record (read from the twin's record of the desk study).
 Further non-technical survey is always open, whatever the register holds. The rule check tests the register, not
 the world: if an item is classed wrongly, it checks the wrong class.
 """
@@ -41,6 +43,11 @@ def check(rule, passed, detail):
 def source_of(item):
     """Who an item comes from, as the twin records it: the informant's ID where there is one, else the source."""
     return getattr(item, "source_id", "") or item.source
+
+
+def recorded_accident(items):
+    """Whether the twin's desk study records a past landmine accident inside the area."""
+    return any(source_of(item) == "national database" for item in items)
 
 
 def explained(entry, register, limit=4):
@@ -89,6 +96,11 @@ def rule_check(outcome, register, items, criteria):
                             f"{len(sources)} different reliable source(s) report at least {criteria.min_years} years "
                             f"of safe use" + (f" ({listed})" if sources else "") + f"; the criteria need "
                             f"{criteria.sources}."))
+        if criteria.recorded_accident_needs_ts:
+            recorded = recorded_accident(items)
+            checks.append(check("R6", not recorded, "A past landmine accident is recorded inside the area, so the "
+                                "national criteria need technical survey before it is released." if recorded
+                                else "No past landmine accident is recorded inside the area."))
     elif outcome == "CLEARANCE":
         direct = [e.item_id for e in entries if e.evidence_class == "direct" and e.reliability_class <= 4]
         checks.append(check("R3", direct, f"Direct evidence of class 1 to 4: {', '.join(direct)}." if direct
@@ -128,9 +140,10 @@ def reference_decision(items, key, criteria):
     """The coded rules alone, as the rules file sets them out (rules/land_release_rules.md):
     - cancellation, where the rule check allows it;
     - otherwise technical survey, where there is a target: direct evidence (technical survey is the default after
-      it), indirect evidence that the survey team saw or a first-hand source reported (class 1 to 4), or weaker
-      indirect evidence (class 5 to 7) still unexplained after the visits the national criteria set for following
-      it up (criteria.follow_up_visits);
+      it); indirect evidence that the survey team saw or a first-hand source reported (class 1 to 4); a past accident
+      recorded inside the area, where the national criteria need technical survey before such an area is released;
+      or weaker indirect evidence (class 5 to 7) still unexplained after the visits the national criteria set for
+      following it up (criteria.follow_up_visits);
     - otherwise further non-technical survey.
     It never moves straight to clearance, which the national criteria allow but the standards do not make the
     default (IMAS 07.11, §4.2).
@@ -145,7 +158,8 @@ def reference_decision(items, key, criteria):
                  for e in entries)
     weak_unexplained = any(e.evidence_class == "indirect" and e.reliability_class >= 5 and not explained(e, register)
                            for e in entries)
-    if target or (weak_unexplained and visits >= criteria.follow_up_visits):
+    recorded = criteria.recorded_accident_needs_ts and recorded_accident(items)
+    if target or recorded or (weak_unexplained and visits >= criteria.follow_up_visits):
         result = rule_check("TECHNICAL_SURVEY", register, items, criteria)
         if result["result"] != "pass":
             raise AssertionError("technical survey has a target here, so R4 passes")
