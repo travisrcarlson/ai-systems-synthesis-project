@@ -134,7 +134,8 @@ def load_cells():
     Returns (cells, truth). `cells` has one row per cell, indexed by cell number, with the municipality's DANE
     code, the cell's row and column, and the 63 features P3 used. The coordinates are read once here, to place
     each cell on the grid, and are not kept. `truth` holds RELand's labels (1 where clearance found mines); the
-    twin never receives it; only the simulated field and the evaluation read it.
+    twin never receives it. It is read by the risk models' fit before the season (for each municipality, only the
+    other 14 municipalities' labels), and, while a season runs, only by the simulated field and the evaluation.
     """
     raw = pd.read_csv(path_of("reland"))
     rows = (raw["LATITUD_Y"] - raw["LATITUD_Y"].min()) / GRID_STEP_DEGREES

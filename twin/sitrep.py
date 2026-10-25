@@ -3,9 +3,11 @@ with every figure checked against the facts before it is shown (generative AI; P
 checked against its source before anyone relies on it).
 
 The twin assembles the week's facts (work done, teams, access, reports held, the plan, the forecast's range). The
-model drafts at most 150 words from them (prompts/sitrep_prompt.md). The figure check then reads every number in the
-draft, digits or words, and removes each sentence with a number that is not among the facts; if more than half the
-sentences go, the draft is not shown, and the answer is "insufficient evidence" with the facts table instead.
+model drafts at most 150 words from them (prompts/sitrep_prompt.md), and is sent the restricted layers (the teams,
+and the access and security feed) as counts only, so that no team or closed zone is named outside the twin. The
+figure check then reads every number in the draft (digits, ordinals in digits, and number words up to the
+thousands) and removes each sentence with a number that is not among the facts the model was sent; if more than half
+the sentences go, the draft is not shown, and the answer is "insufficient evidence" with the facts table instead.
 
 Without a key, a coded draft is written from the same facts (it always passes the check), and saved drafts made with
 a key are read when their inputs match. Each draft made with a key is saved in `runs/sitreps/`.
@@ -21,11 +23,15 @@ from .overlays import Overlay
 
 SITREP_PROMPT = read_text(SITREP_PROMPT_FILE)
 DEFAULTS = {"model": "gpt-6-luna", "reasoning_effort": "low", "max_output_tokens": 4000}
-WORDS = {"one": 1, "two": 2, "three": 3, "four": 4, "five": 5, "six": 6, "seven": 7, "eight": 8, "nine": 9, "ten": 10,
-         "eleven": 11, "twelve": 12, "thirteen": 13, "fourteen": 14, "fifteen": 15, "sixteen": 16, "seventeen": 17,
-         "eighteen": 18, "nineteen": 19, "twenty": 20, "half": None, "dozen": 12}
-NUMBER = re.compile(r"(?<![\w.\-/])(\d{1,3}(?:,\d{3})+|\d+(?:\.\d+)?)(?![\w\-/])")
-WORD = re.compile(r"\b(" + "|".join(w for w, v in WORDS.items() if v is not None) + r")\b", re.I)
+UNITS = {"one": 1, "two": 2, "three": 3, "four": 4, "five": 5, "six": 6, "seven": 7, "eight": 8, "nine": 9}
+WORDS = {**UNITS, "ten": 10, "eleven": 11, "twelve": 12, "thirteen": 13, "fourteen": 14, "fifteen": 15, "sixteen": 16,
+         "seventeen": 17, "eighteen": 18, "nineteen": 19, "dozen": 12, "hundred": 100, "thousand": 1000}
+TENS = {"twenty": 20, "thirty": 30, "forty": 40, "fifty": 50, "sixty": 60, "seventy": 70, "eighty": 80, "ninety": 90}
+# digits, with thousands separators or decimals, and ordinals such as 3rd; codes such as S2 or ABE-Z16 are not numbers
+NUMBER = re.compile(r"(?<![\w.\-/])(\d{1,3}(?:,\d{3})+|\d+(?:\.\d+)?)(?:st|nd|rd|th)?(?![\w\-/])")
+# number words: one to nineteen, the tens and their compounds (thirty-five), a dozen, a hundred, a thousand
+WORD = re.compile(r"\b(?:(?P<tens>" + "|".join(TENS) + r")(?:[- ](?P<unit>" + "|".join(UNITS) + r"))?|(?P<word>"
+                  + "|".join(sorted(WORDS, key=len, reverse=True)) + r"))\b", re.I)
 
 
 def facts_numbers(facts):
@@ -53,8 +59,14 @@ def facts_numbers(facts):
 
 
 def numbers_in(sentence):
+    """Every number in a sentence: in digits (ordinals included) or in words. Ordinal words ("second") are not read,
+    since they are seldom counts."""
     out = [float(m.group(1).replace(",", "")) for m in NUMBER.finditer(sentence)]
-    out += [float(WORDS[m.group(1).lower()]) for m in WORD.finditer(sentence)]
+    for m in WORD.finditer(sentence):
+        if m.group("tens"):
+            out.append(float(TENS[m.group("tens").lower()] + UNITS.get((m.group("unit") or "").lower(), 0)))
+        else:
+            out.append(float(WORDS[m.group("word").lower()]))
     return out
 
 
@@ -127,6 +139,7 @@ def week_facts(view, week, run=None):
             t = forecast.answer["totals"]
             facts["forecast"] = {
                 "made in week": forecast.week,
+                "scope": "the zones of the plan it was made with, and what is done already",
                 "mine areas cleared this season, P10 to P90": [t["mine areas cleared"]["P10"],
                                                                 t["mine areas cleared"]["P90"]],
                 "zones declared free this season, P10 to P90": [t["zones declared free"]["P10"],
@@ -134,6 +147,19 @@ def week_facts(view, week, run=None):
         elif forecast is not None:
             facts["forecast"] = "insufficient evidence"
     return facts
+
+
+RESTRICTED = ("teams stood down", "teams with no report for more than a week", "zones closed by the access feed")
+
+
+def model_facts(facts):
+    """The facts the model is sent: the restricted layers (the teams, and the access and security feed) as counts
+    only, so that no team or closed zone is named outside the twin."""
+    sent = dict(facts)
+    for k in RESTRICTED:
+        if isinstance(sent.get(k), dict):
+            sent[k] = {"count": sent[k]["count"]}
+    return sent
 
 
 def coded_draft(facts):
@@ -168,8 +194,9 @@ def coded_draft(facts):
     if isinstance(forecast, dict):
         low, high = forecast["mine areas cleared this season, P10 to P90"]
         zl, zh = forecast["zones declared free this season, P10 to P90"]
-        text += (f"\nThe forecast of week {forecast['made in week']} gives {low:g} to {high:g} mine areas cleared this "
-                 f"season and {zl:g} to {zh:g} zones declared free (P10 to P90).")
+        text += (f"\nThe forecast of week {forecast['made in week']}, for the zones of its plan and what is done "
+                 f"already, gives {low:g} to {high:g} mine areas cleared this season and {zl:g} to {zh:g} zones "
+                 "declared free (P10 to P90).")
     elif forecast is not None:
         text += "\nForecast: insufficient evidence."
     return text
@@ -199,23 +226,26 @@ class SituationReport(Overlay):
                                       sort_keys=True, ensure_ascii=False, default=str))
 
     def draft(self, facts):
-        """The draft and where it came from: a saved draft with the same inputs, the model, or the coded draft."""
-        sha = self.inputs_sha(facts)
+        """The draft, where it came from, its record, and the facts it is checked against: a saved draft with the same
+        inputs, or the model's draft, both from the facts the model is sent; or the coded draft, from all the facts,
+        written inside the twin."""
+        sent = model_facts(facts)
+        sha = self.inputs_sha(sent)
         path = self.runs_dir / f"w{facts['week']:02d}_sitrep.json" if self.runs_dir else None
         if path is not None and path.exists():
             record = json.loads(path.read_text(encoding="utf-8"))
             if record.get("inputs_sha") == sha and not record.get("error"):
                 self.loaded += 1
-                return record["draft"], f"saved draft ({record['model']})", record
+                return record["draft"], f"saved draft ({record['model']})", record, sent
         if self.client is None or (self.limit is not None and self.ran >= self.limit):
             self.coded += 1
             why = "no model" if self.client is None else f"the smoke test's {self.limit} model drafts are done"
-            return coded_draft(facts), f"coded draft ({why})", None
+            return coded_draft(facts), f"coded draft ({why})", None, facts
         record = {"week": facts["week"], "model": self.settings["model"], "inputs_sha": sha, "time": utc_now(),
-                  "facts": facts, "draft": "", "error": "", "usage": None}
+                  "facts": sent, "draft": "", "error": "", "usage": None}
         try:
             request = {"model": self.settings["model"], "instructions": SITREP_PROMPT, "store": False,
-                       "input": json.dumps(facts, ensure_ascii=False, default=str),
+                       "input": json.dumps(sent, ensure_ascii=False, default=str),
                        "max_output_tokens": self.settings["max_output_tokens"]}
             if self.settings.get("reasoning_effort"):
                 request["reasoning"] = {"effort": self.settings["reasoning_effort"]}
@@ -231,16 +261,16 @@ class SituationReport(Overlay):
             write_whole(path, json.dumps(record, ensure_ascii=False, indent=1, default=str))
         if record["error"]:
             self.coded += 1
-            return coded_draft(facts), f"coded draft (the model call failed: {record['error']})", record
-        return record["draft"], f"model draft ({self.settings['model']})", record
+            return coded_draft(facts), f"coded draft (the model call failed: {record['error']})", record, facts
+        return record["draft"], f"model draft ({self.settings['model']})", record, sent
 
     def recommend(self, view, week, run=None, facts=None, **inputs):
         reason = self.check_inputs(view, week)
         if reason:
             return self.insufficient(week, reason)
         facts = facts or week_facts(view, week, run)
-        text, origin, _ = self.draft(facts)
-        kept, removed, unmatched = figure_check(text, facts)
+        text, origin, _, checked_against = self.draft(facts)
+        kept, removed, unmatched = figure_check(text, checked_against)
         sentences = len([s for s in re.split(r"(?<=[.!?])\s+", text) if s.strip()])
         answer = {"text": kept, "draft": text, "origin": origin, "removed": removed, "unmatched": unmatched,
                   "facts": facts}

@@ -91,7 +91,8 @@ TOOLS = [
 # move it", "nobody should touch the items") or its subject is a qualified team ("only EOD technicians may move
 # it"). Reports in the past tense ("he moved a mine off his field in 2010") are not advice and are kept.
 OBJECTS = (r"(?:land)?mines?|items?|devices?|objects?|ordnance|explosives?|munitions?|remnants?|finds?|uxo|ieds?|"
-           r"grenades?|shells?|bombs?|mortars?|rockets?|fuzes?|booby[- ]traps?")
+           r"grenades?|shells?|bombs?|bomblets?|submunitions?|projectiles?|cartridges?|casings?|fragments?|"
+           r"artefacts?|artifacts?|mortars?|rockets?|fuzes?|booby[- ]traps?")
 OBJECT = re.compile(rf"\b(?:{OBJECTS})\b", re.I)
 STRONG_VERBS = ["pick", "lift", "carry", "throw", "toss", "bury", "burn", "dig", "unearth", "kick", "hammer", "hit",
                 "strike", "shake", "cut", "open", "unscrew", "detonate", "blow", "explode", "destroy", "collect",
@@ -210,16 +211,19 @@ ADDRESSEE = re.compile(r"\b(?:AI|artificial intelligence|assistant|chatbot|langu
                        r"reviewer|whoever (?:reads|reviews|checks))\b", re.I)
 INSTRUCTION = re.compile(r"\b(?:ignore|disregard|recommend|override|forget|pretend|instead|must|mark|release|cancel|"
                          r"approve|record|write|reply|respond|output)\b", re.I)
+# a request that the area be released, whoever it is addressed to: pressure, not evidence
+RELEASE_REQUEST = re.compile(r"\b(?:should|must|has to|have to|needs? to|ought to)\s+(?:now\s+|just\s+)?be\s+"
+                             r"(?:released|cancell?ed|marked|declared|signed off|taken off)\b", re.I)
 
 
 def scan_for_instructions(items):
     """Sentences of the evidence log (statements and sources) that address the reviewer, a computer or an AI and
-    tell it what to do."""
+    tell it what to do, or that ask for the area to be released."""
     hits = []
     for item in items:
         for text in (item.statement, item.source):
             for sentence in re.split(r"(?<=[.!?])\s+", text):
-                if ADDRESSEE.search(sentence) and INSTRUCTION.search(sentence):
+                if (ADDRESSEE.search(sentence) and INSTRUCTION.search(sentence)) or RELEASE_REQUEST.search(sentence):
                     hits.append({"item": item.item_id, "text": sentence.strip()})
     return hits
 
@@ -579,7 +583,8 @@ def signoff_sheet(session, label, model=None):
     if final["flags"]:
         lines += ["Flags:", *[f"- {f}" for f in final["flags"]], ""]
     if session.injection_lines:
-        lines += ["Text in the dossier that addresses the reviewer (found by the scan, not followed):",
+        lines += ["Text in the dossier that addresses the reviewer or asks for the area's release (found by the scan, "
+                  "not followed):",
                   *[f"- {h['item']}: \"{h['text']}\"" for h in session.injection_lines], ""]
     lines += ["## Evidence register", "", "| Item | Class | Reliability | Explains | Quote | Note |",
               "|---|---|---|---|---|---|"]

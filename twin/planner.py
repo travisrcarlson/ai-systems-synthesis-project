@@ -14,7 +14,7 @@ The integer programme, from the twin's state, the risk overlay's chances and the
   the survey done; work already known can start at once);
 - to maximise the expected mine areas found and cleared this season, with zones declared free as a small tie-break
   (this project's setting, `Season.zone_free_value`).
-It is solved by HiGHS through SciPy, with a time limit and a 1% optimality gap. The candidates are the zones in
+It is solved by HiGHS through SciPy, to a 1% optimality gap, with a time limit as a safety net. The candidates are the zones in
 progress and the zones with the most expected mine areas per working day, up to `candidates` in all.
 
 The rule of thumb works the zones with the most expected mine areas first, finishing what is in progress, with no
@@ -117,7 +117,10 @@ class SeasonPlanner(Overlay):
               "in the plan, a zone's clearance work appears in step with its survey; in the weekly loop it appears "
               "area by area, as each visit is reviewed")
 
-    def __init__(self, factors, method="milp", candidates=60, time_limit=20.0, gap=0.01):
+    # the time limit is a safety net, far above the solves seen (about 0.1 to 15 s): a plan stopped by it would
+    # depend on the computer's speed, and each season counts such plans (SeasonResult, `plans stopped by the
+    # solver's time limit`)
+    def __init__(self, factors, method="milp", candidates=60, time_limit=120.0, gap=0.01):
         self.factors = factors
         self.method = method
         self.candidates = candidates
@@ -226,6 +229,8 @@ class SeasonPlanner(Overlay):
                     var(("c", z, i), 0, cap_c if ok else 0, True)
                 if has[z]["t"]:
                     var(("t", z, i), 0, cap_t if ok else 0, True)
+                if has[z]["t"] and has[z]["c"]:
+                    var(("h", z, i), 0, 1, False)        # the share of the zone's technical survey done by then
             if has[z]["c"]:
                 var(("f", z), 0, 1, False, w["value"])
             if has[z]["t"]:
@@ -254,11 +259,20 @@ class SeasonPlanner(Overlay):
                     # the share of the survey done by the end of month i is at most the survey days worked by then
                     constraint([(cols[("u", z, i)], Ws)] + [(cols[("s", z, k)], -D[k]) for k in range(i + 1)],
                                -np.inf, 0.0)
+                if ("h", z, i) in cols:
+                    # the share of the technical survey done by the end of month i is at most the days worked by then
+                    constraint([(cols[("h", z, i)], Wtk + Wtf)] + [(cols[("t", z, k)], -D[k]) for k in range(i + 1)],
+                               -np.inf, 0.0)
                 for name, known, future, flag in (("c", Wck, Wcf, "c"), ("t", Wtk, Wtf, "t")):
                     if not has[z][flag]:
                         continue
                     terms = [(cols[(name, z, k)], D[k]) for k in range(i + 1)]
-                    if has[z]["s"]:
+                    if name == "c" and ("h", z, i) in cols:
+                        # under technical survey first, the clearance that technical survey finds becomes available
+                        # as the technical survey goes on, month by month (work already known at once)
+                        terms.append((cols[("h", z, i)], -future))
+                        constraint(terms, -np.inf, known)
+                    elif has[z]["s"]:
                         # work found by the survey becomes available as the survey goes on: work already known
                         # at once, the rest in step with the share of the survey done
                         terms.append((cols[("u", z, i)], -future))
@@ -313,4 +327,5 @@ class SeasonPlanner(Overlay):
                 "expected": {"mine areas cleared": float(value), "zones declared free": int(zones_free)},
                 "workloads": work, "consultations": consult,
                 "solver": {"status": res.status, "message": res.message, "gap": getattr(res, "mip_gap", None),
-                           "variables": n, "constraints": len(lo), "candidates": len(cand)}}
+                           "nodes": getattr(res, "mip_node_count", None), "variables": n, "constraints": len(lo),
+                           "candidates": len(cand)}}

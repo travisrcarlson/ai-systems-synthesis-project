@@ -26,8 +26,9 @@ al. (2024).
 ## Preprocessing in this project
 The coordinates place each cell on a grid of rows and columns and are then set aside; 2 × 2 blocks of cells within one
 municipality form the areas, and each municipality's areas are grouped into operational zones of about 25 areas by
-position and access. The label is hidden from the twin and from every overlay; only the simulated field and the
-evaluation read it.
+position and access. The label is kept apart from the twin. The risk models are fitted and calibrated on it before
+the season, each municipality's chances from the other 14 municipalities' labels (as P3 trained and tested by
+municipality); while a season runs, no overlay reads it, and only the simulated field and the evaluation do.
 
 ## Uses
 - In this project: the twin's hazard and land-use layers; risk prioritisation; the season replay's hidden truth.

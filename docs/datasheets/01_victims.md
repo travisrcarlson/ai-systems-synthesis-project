@@ -29,7 +29,7 @@ The site names and municipal-seat coordinates are dropped on loading. Codes are 
 enter the twin only as counts by municipality and month (all victims, killed, injured, civilians, security forces).
 
 ## Uses
-- In this project: the twin's victims layer (open, counts only), shown beside the plan as the impact by municipality, and in the public summary and the weekly situation report.
+- In this project: the twin's victims layer (open, counts only), shown beside the season plan as the impact by municipality (notebook section 6.3) and in the public summary by municipality (section 7.1). It is not weighted in the plan's objective.
 - Not suitable for: identifying or contacting victims, or locating accidents.
 
 ## Distribution and maintenance

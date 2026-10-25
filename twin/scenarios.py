@@ -7,7 +7,8 @@ and what it costs (P5's insight: synthetic data serve stress tests).
 2. Zone closure: the zone in progress with the most open work closes mid-season for three months (question 36).
 3. New contamination: an accident is reported in the first zone declared free, four weeks after its declaration.
 4. Stale or corrupted feed: one survey team's reports are lost for three weeks and arrive late; one clearance
-   team's reports are corrupted for four weeks (impossible days, a duplicate, a wrong task, inflated days).
+   team's reports are corrupted for seven weeks (impossible days, a duplicate, a wrong task, then four weeks of
+   inflated days).
 5. Dossier with a missing item: a visit report with several items loses its item of direct evidence in
    transmission; and the desk study's record of a past accident fails to load into another area's dossier.
 Each scenario's measures are in `measure`; what it costs is measured against the season with the same seed and no
@@ -198,11 +199,13 @@ class FeedFaults(NoScenario):
         normal = c[(c["fault"] == "") & (c["team"].notna())] if len(c) else c
         flagged = [w for w, teams in sorted(run.stale.items()) if w >= self.stale_weeks[0] and self.stale_team in teams]
         first_stale = flagged[0] if flagged else None
-        idle = sum(result.idle.get(w, 0) for w in self.stale_weeks)
+        # the silent team's days with no task, from its first lost report to the week its late reports arrive
+        weeks = range(self.stale_weeks[0], self.stale_weeks[-1] + 2)
+        idle = sum(result.idle_by_team.get(self.stale_team, {}).get(w, 0) for w in weeks)
         return {"scenario: stale team flagged in week": first_stale,
                 "scenario: weeks from the first lost report to the flag": (first_stale - self.stale_weeks[0])
                 if first_stale else None,
-                "scenario: team-days idle during the outage": idle,
+                "scenario: the silent team's idle days until its reports arrive": idle,
                 "scenario: corrupted reports": int(len(faults)), "scenario: corrupted reports caught": int(len(caught)),
                 "scenario: caught": ", ".join(f"{f}: {a}" for f, a in zip(faults["fault"], faults["action"]))
                 if len(faults) else "",

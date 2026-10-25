@@ -5,7 +5,7 @@ Coded checks, on every team report:
 - its fields are present, and its days are whole numbers from 0 to 5 that add up to at most a week;
 - it reports on a task ordered to that team, still open, in that zone and area, in a week since the order;
 - it is not a second copy of a report already received;
-- no work is reported in a zone the access feed shows closed;
+- no work is reported in a zone the access feed showed closed in the week the report covers;
 - a finished task carries the result its kind needs (flagged areas in the zone; evidence items, as many as the
   report declares; a technical survey's finding; the mine cells cleared), and a technical survey or clearance is
   not reported done in under a quarter of its planned days;
@@ -110,8 +110,12 @@ class ReportChecker(Overlay):
         key = (report["team"], report["task_id"], report["week"], bool(report["complete"]))
         if key in self.seen:
             problems.append("a second copy of a report already received")
-        if report["days_worked"] and view.access.loc[task["zone"], "status"] != "open":
-            problems.append(f"work reported in {task['zone']}, which the access feed shows closed")
+        if report["days_worked"]:
+            # a late report is checked against the access feed of the week it reports on
+            then = view.access_history.get(report["week"]) if report["week"] < view.week else None
+            closed = task["zone"] in then if then is not None else view.access.loc[task["zone"], "status"] != "open"
+            if closed:
+                problems.append(f"work reported in {task['zone']}, which the access feed showed closed that week")
         if report["complete"]:
             result = report.get("result") or {}
             kind = task["kind"]

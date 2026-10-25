@@ -65,8 +65,9 @@ LAYERS = {layer.name: layer for layer in [
 def build_twin(criteria=None, season=None):
     """Check the data files, load the open layers, and build the twin with every layer registered.
 
-    Returns (twin, truth, checks): truth is RELand's labels, which only the simulated field and the evaluation read;
-    checks is the table of checksums.
+    Returns (twin, truth, checks): truth is RELand's labels, which the risk models are fitted on before the season (each
+    municipality's chances from the other 14 municipalities' labels) and which, while a season runs, only the
+    simulated field and the evaluation read; checks is the table of checksums.
     """
     checks = data.verify()
     cells, truth = data.load_cells()

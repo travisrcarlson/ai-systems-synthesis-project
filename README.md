@@ -23,7 +23,7 @@ A digital twin of land release in the 15 Antioquia municipalities of the RELand 
   | `agent.py`, `review.py`, `rules.py` | the dossier reviewer agent with its tools and safeguards; the reviewers; the rule check |
   | `sitrep.py` | the weekly situation report and its figure check |
   | `season.py` | the monthly and weekly loops of a season, and the season's measures |
-  | `field.py` | the simulated field, which stands in for the teams; the only component that reads RELand's labels |
+  | `field.py` | the simulated field, which stands in for the teams; with the risk models' fit before the season (each municipality's chances from the other 14 municipalities' labels) and the evaluation, the only code that reads RELand's labels |
   | `scenarios.py` | the five injected scenarios |
   | `evaluate.py` | the season replay: the policies, the seeds, the parallel runs and the saved records |
   | `standins.py` | the stand-in models that test the agent's code path without a key |
@@ -54,7 +54,7 @@ On macOS or Linux, activate with `source .venv/bin/activate`. If PowerShell bloc
 jupyter nbconvert --to notebook --execute --inplace --ExecutePreprocessor.timeout=-1 integrated_system.ipynb
 ```
 
-**The first run** fits the risk models and their gate and saves them in `models/` (about 3 minutes on two processors in this project's tests; the fit is deterministic, so a refit gives the same files), and runs the season replay: 200 seasons (5 policies and 5 scenarios, 20 field seeds each) in parallel worker processes, one fewer than the computer's processors and at most 8 (about 40 minutes with two worker processes in this project's tests). Each season is saved in `runs/replay/` as soon as it finishes, so a stopped run resumes where it stopped, and a later run reads the seasons back unless the code, the rules, the prompts, the fitted models or the data have changed. To choose the number of worker processes, set the environment variable `N_JOBS` before starting (PowerShell: `$env:N_JOBS = "4"`); `1` runs the seasons one after another.
+**The first run** fits the risk models and their gate and saves them in `models/` (about 3 minutes on two processors in this project's tests; a refit there gave identical files, while on another computer the last digits can differ, which is why the fit is saved), and runs the season replay: 200 seasons (5 policies and 5 scenarios, 20 field seeds each) in parallel worker processes, one fewer than the computer's processors and at most 8 (about 40 minutes with two worker processes in this project's tests). Each season is saved in `runs/replay/` as soon as it finishes, so a stopped run resumes where it stopped, and a later run reads the seasons back unless the code, the rules, the prompts, the fitted models, the data or the libraries' versions have changed. To choose the number of worker processes, set the environment variable `N_JOBS` before starting (PowerShell: `$env:N_JOBS = "4"`); `1` runs the seasons one after another.
 
 **Without an API key**, the notebook runs everything except the model's calls: the agent's tools and safeguards are tested with a scripted stand-in model (section 8), and section 9.2 reads the agent's saved reviews from `runs/`; before the full run there are none, and section 9.2 says so.
 

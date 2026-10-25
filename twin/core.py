@@ -240,10 +240,12 @@ class Twin:
         self.flag = pd.Series("", index=idx, name="flag")                     # why the zone survey flagged it
         self.evidence = {a: [] for a in idx}
         self.declared_items = {}       # (area, visit) -> the items the team's report said it sent
+        self.item_high = {}            # area -> the highest item number received or declared so far
         zones = self.zones.index
         self.zone_state = pd.DataFrame({"surveyed_week": 0, "free_week": 0, "reopened": 0}, index=zones)
         self.municipality_free = pd.Series(0, index=list(PILOT), name="free_week")
         self.access = pd.DataFrame({"status": "open", "as_of": 0, "source": "access feed (simulated)"}, index=zones)
+        self.access_history = {}       # week -> the zones the access feed showed closed that week
         self.consultation = pd.DataFrame({"required": self.zones["consultation"], "requested_week": 0,
                                           "held_week": 0}, index=zones)
         self.team_state = pd.DataFrame({"status": "active", "task_id": None, "zone": None, "as_of": 0,
@@ -305,6 +307,7 @@ class Twin:
             self.access.loc[zones, "status"] = [statuses[z] for z in zones]
             self.access.loc[zones, "as_of"] = week
             self.access.loc[zones, "source"] = report["source"]
+            self.access_history[week] = frozenset(z for z in zones if statuses[z] != "open")
             changed = report.get("changed", [])
             note = "access feed: " + (", ".join(f"{z} {statuses[z]}" for z in changed) if changed else "no change")
         elif kind == "team status":
@@ -323,7 +326,8 @@ class Twin:
             note = f"{a}: {len(report['items'])} item(s) re-sent by the team"
         elif kind == "incident":
             a = report["area"]
-            n = len(self.evidence[a]) + 1
+            n = self.highest_item(a) + 1       # after every item received or declared, so no number is taken twice
+            self.item_high[a] = n
             self.evidence[a].append(EvidenceItem(f"E{n}", report["statement"], report["source"],
                                                  f"Incident report, week {week}", week=week,
                                                  source_id=report.get("source_id", report["source"])))
@@ -334,6 +338,10 @@ class Twin:
         self._log({"week": week, "entry": "report", "kind": kind, "subject": subject, "decision": None,
                    "source": report.get("source"), "reason": note})
         return note
+
+    def highest_item(self, area_id):
+        """The highest item number the area's evidence log holds or a report has declared."""
+        return max([self.item_high.get(area_id, 0)] + [int(i.item_id[1:]) for i in self.evidence[area_id]])
 
     def _team_report(self, r):
         team, task = r["team"], self.tasks.get(r["task_id"])
@@ -366,9 +374,12 @@ class Twin:
             return f"{z} surveyed: {len(flagged)} area(s) flagged for a visit"
         a = task["area"]
         if task["kind"] == "VISIT":
+            before = self.highest_item(a)
             self.visits[a] += 1
             self.evidence[a].extend(result["items"])
             self.declared_items[(a, int(self.visits[a]))] = result["declared_items"]
+            # a visit's items are numbered on from the area's last item, so an item still on its way keeps its number
+            self.item_high[a] = max(self.highest_item(a), before + int(result["declared_items"] or 0))
             if self.next_task[a] == "NTS":
                 self.next_task[a] = None     # awaiting review
             return f"{a}: visit {self.visits[a]}, {len(result['items'])} item(s) received"
@@ -556,10 +567,10 @@ class Twin:
                                                                     if recommendation not in (None, outcome) else ""))
 
     def zone_unresolved(self, zone):
-        """The flagged areas of a surveyed zone that are not yet released, and its open tasks."""
+        """The flagged areas of a surveyed zone that are not yet released, and the IDs of its open tasks."""
         areas = self.zone_areas[zone]
         open_areas = [a for a in areas if self.status[a] in ("suspected", "confirmed")]
-        open_tasks = [t for t in self.tasks.values() if t["zone"] == zone and t["status"] in
+        open_tasks = [t["task_id"] for t in self.tasks.values() if t["zone"] == zone and t["status"] in
                       ("ordered", "in progress", "paused")]
         return open_areas, open_tasks
 
@@ -620,7 +631,8 @@ class Twin:
         return TwinView(self)
 
     def log_table(self):
-        return pd.DataFrame(self.log)
+        """The one log as a table, with its lists copied, so that nothing in the table reaches the log itself."""
+        return pd.DataFrame([{k: (list(v) if isinstance(v, list) else v) for k, v in e.items()} for e in self.log])
 
     def task_table(self):
         return pd.DataFrame(list(self.tasks.values()))
@@ -755,12 +767,14 @@ class TwinView:
     assigning to it fails, so an overlay can recommend but never write (the overlay contract).
 
     Tables come as copies (cheap under pandas' copy-on-write: writing to one never reaches the twin), mappings as
-    read-only proxies, evidence items are frozen, and the small mutable records (tasks, plans) are deep copies.
+    read-only proxies, evidence items are frozen, the small mutable records (tasks, plans) are copies, and the view
+    methods return plain values (IDs, text, counts). The view guards against mistakes; it is not a security boundary,
+    since Python code can always reach the twin behind it.
     """
     STATE = {"criteria", "season", "calendar", "areas", "zones", "zone_areas", "teams", "neighbours", "cells",
              "people", "activity", "layers", "status", "next_task", "visits", "mines_found", "flag", "evidence",
              "zone_state", "municipality_free", "access", "consultation", "team_state", "tasks", "pending_results",
-             "plan", "plans", "week", "initial_status", "declared_items"}
+             "plan", "plans", "week", "initial_status", "declared_items", "access_history"}
     VIEWS = {"zone_table", "team_table", "municipal_summary", "area_dossier", "map_layer", "log_table", "task_table",
              "open_work", "paused_work", "zone_ready_for_tasking", "zone_unresolved", "dossier_complete"}
 
@@ -779,6 +793,8 @@ class TwinView:
             return value
         if name == "evidence":
             return MappingProxyType({a: tuple(items) for a, items in value.items()})
+        if name == "access_history":
+            return MappingProxyType(dict(value))                # week -> a frozen set of zones
         if name in ("tasks", "pending_results"):
             return {k: dict(v) for k, v in value.items()}       # records of plain values: one level deep is a copy
         if name == "plan":

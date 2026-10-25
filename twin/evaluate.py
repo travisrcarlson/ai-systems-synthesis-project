@@ -12,6 +12,7 @@ worker processes when `n_jobs` > 1, each building its own copy of the twin, and 
 import hashlib
 import json
 import os
+import platform
 from dataclasses import replace
 from pathlib import Path
 from types import SimpleNamespace
@@ -66,7 +67,7 @@ def setup(technical_survey=False, models_dir=MODELS_DIR, verbose=False):
 
 def method_sha(models_dir=MODELS_DIR):
     """A checksum of everything that shapes a season: the package's code, the rules, the prompts, the fitted
-    models, the data files' checksums, the policies and the checker's seed."""
+    models, the data files' checksums, the policies, the checker's seed and the libraries' versions."""
     digest = hashlib.sha256()
     for path in sorted((ROOT / "twin").glob("*.py")) + [RULES_FILE, PROMPT_FILE, SITREP_PROMPT_FILE]:
         digest.update(path.name.encode())
@@ -77,7 +78,16 @@ def method_sha(models_dir=MODELS_DIR):
     digest.update(json.dumps({k: v[1] for k, v in DATA_FILES.items()}, sort_keys=True).encode())
     digest.update(repr(sorted(POLICIES.items())).encode())
     digest.update(str(CHECKER_SEED).encode())
+    # the libraries that compute a season: after an upgrade, saved seasons are run again rather than reused
+    digest.update(json.dumps(library_versions(), sort_keys=True).encode())
     return digest.hexdigest()
+
+
+def library_versions():
+    import scipy
+    import sklearn
+    return {"python": platform.python_version(), "numpy": np.__version__, "pandas": pd.__version__,
+            "scipy": scipy.__version__, "scikit-learn": sklearn.__version__}
 
 
 def plain(value):
@@ -94,7 +104,9 @@ def plain(value):
 
 
 def forecast_record(result, i):
-    """Forecast `i` of a season against what happened: by zone, and for the season's totals."""
+    """Forecast `i` of a season against what happened: by zone, and for the season's totals. The totals are compared
+    with what happened within the forecast's scope (what was done before it, and what its zones added after it);
+    what zones outside its scope added is kept apart."""
     cov = result.forecast_coverage(i)
     if cov is None:
         return None
@@ -102,15 +114,24 @@ def forecast_record(result, i):
     p90 = cov[cov["P90 week"].notna()]
     p50 = cov[cov["P50 week"].notna()]
     done = cov["declared free (week)"].notna()
+    scope = set(cov.index)
+    before = f.answer["done"]
+    t = result.tasks
+    cleared = t[(t["kind"] == "CLEARANCE") & (t["status"] == "done")] if len(t) else t
+    cleared = cleared[result.mined[cleared["area"]].to_numpy()] if len(cleared) else cleared
+    after = cleared[(cleared["finished_week"] >= f.week) & cleared["zone"].isin(scope)] if len(cleared) else cleared
+    free = result.zone_state["free_week"]
+    within = {"mine areas cleared": int(before["mine areas cleared"]) + int(len(after)),
+              "zones declared free": int(before["zones declared free"]) + int(((free > 0) & free.index.isin(scope)).sum())}
+    season_total = {k: int(result.metrics[k]) for k in within}
     return {"week": int(f.week), "zones forecast": int(len(cov)), "zones with a P90 week": int(len(p90)),
             "of those, free by their P90 week": int(p90["by P90"].sum()),
             "zones with a P50 week": int(len(p50)), "of those, free by their P50 week": int(p50["by P50"].sum()),
             "sum of chances this season": float(cov["chance this season"].sum()),
             "zones of the forecast declared free": int(done.sum()),
             "brier score": float(((cov["chance this season"] - done.astype(float)) ** 2).mean()),
-            "totals": f.answer["totals"],
-            "actual": {"mine areas cleared": result.metrics["mine areas cleared"],
-                       "zones declared free": result.metrics["zones declared free"]}}
+            "totals": f.answer["totals"], "actual": within,
+            "outside the forecast's zones": {k: season_total[k] - within[k] for k in within}}
 
 
 def record(result, policy_name, scenario_name, seed):
@@ -243,7 +264,8 @@ def paired(df, measures, base="main policy", by="policy"):
 
 
 def coverage_table(records, week=1):
-    """Each season's forecast made in `week` (1, the first; 27, the mid-season one) against what happened."""
+    """Each season's forecast made in `week` (1, the first; 27, the mid-season one) against what happened within its
+    scope, with what zones outside its scope added."""
     rows = []
     for r in records:
         c = next((f for f in r.get("forecasts", []) if f["week"] == week), None)
@@ -261,7 +283,10 @@ def coverage_table(records, week=1):
                      "zones free: actual": a["zones declared free"],
                      "mine areas cleared: P10": t["mine areas cleared"]["P10"],
                      "mine areas cleared: P90": t["mine areas cleared"]["P90"],
-                     "mine areas cleared: actual": a["mine areas cleared"]})
+                     "mine areas cleared: actual": a["mine areas cleared"],
+                     "zones free outside the forecast's zones": c["outside the forecast's zones"]["zones declared free"],
+                     "mine areas cleared outside the forecast's zones":
+                         c["outside the forecast's zones"]["mine areas cleared"]})
     return pd.DataFrame(rows)
 
 

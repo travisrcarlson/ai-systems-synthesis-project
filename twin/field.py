@@ -1,8 +1,9 @@
 """The simulated field: the survey, technical survey and clearance teams whose reports flow into the twin.
 
-Operator task data are not public, so the teams' reports come from a simulation. The field is the only part of the
-system that reads RELand's labels (the hidden truth: where clearance found mines, cell by cell); the evaluation
-reads them afterwards. It draws, under Travis's settings (config.Assumptions, config.Season):
+Operator task data are not public, so the teams' reports come from a simulation. While a season runs, the field is
+the only part of the system that reads RELand's labels (the hidden truth: where clearance found mines, cell by cell),
+and the evaluation reads them afterwards; the risk models are fitted on them before the season, each
+municipality's chances from the other 14 municipalities' labels. It draws, under Travis's settings (config.Assumptions, config.Season):
 - the zone survey: the areas a survey team's two weeks with the communities flag for a visit;
 - a non-technical survey visit: short statements drawn from the area's truth, shaped by its land use, written as
   templates at business level like the evidence logs of P6's case files, each with its key (its true class of

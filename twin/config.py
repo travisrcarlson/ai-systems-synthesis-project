@@ -111,8 +111,9 @@ class Criteria:
         check = "technical survey" if self.technical_survey else "clearance"
         text = (f"Cancellation by non-technical survey is allowed when at least {self.sources} different reliable "
                 f"first-hand sources (reliability class 1 to 4) each report at least {self.min_years} years of safe "
-                "use of the area, there is no direct evidence in the area, and no indirect evidence is left "
-                "unexplained. ")
+                "use of the area, there is no direct evidence in the area and no indirect evidence that the survey "
+                "team saw or a first-hand source reported (reliability class 1 to 4), and no weaker indirect "
+                "evidence is left unexplained. ")
         if self.technical_survey:
             text += ("Technical survey is available, and is the default next step for evidence of explosive "
                      "ordnance. Clearance without technical survey is allowed where direct evidence of reliability "

@@ -46,6 +46,7 @@ from sklearn.model_selection import GroupKFold
 from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import FunctionTransformer, StandardScaler
 
+from .agent import write_whole
 from .config import NAME_OF, PILOT, SEED
 from .data import features_of
 from .overlays import Overlay
@@ -233,9 +234,12 @@ class RiskModels:
         """Save every area's scores, the gate's table and the calibration, so that later runs give exactly the same
         chances (a refit on another computer can differ in the last digits, enough to swap two close areas)."""
         directory.mkdir(parents=True, exist_ok=True)
-        pd.DataFrame(self.scores).rename_axis("area_id").to_csv(directory / "area_scores.csv", lineterminator="\n")
-        self.gate.to_csv(directory / "gate.csv", lineterminator="\n")
-        self.calibration.to_csv(directory / "calibration.csv", index=False, lineterminator="\n")
+        # each file is written whole (to a temporary file, then moved into place), so a stop part-way through never
+        # leaves a file that looks saved
+        write_whole(directory / "area_scores.csv",
+                    pd.DataFrame(self.scores).rename_axis("area_id").to_csv(lineterminator="\n"))
+        write_whole(directory / "gate.csv", self.gate.to_csv(lineterminator="\n"))
+        write_whole(directory / "calibration.csv", self.calibration.to_csv(index=False, lineterminator="\n"))
 
     def load(self, directory):
         """Load saved scores, gate and calibration instead of fitting."""
@@ -363,7 +367,9 @@ class RiskOverlay(Overlay):
         zones = pd.DataFrame({"expected mine areas": g["chance"].sum(),
                               "sd": g["chance"].apply(lambda p: float(np.sqrt((p * (1 - p)).sum()))),
                               "areas": g.size(), "outside": g["outside"].mean()})
-        # a zone most of whose areas score outside the calibrated range gets no estimate: insufficient evidence
+        # a zone most of whose areas score outside the calibrated range is flagged "insufficient evidence": its
+        # chances are read flat from the end of the calibration and are not reliable. The planner does not use the
+        # flag yet (a limitation the notebook states, section 11)
         zones["insufficient"] = zones["outside"] > 0.5
         limits = []
         n_out = int(zones["insufficient"].sum())

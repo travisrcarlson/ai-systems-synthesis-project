@@ -26,7 +26,7 @@ from dataclasses import dataclass
 import numpy as np
 import pandas as pd
 
-from . import rules
+from . import agent, rules
 from .checker import ReportChecker
 from .config import PILOT
 from .core import RELEASED, TASK_KINDS
@@ -93,8 +93,10 @@ class SeasonRun:
     """One season of the twin's two loops, under a policy, a reviewer and a scenario."""
 
     def __init__(self, twin, field, models, factors, policy=None, reviewer=None, scenario=None, checker=None,
-                 sitrep=None, forecast_weeks=(1,), forecast_draws=200, planner_options=None, verbose=False):
+                 sitrep=None, forecast_weeks=(1,), forecast_draws=200, planner_options=None, verbose=False,
+                 keep_sessions=False):
         self.twin, self.field = twin, field
+        self.keep_sessions = keep_sessions   # True: keep each dossier as the reviewer read it (agent.ReviewSession)
         self.policy = policy or Policy()
         if self.policy.technical_survey != twin.criteria.technical_survey:
             raise ValueError("the twin's national criteria do not match the policy's use of technical survey")
@@ -120,6 +122,7 @@ class SeasonRun:
         self.tally = {}            # (team, task) -> this week's days: worked, weather, access
         self.idle = {}             # week -> team-days with no task
         self.idle_by_kind = {}     # kind of team -> team-days with no task
+        self.idle_by_team = {}     # team -> week -> days with no task
         self.week_days = {}        # week -> team-days worked, lost to weather, lost to access
         self.checker_counts = {}   # week -> reports accepted, held and queried
         self.check_rows = []       # every check: the report's kind and team, the action, the problems
@@ -127,6 +130,7 @@ class SeasonRun:
         self.lost_items = []       # items lost in transmission, to be sent again
         self.field_visits, self.field_items = {}, {}
         self.reviews = []          # every dossier review: the recommendation, the reference's, the decision
+        self.sessions = {}         # (week, area, visit) -> the dossier as the reviewer read it, if keep_sessions
         self.holds = {}            # area -> the week its dossier was first held
         self.plan_recs, self.forecasts, self.sitreps = [], [], []
         self.latest_forecast = None
@@ -268,6 +272,8 @@ class SeasonRun:
                 self.idle[week] = self.idle.get(week, 0) + 1
                 kind = twin.teams.loc[team, "kind"]
                 self.idle_by_kind[kind] = self.idle_by_kind.get(kind, 0) + 1
+                by_week = self.idle_by_team.setdefault(team, {})
+                by_week[week] = by_week.get(week, 0) + 1
                 continue
             task = twin.tasks[task_id]
             outcome = field.work_day(task, week, day)
@@ -367,7 +373,7 @@ class SeasonRun:
         elif kind == "VISIT":
             visit = self.field_visits.get(a, int(twin.visits[a])) + 1
             self.field_visits[a] = visit
-            start = max(len(twin.evidence[a]), self.field_items.get(a, 0)) + 1
+            start = max(twin.highest_item(a), self.field_items.get(a, 0)) + 1
             items = field.nts(a, visit, week, start)
             self.field_items[a] = start + len(items) - 1
             result = {"items": items, "declared_items": len(items)}
@@ -449,6 +455,8 @@ class SeasonRun:
             return
         held_since = self.holds.pop(area, None)
         items = list(twin.evidence[area])
+        if self.keep_sessions:
+            self.sessions[(week, area, int(twin.visits[area]))] = agent.ReviewSession(twin.view(), area, week)
         review = self.reviewer.review(twin.view(), area, week)
         reference, _, _ = rules.reference_decision(items, field.key_for(area, items), twin.criteria)
         decision, reason = review.outcome, ""
@@ -539,6 +547,9 @@ class SeasonResult:
         self.log = twin.log_table()
         self.tasks = twin.task_table()
         self.reviews = pd.DataFrame(run.reviews)
+        self.sessions = dict(run.sessions)
+        # plans the solver stopped at its time limit (status 1), which would depend on the computer's speed
+        self.solver_limited = sum(1 for r in run.plan_recs if r.ok and r.answer.get("solver", {}).get("status") == 1)
         self.checks = pd.DataFrame(run.check_rows)
         self.zone_state = twin.zone_state.copy()
         self.municipality_free = twin.municipality_free.copy()
@@ -553,6 +564,7 @@ class SeasonResult:
         self.week_days = dict(run.week_days)
         self.idle = dict(run.idle)
         self.idle_by_kind = dict(run.idle_by_kind)
+        self.idle_by_team = {team: dict(weeks) for team, weeks in run.idle_by_team.items()}
         self.plans = [{k: v for k, v in p.items() if k not in ("workloads", "priority")} for p in twin.plans]
         self.sitreps = list(run.sitreps)
         self.metrics = self.measure(twin)
@@ -603,15 +615,19 @@ class SeasonResult:
             "team-days lost to access": days["access"], "team-days with no task": int(sum(self.idle.values())),
             **{f"team-days with no task ({k} teams)": int(v) for k, v in sorted(self.idle_by_kind.items())},
             "plans approved": len(self.replans),
-            "plans after changes in the feeds": sum("feeds" in reason for _, reason in self.replans),
+            "plans stopped by the solver's time limit": int(self.solver_limited),
+            "plans between the monthly plans, after changes in the feeds": sum(
+                1 for w, _ in self.replans if w > 1 and not twin.calendar.is_month_start(w)),
             "review sign-offs": int(len(reviewed)),
-            "overrides": int((reviewed["recommended_by"].notna() & reviewed["reason"].str.startswith("override")).sum())
-            if len(reviewed) else 0,
+            "sign-offs that differ from the recommendation": int((r["outcome"] != r["decision"]).sum()) if len(r)
+            else 0,
             "vetoed at sign-off": int(r["vetoed at sign-off"].sum()) if len(r) else 0,
             "reviews agreeing with the reference": int(r["agrees"].sum()) if len(r) else 0,
             "fallbacks": int(r["fallback"].sum()) if len(r) else 0,
             "dossiers held": int((decided["kind"] == "dossier").sum()) if len(decided) else 0,
             "reports held": int((self.checks["action"] == "hold").sum()) if len(self.checks) else 0,
+            "reports held with no fault injected": int(((self.checks["action"] == "hold")
+                                                        & (self.checks["fault"] == "")).sum()) if len(self.checks) else 0,
             "reports queried": int((self.checks["action"] == "query").sum()) if len(self.checks) else 0,
         }
 

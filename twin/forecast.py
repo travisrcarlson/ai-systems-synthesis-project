@@ -11,8 +11,10 @@ weekly loop does, with what the twin does not know drawn afresh:
   for one to three months; a zone closed now stays closed for one to three months);
 - the teams available: the active teams, and stood-down teams from the week their operator expects them back.
 It answers with each zone's P50 and P90 weeks of completion (or "after the season"), the chance it completes this
-season, and the season's mine areas cleared and zones declared free as P10, P50 and P90. A zone the plan does not
-reach this season gets no date.
+season, and the season's mine areas cleared and zones declared free as P10, P50 and P90. The draws cover the first
+`zones` (60) zones of the plan's lists, so the totals count what is done already and what those zones add; a zone
+the plan does not reach this season gets no date, and a zone whose consultation no plan has asked for is not
+tasked.
 """
 import math
 
@@ -84,6 +86,7 @@ class CompletionForecaster(Overlay):
                     >= n_zones.reindex(by_municipality.columns).to_numpy())
         municipal["chance declared free this season"] = complete.mean(axis=0)
         return self.answer(week, {"zones": table, "totals": totals, "municipalities": municipal,
+                                  "done": {"mine areas cleared": cleared_now, "zones declared free": free_now_total},
                                   "draws": self.draws},
                            evidence=(f"plan {plan.get('plan_id', '(proposed)')}", "risk prioritisation",
                                      "planning factors", "rainfall pattern", "access feed", "team reports"),
@@ -106,7 +109,11 @@ class CompletionForecaster(Overlay):
         for z in zones:
             r = week
             if consultation.loc[z, "required"] and not consultation.loc[z, "held_week"]:
-                r = (consultation.loc[z, "requested_week"] or week) + season.consultation_weeks
+                requested = consultation.loc[z, "requested_week"]
+                if requested or z in plan.get("consultations", ()):
+                    r = (requested or week) + season.consultation_weeks
+                else:
+                    r = math.inf      # no plan has asked for its consultation, so the weekly loop cannot task it
             ready[z] = r
         static = self._static(view, zones, chances, ranks)
         team_rows = []

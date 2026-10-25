@@ -4,16 +4,18 @@ The rule check is code, independent of any model, adapted from P6's rules R1 to 
 national criteria. It tests a decision against a register of evidence (each item's class, the reliability class
 of its source, and the items it explains) and the twin's own record of each item (who it comes from, and the years
 of safe use it reports). It vetoes a decision if any rule fails:
-- R1 (cancellation): there is no direct evidence, and every item of indirect evidence is explained by evidence of
-  absence from a source of reliability class 1 to 4. Evidence of absence never explains direct evidence away:
-  direct evidence leads to technical survey or clearance (IMAS 07.11, §4.4).
+- R1 (cancellation): there is no direct evidence and no indirect evidence that the survey team saw or a first-hand
+  source reported (class 1 to 4), since both are targets for an intrusive check; and every item of weaker indirect
+  evidence (class 5 to 7: second-hand reports, rumours, the desk study's record) is explained by evidence of absence
+  from a source of class 1 to 4. Evidence of absence never explains direct evidence away: direct evidence leads to
+  technical survey or clearance (IMAS 07.11, §4.4).
 - R2 (cancellation): the national criteria are met: enough different reliable first-hand sources (class 1 to 4)
   each report enough years of safe use. Sources are counted from the twin's record, so a person counts once
   however many items they gave.
 - R3 (clearance): where technical survey is available, there is direct evidence of class 1 to 4 to define the
   hazard; where the national criteria provide no technical survey (Colombia's practice for its baseline areas),
-  there is direct or indirect evidence to target, since clearance takes the place of technical survey.
-- R4 (technical survey): technical survey is available, and there is direct or indirect evidence to target.
+  there is a target (see `targets`), since clearance takes the place of technical survey.
+- R4 (technical survey): technical survey is available, and there is a target.
 - R5 (cancellation, technical survey, clearance): every item of the evidence log is in the register.
 - R6 (cancellation): where the national criteria need an intrusive check before an area with a past accident
   recorded inside is released, there is no such record (read from the twin's record of the desk study).
@@ -58,6 +60,39 @@ def explained(entry, register, limit=4):
                for a in register.values())
 
 
+def visits_of(items):
+    """The number of non-technical survey visits the evidence log holds items from."""
+    return max((getattr(item, "visit", 0) or 0 for item in items), default=0)
+
+
+def targets(register, items, criteria):
+    """The evidence an intrusive check would target (the rules file's `technical_survey` topic): direct evidence;
+    indirect evidence that the survey team saw or a first-hand source reported (class 1 to 4); the desk study's
+    record of a past accident inside the area, after the first visit, where the national criteria need an intrusive
+    check before such an area is released (read from the twin's record, not the register); and weaker indirect
+    evidence (class 5 to 7) still unexplained after the visits the national criteria set for following it up."""
+    visits = visits_of(items)
+    found = []
+    for item in items:
+        if criteria.recorded_accident_needs_ts and source_of(item) == "national database":
+            if visits >= 1:
+                found.append(item.item_id)
+            continue
+        e = register.get(item.item_id)
+        if e is None or e.evidence_class not in ("direct", "indirect"):
+            continue
+        if e.evidence_class == "direct" or e.reliability_class <= 4:
+            found.append(e.item_id)
+        elif visits >= criteria.follow_up_visits and not explained(e, register):
+            found.append(e.item_id)
+    return found
+
+
+NO_TARGET = ("There is no target, so {check} is not justified: no direct evidence, no indirect evidence of class 1 "
+             "to 4, no recorded accident that needs an intrusive check, and no weaker indirect evidence still "
+             "unexplained after {visits} visit(s). Weaker evidence is followed up by non-technical survey first.")
+
+
 def rule_check(outcome, register, items, criteria):
     """Test one outcome for an area. Returns {"result": "pass" or "veto", "outcome", "checks"}."""
     if outcome not in OUTCOMES:
@@ -75,19 +110,25 @@ def rule_check(outcome, register, items, criteria):
     entries = [register[i.item_id] for i in items if i.item_id in register]
     if outcome == "CANCEL":
         direct = [e.item_id for e in entries if e.evidence_class == "direct"]
-        unexplained = [e.item_id for e in entries if e.evidence_class == "indirect" and not explained(e, register)]
-        if not direct and not unexplained:
-            detail = ("There is no direct evidence, and every item of indirect evidence is explained by evidence of "
-                      "absence of class 1 to 4.")
+        strong = [e.item_id for e in entries if e.evidence_class == "indirect" and e.reliability_class <= 4]
+        unexplained = [e.item_id for e in entries if e.evidence_class == "indirect" and e.reliability_class >= 5
+                       and not explained(e, register)]
+        if not direct and not strong and not unexplained:
+            detail = ("There is no direct evidence and no indirect evidence of class 1 to 4, and every item of weaker "
+                      "indirect evidence is explained by evidence of absence of class 1 to 4.")
         else:
             parts = []
             if direct:
                 parts.append(f"direct evidence, which evidence of absence cannot explain away: {', '.join(direct)}")
+            if strong:
+                parts.append("indirect evidence that the survey team saw or a first-hand source reported (class 1 to "
+                             f"4), a target for an intrusive check that evidence of absence cannot explain away: "
+                             f"{', '.join(strong)}")
             if unexplained:
-                parts.append("indirect evidence not explained by evidence of absence of class 1 to 4: "
-                             + ", ".join(unexplained))
+                parts.append("weaker indirect evidence (class 5 to 7) not explained by evidence of absence of class 1 "
+                             "to 4: " + ", ".join(unexplained))
             detail = "Cancellation is not allowed with " + "; and ".join(parts) + "."
-        checks.append(check("R1", not direct and not unexplained, detail))
+        checks.append(check("R1", not direct and not strong and not unexplained, detail))
         sources = {}
         for e in entries:
             item = by_id[e.item_id]
@@ -111,20 +152,22 @@ def rule_check(outcome, register, items, criteria):
                                 else "No direct evidence of class 1 to 4, so clearance without technical survey "
                                      "is not justified."))
         else:
-            target = [e.item_id for e in entries if e.evidence_class in ("direct", "indirect")]
+            target = targets(register, items, criteria)
             checks.append(check("R3", target, "The national criteria provide no technical survey, so clearance "
                                 f"takes its place; evidence to target: {', '.join(target)}." if target
-                                else "There is no direct or indirect evidence to target, so clearance is not "
-                                     "justified."))
+                                else NO_TARGET.format(check="clearance",
+                                                      visits=criteria.follow_up_visits)))
     else:
-        target = [e.item_id for e in entries if e.evidence_class in ("direct", "indirect")]
+        target = targets(register, items, criteria)
         if not criteria.technical_survey:
             checks.append(check("R4", False, "The national criteria provide no technical survey in this programme; "
                                 "a hazardous area defined by non-technical survey goes to clearance."))
         else:
             checks.append(check("R4", target, f"Evidence to target: {', '.join(target)}." if target
-                                else "There is no direct or indirect evidence to target."))
+                                else NO_TARGET.format(check="technical survey",
+                                                      visits=criteria.follow_up_visits)))
     return {"result": "pass" if all(c["passed"] for c in checks) else "veto", "outcome": outcome, "checks": checks}
+
 
 
 def failed_rules(result):
@@ -167,14 +210,7 @@ def reference_decision(items, key, criteria):
     result = rule_check("CANCEL", register, items, criteria)
     if result["result"] == "pass":
         return "CANCEL", register, result
-    visits = max((item.visit for item in items), default=0)
-    entries = list(register.values())
-    target = any(e.evidence_class == "direct" or (e.evidence_class == "indirect" and e.reliability_class <= 4)
-                 for e in entries)
-    weak_unexplained = any(e.evidence_class == "indirect" and e.reliability_class >= 5 and not explained(e, register)
-                           for e in entries)
-    recorded = criteria.recorded_accident_needs_ts and recorded_accident(items)
-    if target or recorded or (weak_unexplained and visits >= criteria.follow_up_visits):
+    if targets(register, items, criteria):
         outcome = "TECHNICAL_SURVEY" if criteria.technical_survey else "CLEARANCE"
         result = rule_check(outcome, register, items, criteria)
         if result["result"] != "pass":
