@@ -23,8 +23,9 @@ OUTCOMES = ["CANCEL", "TECHNICAL_SURVEY", "CLEARANCE", "FURTHER_NTS"]
 @dataclass
 class Factors:
     """The planning factors, one row per (mined, recorded): the mean visits until a decision, the chances of each
-    outcome, and the chance that technical survey finds mines (where it is used); `sims` keeps every simulated area,
-    so the forecaster can draw visits and outcomes together."""
+    outcome, and the chance that technical survey finds mines (where it is used); `sims` keeps every simulated area
+    (its visits, outcome, whether its evidence held direct evidence, and the technical survey's finding), so the
+    forecaster can draw them together."""
     table: pd.DataFrame
     sims: pd.DataFrame
     max_visits: int
@@ -76,8 +77,11 @@ def planning_factors(twin, criteria, assumptions=None, season=None, n=300, seed=
                     items += field.nts(a, visits, 0, len(items) + 1)
                     outcome, _, _ = reference_decision(items, field.key_for(a, items), criteria)
                 found = field.technical_survey(a) if outcome == "TECHNICAL_SURVEY" else np.nan
+                # a decision of clearance on direct evidence makes the area a confirmed hazardous area, which the
+                # weekly loop clears first
+                direct = any(k["class"] == "direct" for k in field.key_for(a, items).values())
                 rows.append({"mined": mined, "recorded": recorded, "visits": visits, "outcome": outcome,
-                             "found": found})
+                             "found": found, "direct": direct})
     sims = pd.DataFrame(rows)
     g = sims.groupby(["mined", "recorded"])
     table = pd.DataFrame({"areas": g.size(), "visits": g["visits"].mean()})

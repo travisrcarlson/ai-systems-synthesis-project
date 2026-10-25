@@ -186,10 +186,11 @@ class SituationReport(Overlay):
     reads = ("teams", "access")
     limits = ("the figure check verifies numbers, not the wording around them; a person reads the report",)
 
-    def __init__(self, runs_dir=None, client=None, settings=None):
+    def __init__(self, runs_dir=None, client=None, settings=None, limit=None):
         self.runs_dir = Path(runs_dir) if runs_dir else None
         self.client = client
         self.settings = {**DEFAULTS, **(settings or {})}
+        self.limit = limit          # the smoke test: this many model drafts, then the coded draft
         self.ran = self.loaded = self.coded = 0
 
     def inputs_sha(self, facts):
@@ -206,9 +207,10 @@ class SituationReport(Overlay):
             if record.get("inputs_sha") == sha and not record.get("error"):
                 self.loaded += 1
                 return record["draft"], f"saved draft ({record['model']})", record
-        if self.client is None:
+        if self.client is None or (self.limit is not None and self.ran >= self.limit):
             self.coded += 1
-            return coded_draft(facts), "coded draft (no model)", None
+            why = "no model" if self.client is None else f"the smoke test's {self.limit} model drafts are done"
+            return coded_draft(facts), f"coded draft ({why})", None
         record = {"week": facts["week"], "model": self.settings["model"], "inputs_sha": sha, "time": utc_now(),
                   "facts": facts, "draft": "", "error": "", "usage": None}
         try:

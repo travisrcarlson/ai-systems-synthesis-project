@@ -6,11 +6,26 @@ held-out municipalities. P3's two models, logistic regression and gradient-boost
 municipalities' clearance results and used for a municipality only if they beat the baseline there on evidence
 that does not use that municipality's labels (the baseline-first gate). Areas are scored by their highest cell.
 
-A score only orders areas; the season planner needs chances. Each ranking's scores are calibrated, one held-out
-municipality at a time, on the other 14 municipalities' areas: the share of mined areas among those with similar
-scores, in 25 bins of equal size, made monotone and read between the bins' centres. For the models, the
-calibration uses the gate's inner scores, from models that never saw the municipality, so no municipality's
-labels shape its own chances.
+A score only orders areas; the season planner needs chances, and compares them across municipalities. Each
+ranking's scores are calibrated, one held-out municipality at a time, on the other 14 municipalities' areas: the
+share of mined areas among those with similar scores, in 25 bins of equal size, made monotone and read between the
+bins' centres. For the models, the calibration uses the gate's inner scores, from models that never saw the
+municipality, so no municipality's labels shape its own chances.
+
+The gate therefore tests both things the planner relies on, on the other 14 municipalities only: ranking (mean
+area-level PR-AUC, as in P3) and calibration (how far each municipality's expected mine areas fall from its
+observed ones, as the mean of |log((observed + 1) / (expected + 1))|, with each group of municipalities calibrated
+on the other groups). A model is used for a municipality only if it beats the baseline on both. The calibration
+test was added after the first season replays showed the planner choosing the zones where a model's chances were
+furthest too high (the optimiser's curse): a model can rank areas well within a municipality and still give
+chances that do not carry from one municipality to another.
+
+As the season goes on, the twin learns: each month the chances of each municipality are updated from the season's
+own field results there, with no label read (P2's insight: watch change over time). The update is Bayesian, on one
+multiplier k of the odds of every area in the municipality: its prior is log-normal around 1, with a spread set
+from the gate's own measure of how far chances miss between municipalities (`LEARN_SD`, this project's setting);
+the evidence is which areas of the surveyed zones people pointed to (Travis's flagging rates: 85% of the areas with
+mines, 5% of the others), and which areas an intrusive check or direct evidence showed to hold mines or not.
 
 Two parts are kept apart:
 - `RiskModels` fits the rankings, the gate and the calibration (it reads labels: for a municipality, only the
@@ -46,6 +61,10 @@ ONEHOT_PREFIXES = ("land_use_", "weather_", "relief_")
 LR_C = 0.001
 HGB_LEARNING_RATE = 0.1
 CALIBRATION_BINS = 25
+# This project's setting: the prior spread (sd of log k) of the in-season update, from the gate's calibration error
+# between municipalities (about 0.5 as a mean absolute log ratio, so an sd of about 0.6)
+LEARN_SD = 0.6
+LEARN_GRID = np.exp(np.linspace(-2.5, 2.5, 101))
 
 RANKINGS = {"baseline": "nearness to past accidents", "lr": "logistic regression",
             "hgb": "gradient-boosted trees", "random": "random order"}
@@ -101,6 +120,20 @@ def fit_calibration(scores, labels, bins=CALIBRATION_BINS):
                          "high": [s[p].max() for p in parts]})
 
 
+def calibration_error(scores, labels, municipality_of, folds):
+    """How far expected mine areas fall from observed ones, by municipality, when each group of municipalities is
+    calibrated on the other groups: the mean over municipalities of |log((observed + 1) / (expected + 1))|."""
+    errors = []
+    for g in np.unique(folds):
+        here, other = folds == g, folds != g
+        table = fit_calibration(scores[other], labels[other])
+        chance, _ = apply_calibration(table, scores[here])
+        part = pd.DataFrame({"expected": chance, "observed": labels[here], "m": municipality_of[here]})
+        by = part.groupby("m").sum()
+        errors += list(np.abs(np.log((by["observed"] + 1) / (by["expected"] + 1))))
+    return float(np.mean(errors))
+
+
 def apply_calibration(table, scores):
     """Chances for scores, read between the bins' centres (flat beyond the end bins), and whether each score lies
     outside the range of the scores the calibration was fitted on."""
@@ -149,20 +182,28 @@ class RiskModels:
                 # the gate's evidence: the other 14 municipalities, in GroupKFold groups, each scored by a model
                 # trained on the remaining groups; the baseline is scored on the same municipalities
                 inner_scores = pd.Series(np.nan, index=cells.index)
+                fold_of = {}
                 train_index = np.flatnonzero(train)
-                for fit_rows, score_rows in self.inner.split(train_index, groups=codes[train]):
+                for g, (fit_rows, score_rows) in enumerate(self.inner.split(train_index, groups=codes[train])):
                     fit_index, score_index = train_index[fit_rows], train_index[score_rows]
                     inner_model = make_model(name, self.features).fit(X.iloc[fit_index], self._truth.iloc[fit_index])
                     inner_scores.iloc[score_index] = inner_model.predict_proba(X.iloc[score_index])[:, 1]
+                    fold_of.update({m: g for m in set(codes[score_index])})
                 other_codes = [c for c in PILOT if c != code]
                 labels = self._area_labels(train)
                 model_areas = area_scores(cells["area_id"], inner_scores, index).dropna()
                 municipality_of = self.areas["municipality_code"][labels.index]
+                folds = municipality_of.map(fold_of).to_numpy()
+                baseline_areas = self.scores["baseline"][labels.index]
                 gate_rows.append({"municipality_code": code, "model": name,
                                   "model mean PR-AUC (others)": mean_area_ap(municipality_of, labels, model_areas,
                                                                              other_codes),
                                   "baseline mean PR-AUC (others)": mean_area_ap(
-                                      municipality_of, labels, self.scores["baseline"][labels.index], other_codes)})
+                                      municipality_of, labels, baseline_areas, other_codes),
+                                  "model calibration error (others)": calibration_error(
+                                      model_areas[labels.index], labels, municipality_of, folds),
+                                  "baseline calibration error (others)": calibration_error(
+                                      baseline_areas, labels, municipality_of, folds)})
                 calibration.append(fit_calibration(model_areas[labels.index], labels)
                                    .assign(ranking=name, municipality_code=code))
             self.scores[name] = area_scores(cells["area_id"], held_out, index)
@@ -170,12 +211,17 @@ class RiskModels:
                 print(f"{RANKINGS[name]}: fitted for 15 municipalities, with the gate's inner evaluation", flush=True)
         gate = pd.DataFrame(gate_rows).pivot(index="municipality_code", columns="model")
         gate.columns = [f"{model}: {measure}" for measure, model in gate.columns]
-        chosen = []
+        chosen, by_ranking = [], []
         for code, row in gate.iterrows():
             margins = {m: row[f"{m}: model mean PR-AUC (others)"] - row[f"{m}: baseline mean PR-AUC (others)"]
                        for m in ("lr", "hgb")}
-            best = max(margins, key=margins.get)
-            chosen.append(best if margins[best] > 0 else "baseline")
+            calibrated = {m: row[f"{m}: model calibration error (others)"]
+                          < row[f"{m}: baseline calibration error (others)"] for m in ("lr", "hgb")}
+            passing = [m for m in ("lr", "hgb") if margins[m] > 0 and calibrated[m]]
+            best_rank = max(margins, key=margins.get)
+            by_ranking.append(best_rank if margins[best_rank] > 0 else "baseline")
+            chosen.append(max(passing, key=margins.get) if passing else "baseline")
+        gate["chosen by ranking alone"] = by_ranking
         gate["chosen"] = chosen
         gate.insert(0, "municipality", gate.index.map(NAME_OF))
         self.gate = gate
@@ -237,15 +283,71 @@ class RiskOverlay(Overlay):
               "a chance says where to look first; it is not evidence about an area, and no area is released on it",
               "calibrated on the other 14 municipalities of one region; it does not carry to other regions")
 
-    def __init__(self, models, ranking="gated"):
+    def __init__(self, models, ranking="gated", learn=True, flag_mined=0.85, flag_clean=0.05):
         self.models = models
         self.ranking = ranking
+        self.learn = learn
+        self.flag_mined, self.flag_clean = flag_mined, flag_clean
+        self.prior = models.chances(ranking)
+
+    def evidence_by_municipality(self, view):
+        """What the season has shown so far in each municipality, without any label: for the areas of surveyed zones,
+        whether the zone survey flagged them, and whether an intrusive check or direct evidence showed mines."""
+        areas = view.areas
+        surveyed = view.zone_state.index[view.zone_state["surveyed_week"] > 0]
+        in_surveyed = areas["zone_id"].isin(surveyed)
+        status, found = view.status, view.mines_found
+        known = pd.Series(np.nan, index=areas.index)
+        known[(status == "confirmed") | found] = 1.0
+        known[((status == "cleared") & ~found) | (status == "reduced")] = 0.0
+        flagged = view.flag.isin(["people at the community meetings pointed to it",
+                                  "a past accident is recorded inside it"])
+        return pd.DataFrame({"code": areas["municipality_code"], "surveyed": in_surveyed, "flagged": flagged,
+                             "recorded": areas["event_inside"], "known": known})
+
+    def multipliers(self, view, prior):
+        """The posterior mean of each municipality's odds multiplier k, and the evidence behind it."""
+        ev = self.evidence_by_municipality(view)
+        log_prior = -0.5 * (np.log(LEARN_GRID) / LEARN_SD) ** 2
+        rows = {}
+        for code, part in ev[ev["surveyed"] | ev["known"].notna()].groupby("code"):
+            p = prior.loc[part.index].to_numpy()
+            k = LEARN_GRID[:, None]
+            pk = np.clip(k * p / (1 - p + k * p), 1e-9, 1 - 1e-9)
+            fm, fc = self.flag_mined, self.flag_clean
+            rec, flag, known = part["recorded"].to_numpy(), part["flagged"].to_numpy(), part["known"].to_numpy()
+            ll = np.zeros(len(LEARN_GRID))
+            unrec = ~rec & part["surveyed"].to_numpy()
+            # an area not recorded, in a surveyed zone: its flag, and its outcome where it is known
+            m = unrec & np.isnan(known)
+            ll += np.where(flag[m], np.log(fm * pk[:, m] + fc * (1 - pk[:, m])),
+                           np.log((1 - fm) * pk[:, m] + (1 - fc) * (1 - pk[:, m]))).sum(axis=1)
+            m = unrec & ~np.isnan(known)
+            ll += np.where(known[m] == 1, np.log(fm * pk[:, m]), np.log(fc * (1 - pk[:, m]))).sum(axis=1)
+            # a recorded area is always flagged; only its outcome tells
+            m = rec & ~np.isnan(known)
+            ll += np.where(known[m] == 1, np.log(pk[:, m]), np.log(1 - pk[:, m])).sum(axis=1)
+            post = np.exp(ll + log_prior - (ll + log_prior).max())
+            post /= post.sum()
+            rows[code] = {"multiplier": float((LEARN_GRID * post).sum()),
+                          "areas surveyed": int(part["surveyed"].sum()),
+                          "flagged, not recorded": int((part["flagged"] & ~part["recorded"]).sum()),
+                          "outcomes known": int(part["known"].notna().sum())}
+        return pd.DataFrame.from_dict(rows, orient="index")
 
     def recommend(self, view, week, **inputs):
         reason = self.check_inputs(view, week)
         if reason:
             return self.insufficient(week, reason)
-        chances = self.models.chances(self.ranking)
+        chances = self.prior.copy()
+        learned = pd.DataFrame()
+        if self.learn:
+            learned = self.multipliers(view, chances["chance"])
+            if len(learned):
+                k = view.areas["municipality_code"].map(learned["multiplier"]).fillna(1.0).to_numpy()
+                p = chances["chance"].to_numpy()
+                chances["prior chance"] = p
+                chances["chance"] = k * p / (1 - p + k * p)
         areas = view.areas
         table = chances.join(areas[["municipality_code", "zone_id", "number", "event_inside"]])
         # rank 1 is surveyed first; ties go to the lower area number, so every ranking is a strict order
@@ -268,10 +370,13 @@ class RiskOverlay(Overlay):
         if n_out:
             limits.append(f"{n_out} zone(s) score mostly outside the calibrated range: insufficient evidence for them")
         gate = self.models.gate["chosen"].value_counts().to_dict() if self.ranking == "gated" else {self.ranking: 15}
-        evidence = ("hazard layer", "land-use layer",
+        evidence = ["hazard layer", "land-use layer",
                     "held-out calibration on the other 14 municipalities",
-                    "gate: " + ", ".join(f"{RANKINGS[k]} in {v}" for k, v in gate.items()))
-        return self.answer(week, {"areas": table, "zones": zones}, evidence,
+                    "gate: " + ", ".join(f"{RANKINGS[k]} in {v}" for k, v in gate.items())]
+        if len(learned):
+            evidence.append(f"the season's field results in {len(learned)} municipalit"
+                            f"{'y' if len(learned) == 1 else 'ies'} (zone-survey flags and outcomes)")
+        return self.answer(week, {"areas": table, "zones": zones, "learned": learned}, evidence,
                            uncertainty="expected mine areas by zone, with the spread (sd) of a sum of independent "
                                        "chances", limits=limits)
 

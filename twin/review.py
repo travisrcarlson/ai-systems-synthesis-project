@@ -74,11 +74,12 @@ class AgentReviewer(Overlay):
     by = "dossier reviewer agent"
     STOP_AFTER = 3
 
-    def __init__(self, runs_dir, client=None, settings=None, label="season"):
+    def __init__(self, runs_dir, client=None, settings=None, label="season", limit=None, after_limit=None):
         self.runs_dir, self.client = runs_dir, client
         self.settings = {**agent.DEFAULTS, **(settings or {})}
         self.label = label
-        self.ran = self.loaded = self.review_errors = 0
+        self.limit, self.after_limit = limit, after_limit     # the smoke test: this many live reviews, then another
+        self.ran = self.loaded = self.review_errors = self.handed_on = 0
         self.other_dossier = self.other_method = 0
         self._errors_in_a_row = 0
 
@@ -88,6 +89,9 @@ class AgentReviewer(Overlay):
         record = agent.load_review(self.runs_dir, session, self.settings, require_same_inputs=live)
         if record is not None and live and record["stats"].get("error"):
             record = None     # a review that ended on an API error is run again when there is a key
+        if record is None and self.limit is not None and self.ran >= self.limit and self.after_limit is not None:
+            self.handed_on += 1
+            return self.after_limit.review(view, area_id, week)
         if record is None:
             if not live:
                 raise MissingReview(f"there is no saved review {agent.review_key(week, area_id, session.visit)}, and "

@@ -39,7 +39,7 @@ class CompletionForecaster(Overlay):
         self.seed = seed
         self.max_zones = zones
         sims = factors.sims
-        self.rows = {key: part[["visits", "outcome", "found"]].to_numpy()
+        self.rows = {key: part[["visits", "outcome", "direct"]].to_numpy()
                      for key, part in sims.groupby(["mined", "recorded"])}
 
     def recommend(self, view, week, plan=None, risk=None, **inputs):
@@ -51,12 +51,13 @@ class CompletionForecaster(Overlay):
         if risk is None or not risk.ok:
             return self.insufficient(week, "no risk estimate")
         chances = risk.answer["areas"]["chance"]
+        ranks = risk.answer["areas"]["zone_rank"]
         order = []
         for z in plan["survey"] + plan["clearance"] + plan["ts"] + plan["fallback"]:
             if z not in order and not view.zone_state.loc[z, "free_week"]:
                 order.append(z)
         zones = order[:self.max_zones]
-        result = self.simulate(view, week, plan, zones, chances)
+        result = self.simulate(view, week, plan, zones, chances, ranks)
         weeks = result["completion"]          # draws x zones, np.inf where not complete
         # percentiles without interpolation, so that a zone done in fewer than half the draws has no P50 week
         table = pd.DataFrame({"P50 week": np.percentile(weeks, 50, axis=0, method="inverted_cdf"),
@@ -89,7 +90,7 @@ class CompletionForecaster(Overlay):
                            uncertainty="P50 and P90 weeks by zone; P10 to P90 for the season's totals")
 
     # ---- the simulation ---------------------------------------------------------------------------------------------
-    def simulate(self, view, week, plan, zones, chances):
+    def simulate(self, view, week, plan, zones, chances, ranks=None):
         season, cal = view.season, view.calendar
         rng = np.random.default_rng([self.seed, week, len(view.log_table())])
         access, consultation = view.access, view.consultation
@@ -107,7 +108,7 @@ class CompletionForecaster(Overlay):
             if consultation.loc[z, "required"] and not consultation.loc[z, "held_week"]:
                 r = (consultation.loc[z, "requested_week"] or week) + season.consultation_weeks
             ready[z] = r
-        static = self._static(view, zones, chances)
+        static = self._static(view, zones, chances, ranks)
         team_rows = []
         for _, row in teams.iterrows():
             back = row["back_week"]
@@ -154,8 +155,9 @@ class CompletionForecaster(Overlay):
             free[d] = len(done_week)
         return {"completion": completion, "cleared": cleared, "free": free}
 
-    def _static(self, view, zones, chances):
-        """What the twin knows about each zone's areas, prepared once for all the draws."""
+    def _static(self, view, zones, chances, ranks=None):
+        """What the twin knows about each zone's areas, prepared once for all the draws. Each zone's areas are in the
+        order of their rank in the zone, the order in which the weekly loop works them."""
         season = view.season
         areas = view.areas
         status, next_task, visits = view.status, view.next_task, view.visits
@@ -167,6 +169,8 @@ class CompletionForecaster(Overlay):
         static = {}
         for z in zones:
             ids = list(view.zone_areas[z])
+            if ranks is not None:
+                ids = sorted(ids, key=lambda a: ranks.get(a, 0))
             surveyed = zstate.loc[z, "surveyed_week"] > 0
             if surveyed:
                 ids = [a for a in ids if status[a] in ("suspected", "confirmed")]
@@ -220,12 +224,14 @@ class CompletionForecaster(Overlay):
                 flagged = np.ones(n, dtype=bool)
             for i in np.flatnonzero(flagged):
                 a, rec, m = st["ids"][i], bool(st["rec"][i]), bool(mined[i])
-                v, outcome, _ = self._sample(rng, m, rec)
+                v, outcome, direct = self._sample(rng, m, rec)
                 queue = ["VISIT"] * int(v)
+                confirmed = bool(direct) and outcome == "CLEARANCE"
                 if st["surveyed"]:
                     nt = st["next"][i]
                     if nt == "CLEARANCE":
                         queue, outcome = [], "CLEARANCE"
+                        confirmed = st["status"][i] == "confirmed"
                     elif nt == "TS":
                         queue, outcome = [], "TECHNICAL_SURVEY"
                     else:
@@ -234,6 +240,7 @@ class CompletionForecaster(Overlay):
                     queue.append("TS")
                     if m and rng.random() < self.factors.row(True, rec)["TS_FOUND"]:
                         queue.append("CLEARANCE")
+                        confirmed = True          # technical survey that finds mines confirms the area
                 elif outcome == "CLEARANCE":
                     queue.append("CLEARANCE")
                 elif outcome == "FURTHER_NTS":
@@ -244,7 +251,8 @@ class CompletionForecaster(Overlay):
                     left = (self._duration(rng, kind, season, sigma, done) if kind in ("TS", "CLEARANCE")
                             else max(1, season.task_days(kind) - int(done)))
                     tasks.append({"kind": kind, "left": left, "taken": False})
-                items.append({"area": a, "mined": m, "tasks": tasks, "needs_survey": not st["surveyed"]})
+                items.append({"area": a, "mined": m, "tasks": tasks, "needs_survey": not st["surveyed"],
+                              "confirmed": confirmed})
             work[z] = zw
         return work
 
@@ -270,7 +278,10 @@ class CompletionForecaster(Overlay):
         return closed
 
     def _dispatch(self, kind, kinds, work, closed, wi, zone_index, ready, w, team_list):
-        """The next item of work for a team of this kind, from the plan's list for its kind."""
+        """The next item of work for a team of this kind, as the weekly loop chooses it: the first zone in the plan's
+        list for its kind with work open; in it, the zone survey first; then, for a survey team, the next visit in
+        the order of the areas' rank in the zone, and for a clearance or technical survey team, a confirmed area
+        first, then the area ranked highest."""
         task_kind = {"survey": ("ZONE_SURVEY", "VISIT"), "clearance": ("CLEARANCE",), "ts": ("TS",)}[kind]
         busy = {t["zone"] for t in team_list if t["kind"] == "survey" and t["item"] is not None}
         for z in kinds[kind]:
@@ -285,14 +296,23 @@ class CompletionForecaster(Overlay):
                         zw["survey"]["taken"] = True
                         return z, zw["survey"]
                     continue
+            if zw["survey"] is not None:          # the zone survey comes before any other work in the zone
+                continue
+            chosen = None
             for item in zw["areas"]:
-                if item["needs_survey"] and zw["survey"] is not None:
+                task = item["tasks"][0] if item["tasks"] else None
+                if task is None or task["kind"] not in task_kind or task["taken"]:
+                    continue
+                if kind == "survey" or item["confirmed"]:
+                    chosen = item
                     break
-                if item["tasks"] and item["tasks"][0]["kind"] in task_kind and not item["tasks"][0]["taken"]:
-                    task = item["tasks"][0]
-                    task["taken"] = True
-                    task["owner"] = item
-                    return z, task
+                if chosen is None:
+                    chosen = item
+            if chosen is not None:
+                task = chosen["tasks"][0]
+                task["taken"] = True
+                task["owner"] = chosen
+                return z, task
         return None, None
 
     def _finish(self, task, zw):

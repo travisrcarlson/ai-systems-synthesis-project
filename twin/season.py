@@ -50,9 +50,12 @@ class Policy:
     planner: str = "milp"            # "milp" (the integer programme) or "rule" (the rule of thumb)
     ranking: str = "gated"           # "gated" (the baseline-first gate) or "baseline" (nearness to past accidents)
     technical_survey: bool = False   # False: Colombia's practice; True: 2 of the 4 clearance teams do technical survey
+    learn: bool = True               # the risk overlay learns from the season's field results, month by month
 
     def label(self):
         parts = []
+        if not self.learn:
+            parts.append("no learning in the season")
         if self.planner != "milp":
             parts.append("rule-of-thumb plan")
         if self.ranking != "gated":
@@ -95,7 +98,8 @@ class SeasonRun:
         self.policy = policy or Policy()
         if self.policy.technical_survey != twin.criteria.technical_survey:
             raise ValueError("the twin's national criteria do not match the policy's use of technical survey")
-        self.risk = RiskOverlay(models, self.policy.ranking)
+        self.risk = RiskOverlay(models, self.policy.ranking, learn=self.policy.learn,
+                                flag_mined=twin.season.flag_mined, flag_clean=twin.season.flag_clean)
         self.planner = SeasonPlanner(factors, method=self.policy.planner, **(planner_options or {}))
         self.forecaster = CompletionForecaster(factors, draws=forecast_draws)
         self.reference = ReferenceReviewer(field)
@@ -228,6 +232,8 @@ class SeasonRun:
             return
         reason = "; ".join(reasons)
         started = time.perf_counter()
+        if week > 1 and self.policy.learn:
+            self.risk_rec = self.risk.recommend(twin.view(), week)       # the chances, updated from the season so far
         rec = self.planner.recommend(twin.view(), week, risk=self.risk_rec)
         self.timings.append(("plan", week, time.perf_counter() - started))
         self.plan_recs.append(rec)
@@ -609,11 +615,12 @@ class SeasonResult:
             "reports queried": int((self.checks["action"] == "query").sum()) if len(self.checks) else 0,
         }
 
-    def forecast_coverage(self):
-        """For the season's first forecast: each zone's forecast against when it was declared free (if it was)."""
-        if not self.forecasts or not self.forecasts[0].ok:
+    def forecast_coverage(self, i=0):
+        """For the season's forecast `i` (0, the first): each zone's forecast against when it was declared free (if it
+        was)."""
+        if len(self.forecasts) <= i or not self.forecasts[i].ok:
             return None
-        f = self.forecasts[0].answer["zones"].copy()
+        f = self.forecasts[i].answer["zones"].copy()
         actual = self.zone_state["free_week"].reindex(f.index)
         f["declared free (week)"] = actual.where(actual > 0)
         f["by P50"] = f["declared free (week)"].le(f["P50 week"].fillna(np.inf))

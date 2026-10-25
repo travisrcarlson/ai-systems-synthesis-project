@@ -10,7 +10,8 @@ The integer programme, from the twin's state, the risk overlay's chances and the
   after the consultation's lead time);
 - with the working days a team can expect in each month (rain and wind take about half of them in March, April,
   October and November, one in ten otherwise);
-- where a zone's clearance and technical survey wait for its survey (work already known can start at once);
+- where a zone's clearance and technical survey become available as its survey goes on (in step with the share of
+  the survey done; work already known can start at once);
 - to maximise the expected mine areas found and cleared this season, with zones declared free as a small tie-break
   (this project's setting, `Season.zone_free_value`).
 It is solved by HiGHS through SciPy, with a time limit and a 1% optimality gap. The candidates are the zones in
@@ -20,7 +21,11 @@ The rule of thumb works the zones with the most expected mine areas first, finis
 weighing of effort, timing or access. Both plans become ordered lists of zones for each kind of team, which the
 weekly loop follows; a team with nothing left in its list takes the zone with the most expected mine areas per day.
 """
+import contextlib
+import ctypes
 import math
+import os
+import sys
 
 import numpy as np
 from scipy.optimize import Bounds, LinearConstraint, milp
@@ -30,6 +35,36 @@ from .factors import zone_workloads
 from .overlays import Overlay
 
 KINDS = ("survey", "ts", "clearance")
+
+
+@contextlib.contextmanager
+def quiet_solver():
+    """Send the process's C-level standard output to the null device while the solver runs. The HiGHS solver that
+    SciPy 1.18 bundles prints a stray debug line ("HighsMipSolverData::transformNewIntegerFeasibleSolution
+    tmpSolver.run();") on some problems, whatever SciPy's `disp` option says. Python's own output in a notebook is not
+    affected, and where the redirection is not possible the solver runs as it is."""
+    try:
+        libc = ctypes.CDLL("ucrtbase") if sys.platform == "win32" else ctypes.CDLL(None)
+        saved = os.dup(1)
+    except Exception:
+        libc = saved = None
+    if saved is None:
+        yield
+        return
+    null = os.open(os.devnull, os.O_WRONLY)
+    try:
+        sys.stdout.flush()
+        libc.fflush(None)
+        os.dup2(null, 1)
+        yield
+    finally:
+        try:
+            libc.fflush(None)
+            sys.stdout.flush()
+        finally:
+            os.dup2(saved, 1)
+            os.close(saved)
+            os.close(null)
 
 
 def months_left(view, week):
@@ -79,8 +114,8 @@ class SeasonPlanner(Overlay):
     reads = ("hazard", "land_use", "access", "consultation", "rainfall", "teams")
     limits = ("plans with expected workloads and yields from the planning factors, not with the truth",
               "moving between zones takes no time in the plan or the weekly loop",
-              "a zone's clearance and technical survey wait for its whole survey in the plan; in the weekly loop "
-              "they start as soon as an area is sent to them")
+              "in the plan, a zone's clearance work appears in step with its survey; in the weekly loop it appears "
+              "area by area, as each visit is reviewed")
 
     def __init__(self, factors, method="milp", candidates=60, time_limit=20.0, gap=0.01):
         self.factors = factors
@@ -186,7 +221,7 @@ class SeasonPlanner(Overlay):
                 ok = avail[z][i]
                 if has[z]["s"]:
                     var(("s", z, i), 0, 1 if ok else 0, True)
-                    var(("u", z, i), 0, 1, True)
+                    var(("u", z, i), 0, 1, False)        # the share of the zone's survey done by the month's end
                 if has[z]["c"]:
                     var(("c", z, i), 0, cap_c if ok else 0, True)
                 if has[z]["t"]:
@@ -216,7 +251,7 @@ class SeasonPlanner(Overlay):
             Wtk, Wtf = w["ts_known"], w["ts_future"]
             for i in range(L):
                 if has[z]["s"]:
-                    # the survey is complete by the end of month i only if enough survey days were worked by then
+                    # the share of the survey done by the end of month i is at most the survey days worked by then
                     constraint([(cols[("u", z, i)], Ws)] + [(cols[("s", z, k)], -D[k]) for k in range(i + 1)],
                                -np.inf, 0.0)
                 for name, known, future, flag in (("c", Wck, Wcf, "c"), ("t", Wtk, Wtf, "t")):
@@ -224,12 +259,10 @@ class SeasonPlanner(Overlay):
                         continue
                     terms = [(cols[(name, z, k)], D[k]) for k in range(i + 1)]
                     if has[z]["s"]:
-                        # work found by the survey is available only after the survey is complete
-                        if i > 0:
-                            terms.append((cols[("u", z, i - 1)], -future))
-                            constraint(terms, -np.inf, known)
-                        else:
-                            constraint(terms, -np.inf, known)
+                        # work found by the survey becomes available as the survey goes on: work already known
+                        # at once, the rest in step with the share of the survey done
+                        terms.append((cols[("u", z, i)], -future))
+                        constraint(terms, -np.inf, known)
                     else:
                         constraint(terms, -np.inf, known + future)
             if has[z]["c"]:
@@ -250,9 +283,10 @@ class SeasonPlanner(Overlay):
                 constraint([(y, 1.0), (cols[("g", z)], -1.0)], -np.inf, 0.0)
         n = len(cols)
         A = coo_matrix((vals, (rows, cidx)), shape=(len(lo), n)).tocsr()
-        res = milp(c=-np.array(obj), integrality=np.array(integ), bounds=Bounds(np.array(lb), np.array(ub)),
-                   constraints=LinearConstraint(A, np.array(lo), np.array(hi)),
-                   options={"time_limit": self.time_limit, "mip_rel_gap": self.gap, "disp": False})
+        with quiet_solver():
+            res = milp(c=-np.array(obj), integrality=np.array(integ), bounds=Bounds(np.array(lb), np.array(ub)),
+                       constraints=LinearConstraint(A, np.array(lo), np.array(hi)),
+                       options={"time_limit": self.time_limit, "mip_rel_gap": self.gap, "disp": False})
         if res.x is None:
             return None
         x = res.x

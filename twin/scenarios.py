@@ -145,7 +145,7 @@ class NewContamination(NoScenario):
                 "scenario: noticed in week": int(reopened["week"].min()) if len(reopened) else None,
                 "scenario: weeks to the visit": (int(visit) - self.week) if visit == visit and visit else None,
                 "scenario: weeks to clearance": (int(clear) - self.week) if clear == clear and clear else None,
-                "scenario: zone declared free again": int(free_again) if free_again else None,
+                "scenario: zone declared free again in week": int(free_again) if free_again else None,
                 "scenario: area cleared": bool(result.status[self.area] == "cleared")}
 
 
@@ -174,9 +174,9 @@ class FeedFaults(NoScenario):
             if fault is None or any(w == week for _, w in self.injected):
                 return [report]
             self.injected.append((fault, week))
-            if fault == "impossible days":
-                return [{**report, "days_lost_weather": report["days_lost_weather"] + 3, "_fault": fault,
-                         "_clean": report}]
+            if fault == "impossible days":       # the week's days add up to 7 in a week of 5
+                lost = 7 - report["days_worked"] - report["days_lost_access"]
+                return [{**report, "days_lost_weather": lost, "_fault": fault, "_clean": report}]
             if fault == "duplicate":
                 return [report, {**report, "_fault": fault}]
             if fault == "wrong task":

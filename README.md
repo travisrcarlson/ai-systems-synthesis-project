@@ -1,42 +1,66 @@
-# A Digital Twin That Plans and Runs Land Release in Antioquia, with Overlays
+# A Digital Twin That Plans and Runs Land Release in Antioquia, Colombia
 
-A digital twin of land release in the 15 Antioquia municipalities of the RELand study that helps people plan a season and run it week by week. One state model (municipality, operational zone, area and task, with the teams and the calendar) is kept in step with the teams' reports; changes reach the field only as decisions a person approves, recorded in one log. Overlays read the twin and recommend: data layers registered with their source, licence and sensitivity, and decision tools across machine learning, optimisation, statistics, generative AI and agentic AI, each of which can answer "insufficient evidence". The six earlier projects of my AI capstone on humanitarian mine action appear as insights. This is the seventh project.
+A digital twin of land release in the 15 Antioquia municipalities of the RELand study, which helps people plan a season of survey and clearance and run it week by week. One state model of the pilot (municipality, operational zone, area and task, with the teams and the calendar) is kept in step with the teams' reports. The twin changes what the teams do, and the status of land, only through decisions a person approves, and it records every report and every decision in one log. Overlays read the twin and recommend: data layers, each registered with its source, licence and sensitivity, and six decision tools across machine learning, optimisation, statistics, generative AI and agentic AI, each of which can answer "insufficient evidence". A season replay against a simulated field, 20 seeds for each policy, measures how the system behaves, and five injected scenarios test it when things go wrong. The six earlier projects of my AI capstone on humanitarian mine action appear as insights. This is the seventh project.
 
-> **Status (25 October 2026):** being rebuilt around planning and operations, after the first design (a twin with a decision service built from each earlier project). The package is restructured; the planning overlays, the operations loop, the evaluation and the notebook follow in the next commits.
+> **Status (25 October 2026):** built and tested without a key. Next: the smoke test and the full run on my computer with my OpenAI API key, then sections 11 and 12 of the notebook, written from the full run's results.
 
 ## What's in this repository
-- `integrated_system.ipynb`: the notebook. Context and boundaries; the architecture; setup; the data; the twin; the strategic, operational, field-evidence and tactical services; the replay and its evaluation; failure cases. Sections 11 and 12 are written after the full run.
-- `twin/`: the package that holds every component, used by the notebook: `data.py` (loading and checking the data), `core.py` (the twin), `strategic.py`, `prioritise.py`, `screener.py`, `generator.py`, `agent.py` (the review agent), `rules.py` (the rule check and the reference reviewer), `field.py` (the simulated field of the replay) and `replay.py`.
+- `integrated_system.ipynb`: the notebook, in 12 sections: the industry context, problem, users and boundaries; the architecture; setup; the data and data layers; the twin; planning; operations; release (the dossier reviewer, the rule check and sign-off); the season replay and its evaluation; the injected scenarios; failure cases, limitations and governance; and the summary. Sections 11 and 12 are written after the full run.
+- `twin/`: the package that holds every component; the notebook calls it and shows its outputs.
+
+  | Module | What it holds |
+  |---|---|
+  | `config.py` | the pilot, the national criteria, the season's settings and the simulation's assumptions, each marked as my setting or the project's |
+  | `data.py` | loading and checking the three datasets |
+  | `core.py` | the twin: the state model, the calendar, reports, decisions, the one log and the read-only view |
+  | `layers.py` | the layer registry, and the twin built from it |
+  | `overlays.py` | the overlay contract: a recommendation with its evidence, uncertainty and limits, or "insufficient evidence" |
+  | `prioritise.py` | risk prioritisation: the baseline-first gate on ranking and calibration, and learning in the season |
+  | `factors.py` | the planning factors, from simulated flagged areas |
+  | `planner.py` | the season planner: the integer programme and the rule of thumb |
+  | `forecast.py` | the completion forecaster (Monte Carlo) |
+  | `checker.py` | the report checker: coded checks and an isolation forest |
+  | `agent.py`, `review.py`, `rules.py` | the dossier reviewer agent with its tools and safeguards; the reviewers; the rule check |
+  | `sitrep.py` | the weekly situation report and its figure check |
+  | `season.py` | the monthly and weekly loops of a season, and the season's measures |
+  | `field.py` | the simulated field, which stands in for the teams; the only component that reads RELand's labels |
+  | `scenarios.py` | the five injected scenarios |
+  | `evaluate.py` | the season replay: the policies, the seeds, the parallel runs and the saved records |
+  | `standins.py` | the stand-in models that test the agent's code path without a key |
+
 - `rules/land_release_rules.md`: the rules the agent looks up, paraphrased from IMAS 07.11, 08.10 and 08.20 with their section numbers, and the project's own rules, marked as such.
-- `prompts/system_prompt.md`: the agent's persona and instructions.
-- `data/`: the five public datasets, copied unchanged from P1 to P5, with sources, licences and checksums in `data/README.md`; `docs/datasheets/` has a datasheet for each.
-- `models/`: what the first run fits and trains, saved so that later runs give the same results: the screener's and the generator's weights, every area's ranking scores and the gate's table, and the screener's readings of the replay's stand-in photos.
-- `runs/`: the agent's reviews in the full run (a trace, a result and a sign-off sheet for each), saved by the full run.
+- `prompts/system_prompt.md` (the dossier reviewer) and `prompts/sitrep_prompt.md` (the situation report).
+- `data/`: three public datasets, copied unchanged from P1, P2 and P3, with sources, licences and checksums in `data/README.md`; `docs/datasheets/` has a datasheet for each.
+- `figures/`: the notebook's figures, saved when it runs.
+- `models/`: the risk models' scores, the gate's table and the calibration, fitted by the first run and saved so that later runs give the same results.
+- `runs/`: saved by the full run: the agent's reviews (`runs/reviews/`, a trace, a result and a sign-off sheet for each), the situation reports (`runs/sitreps/`), the season replay's records (`runs/replay/`), and the agent's season's reviews, log and run information.
 - `requirements.txt`: the Python environment, from `pip freeze`.
 
 ## How to run
-Needs Python 3.13 and Git. `requirements.txt` was generated on Python 3.13.0, with the CPU build of PyTorch.
+Needs Python 3.13 and Git. `requirements.txt` was generated on Python 3.13.0.
 
 ```
 git clone https://github.com/travisrcarlson/ai-systems-synthesis-project.git
 cd ai-systems-synthesis-project
 python -m venv .venv
 .venv\Scripts\activate
-pip install -r requirements.txt --extra-index-url https://download.pytorch.org/whl/cpu
+pip install -r requirements.txt
 jupyter notebook integrated_system.ipynb
 ```
 
-On macOS or Linux, activate with `source .venv/bin/activate`; on macOS, also change `torch==2.14.1+cpu` in `requirements.txt` to `torch==2.14.1` before installing, since PyTorch publishes no `+cpu` build for macOS. If PowerShell blocks the activation script, run `Set-ExecutionPolicy -Scope CurrentUser RemoteSigned` once. In Jupyter, choose **Kernel > Restart Kernel and Run All Cells**, or run the whole notebook from the terminal:
+On macOS or Linux, activate with `source .venv/bin/activate`. If PowerShell blocks the activation script, run `Set-ExecutionPolicy -Scope CurrentUser RemoteSigned` once. In Jupyter, choose **Kernel > Restart Kernel and Run All Cells**, or run the whole notebook from the terminal:
 
 ```
 jupyter nbconvert --to notebook --execute --inplace --ExecutePreprocessor.timeout=-1 integrated_system.ipynb
 ```
 
-**The first run** fits the operational models and their gate (about 3 minutes on two CPU threads in this project's tests) and trains the photo screener and the image generator (about 15 minutes each), and saves the results in `models/`; later runs load them.
+**The first run** fits the risk models and their gate and saves them in `models/` (about 3 minutes on two processors in this project's tests; the fit is deterministic, so a refit gives the same files), and runs the season replay: 200 seasons (5 policies and 5 scenarios, 20 field seeds each) in parallel worker processes, one fewer than the computer's processors and at most 8 (about 40 minutes with two worker processes in this project's tests). Each season is saved in `runs/replay/` as soon as it finishes, so a stopped run resumes where it stopped, and a later run reads the seasons back unless the code, the rules, the prompts, the fitted models or the data have changed. To choose the number of worker processes, set the environment variable `N_JOBS` before starting (PowerShell: `$env:N_JOBS = "4"`); `1` runs the seasons one after another.
 
-**Without an API key**, the notebook runs everything except the agent's calls to the model. It tests the agent's tools and safeguards with a scripted stand-in model, and section 10 reads the agent's saved reviews from `runs/`; before the full run there are none, and section 10 shows the coded rules alone.
+**Without an API key**, the notebook runs everything except the model's calls: the agent's tools and safeguards are tested with a scripted stand-in model (section 8), and section 9.2 reads the agent's saved reviews from `runs/`; before the full run there are none, and section 9.2 says so.
 
-**With an OpenAI API key**, set it as an environment variable named `OPENAI_API_KEY` before starting Jupyter (in PowerShell, for one window: `$env:OPENAI_API_KEY = "..."`). Never put the key in the notebook or the repository; the notebook reads it from the environment and never prints or saves it. Section 10 then runs the agent on each of the replay's 160 survey visits and saves every review in `runs/`. A saved review with the same inputs (the dossier, the prompt, the rules, the code and the settings) is reused, so a stopped run resumes where it stopped; to run the agent again from the start, delete `runs/`. Section 10.8 reports the run's time and cost; the full run's figures will be added here. To try it first on five reviews, into `runs_smoke/`, set the environment variable `SMOKE_TEST` to `1` before starting (PowerShell: `$env:SMOKE_TEST = "1"`).
+**With an OpenAI API key**, set it as an environment variable named `OPENAI_API_KEY` before starting Jupyter (PowerShell, for one window: `$env:OPENAI_API_KEY = "..."`). Never put the key in the notebook or the repository: the notebook only checks whether it is set, and never prints or saves it. Section 9.2 then runs the agent on every dossier of seed 0's season (about 100 reviews), and the model drafts each week's situation report (52); both are saved in `runs/`. A saved review or report with the same inputs is reused, so a stopped run resumes where it stopped; to run the agent again from the start, delete `runs/reviews/`. Section 9.2 reports the run's time and cost.
+
+**The smoke test.** To try it first, set the environment variable `SMOKE_TEST` to `1` before starting (PowerShell: `$env:SMOKE_TEST = "1"`). The agent then makes 5 reviews and the model drafts 2 reports, the coded rules and the coded draft take over after that, and the season replay runs on 2 seeds instead of 20; everything is saved in `runs_smoke/`, which is not committed. Without a key, the whole smoke test took about 10 minutes on two processors in this project's tests, including the models' fit.
 
 ## How this project is made
-I chose the use case, the country and the pilot, the digital-twin design and its three levels, and every setting of the simulation that the notebook marks as mine, one question at a time; I approved the design. Claude (Anthropic) researched the sources, wrote the `twin/` package, the rules, the prompt and the notebook, and tested them in its workspace with a scripted stand-in model, without a key. I run the smoke test and the full run on my own computer with my OpenAI API key, judge a sample of the agent's reviews, and review every change before it is pushed.
+I chose the use case, the country and the pilot, the digital-twin design (a digital shadow with approved write-back, for planning and operations), and every setting of the simulation that the notebook marks as mine, one question at a time; I approved the design. Claude (Anthropic) researched the sources, wrote the `twin/` package, the rules, the prompts and the notebook, and tested them in its workspace with scripted stand-in models, without a key. I run the smoke test and the full run on my own computer with my OpenAI API key, judge a sample of the agent's reviews, and review every change before it is pushed.
