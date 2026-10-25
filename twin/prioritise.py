@@ -1,18 +1,30 @@
-"""The operational service: which areas of each municipality to survey first (P3).
+"""Risk prioritisation: where in the pilot mines are likeliest, as calibrated chances by area and expected mine
+areas by zone (machine learning; P3's insight: a simple baseline first, tested on held-out municipalities).
 
 The default ranking is nearness to past landmine accidents, the rule that beat both of P3's models in 9 of its 15
 held-out municipalities. P3's two models, logistic regression and gradient-boosted trees, are trained on other
-municipalities' clearance results and shown for a municipality only if they beat the baseline there on evidence
+municipalities' clearance results and used for a municipality only if they beat the baseline there on evidence
 that does not use that municipality's labels (the baseline-first gate). Areas are scored by their highest cell.
 
+A score only orders areas; the season planner needs chances. Each ranking's scores are calibrated, one held-out
+municipality at a time, on the other 14 municipalities' areas: the share of mined areas among those with similar
+scores, in 25 bins of equal size, made monotone and read between the bins' centres. For the models, the
+calibration uses the gate's inner scores, from models that never saw the municipality, so no municipality's
+labels shape its own chances.
+
 Two parts are kept apart:
-- `OperationalService` makes the rankings. For a municipality, it reads only the other municipalities' labels.
-- `evaluate_rankings` scores the rankings against each municipality's own labels, for the evaluation only.
+- `RiskModels` fits the rankings, the gate and the calibration (it reads labels: for a municipality, only the
+  others'), and saves them in `models/`, so later runs give exactly the same chances.
+- `RiskOverlay` is the decision tool: it reads the twin's view and the fitted models, and answers with the chances,
+  the zones' expected mine areas with their spread, the evidence, and the limits; or "insufficient evidence".
+- `evaluate_rankings` and `calibration_table` score the rankings against each municipality's own labels, for the
+  evaluation only.
 """
 import numpy as np
 import pandas as pd
 from sklearn.compose import ColumnTransformer
 from sklearn.ensemble import HistGradientBoostingClassifier
+from sklearn.isotonic import IsotonicRegression
 from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import average_precision_score
 from sklearn.model_selection import GroupKFold
@@ -21,6 +33,7 @@ from sklearn.preprocessing import FunctionTransformer, StandardScaler
 
 from .config import NAME_OF, PILOT, SEED
 from .data import features_of
+from .overlays import Overlay
 
 # P3's preprocessing: log(1 + x) for the skewed distances and counts, then standardising; one-hot columns as they are
 LOG_FEATURES = ["airports_dist", "seaport_dist", "settlement_dist", "finance_dist", "edu_dist", "buildings_dist",
@@ -32,6 +45,7 @@ ONEHOT_PREFIXES = ("land_use_", "weather_", "relief_")
 # 0.1, so that the gate's evaluation on other municipalities stays affordable.
 LR_C = 0.001
 HGB_LEARNING_RATE = 0.1
+CALIBRATION_BINS = 25
 
 RANKINGS = {"baseline": "nearness to past accidents", "lr": "logistic regression",
             "hgb": "gradient-boosted trees", "random": "random order"}
@@ -56,43 +70,76 @@ def make_model(name, features):
     raise ValueError(name)
 
 
-def area_scores(twin, cell_scores):
+def area_scores(areas_of_cells, cell_scores, index):
     """An area's score is its highest cell's score."""
-    return cell_scores.groupby(twin.cells["area_id"]).max().reindex(twin.areas.index)
+    return cell_scores.groupby(areas_of_cells).max().reindex(index)
 
 
-def mean_area_ap(twin, labels, scores, municipalities):
+def mean_area_ap(municipality_of, labels, scores, municipalities):
     """Mean area-level PR-AUC (average precision) over municipalities, each ranked within itself."""
     values = []
     for code in municipalities:
-        part = twin.areas.index[twin.areas["municipality_code"] == code]
+        part = municipality_of.index[municipality_of == code]
         values.append(average_precision_score(labels[part], scores[part]))
     return float(np.mean(values))
 
 
-class OperationalService:
-    """Fits the rankings and applies the baseline-first gate, one municipality at a time."""
+def fit_calibration(scores, labels, bins=CALIBRATION_BINS):
+    """A monotone map from scores to chances, from labelled areas: (score at each bin's centre, chance, areas).
+
+    The areas are sorted by score and cut into bins of equal size; each bin's chance is its share of mined areas,
+    with half an area added to each side so that no bin says 0 or 1; the chances are then made monotone in the
+    score, weighted by the bins' sizes."""
+    order = np.argsort(scores.to_numpy(), kind="stable")
+    s, y = scores.to_numpy()[order], labels.to_numpy()[order].astype(float)
+    parts = np.array_split(np.arange(len(s)), bins)
+    centre = np.array([s[p].mean() for p in parts])
+    rate = np.array([(y[p].sum() + 0.5) / (len(p) + 1) for p in parts])
+    size = np.array([len(p) for p in parts])
+    rate = IsotonicRegression(increasing=True).fit(centre, rate, sample_weight=size).predict(centre)
+    return pd.DataFrame({"score": centre, "chance": rate, "areas": size, "low": [s[p].min() for p in parts],
+                         "high": [s[p].max() for p in parts]})
+
+
+def apply_calibration(table, scores):
+    """Chances for scores, read between the bins' centres (flat beyond the end bins), and whether each score lies
+    outside the range of the scores the calibration was fitted on."""
+    chance = np.interp(scores.to_numpy(), table["score"].to_numpy(), table["chance"].to_numpy())
+    outside = (scores < table["low"].min()) | (scores > table["high"].max())
+    return pd.Series(chance, index=scores.index), outside
+
+
+class RiskModels:
+    """Fits the rankings, the baseline-first gate and the calibration, one held-out municipality at a time."""
 
     def __init__(self, twin, truth, inner_folds=3, seed=SEED):
-        self.twin = twin
+        self.areas = twin.areas[["municipality_code", "zone_id", "number", "event_inside"]].copy()
+        self.cells = twin.cells
         self.features = features_of(twin.cells)
         self._truth = truth          # cell labels; for a municipality, only the others' labels are ever read
         self.inner = GroupKFold(n_splits=inner_folds)
         self.seed = seed
         self.scores = {}             # ranking -> area scores, every municipality scored by a model blind to it
         self.gate = None             # one row per municipality: inner evidence and the ranking chosen
+        self.calibration = None      # one row per ranking, municipality and bin
 
     def _area_labels(self, cell_mask):
-        return self._truth[cell_mask].groupby(self.twin.cells.loc[cell_mask, "area_id"]).max()
+        return self._truth[cell_mask].groupby(self.cells.loc[cell_mask, "area_id"]).max()
 
     def fit(self, verbose=True):
-        cells, X = self.twin.cells, self.twin.cells[self.features]
+        cells, X = self.cells, self.cells[self.features]
         codes = cells["municipality_code"].to_numpy()
-        baseline_cells = -cells["dist_old_mine"]
-        self.scores["baseline"] = area_scores(self.twin, baseline_cells)
+        index = self.areas.index
+        self.scores["baseline"] = area_scores(cells["area_id"], -cells["dist_old_mine"], index)
         rng = np.random.default_rng(self.seed)
-        self.scores["random"] = pd.Series(rng.random(len(self.twin.areas)), index=self.twin.areas.index)
-        gate_rows = []
+        self.scores["random"] = pd.Series(rng.random(len(index)), index=index)
+        all_labels = self._area_labels(np.ones(len(cells), dtype=bool)).reindex(index)
+        gate_rows, calibration = [], []
+        for code in PILOT:
+            others = index[self.areas["municipality_code"] != code]
+            for name in ("baseline", "random"):
+                calibration.append(fit_calibration(self.scores[name][others], all_labels[others])
+                                   .assign(ranking=name, municipality_code=code))
         for name in ("lr", "hgb"):
             held_out = pd.Series(np.nan, index=cells.index)
             for code in PILOT:
@@ -107,14 +154,18 @@ class OperationalService:
                     fit_index, score_index = train_index[fit_rows], train_index[score_rows]
                     inner_model = make_model(name, self.features).fit(X.iloc[fit_index], self._truth.iloc[fit_index])
                     inner_scores.iloc[score_index] = inner_model.predict_proba(X.iloc[score_index])[:, 1]
-                others = [c for c in PILOT if c != code]
+                other_codes = [c for c in PILOT if c != code]
                 labels = self._area_labels(train)
-                model_areas = area_scores(self.twin, inner_scores).dropna()
+                model_areas = area_scores(cells["area_id"], inner_scores, index).dropna()
+                municipality_of = self.areas["municipality_code"][labels.index]
                 gate_rows.append({"municipality_code": code, "model": name,
-                                  "model mean PR-AUC (others)": mean_area_ap(self.twin, labels, model_areas, others),
+                                  "model mean PR-AUC (others)": mean_area_ap(municipality_of, labels, model_areas,
+                                                                             other_codes),
                                   "baseline mean PR-AUC (others)": mean_area_ap(
-                                      self.twin, labels, self.scores["baseline"][labels.index], others)})
-            self.scores[name] = area_scores(self.twin, held_out)
+                                      municipality_of, labels, self.scores["baseline"][labels.index], other_codes)})
+                calibration.append(fit_calibration(model_areas[labels.index], labels)
+                                   .assign(ranking=name, municipality_code=code))
+            self.scores[name] = area_scores(cells["area_id"], held_out, index)
             if verbose:
                 print(f"{RANKINGS[name]}: fitted for 15 municipalities, with the gate's inner evaluation", flush=True)
         gate = pd.DataFrame(gate_rows).pivot(index="municipality_code", columns="model")
@@ -128,65 +179,130 @@ class OperationalService:
         gate["chosen"] = chosen
         gate.insert(0, "municipality", gate.index.map(NAME_OF))
         self.gate = gate
+        self.calibration = pd.concat(calibration, ignore_index=True)[
+            ["ranking", "municipality_code", "score", "chance", "areas", "low", "high"]]
         return self
 
-    def save(self, scores_file, gate_file):
-        """Save the area scores of every ranking and the gate's table, so that later runs rank exactly the same way
-        (a refit on another computer can differ in the last digits, enough to swap two close areas)."""
-        pd.DataFrame(self.scores).rename_axis("area_id").to_csv(scores_file, lineterminator="\n")
-        self.gate.to_csv(gate_file, lineterminator="\n")
+    def save(self, directory):
+        """Save every area's scores, the gate's table and the calibration, so that later runs give exactly the same
+        chances (a refit on another computer can differ in the last digits, enough to swap two close areas)."""
+        directory.mkdir(parents=True, exist_ok=True)
+        pd.DataFrame(self.scores).rename_axis("area_id").to_csv(directory / "area_scores.csv", lineterminator="\n")
+        self.gate.to_csv(directory / "gate.csv", lineterminator="\n")
+        self.calibration.to_csv(directory / "calibration.csv", index=False, lineterminator="\n")
 
-    def load(self, scores_file, gate_file):
-        """Load saved area scores and the gate's table instead of fitting."""
-        scores = pd.read_csv(scores_file, index_col="area_id", float_precision="round_trip").reindex(
-            self.twin.areas.index)
+    def load(self, directory):
+        """Load saved scores, gate and calibration instead of fitting."""
+        scores = pd.read_csv(directory / "area_scores.csv", index_col="area_id",
+                             float_precision="round_trip").reindex(self.areas.index)
         if scores.isna().any().any():
-            raise ValueError(f"{scores_file} does not hold a score for every area.")
+            raise ValueError(f"{directory / 'area_scores.csv'} does not hold a score for every area.")
         self.scores = {name: scores[name] for name in scores.columns}
-        self.gate = pd.read_csv(gate_file, index_col="municipality_code", dtype={"municipality_code": str},
+        self.gate = pd.read_csv(directory / "gate.csv", index_col="municipality_code", dtype={"municipality_code": str},
                                 float_precision="round_trip")
+        self.calibration = pd.read_csv(directory / "calibration.csv", dtype={"municipality_code": str},
+                                       float_precision="round_trip")
         return self
 
-    def priority(self, ranking="gated"):
-        """One row per area: its score and rank within its municipality under a ranking, and its baseline rank.
+    def saved(self, directory):
+        return all((directory / f).exists() for f in ("area_scores.csv", "gate.csv", "calibration.csv"))
+
+    def chances(self, ranking="gated"):
+        """One row per area: the ranking used, its score, its calibrated chance of holding mines, and whether its score
+        lies outside the range the calibration was fitted on.
 
         ranking: "gated" (the gate's choice for each municipality), or one of "baseline", "lr", "hgb", "random".
         """
-        areas = self.twin.areas
-        if ranking == "gated":
-            chosen = areas["municipality_code"].map(self.gate["chosen"])
-        else:
-            chosen = pd.Series(ranking, index=areas.index)
-        score = pd.Series([self.scores[r][a] for a, r in chosen.items()], index=areas.index)
-        table = pd.DataFrame({"score": score, "ranking": chosen.map(RANKINGS), "municipality_code":
-                              areas["municipality_code"], "number": areas["number"]})
+        a = self.areas
+        chosen = (a["municipality_code"].map(self.gate["chosen"]) if ranking == "gated"
+                  else pd.Series(ranking, index=a.index))
+        rows = []
+        for (code, name), part in a.groupby([a["municipality_code"], chosen]):
+            table = self.calibration[(self.calibration["ranking"] == name)
+                                     & (self.calibration["municipality_code"] == code)]
+            score = self.scores[name][part.index]
+            chance, outside = apply_calibration(table, score)
+            rows.append(pd.DataFrame({"ranking": name, "score": score, "chance": chance, "outside": outside}))
+        return pd.concat(rows).reindex(a.index)
+
+
+class RiskOverlay(Overlay):
+    """The decision tool: chances by area, expected mine areas by zone, and the order to survey in."""
+    name = "risk prioritisation"
+    domain = "machine learning (P3's models, gated by a baseline, calibrated on held-out municipalities)"
+    insight = "P3: a simple baseline first, tested on held-out municipalities"
+    reads = ("hazard", "land_use")
+    limits = ("RELand's labels mark where clearance found mines, so the models also learn where people looked and "
+              "reported, not only where mines are",
+              "a chance says where to look first; it is not evidence about an area, and no area is released on it",
+              "calibrated on the other 14 municipalities of one region; it does not carry to other regions")
+
+    def __init__(self, models, ranking="gated"):
+        self.models = models
+        self.ranking = ranking
+
+    def recommend(self, view, week, **inputs):
+        reason = self.check_inputs(view, week)
+        if reason:
+            return self.insufficient(week, reason)
+        chances = self.models.chances(self.ranking)
+        areas = view.areas
+        table = chances.join(areas[["municipality_code", "zone_id", "number", "event_inside"]])
         # rank 1 is surveyed first; ties go to the lower area number, so every ranking is a strict order
-        order = table.sort_values(["municipality_code", "score", "number"], ascending=[True, False, True])
-        table["rank"] = order.groupby("municipality_code").cumcount().reindex(table.index) + 1
-        base = pd.DataFrame({"score": self.scores["baseline"], "municipality_code": areas["municipality_code"],
-                             "number": areas["number"]})
-        order = base.sort_values(["municipality_code", "score", "number"], ascending=[True, False, True])
-        table["baseline_rank"] = order.groupby("municipality_code").cumcount().reindex(table.index) + 1
-        return table[["score", "rank", "ranking", "baseline_rank"]]
+        for level, key in (("zone_rank", "zone_id"), ("municipality_rank", "municipality_code")):
+            order = table.sort_values([key, "score", "number"], ascending=[True, False, True])
+            table[level] = order.groupby(key).cumcount().reindex(table.index) + 1
+        base = self.models.scores["baseline"]
+        order = pd.DataFrame({"score": base, "zone_id": areas["zone_id"], "number": areas["number"]}).sort_values(
+            ["zone_id", "score", "number"], ascending=[True, False, True])
+        table["baseline_zone_rank"] = order.groupby("zone_id").cumcount().reindex(table.index) + 1
+        table["ranking"] = table["ranking"].map(RANKINGS)
+        g = table.groupby("zone_id")
+        zones = pd.DataFrame({"expected mine areas": g["chance"].sum(),
+                              "sd": g["chance"].apply(lambda p: float(np.sqrt((p * (1 - p)).sum()))),
+                              "areas": g.size(), "outside": g["outside"].mean()})
+        # a zone most of whose areas score outside the calibrated range gets no estimate: insufficient evidence
+        zones["insufficient"] = zones["outside"] > 0.5
+        limits = []
+        n_out = int(zones["insufficient"].sum())
+        if n_out:
+            limits.append(f"{n_out} zone(s) score mostly outside the calibrated range: insufficient evidence for them")
+        gate = self.models.gate["chosen"].value_counts().to_dict() if self.ranking == "gated" else {self.ranking: 15}
+        evidence = ("hazard layer", "land-use layer",
+                    "held-out calibration on the other 14 municipalities",
+                    "gate: " + ", ".join(f"{RANKINGS[k]} in {v}" for k, v in gate.items()))
+        return self.answer(week, {"areas": table, "zones": zones}, evidence,
+                           uncertainty="expected mine areas by zone, with the spread (sd) of a sum of independent "
+                                       "chances", limits=limits)
 
 
-def evaluate_rankings(service, truth, visits=None):
-    """Score each ranking in each municipality against that municipality's own labels (evaluation only).
-
-    Returns one row per municipality and ranking: area-level PR-AUC, and the mine areas among the first k areas,
-    where k is the municipality's visits in the replay (if given) or 10% of its areas.
-    """
-    twin = service.twin
-    labels = truth.groupby(twin.cells["area_id"]).max().reindex(twin.areas.index)
+def evaluate_rankings(models, truth, cells, k_share=0.1):
+    """Score each ranking in each municipality against that municipality's own labels (evaluation only): area-level
+    PR-AUC, and the mine areas among the first 10% of its areas."""
+    labels = truth.groupby(cells["area_id"]).max().reindex(models.areas.index)
     rows = []
     for ranking in ("baseline", "lr", "hgb", "random", "gated"):
-        table = service.priority(ranking)
+        table = models.chances(ranking)
         for code in PILOT:
-            part = table[twin.areas["municipality_code"] == code]
+            part = table[models.areas["municipality_code"] == code]
             y = labels[part.index]
-            k = int(visits[code]) if visits is not None else max(1, round(0.1 * len(part)))
-            top = part.sort_values("rank").index[:k]
+            k = max(1, round(k_share * len(part)))
+            top = part.sort_values("score", ascending=False).index[:k]
             rows.append({"municipality_code": code, "municipality": NAME_OF[code], "ranking": ranking,
-                         "areas": len(part), "mine areas": int(y.sum()), "PR-AUC": average_precision_score(y, part["score"]),
-                         "first k areas": k, "mine areas in first k": int(y[top].sum())})
+                         "areas": len(part), "mine areas": int(y.sum()),
+                         "PR-AUC": average_precision_score(y, part["score"]),
+                         "first 10% of areas": k, "mine areas in first 10%": int(y[top].sum())})
     return pd.DataFrame(rows)
+
+
+def calibration_table(models, truth, cells, ranking="gated"):
+    """Expected against observed mine areas by zone, in ten groups of zones by expected mine areas (evaluation
+    only): whether the chances are calibrated where the planner uses them."""
+    labels = truth.groupby(cells["area_id"]).max().reindex(models.areas.index)
+    chances = models.chances(ranking)
+    zone = models.areas["zone_id"]
+    z = pd.DataFrame({"expected": chances["chance"].groupby(zone).sum(), "observed": labels.groupby(zone).sum()})
+    z["group"] = pd.qcut(z["expected"].rank(method="first"), 10, labels=False) + 1
+    out = z.groupby("group").agg(zones=("expected", "size"), expected=("expected", "sum"),
+                                 observed=("observed", "sum"))
+    return out

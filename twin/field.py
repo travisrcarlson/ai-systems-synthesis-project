@@ -144,9 +144,12 @@ class Field:
         self.zone_position = pd.Series(np.arange(len(twin.zones)), index=twin.zones.index)
         self.z = use_score(twin.areas)
         effect = self.a.land_use_effect
-        # intercepts that keep Travis's base rates as the averages over the mined and the clean areas
-        self.a_direct = calibrate(self.z[self.base_mined].to_numpy(), self.a.mined[0], effect)
-        self.a_safe = calibrate(self.z[~self.base_mined].to_numpy(), self.a.clean[0], effect)
+        # intercepts that keep Travis's base rates as the averages over the mined and the clean areas (over all
+        # areas, for a field where every area is assumed mined, or none, as the planning factors assume)
+        mined_z = self.z[self.base_mined] if self.base_mined.any() else self.z
+        clean_z = self.z[~self.base_mined] if (~self.base_mined).any() else self.z
+        self.a_direct = calibrate(mined_z.to_numpy(), self.a.mined[0], effect)
+        self.a_safe = calibrate(clean_z.to_numpy(), self.a.clean[0], effect)
         self.reset()
 
     def reset(self):

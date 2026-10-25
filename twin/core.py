@@ -73,6 +73,14 @@ def utc_now():
     return datetime.now(timezone.utc).isoformat(timespec="seconds")
 
 
+def desk_item():
+    """The desk study's record of a past landmine accident inside an area: indirect evidence (IMAS 08.10, §6.1)."""
+    return EvidenceItem("E1", "The national mine action database records one or more past landmine accidents inside "
+                              "this area. The twin holds no date or other detail of the record, and its location has "
+                              "not been checked on the ground.",
+                        "National mine action database (desk study)", "Desk study", source_id="national database")
+
+
 def event_band(km):
     """Where the nearest recorded past landmine accident lies, in words."""
     if km < EVENT_INSIDE_KM:
@@ -239,7 +247,7 @@ class Twin:
         self.consultation = pd.DataFrame({"required": self.zones["consultation"], "requested_week": 0,
                                           "held_week": 0}, index=zones)
         self.team_state = pd.DataFrame({"status": "active", "task_id": None, "zone": None, "as_of": 0,
-                                        "source": [f"team {t}" for t in self.teams.index]},
+                                        "back_week": np.nan, "source": [f"team {t}" for t in self.teams.index]},
                                        index=self.teams.index).astype({"task_id": object, "zone": object})
         self.tasks = {}                # task_id -> the task order and its progress, as reported
         self.pending_results = {}      # area -> the result of technical survey or clearance awaiting sign-off
@@ -250,11 +258,7 @@ class Twin:
         self.week = 0
         # The desk study: a past landmine accident recorded inside an area is indirect evidence, so the area is suspected
         for a in idx[self.areas["event_inside"]]:
-            self.evidence[a].append(EvidenceItem(
-                "E1", "The national mine action database records one or more past landmine accidents inside this "
-                      "area. The twin holds no date or other detail of the record, and its location has not been "
-                      "checked on the ground.",
-                "National mine action database (desk study)", "Desk study", source_id="national database"))
+            self.evidence[a].append(desk_item())
             self.status[a] = "suspected"
         self.initial_status = self.status.copy()
 
@@ -303,8 +307,10 @@ class Twin:
             note = "access feed: " + (", ".join(f"{z} {statuses[z]}" for z in changed) if changed else "no change")
         elif kind == "team status":
             team = report["team"]
-            self.team_state.loc[team, ["status", "as_of", "source"]] = [report["status"], week, report["source"]]
-            note = f"team {team} {report['status']}"
+            back = report.get("back_week", np.nan) if report["status"] != "active" else np.nan
+            self.team_state.loc[team, ["status", "as_of", "source", "back_week"]] = [report["status"], week,
+                                                                                    report["source"], back]
+            note = f"team {team} {report['status']}" + (f", expected back in week {back}" if back == back else "")
         elif kind == "consultation":
             self.consultation.loc[report["zone"], "held_week"] = week
             note = f"consultation held in {report['zone']}"
