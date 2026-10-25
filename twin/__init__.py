@@ -1,15 +1,13 @@
-"""A digital twin of land release in RELand's 15 Antioquia municipalities, with decision services above it.
+"""A digital twin of land release in RELand's 15 Antioquia municipalities, which helps people plan a season and run
+it week by week, with overlays (data layers and decision tools) that read it and recommend.
 
 The modules, in the order the notebook uses them:
-- config: file paths, checksums, the pilot municipalities, the simulation's assumptions and the national criteria
-- data: loading and checking the five datasets of P1 to P5
-- core: the twin itself (its layers, areas, views and governed write-back)
-- strategic: the national view of victims against demining effort (P1, P2)
-- prioritise: the operational ranking of areas, baseline first (P3)
-- field: the simulated field teams that return evidence in the replay
+- config: file paths, checksums, the pilot municipalities, and every setting (survey, national criteria, season)
+- data: loading and checking the three public datasets behind the open layers (P1's, P2's and P3's)
+- layers: the data-layer registry (source, licence, sensitivity) and how the twin is built
+- core: the twin itself: the state model, the calendar, the one log, the governed write-back, the views
+- overlays: the overlay contract (a recommendation with evidence, uncertainty and limits, or "insufficient evidence")
 - rules: the coded rule check and the reference reviewer
-- screener: the photo screener (P4) and its "unknown" cut-off
-- generator: the image generator for stress tests (P5)
-- agent: the tactical review agent (P6)
-- replay: the closed loop, round after round, and its measures
+- field: the simulated field that sends the teams' reports
+- agent and review: the dossier reviewer agent, and the reviewers of the season
 """

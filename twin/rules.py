@@ -10,10 +10,12 @@ of safe use it reports). It vetoes a decision if any rule fails:
 - R2 (cancellation): the national criteria are met: enough different reliable first-hand sources (class 1 to 4)
   each report enough years of safe use. Sources are counted from the twin's record, so a person counts once
   however many items they gave.
-- R3 (clearance): there is direct evidence of class 1 to 4 to define the hazard.
-- R4 (technical survey): there is direct or indirect evidence to target.
+- R3 (clearance): where technical survey is available, there is direct evidence of class 1 to 4 to define the
+  hazard; where the national criteria provide no technical survey (Colombia's practice for its baseline areas),
+  there is direct or indirect evidence to target, since clearance takes the place of technical survey.
+- R4 (technical survey): technical survey is available, and there is direct or indirect evidence to target.
 - R5 (cancellation, technical survey, clearance): every item of the evidence log is in the register.
-- R6 (cancellation): where the national criteria need technical survey before an area with a past accident
+- R6 (cancellation): where the national criteria need an intrusive check before an area with a past accident
   recorded inside is released, there is no such record (read from the twin's record of the desk study).
 Further non-technical survey is always open, whatever the register holds. The rule check tests the register, not
 the world: if an item is classed wrongly, it checks the wrong class.
@@ -98,17 +100,30 @@ def rule_check(outcome, register, items, criteria):
                             f"{criteria.sources}."))
         if criteria.recorded_accident_needs_ts:
             recorded = recorded_accident(items)
+            needed = "technical survey" if criteria.technical_survey else "clearance"
             checks.append(check("R6", not recorded, "A past landmine accident is recorded inside the area, so the "
-                                "national criteria need technical survey before it is released." if recorded
+                                f"national criteria need {needed} before it is released." if recorded
                                 else "No past landmine accident is recorded inside the area."))
     elif outcome == "CLEARANCE":
-        direct = [e.item_id for e in entries if e.evidence_class == "direct" and e.reliability_class <= 4]
-        checks.append(check("R3", direct, f"Direct evidence of class 1 to 4: {', '.join(direct)}." if direct
-                            else "No direct evidence of class 1 to 4, so clearance is not justified."))
+        if criteria.technical_survey:
+            direct = [e.item_id for e in entries if e.evidence_class == "direct" and e.reliability_class <= 4]
+            checks.append(check("R3", direct, f"Direct evidence of class 1 to 4: {', '.join(direct)}." if direct
+                                else "No direct evidence of class 1 to 4, so clearance without technical survey "
+                                     "is not justified."))
+        else:
+            target = [e.item_id for e in entries if e.evidence_class in ("direct", "indirect")]
+            checks.append(check("R3", target, "The national criteria provide no technical survey, so clearance "
+                                f"takes its place; evidence to target: {', '.join(target)}." if target
+                                else "There is no direct or indirect evidence to target, so clearance is not "
+                                     "justified."))
     else:
         target = [e.item_id for e in entries if e.evidence_class in ("direct", "indirect")]
-        checks.append(check("R4", target, f"Evidence to target: {', '.join(target)}." if target
-                            else "There is no direct or indirect evidence to target."))
+        if not criteria.technical_survey:
+            checks.append(check("R4", False, "The national criteria provide no technical survey in this programme; "
+                                "a hazardous area defined by non-technical survey goes to clearance."))
+        else:
+            checks.append(check("R4", target, f"Evidence to target: {', '.join(target)}." if target
+                                else "There is no direct or indirect evidence to target."))
     return {"result": "pass" if all(c["passed"] for c in checks) else "veto", "outcome": outcome, "checks": checks}
 
 
@@ -139,14 +154,14 @@ def reference_register(items, key, criteria):
 def reference_decision(items, key, criteria):
     """The coded rules alone, as the rules file sets them out (rules/land_release_rules.md):
     - cancellation, where the rule check allows it;
-    - otherwise technical survey, where there is a target: direct evidence (technical survey is the default after
-      it); indirect evidence that the survey team saw or a first-hand source reported (class 1 to 4); a past accident
-      recorded inside the area, where the national criteria need technical survey before such an area is released;
-      or weaker indirect evidence (class 5 to 7) still unexplained after the visits the national criteria set for
-      following it up (criteria.follow_up_visits);
+    - otherwise an intrusive check, where there is a target: direct evidence; indirect evidence that the survey team
+      saw or a first-hand source reported (class 1 to 4); a past accident recorded inside the area, where the
+      national criteria need an intrusive check before such an area is released; or weaker indirect evidence (class
+      5 to 7) still unexplained after the visits the national criteria set for following it up
+      (criteria.follow_up_visits). The check is technical survey where the national criteria provide it (it is then
+      the default after direct evidence too: the standards do not make moving straight to clearance the default,
+      IMAS 07.11, §4.2), and clearance where they do not;
     - otherwise further non-technical survey.
-    It never moves straight to clearance, which the national criteria allow but the standards do not make the
-    default (IMAS 07.11, §4.2).
     """
     register = reference_register(items, key, criteria)
     result = rule_check("CANCEL", register, items, criteria)
@@ -160,8 +175,9 @@ def reference_decision(items, key, criteria):
                            for e in entries)
     recorded = criteria.recorded_accident_needs_ts and recorded_accident(items)
     if target or recorded or (weak_unexplained and visits >= criteria.follow_up_visits):
-        result = rule_check("TECHNICAL_SURVEY", register, items, criteria)
+        outcome = "TECHNICAL_SURVEY" if criteria.technical_survey else "CLEARANCE"
+        result = rule_check(outcome, register, items, criteria)
         if result["result"] != "pass":
-            raise AssertionError("technical survey has a target here, so R4 passes")
-        return "TECHNICAL_SURVEY", register, result
+            raise AssertionError(f"there is a target here, so {outcome} passes the rule check")
+        return outcome, register, result
     return "FURTHER_NTS", register, rule_check("FURTHER_NTS", register, items, criteria)

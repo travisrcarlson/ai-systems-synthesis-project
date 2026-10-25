@@ -1,4 +1,4 @@
-"""The tactical review agent: one LLM agent that reviews one area's dossier and recommends what happens next (P6).
+"""The dossier reviewer: one LLM agent that reviews one area's dossier and recommends what happens next (P6's insight).
 
 The agent reads the twin through five tools, records each item of evidence in a register (its memory for one
 review), tests its decision against the coded rule check, and submits a recommendation that a person signs off.
@@ -25,7 +25,7 @@ from types import SimpleNamespace
 from .config import PROMPT_FILE, RULES_FILE
 from .rules import EVIDENCE_CLASSES, OUTCOMES, RegisterEntry, failed_rules, rule_check
 
-SECTIONS = ["area_record", "desk_study", "evidence_log", "photos", "national_criteria"]
+SECTIONS = ["area_record", "desk_study", "evidence_log", "national_criteria"]
 DEFAULTS = {"model": "gpt-6-luna", "reasoning_effort": "medium", "max_steps": 40, "max_output_tokens": 16000}
 # US dollars per million tokens, from OpenAI's model list, as read for P6 on 23 October 2026
 PRICES = {"gpt-6-luna": {"input": 0.10, "output": 0.50}}
@@ -237,8 +237,8 @@ def normalise(text):
 class ReviewSession:
     """The state of one review of one area: the evidence register (the agent's memory) and the review's log."""
 
-    def __init__(self, twin, area_id, round_number=None):
-        self.twin, self.area_id, self.round = twin, area_id, round_number
+    def __init__(self, twin, area_id, week=None):
+        self.twin, self.area_id, self.week = twin, area_id, week
         self.items = list(twin.evidence[area_id])          # the evidence log as it stands at the review
         self.log = {item.item_id: item for item in self.items}
         self.dossier = twin.area_dossier(area_id)
@@ -406,7 +406,7 @@ def run_review(session, client, settings=None, max_steps=None):
     settings = {**DEFAULTS, **(settings or {})}
     max_steps = max_steps or settings["max_steps"]
     input_items = [{"role": "user", "content": opening_message(session)}]
-    trace = [{"event": "start", "area": session.area_id, "round": session.round, "visit": session.visit,
+    trace = [{"event": "start", "area": session.area_id, "week": session.week, "visit": session.visit,
               "model": settings["model"], "time": utc_now(), "message": input_items[0]["content"],
               "instruction_lines_found": session.injection_lines}]
     usage = {"input_tokens": 0, "cached_tokens": 0, "output_tokens": 0, "reasoning_tokens": 0}
@@ -518,7 +518,7 @@ def cost_usd(usage, model):
 def result_record(session, usage, stats, settings, label):
     final, check_result = session.final, session.final_check
     hashes = input_hashes(session, settings)
-    return {"area": session.area_id, "round": session.round, "visit": session.visit, "label": label,
+    return {"area": session.area_id, "week": session.week, "visit": session.visit, "label": label,
             "model": settings["model"], "reasoning_effort": settings.get("reasoning_effort"),
             "inputs_sha": inputs_sha(session, settings), "dossier_sha": hashes["dossier"],
             "method_sha": hashes["method"], "outcome": final["outcome"], "fallback": final["fallback"],
@@ -530,8 +530,8 @@ def result_record(session, usage, stats, settings, label):
             "usage": usage, "cost_usd": cost_usd(usage, settings["model"]), "stats": stats}
 
 
-def review_key(round_number, area_id, visit):
-    return f"r{round_number:02d}_{area_id}_v{visit}"
+def review_key(week, area_id, visit):
+    return f"w{week:02d}_{area_id}_v{visit}"
 
 
 def write_whole(path, text):
@@ -547,7 +547,7 @@ def save_review(directory, session, trace, usage, stats, settings, label):
     only when its result file exists."""
     directory = Path(directory)
     directory.mkdir(parents=True, exist_ok=True)
-    key = review_key(session.round, session.area_id, session.visit)
+    key = review_key(session.week, session.area_id, session.visit)
     record = result_record(session, usage, stats, settings, label)
     write_whole(directory / f"{key}_trace.jsonl", "".join(json.dumps(event, ensure_ascii=False) + "\n"
                                                          for event in trace))
@@ -557,9 +557,9 @@ def save_review(directory, session, trace, usage, stats, settings, label):
 
 
 def load_review(directory, session, settings, require_same_inputs=True):
-    """The saved review of this area, round and visit, or None. With require_same_inputs, only if its checksum is
+    """The saved review of this area, week and visit, or None. With require_same_inputs, only if its checksum is
     the same as now (see input_hashes)."""
-    path = Path(directory) / f"{review_key(session.round, session.area_id, session.visit)}_result.json"
+    path = Path(directory) / f"{review_key(session.week, session.area_id, session.visit)}_result.json"
     if not path.exists():
         return None
     record = json.loads(path.read_text(encoding="utf-8"))
@@ -572,7 +572,7 @@ def signoff_sheet(session, label, model=None):
     """The sheet a person reads before deciding: the evidence as recorded, the rule check, the recommendation."""
     final, check_result = session.final, session.final_check
     outcome = "FURTHER_NTS (fallback)" if final["fallback"] else final["outcome"]
-    lines = [f"# Sign-off sheet: area {session.area_id}, round {session.round}, visit {session.visit}", "",
+    lines = [f"# Sign-off sheet: area {session.area_id}, week {session.week}, visit {session.visit}", "",
              f"Reviewed by: the area reviewer agent ({model or 'model'}), {label}. Recommendation only: a person decides.",
              "", "## Recommendation", "",
              f"**{outcome}**, confidence {final['confidence']}.", "", final["summary"], ""]

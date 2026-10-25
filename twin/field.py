@@ -1,11 +1,17 @@
-"""The simulated field: survey and clearance teams that return evidence in the replay.
+"""The simulated field: the survey, technical survey and clearance teams whose reports flow into the twin.
 
-The field is the only part of the system that reads RELand's labels. When a team visits an area, it returns
-short statements drawn from the area's hidden truth under the stated assumptions (config.Assumptions): what a
-non-technical survey finds on land with mines and on land without, shaped by the area's land use; what
-technical survey confirms; and what clearance finds. The statements are templates at business level, written
-like the evidence logs of P6's case files. The field also keeps the key to each statement (its true class of
-evidence and the reliability class of its source), which only the reference reviewer and the evaluation read.
+Operator task data are not public, so the teams' reports come from a simulation. The field is the only part of the
+system that reads RELand's labels (the hidden truth: where clearance found mines, cell by cell); the evaluation
+reads them afterwards. It draws, under Travis's settings (config.Assumptions, config.Season):
+- the zone survey: the areas a survey team's two weeks with the communities flag for a visit;
+- a non-technical survey visit: short statements drawn from the area's truth, shaped by its land use, written as
+  templates at business level like the evidence logs of P6's case files, each with its key (its true class of
+  evidence and the reliability class of its source), which only the reference reviewer and the evaluation read;
+- what technical survey confirms, and what clearance finds;
+- how many working days each task needs, the days lost to heavy rain or high wind, and the months a zone is closed.
+Every draw depends only on the seed and on the place, the task and the time it concerns, so two policies run with
+the same seed meet the same weather, closures and field results wherever they do the same work (common random
+numbers). Synthetic reports show how the system behaves, not that it works in the field (P5's lesson).
 """
 from dataclasses import dataclass, replace
 from functools import partial
@@ -13,7 +19,7 @@ from functools import partial
 import numpy as np
 import pandas as pd
 
-from .config import Assumptions, SEED
+from .config import Assumptions
 from .core import EvidenceItem
 
 
@@ -113,49 +119,131 @@ def obj(pronoun):
 
 @dataclass
 class Draft:
-    """A statement before it is numbered: its text, source, years of safe use, photo, and its key."""
+    """A statement before it is numbered: its text, source, years of safe use, and its key."""
     statement: str
     source: str
     true_class: str
     reliability: int
     template: str
     years: int | None = None
-    photo: bool = False
     source_id: str = ""
 
 
 class Field:
-    """The field teams of the replay, with the hidden truth they draw on."""
+    """The field teams of the season, with the hidden truth they draw on."""
 
-    def __init__(self, twin, truth, assumptions=None, photo_pool=None, seed=SEED):
+    def __init__(self, twin, truth, assumptions=None, season=None, seed=0):
         self.twin = twin
         self.a = assumptions or Assumptions()
+        self.season = season or twin.season
         self.seed = seed
-        self.mined = truth.groupby(twin.cells["area_id"]).max().reindex(twin.areas.index).astype(bool)
-        self.mine_cells = truth.groupby(twin.cells["area_id"]).sum().reindex(twin.areas.index)
+        self.truth = truth
+        self.base_mined = truth.groupby(twin.cells["area_id"]).max().reindex(twin.areas.index).astype(bool)
+        self.base_mine_cells = truth.groupby(twin.cells["area_id"]).sum().reindex(twin.areas.index)
         self.position = pd.Series(np.arange(len(twin.areas)), index=twin.areas.index)
+        self.zone_position = pd.Series(np.arange(len(twin.zones)), index=twin.zones.index)
         self.z = use_score(twin.areas)
         effect = self.a.land_use_effect
         # intercepts that keep Travis's base rates as the averages over the mined and the clean areas
-        self.a_direct = calibrate(self.z[self.mined].to_numpy(), self.a.mined[0], effect)
-        self.a_safe = calibrate(self.z[~self.mined].to_numpy(), self.a.clean[0], effect)
-        self.photo_pool = np.asarray(photo_pool) if photo_pool is not None else np.arange(1)
+        self.a_direct = calibrate(self.z[self.base_mined].to_numpy(), self.a.mined[0], effect)
+        self.a_safe = calibrate(self.z[~self.base_mined].to_numpy(), self.a.clean[0], effect)
         self.reset()
 
     def reset(self):
+        # the areas that hold mines this season: RELand's truth, and any new contamination a scenario injects
+        self.mined = self.base_mined.copy()
+        self.mine_cells = self.base_mine_cells.copy()
         self.key = {}         # (area, item) -> {"class", "reliability", "template", "visit"}
-        self.photos = {}      # (area, item) -> index of the stand-in photo in the photo pool
         self.branches = {}    # (area, visit) -> which outcome the visit drew
         self.ts_count = {}
         self.informants = {}  # area -> how many people have spoken about it
         self.roles = {}       # area -> the kinds of people who have spoken about it
         self.board = set()    # areas whose community action board president has spoken
         self.landowner = {}   # area -> the landowner's informant ID, once they have spoken
+        self.needed = {}      # task ID -> the working days the task really needs (hidden from the twin)
+        self.done = {}        # task ID -> the working days done on it
+        self.draws = {}       # (area, task kind) -> how many durations have been drawn for it
+        self.flags = {}       # zone -> the areas its zone survey flagged, with the reason
+        self.closed = self._closures()
 
     def rng(self, area_id, visit, purpose):
         return np.random.default_rng([self.seed, int(self.position[area_id]), visit, purpose])
 
-    # ---- chances -------------------------------------------------------------------------------------------------
+    def zone_rng(self, zone, *more):
+        return np.random.default_rng([self.seed, 100_000 + int(self.zone_position[zone]), *more])
+
+    # ---- weather and access ----------------------------------------------------------------------------------------
+    def _closures(self):
+        """The weeks each zone is closed: a 1-in-50 chance a month of closing for one to three months (question 36)."""
+        cal, s = self.twin.calendar, self.season
+        closed = {}
+        for zone in self.twin.zones.index:
+            rng = self.zone_rng(zone, 1)
+            weeks, month = set(), 1
+            while month <= 12:
+                if rng.random() < s.closure_chance:
+                    length = int(rng.integers(s.closure_months[0], s.closure_months[1] + 1))
+                    for m in range(month, min(12, month + length - 1) + 1):
+                        weeks.update(cal.weeks_of[m])
+                    month += length
+                else:
+                    month += 1
+            if weeks:
+                closed[zone] = weeks
+        return closed
+
+    def is_closed(self, zone, week):
+        return week in self.closed.get(zone, ())
+
+    def day_lost(self, zone, week, day):
+        """Whether heavy rain or high wind stops work in a zone on a day (questions 34 and 37)."""
+        p = self.season.day_loss(self.twin.calendar.month(week))
+        return bool(self.zone_rng(zone, 2, week, day).random() < p)
+
+    # ---- tasks -----------------------------------------------------------------------------------------------------
+    def days_needed(self, task):
+        """The working days a task really needs: the planned days for zone surveys and visits; for technical survey
+        and clearance, a draw around the planned days (lognormal, its mean kept at the planned days)."""
+        task_id = task["task_id"]
+        if task_id not in self.needed:
+            planned = self.season.task_days(task["kind"])
+            if task["kind"] in ("TS", "CLEARANCE"):
+                key = (task["area"], task["kind"])
+                n = self.draws[key] = self.draws.get(key, 0) + 1
+                sigma = self.season.duration_spread
+                draw = self.rng(task["area"], n, 3 if task["kind"] == "TS" else 4).standard_normal()
+                planned = planned * np.exp(sigma * draw - sigma ** 2 / 2)
+            self.needed[task_id] = max(1, int(round(planned)))
+        return self.needed[task_id]
+
+    def work_day(self, task, week, day):
+        """One working day of a team on its task. Returns "access", "weather", "worked" or "complete"."""
+        zone = task["zone"]
+        if self.is_closed(zone, week):
+            return "access"
+        if self.day_lost(zone, week, day):
+            return "weather"
+        need = self.days_needed(task)
+        self.done[task["task_id"]] = self.done.get(task["task_id"], 0) + 1
+        return "complete" if self.done[task["task_id"]] >= need else "worked"
+
+    # ---- the zone survey -------------------------------------------------------------------------------------------
+    def zone_survey(self, zone):
+        """The areas a zone survey flags for a visit: every area with a recorded accident, and the areas people
+        point to, 85% of those that hold mines and 5% of the others (questions 39 and 40). Returns {area: reason}."""
+        areas = self.twin.areas
+        flagged = {}
+        for a in self.twin.zone_areas[zone]:
+            if areas.loc[a, "event_inside"]:
+                flagged[a] = "a past accident is recorded inside it"
+                continue
+            p = self.season.flag_mined if self.mined[a] else self.season.flag_clean
+            if self.rng(a, 0, 5).random() < p:
+                flagged[a] = "people at the community meetings pointed to it"
+        self.flags[zone] = flagged
+        return flagged
+
+    # ---- chances -----------------------------------------------------------------------------------------------------
     def chances(self, area_id):
         """The chances of each outcome of a non-technical survey visit to this area."""
         z, effect = self.z[area_id], self.a.land_use_effect
@@ -173,9 +261,9 @@ class Field:
         return {"safe use": p, "rumour": rest * rumour / (rumour + nothing),
                 "nothing conclusive": rest * nothing / (rumour + nothing)}
 
-    # ---- a non-technical survey visit -----------------------------------------------------------------------------
-    def nts(self, area_id, visit, round_number):
-        """Run one non-technical survey visit; returns the evidence items, numbered after the area's earlier ones.
+    # ---- a non-technical survey visit ---------------------------------------------------------------------------------
+    def nts(self, area_id, visit, week, start):
+        """Run one non-technical survey visit; returns its evidence items, numbered from `start`.
 
         The visit's draws depend only on the seed, the area and the visit. The people the team meets also depend
         on who spoke on the area's earlier visits, since nobody speaks twice about one area.
@@ -191,17 +279,13 @@ class Field:
                 branch = "nothing: nothing conclusive"
         self.branches[(area_id, visit)] = str(branch)
         drafts = self.compose(area_id, branch.removeprefix("nothing: "), rng)
-        start = len(self.twin.evidence[area_id]) + 1
         items = []
         for n, d in enumerate(drafts):
             item_id = f"E{start + n}"
-            items.append(EvidenceItem(item_id, d.statement, d.source, f"Visit {visit}, round {round_number}",
-                                      visit=visit, round=round_number, years=d.years, photo=d.photo,
-                                      source_id=d.source_id))
+            items.append(EvidenceItem(item_id, d.statement, d.source, f"Visit {visit}, week {week}", visit=visit,
+                                      week=week, years=d.years, source_id=d.source_id))
             self.key[(area_id, item_id)] = {"class": d.true_class, "reliability": d.reliability,
                                             "template": d.template, "visit": visit}
-            if d.photo:
-                self.photos[(area_id, item_id)] = int(rng.choice(self.photo_pool))
         return items
 
     def compose(self, area_id, branch, rng):
@@ -276,8 +360,8 @@ class Field:
                              TEAM, "indirect", 2, "unused land", source_id="survey team")
             if kind == "camp":
                 u, source, sid = user()
-                return Draft(f"{cap(u.who)} said people stopped using the trail {place} after an armed group camped "
-                             f"there around {year}, and nobody has used that land since.", source, "indirect", 4,
+                return Draft(f"{cap(u.who)} said people stopped using the land {place} after an armed group camped "
+                             f"there around {year}, and nobody has used it since.", source, "indirect", 4,
                              "armed group camp", source_id=sid)
             if kind == "fighting":
                 u, source, sid = user()
@@ -304,7 +388,7 @@ class Field:
             if rng.random() < 0.6:
                 return Draft(f"The survey team saw an object that looked like explosive ordnance on the ground {place}. "
                              "The team marked the spot from a safe distance without touching it, reported it, and took "
-                             "a photo.", TEAM, "direct", 1, "item seen", photo=True, source_id="survey team")
+                             "a photo.", TEAM, "direct", 1, "item seen", source_id="survey team")
             u, source, sid = user()
             years = int(rng.integers(2, 12))
             animal = ANIMALS[rng.integers(len(ANIMALS))]
@@ -385,11 +469,22 @@ class Field:
         """The mine cells clearance finds in the area (all of them: clearance removes every mine)."""
         return int(self.mine_cells[area_id])
 
+    # ---- injected events -------------------------------------------------------------------------------------------
+    def new_contamination(self, area_id, week):
+        """New contamination in an area (a scenario): the area now holds mines, and an accident there is reported.
+        Returns the statement of the incident report, with its key."""
+        self.mined[area_id] = True
+        self.mine_cells[area_id] = max(1, int(self.mine_cells[area_id]))
+        statement = (f"A man from the vereda was injured by an explosion in the area in week {week}; neighbours took "
+                     "him to the health post, and community leaders reported the accident and can show the place.")
+        key = {"class": "direct", "reliability": 4, "template": "new accident", "visit": 0}
+        return statement, key
+
     def key_for(self, area_id, items):
         """The true class and reliability of each item; the desk record is indirect evidence of class 6."""
         key = {}
         for item in items:
-            if item.item_id == "E1" and item.when == "Desk study":
+            if item.source_id == "national database" and item.when == "Desk study":
                 key[item.item_id] = {"class": "indirect", "reliability": 6, "template": "desk record", "visit": 0}
             else:
                 key[item.item_id] = self.key[(area_id, item.item_id)]

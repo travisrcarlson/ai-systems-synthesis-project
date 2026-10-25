@@ -25,11 +25,12 @@ al. (2024).
 
 ## Preprocessing in this project
 The coordinates place each cell on a grid of rows and columns and are then set aside; 2 × 2 blocks of cells within one
-municipality form the areas that the replay tasks. The label is hidden from every decision service and read only by the
-simulated field.
+municipality form the areas, and each municipality's areas are grouped into operational zones of about 25 areas by
+position and access. The label is hidden from the twin and from every overlay; only the simulated field and the
+evaluation read it.
 
 ## Uses
-- In this project: the base and hazard layers of the twin; the operational ranking; the replay's ground truth.
+- In this project: the twin's hazard and land-use layers; risk prioritisation; the season replay's hidden truth.
 - The dataset card warns that predictions should not be "the sole basis for demining operations without expert human
   review and validation in the field". Labels mark where surveys and accidents happened, so models also learn reporting
   patterns. One region only.

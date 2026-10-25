@@ -1,18 +1,14 @@
-"""Loading and checking the five public datasets that the earlier projects used.
+"""Loading and checking the three public datasets behind the twin's open data layers.
 
-Each loader reads one file, checks its SHA-256 checksum, and applies the handling that the earlier project
-established for it: P1's cleaning of the victims table, P2's monthly totals of demining results, P3's grid of
-RELand cells, and P4's and P5's crops. The functions are new code; the decisions they carry out are the earlier
-projects', and each is named in its docstring.
+Each loader reads one file, checked against its SHA-256 checksum, and applies the handling that the earlier
+project established for it: P1's cleaning of the victims table, P2's monthly totals of demining results, and P3's
+grid of RELand cells. The functions are new code; the decisions they carry out are the earlier projects', and
+each is named where it is applied (P1's insight: check data as it arrives).
 """
 import hashlib
-import io
 import unicodedata
-import zipfile
 
-import numpy as np
 import pandas as pd
-from PIL import Image
 
 from .config import CODE_OF, DATA_DIR, DATA_FILES, GRID_STEP_DEGREES
 
@@ -138,7 +134,7 @@ def load_cells():
     Returns (cells, truth). `cells` has one row per cell, indexed by cell number, with the municipality's DANE
     code, the cell's row and column, and the 63 features P3 used. The coordinates are read once here, to place
     each cell on the grid, and are not kept. `truth` holds RELand's labels (1 where clearance found mines); the
-    twin never receives it, and in the replay only the simulated field reads it.
+    twin never receives it; only the simulated field and the evaluation read it.
     """
     raw = pd.read_csv(path_of("reland"))
     rows = (raw["LATITUD_Y"] - raw["LATITUD_Y"].min()) / GRID_STEP_DEGREES
@@ -156,7 +152,7 @@ def load_cells():
     return cells, truth
 
 
-NOT_FEATURES = ("municipality_code", "row", "col", "area_row", "area_col", "area_id")
+NOT_FEATURES = ("municipality_code", "row", "col", "area_row", "area_col", "area_id", "zone_id")
 
 
 def features_of(cells):
@@ -164,23 +160,3 @@ def features_of(cells):
     features = [c for c in cells.columns if c not in NOT_FEATURES]
     assert len(features) == 63, f"expected 63 features, found {len(features)}"
     return features
-
-
-# ---- P4 and P5: image crops -----------------------------------------------------------------------------------
-def read_crops(zip_path, names):
-    """Read 64 x 64 JPEG crops from a zip file into an array (crops, 64, 64, 3) of 8-bit RGB."""
-    with zipfile.ZipFile(zip_path) as archive:
-        return np.stack([np.asarray(Image.open(io.BytesIO(archive.read(n))).convert("RGB")) for n in names])
-
-
-def load_ctx_crops():
-    """P4's CTX-UXO crops: (images, manifest), with the split and category of each crop."""
-    manifest = pd.read_csv(path_of("ctx_manifest"))
-    return read_crops(path_of("ctx_crops"), manifest["crop_file"]), manifest
-
-
-def load_suland_mines():
-    """P5's SULAND surrogate-mine crops: (images, manifest) for the mine crops only (PFM-1 and PMA-2)."""
-    manifest = pd.read_csv(path_of("suland_manifest"))
-    manifest = manifest[manifest["kind"] == "mine"].reset_index(drop=True)
-    return read_crops(path_of("suland_crops"), manifest["file"]), manifest

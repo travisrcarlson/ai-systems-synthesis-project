@@ -26,7 +26,7 @@ Published by the national authority from operators' reports; how they are compil
 English column names, zero-padded codes, numbers as numbers, and rows summed by municipality and month.
 
 ## Uses
-- In this project: the activity layer of the twin and the strategic view (where demining effort went, and when).
+- In this project: the twin's demining layer (open), a check of the simulated teams' capacity against the pilot's past clearance output by year.
 - Not suitable for: measuring how much risk an operation removed, or comparing operators' quality.
 
 ## Distribution and maintenance
