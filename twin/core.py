@@ -284,14 +284,16 @@ class Twin:
                           "rule_check": rule_check, "reason": reason})
 
     # ---- reports received ---------------------------------------------------------------------------------------
-    def receive(self, report):
-        """Record one report. Returns what it changed, in words.
+    def receive(self, report, week=None):
+        """Record one report, received in `week` (by default the week it describes). Returns what it changed, in words.
 
-        Report kinds: "team report" (a team's week: days worked and lost, and its task's result when done),
-        "access" (the access feed for a zone), "team status" (an operator stands a team down or brings it back),
-        "consultation" (a consultation held in a zone), "incident" (a new accident or find reported in an area).
+        Report kinds: "team report" (a team's week on a task: days worked and lost, and the result when the task is
+        done), "access" (the access feed, every zone's status), "team status" (an operator stands a team down, with
+        the week it expects the team back, or brings it back), "consultation" (a consultation held in a zone),
+        "evidence" (items a team re-sends after a report arrived without them), "incident" (a new accident or find
+        reported in an area).
         """
-        week = report["week"]
+        week = report["week"] if week is None else week
         self._tick(week)
         self.reports.append(report)
         kind = report["kind"]
@@ -314,6 +316,11 @@ class Twin:
         elif kind == "consultation":
             self.consultation.loc[report["zone"], "held_week"] = week
             note = f"consultation held in {report['zone']}"
+        elif kind == "evidence":
+            a = report["area"]
+            self.evidence[a].extend(report["items"])
+            self.evidence[a].sort(key=lambda i: int(i.item_id[1:]))
+            note = f"{a}: {len(report['items'])} item(s) re-sent by the team"
         elif kind == "incident":
             a = report["area"]
             n = len(self.evidence[a]) + 1
@@ -487,6 +494,10 @@ class Twin:
             problems.append("the hazard layer records an accident inside the area, but the desk study's record is "
                             "not in the evidence log")
         return not problems, problems
+
+    def hold_dossier(self, area_id, *, week, decided_by, reason):
+        """Hold an area's dossier back from review until what is missing arrives."""
+        self.decide("dossier", area_id, "hold for missing items", week=week, decided_by=decided_by, reason=reason)
 
     def sign_off(self, area_id, outcome, *, week, decided_by, recommended_by, recommendation=None, register=None,
                  evidence=None, reason="", overlays=()):
@@ -725,6 +736,20 @@ class Twin:
         return grid
 
 
+def copy_plan(plan):
+    """A copy of a plan that writing to cannot change: lists and dicts copied, tables copied (cheaply, as pandas
+    copies on write)."""
+    out = {}
+    for k, v in plan.items():
+        if isinstance(v, (pd.DataFrame, pd.Series)):
+            out[k] = v.copy(deep=False)
+        elif isinstance(v, (list, dict, set, tuple)):
+            out[k] = copy.deepcopy(v)
+        else:
+            out[k] = v
+    return out
+
+
 class TwinView:
     """What an overlay may read: the twin's state and its views. It has no method that changes the twin, and
     assigning to it fails, so an overlay can recommend but never write (the overlay contract).
@@ -754,6 +779,12 @@ class TwinView:
             return value
         if name == "evidence":
             return MappingProxyType({a: tuple(items) for a, items in value.items()})
+        if name in ("tasks", "pending_results"):
+            return {k: dict(v) for k, v in value.items()}       # records of plain values: one level deep is a copy
+        if name == "plan":
+            return None if value is None else copy_plan(value)
+        if name == "plans":
+            return [copy_plan(p) for p in value]
         return copy.deepcopy(value)
 
     def __setattr__(self, name, value):

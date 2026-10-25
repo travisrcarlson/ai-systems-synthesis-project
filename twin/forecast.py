@@ -65,8 +65,12 @@ class CompletionForecaster(Overlay):
         for col in ("P50 week", "P90 week"):
             table[col] = table[col].where(np.isfinite(table[col]))
         table["municipality"] = view.zones.loc[zones, "municipality"].to_numpy()
+        # the season's totals: what is done already, and what the draws add to it
+        cleared_now = float(((view.status == "cleared") & view.mines_found).sum())
+        free_now_total = float((view.zone_state["free_week"] > 0).sum())
         totals = {}
-        for name, values in (("mine areas cleared", result["cleared"]), ("zones declared free", result["free"])):
+        for name, values in (("mine areas cleared", cleared_now + result["cleared"]),
+                             ("zones declared free", free_now_total + result["free"])):
             totals[name] = {f"P{q}": float(np.percentile(values, q, method="inverted_cdf")) for q in (10, 50, 90)}
         by_municipality = pd.DataFrame(np.isfinite(weeks), columns=zones).T.groupby(table["municipality"]).sum().T
         municipal = pd.DataFrame({f"zones free P{q}": np.percentile(by_municipality, q, axis=0, method="inverted_cdf")
@@ -171,6 +175,7 @@ class CompletionForecaster(Overlay):
             p = chances.reindex(ids).to_numpy(dtype=float)
             rec = areas.loc[ids, "event_inside"].to_numpy(dtype=bool)
             q = mined_if_flagged(p, rec, self.factors)
+            q[[view.flag[a] == "incident report" for a in ids]] = 1.0
             if surveyed:
                 # the chance each flagged area holds mines, given what has been decided on it so far
                 for i, a in enumerate(ids):

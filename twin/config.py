@@ -168,7 +168,6 @@ class Season:
     consultation_share: float = 0.1    # share of zones where communities must be consulted before any tasking
     consultation_weeks: int = 4        # the consultation's lead time
     stale_after_weeks: int = 1         # a team with no report for longer than this is shown as stale
-    replan_drift: float = 0.25         # share of planned team-weeks lost over two weeks that calls for a new plan
     zone_free_value: float = 0.01      # the planner's tie-break: a zone declared free counts as this many mine areas
 
     def __post_init__(self):

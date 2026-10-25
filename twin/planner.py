@@ -106,6 +106,13 @@ class SeasonPlanner(Overlay):
             if plan is None:
                 limits.append("the integer programme found no plan in its time limit; the rule of thumb stands")
                 plan = self.rule_plan(view, week, work, months)
+        # a zone with an accident newly reported in it comes first in every list: an urgent response
+        urgent = list(work.index[work["urgent"]])
+        if urgent:
+            for kind in KINDS:
+                plan[kind] = urgent + [z for z in plan[kind] if z not in urgent]
+            limits.append("first: the zone(s) with an accident newly reported: " + ", ".join(urgent))
+        plan["urgent"] = urgent
         plan["priority"] = risk.answer["areas"][["zone_rank", "ranking", "chance"]].copy()
         plan["ranking"] = risk.answer["areas"]["ranking"].value_counts().to_dict()
         evidence = ("risk prioritisation (week %d)" % risk.week, "planning factors", "access feed",

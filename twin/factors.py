@@ -31,26 +31,29 @@ class Factors:
     flag_mined: float
     flag_clean: float
 
+    def __post_init__(self):
+        # the table as plain lookups and arrays indexed [mined][recorded], so the planner's loops stay fast
+        self._rows = {key: {k: float(v) for k, v in self.table.loc[key].items()} for key in self.table.index}
+        self._arrays = {col: np.array([[self.table.loc[(m, r), col] for r in (False, True)] for m in (False, True)])
+                        for col in self.table.columns}
+
     def row(self, mined, recorded):
-        return self.table.loc[(bool(mined), bool(recorded))]
+        return self._rows[(bool(mined), bool(recorded))]
 
     def expected(self, chance_mined, recorded):
         """For flagged areas with these chances of holding mines: expected visits, technical surveys, clearances and
         mine areas cleared, and the chance a flagged area with mines is released without an intrusive check."""
-        out = {}
-        for key in ("visits", "TECHNICAL_SURVEY", "CLEARANCE", "CANCEL", "TS_FOUND"):
-            m = np.where(recorded, self.table.loc[(True, True), key], self.table.loc[(True, False), key])
-            c = np.where(recorded, self.table.loc[(False, True), key], self.table.loc[(False, False), key])
-            out[key] = (chance_mined * m, (1 - chance_mined) * c)
-        visits = out["visits"][0] + out["visits"][1]
-        ts = out["TECHNICAL_SURVEY"][0] + out["TECHNICAL_SURVEY"][1]
+        r = np.asarray(recorded).astype(int)
+        q = np.asarray(chance_mined, dtype=float)
+        a = self._arrays
+        m = {k: a[k][1][r] for k in ("visits", "TECHNICAL_SURVEY", "CLEARANCE", "CANCEL", "TS_FOUND")}
+        c = {k: a[k][0][r] for k in ("visits", "TECHNICAL_SURVEY", "CLEARANCE", "CANCEL")}
         # clearance follows a decision of clearance, or technical survey that found mines
-        clearance = out["CLEARANCE"][0] + out["CLEARANCE"][1] + out["TECHNICAL_SURVEY"][0] * np.where(
-            recorded, self.table.loc[(True, True), "TS_FOUND"], self.table.loc[(True, False), "TS_FOUND"])
-        mine_cleared = out["CLEARANCE"][0] + out["TECHNICAL_SURVEY"][0] * np.where(
-            recorded, self.table.loc[(True, True), "TS_FOUND"], self.table.loc[(True, False), "TS_FOUND"])
-        return {"visits": visits, "ts": ts, "clearance": clearance, "mine_cleared": mine_cleared,
-                "mine_released": out["CANCEL"][0]}
+        mine_cleared = q * m["CLEARANCE"] + q * m["TECHNICAL_SURVEY"] * m["TS_FOUND"]
+        return {"visits": q * m["visits"] + (1 - q) * c["visits"],
+                "ts": q * m["TECHNICAL_SURVEY"] + (1 - q) * c["TECHNICAL_SURVEY"],
+                "clearance": q * m["CLEARANCE"] + (1 - q) * c["CLEARANCE"] + q * m["TECHNICAL_SURVEY"] * m["TS_FOUND"],
+                "mine_cleared": mine_cleared, "mine_released": q * m["CANCEL"]}
 
 
 def planning_factors(twin, criteria, assumptions=None, season=None, n=300, seed=SEED, max_visits=6):
@@ -106,7 +109,7 @@ def zone_workloads(view, chances, factors, criteria, week):
     """
     s = view.season
     areas = view.areas
-    status, next_task, visits = view.status, view.next_task, view.visits
+    status, next_task, visits, flags = view.status, view.next_task, view.visits, view.flag
     zone_state, tasks = view.zone_state, view.tasks
     pending = view.pending_results
     done = {}                                    # (zone or area, kind) -> days reported on open tasks
@@ -145,6 +148,8 @@ def zone_workloads(view, chances, factors, criteria, week):
                 if st not in ("suspected", "confirmed") or a in pending:
                     continue
                 q = float(mined_if_flagged(np.array([pa]), np.array([ra]), factors)[0])
+                if flags[a] == "incident report":
+                    q = 1.0           # an accident reported with its place is direct evidence (IMAS 08.10, §6.1)
                 row_m, row_c = factors.row(True, ra), factors.row(False, ra)
                 if nt in ("NTS", None):
                     # still to be visited, or awaiting review: the rest of its expected visits, then its outcome
@@ -174,7 +179,9 @@ def zone_workloads(view, chances, factors, criteria, week):
                     clr_known += max(0.0, s.task_days("CLEARANCE") - done.get((a, "CLEARANCE"), 0))
                     value_known += qc
                     n_clear += 1
-        rows.append({"zone_id": z, "surveyed": surveyed, "survey_days": survey_left + max(0.0, visit_days),
+        urgent = any(flags[a] == "incident report" and status[a] in ("suspected", "confirmed") for a in ids)
+        rows.append({"zone_id": z, "surveyed": surveyed, "urgent": urgent,
+                     "survey_days": survey_left + max(0.0, visit_days),
                      "ts_known": ts_known, "ts_future": ts_future if ts else 0.0,
                      "clearance_known": clr_known, "clearance_future": clr_future,
                      "value_known": value_known, "value_future": value_future,
