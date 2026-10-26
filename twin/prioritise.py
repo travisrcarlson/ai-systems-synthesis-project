@@ -400,7 +400,7 @@ def evaluate_rankings(models, truth, cells, k_share=0.1):
             part = table[models.areas["municipality_code"] == code]
             y = labels[part.index]
             k = max(1, round(k_share * len(part)))
-            top = part.sort_values("score", ascending=False).index[:k]
+            top = part.sort_values("score", ascending=False, kind="stable").index[:k]
             rows.append({"municipality_code": code, "municipality": NAME_OF[code], "ranking": ranking,
                          "areas": len(part), "mine areas": int(y.sum()),
                          "PR-AUC": average_precision_score(y, part["score"]),

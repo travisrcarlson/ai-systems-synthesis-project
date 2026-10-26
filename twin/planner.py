@@ -177,7 +177,9 @@ class SeasonPlanner(Overlay):
                 "solver": {"status": "rule"}}
 
     def fallback(self, work):
-        return list(work.sort_values("value_per_day", ascending=False).index)
+        # a stable sort: zones with equal values keep the twin's order, whatever the computer's sorting routine (the
+        # default sort may break ties in another order on another processor, and send a team elsewhere)
+        return list(work.sort_values("value_per_day", ascending=False, kind="stable").index)
 
     # ---- the integer programme --------------------------------------------------------------------------------------
     def milp_plan(self, view, week, work, months):
@@ -185,7 +187,7 @@ class SeasonPlanner(Overlay):
         ts_policy = view.criteria.technical_survey
         tasks_zones = {t["zone"] for t in view.tasks.values() if t["status"] in ("ordered", "in progress", "paused")}
         progress = work.index[work["surveyed"] | work.index.isin(tasks_zones)]
-        rest = work.drop(progress).sort_values("value_per_day", ascending=False)
+        rest = work.drop(progress).sort_values("value_per_day", ascending=False, kind="stable")
         cand = list(progress) + list(rest.index[:max(0, self.candidates - len(progress))])
         W = work.loc[cand]
         teams = team_months(view, week, months)
