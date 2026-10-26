@@ -1,0 +1,73 @@
+{
+ "area": "SRA-0289",
+ "week": 9,
+ "visit": 1,
+ "label": "main season",
+ "model": "gpt-6-luna",
+ "reasoning_effort": "medium",
+ "inputs_sha": "f82dc233d9d16fa2aa00241b9957ef0bb443e133aabb0b9f3c07348e6484644a",
+ "dossier_sha": "ddcc5474801224e2da51c9441abccc0c126a62bbb10fee89ed60b6cc15a4321b",
+ "method_sha": "92bad3dce663112a2160b3f6d199f134514bad4eff5cf17ce7475be96823240d",
+ "outcome": "FURTHER_NTS",
+ "fallback": false,
+ "confidence": "medium",
+ "summary": "Recommend further non-technical survey: the sole logged item says the team could not enter or see the interior, so it provides no evidence either way. There is no target for clearance and no evidence of absence meeting cancellation criteria. The nearby accident record, zone flag and priority do not establish contamination in this area.",
+ "flags": [
+  "Rain closed the trail during visit 1; the interior remains unobserved."
+ ],
+ "rule_check": {
+  "result": "pass",
+  "outcome": "FURTHER_NTS",
+  "checks": [
+   {
+    "rule": "-",
+    "passed": true,
+    "detail": "Further non-technical survey is always open."
+   }
+  ]
+ },
+ "register": {
+  "E1": {
+   "item_id": "E1",
+   "quote": "The survey team could reach only the edge of the area, because rain had closed the trail into it, and could not see the land inside.",
+   "evidence_class": "not_evidence",
+   "reliability_class": 2,
+   "explains": [],
+   "note": "This records a limitation of access and visibility, not evidence of EO or its absence; the interior was not observed.",
+   "step": 3
+  }
+ },
+ "vetoes": [],
+ "quote_failures": [],
+ "tool_errors": [],
+ "handling_blocked": [],
+ "instruction_lines_found": [],
+ "sections_read": [
+  "area_record",
+  "desk_study",
+  "evidence_log",
+  "national_criteria"
+ ],
+ "rules_read": [
+  "evidence",
+  "reliability",
+  "desk_study",
+  "cancellation",
+  "further_survey",
+  "outcomes"
+ ],
+ "usage": {
+  "input_tokens": 14949,
+  "cached_tokens": 10715,
+  "output_tokens": 752,
+  "reasoning_tokens": 312
+ },
+ "cost_usd": 0.0018709,
+ "stats": {
+  "model_calls": 5,
+  "tool_calls": 13,
+  "error": "",
+  "error_scope": "",
+  "seconds": 15.6
+ }
+}

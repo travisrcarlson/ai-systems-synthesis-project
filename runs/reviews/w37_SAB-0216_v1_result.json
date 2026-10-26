@@ -1,0 +1,106 @@
+{
+ "area": "SAB-0216",
+ "week": 37,
+ "visit": 1,
+ "label": "main season",
+ "model": "gpt-6-luna",
+ "reasoning_effort": "medium",
+ "inputs_sha": "3fbdcb6c21b437de4c1bf48c007a8ce4274bb5a611953ad04b2b97a98d0092b7",
+ "dossier_sha": "ef6cd20262d2d5abe5d4dbcab85893d55186601f6cf5e316e52fb9127d151c28",
+ "method_sha": "92bad3dce663112a2160b3f6d199f134514bad4eff5cf17ce7475be96823240d",
+ "outcome": "CLEARANCE",
+ "fallback": false,
+ "confidence": "medium",
+ "summary": "Recommend clearance for sign-off. E1 is an unchecked national database record of a past accident inside the area (indirect evidence, reliability class 6), and the national criteria make it a clearance target after the first NTS visit; technical survey is unavailable. E2 and E3 provide meaningful reports of safe use, but they do not establish that the undated accident record is accounted for and cannot override the criteria. E4 reports four years of safe use. The rule check passed.",
+ "flags": [
+  "E1 has no date or other detail and its location has not been checked on the ground; the recommendation follows the explicit national criterion that such an in-area accident record is a clearance target after visit one."
+ ],
+ "rule_check": {
+  "result": "pass",
+  "outcome": "CLEARANCE",
+  "checks": [
+   {
+    "rule": "R5",
+    "passed": true,
+    "detail": "Every item of the evidence log is in the register."
+   },
+   {
+    "rule": "R3",
+    "passed": true,
+    "detail": "The national criteria provide no technical survey, so clearance takes its place; evidence to target: E1."
+   }
+  ]
+ },
+ "register": {
+  "E1": {
+   "item_id": "E1",
+   "quote": "The national mine action database records one or more past landmine accidents inside this area.",
+   "evidence_class": "indirect",
+   "reliability_class": 6,
+   "explains": [],
+   "note": "An unchecked database accident record with no date or verified location is indirect evidence, class 6; the national criteria make it a target for clearance after this first visit.",
+   "step": 3
+  },
+  "E2": {
+   "item_id": "E2",
+   "quote": "has hunted and fished along the streams in the area every year for the past 7 years, and has never found anything or heard of an accident there.",
+   "evidence_class": "absence",
+   "reliability_class": 4,
+   "explains": [],
+   "note": "A first-hand land user reports repeated safe activity over seven years, supporting absence; no basis establishes that this activity postdates or accounts for the undated accident record.",
+   "step": 3
+  },
+  "E3": {
+   "item_id": "E3",
+   "quote": "the board has recorded no find or accident in the area in the 18 years she has held the post, and that families use land in the area every week.",
+   "evidence_class": "absence",
+   "reliability_class": 4,
+   "explains": [],
+   "note": "The community board president reports long-term weekly use and no recorded finds or accidents, supporting absence; the undated record cannot be shown to have been accounted for.",
+   "step": 3
+  },
+  "E4": {
+   "item_id": "E4",
+   "quote": "Nobody has found anything, and nobody has been hurt.",
+   "evidence_class": "absence",
+   "reliability_class": 4,
+   "explains": [],
+   "note": "A first-hand woodcutter reports four years of safe use; this supports absence but is below the five-year threshold and does not account for the undated record.",
+   "step": 3
+  }
+ },
+ "vetoes": [],
+ "quote_failures": [],
+ "tool_errors": [],
+ "handling_blocked": [],
+ "instruction_lines_found": [],
+ "sections_read": [
+  "area_record",
+  "desk_study",
+  "evidence_log",
+  "national_criteria"
+ ],
+ "rules_read": [
+  "evidence",
+  "reliability",
+  "desk_study",
+  "cancellation",
+  "outcomes",
+  "further_survey",
+  "clearance"
+ ],
+ "usage": {
+  "input_tokens": 22779,
+  "cached_tokens": 17362,
+  "output_tokens": 1409,
+  "reasoning_tokens": 591
+ },
+ "cost_usd": 0.0029824,
+ "stats": {
+  "model_calls": 6,
+  "tool_calls": 17,
+  "error": "",
+  "error_scope": "",
+  "seconds": 25.5
+ }
+}

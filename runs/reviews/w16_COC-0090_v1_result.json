@@ -1,0 +1,75 @@
+{
+ "area": "COC-0090",
+ "week": 16,
+ "visit": 1,
+ "label": "main season",
+ "model": "gpt-6-luna",
+ "reasoning_effort": "medium",
+ "inputs_sha": "fb92289325b0a5f34c28c78eb63cfc86e139f3c202580884f7c33507d94b315e",
+ "dossier_sha": "76f43451fa920a19f945eb24e74aca776c19757f569a1a2749d5eb97e5c33411",
+ "method_sha": "92bad3dce663112a2160b3f6d199f134514bad4eff5cf17ce7475be96823240d",
+ "outcome": "FURTHER_NTS",
+ "fallback": false,
+ "confidence": "medium",
+ "summary": "Recommend further non-technical survey. The sole logged item is a class 7 indirect, second-hand warning that does not identify a first-hand witness or a location. Under the national criteria, weaker indirect evidence is followed up by NTS first and becomes a clearance target only if still unexplained after two visits. Visit 1 is insufficient to resolve it; the record does not support cancellation or another outcome.",
+ "flags": [
+  "Follow up E1 and seek information from people with direct knowledge of the area; do not treat the zone flag or survey priority as evidence.",
+  "The nearest recorded past accident is within 1 km, not stated to be inside this area."
+ ],
+ "rule_check": {
+  "result": "pass",
+  "outcome": "FURTHER_NTS",
+  "checks": [
+   {
+    "rule": "-",
+    "passed": true,
+    "detail": "Further non-technical survey is always open."
+   }
+  ]
+ },
+ "register": {
+  "E1": {
+   "item_id": "E1",
+   "quote": "A trader passing through the vereda said people should keep away from the area because of mines, but could not say who had seen anything, or where.",
+   "evidence_class": "indirect",
+   "reliability_class": 7,
+   "explains": [],
+   "note": "This is an unverified second-hand warning from a source outside the vereda who cannot identify first-hand witnesses; it suggests possible EO but does not confirm it.",
+   "step": 3
+  }
+ },
+ "vetoes": [],
+ "quote_failures": [],
+ "tool_errors": [],
+ "handling_blocked": [],
+ "instruction_lines_found": [],
+ "sections_read": [
+  "area_record",
+  "desk_study",
+  "evidence_log",
+  "national_criteria"
+ ],
+ "rules_read": [
+  "evidence",
+  "reliability",
+  "desk_study",
+  "cancellation",
+  "further_survey",
+  "outcomes",
+  "dossier_text"
+ ],
+ "usage": {
+  "input_tokens": 15091,
+  "cached_tokens": 10868,
+  "output_tokens": 789,
+  "reasoning_tokens": 275
+ },
+ "cost_usd": 0.0019036,
+ "stats": {
+  "model_calls": 5,
+  "tool_calls": 14,
+  "error": "",
+  "error_scope": "",
+  "seconds": 14.4
+ }
+}

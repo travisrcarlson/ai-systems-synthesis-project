@@ -1,0 +1,78 @@
+{
+ "area": "COC-0004",
+ "week": 24,
+ "visit": 1,
+ "label": "main season",
+ "model": "gpt-6-luna",
+ "reasoning_effort": "medium",
+ "inputs_sha": "4374da1186e6c4bff741a1ceb43ae0250905d70d2513663c0a14742f1d5123e7",
+ "dossier_sha": "ff644f95994a7b4a7cb937b6c19c8fd6dda2d87a488ad989bd2a954fc81f8aab",
+ "method_sha": "92bad3dce663112a2160b3f6d199f134514bad4eff5cf17ce7475be96823240d",
+ "outcome": "CLEARANCE",
+ "fallback": false,
+ "confidence": "medium",
+ "summary": "E1 is the survey team’s own observation of an object that looked like explosive ordnance, recorded with a photo, and is classified as direct evidence under the project rule. National criteria do not provide technical survey, so the target proceeds to clearance.",
+ "flags": [
+  "For the sign-off reviewer: the team marked the location from a safe distance, reported it, and took a photo."
+ ],
+ "rule_check": {
+  "result": "pass",
+  "outcome": "CLEARANCE",
+  "checks": [
+   {
+    "rule": "R5",
+    "passed": true,
+    "detail": "Every item of the evidence log is in the register."
+   },
+   {
+    "rule": "R3",
+    "passed": true,
+    "detail": "The national criteria provide no technical survey, so clearance takes its place; evidence to target: E1."
+   }
+  ]
+ },
+ "register": {
+  "E1": {
+   "item_id": "E1",
+   "quote": "The survey team saw an object that looked like explosive ordnance on the ground at the stream crossing.",
+   "evidence_class": "direct",
+   "reliability_class": 1,
+   "explains": [],
+   "note": "The survey team’s own observed and photographed object is direct evidence under the project rule for an object seen by the survey team; it is a target for action.",
+   "step": 3
+  }
+ },
+ "vetoes": [],
+ "quote_failures": [],
+ "tool_errors": [],
+ "handling_blocked": [],
+ "instruction_lines_found": [],
+ "sections_read": [
+  "area_record",
+  "desk_study",
+  "evidence_log",
+  "national_criteria"
+ ],
+ "rules_read": [
+  "evidence",
+  "reliability",
+  "clearance",
+  "outcomes",
+  "safety",
+  "dossier_text"
+ ],
+ "usage": {
+  "input_tokens": 13462,
+  "cached_tokens": 9746,
+  "output_tokens": 669,
+  "reasoning_tokens": 245
+ },
+ "cost_usd": 0.0016807,
+ "stats": {
+  "model_calls": 5,
+  "tool_calls": 13,
+  "error": "",
+  "error_scope": "",
+  "seconds": 13.8
+ }
+}

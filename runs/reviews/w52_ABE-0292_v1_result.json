@@ -1,0 +1,116 @@
+{
+ "area": "ABE-0292",
+ "week": 52,
+ "visit": 1,
+ "label": "main season",
+ "model": "gpt-6-luna",
+ "reasoning_effort": "medium",
+ "inputs_sha": "7ccfc22e6a40d0245c6567f1782c1f87db26c19493902074280c362157c074d1",
+ "dossier_sha": "5b306e46593488f802df06097585c3ae7d5b69a91a56b6346268ce6094ac1d6a",
+ "method_sha": "92bad3dce663112a2160b3f6d199f134514bad4eff5cf17ce7475be96823240d",
+ "outcome": "CANCEL",
+ "fallback": false,
+ "confidence": "medium",
+ "summary": "Recommend cancellation by non-technical survey for sign-off. Three distinct first-hand users report 11–25 years of safe use, exceeding the two-source/five-year criterion. The survey team saw no contamination indicators on the paths and field edges; there is no direct or higher-reliability indirect evidence, and the decision check passed. The database accident is within 1 km, not recorded inside this area.",
+ "flags": [
+  "The team's observation covered paths and field edges; the area is forest, so the limits of direct observation should be considered at sign-off.",
+  "The nearby accident, zone visit flag, and survey priority are context only; the accident is not recorded inside the area, and the flag and priority are not evidence."
+ ],
+ "rule_check": {
+  "result": "pass",
+  "outcome": "CANCEL",
+  "checks": [
+   {
+    "rule": "R5",
+    "passed": true,
+    "detail": "Every item of the evidence log is in the register."
+   },
+   {
+    "rule": "R1",
+    "passed": true,
+    "detail": "There is no direct evidence and no indirect evidence of class 1 to 4, and every item of weaker indirect evidence is explained by evidence of absence of class 1 to 4."
+   },
+   {
+    "rule": "R2",
+    "passed": true,
+    "detail": "3 different reliable source(s) report at least 5 years of safe use (E2; E3; E4); the criteria need 2."
+   },
+   {
+    "rule": "R6",
+    "passed": true,
+    "detail": "No past landmine accident is recorded inside the area."
+   }
+  ]
+ },
+ "register": {
+  "E1": {
+   "item_id": "E1",
+   "quote": "The survey team walked the paths and field edges of the area and saw no items, signs, fencing or other marks of contamination.",
+   "evidence_class": "absence",
+   "reliability_class": 2,
+   "explains": [],
+   "note": "The survey team's own observation found no contamination indicators along the paths and field edges; this is absence evidence limited to the ground observed.",
+   "step": 3
+  },
+  "E2": {
+   "item_id": "E2",
+   "quote": "We have cut firewood and timber here for 25 years. Nobody has found anything, and nobody has been hurt.",
+   "evidence_class": "absence",
+   "reliability_class": 4,
+   "explains": [],
+   "note": "The woodcutter is a first-hand user reporting 25 years of safe use, supporting absence of EO.",
+   "step": 4
+  },
+  "E3": {
+   "item_id": "E3",
+   "quote": "A man who hunts and fishes said he has hunted and fished along the streams in the area every year for the past 11 years, and has never found anything or heard of an accident there.",
+   "evidence_class": "absence",
+   "reliability_class": 4,
+   "explains": [],
+   "note": "The informant personally uses streams in the area annually and reports 11 years without finding ordnance or hearing of an accident; this is first-hand evidence of absence.",
+   "step": 5
+  },
+  "E4": {
+   "item_id": "E4",
+   "quote": "We have walked the trail across this land to the school for 13 years. Nobody has found anything, and nobody has been hurt.",
+   "evidence_class": "absence",
+   "reliability_class": 4,
+   "explains": [],
+   "note": "The teacher is a first-hand user of the trail and reports 13 years of safe passage, supporting absence of EO.",
+   "step": 6
+  }
+ },
+ "vetoes": [],
+ "quote_failures": [],
+ "tool_errors": [],
+ "handling_blocked": [],
+ "instruction_lines_found": [],
+ "sections_read": [
+  "area_record",
+  "desk_study",
+  "evidence_log",
+  "national_criteria"
+ ],
+ "rules_read": [
+  "evidence",
+  "reliability",
+  "desk_study",
+  "cancellation",
+  "outcomes",
+  "further_survey"
+ ],
+ "usage": {
+  "input_tokens": 30799,
+  "cached_tokens": 25566,
+  "output_tokens": 1376,
+  "reasoning_tokens": 581
+ },
+ "cost_usd": 0.0037679000000000002,
+ "stats": {
+  "model_calls": 8,
+  "tool_calls": 16,
+  "error": "",
+  "error_scope": "",
+  "seconds": 18.6
+ }
+}

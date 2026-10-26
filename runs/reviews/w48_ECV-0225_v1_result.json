@@ -1,0 +1,76 @@
+{
+ "area": "ECV-0225",
+ "week": 48,
+ "visit": 1,
+ "label": "main season",
+ "model": "gpt-6-luna",
+ "reasoning_effort": "medium",
+ "inputs_sha": "5fcf63413174155f5e0c7818195783ee2a2658b6ce428ecfcd5f25dded7756c2",
+ "dossier_sha": "9f26d7ed1215a3995d04a416f5a6d6d52a67f9ff002c2783b2ff7d39329163d5",
+ "method_sha": "92bad3dce663112a2160b3f6d199f134514bad4eff5cf17ce7475be96823240d",
+ "outcome": "FURTHER_NTS",
+ "fallback": false,
+ "confidence": "medium",
+ "summary": "Recommend returning ECV-0225 for further non-technical survey. The sole logged item is a weak, indirect second-hand report (reliability class 7), with no precise location; it is not a target after only one visit. There is no recorded evidence of absence sufficient to meet cancellation criteria, so neither cancellation nor a hazard outcome is supported at this stage.",
+ "flags": [
+  "The report was relayed by a shopkeeper from neighbours whose first-hand status is not established; the reported event could not be located within the area.",
+  "The zone flag and survey-priority rank indicate where to survey, not evidence of contamination."
+ ],
+ "rule_check": {
+  "result": "pass",
+  "outcome": "FURTHER_NTS",
+  "checks": [
+   {
+    "rule": "-",
+    "passed": true,
+    "detail": "Further non-technical survey is always open."
+   }
+  ]
+ },
+ "register": {
+  "E1": {
+   "item_id": "E1",
+   "quote": "A shopkeeper in the village said neighbours told her that an animal was killed by a mine somewhere in the area some years ago. She did not see it and could not say where it happened.",
+   "evidence_class": "indirect",
+   "reliability_class": 7,
+   "explains": [],
+   "note": "Second-hand report with no identifiable first-hand witness and no precise location; it suggests possible EO but does not confirm it.",
+   "step": 3
+  }
+ },
+ "vetoes": [],
+ "quote_failures": [],
+ "tool_errors": [],
+ "handling_blocked": [],
+ "instruction_lines_found": [],
+ "sections_read": [
+  "area_record",
+  "desk_study",
+  "evidence_log",
+  "national_criteria"
+ ],
+ "rules_read": [
+  "evidence",
+  "reliability",
+  "desk_study",
+  "cancellation",
+  "further_survey",
+  "outcomes",
+  "dossier_text",
+  "safety"
+ ],
+ "usage": {
+  "input_tokens": 15591,
+  "cached_tokens": 11089,
+  "output_tokens": 902,
+  "reasoning_tokens": 376
+ },
+ "cost_usd": 0.0020101000000000003,
+ "stats": {
+  "model_calls": 5,
+  "tool_calls": 15,
+  "error": "",
+  "error_scope": "",
+  "seconds": 11.0
+ }
+}

@@ -1,0 +1,109 @@
+{
+ "area": "ABE-0538",
+ "week": 19,
+ "visit": 1,
+ "label": "main season",
+ "model": "gpt-6-luna",
+ "reasoning_effort": "medium",
+ "inputs_sha": "1c7c61834551a9d1edbba01d463ce4025d48e9d745758fca64ae98bcf579528c",
+ "dossier_sha": "9e2bd102fdc5d3142bd37abffbea5e9af480ca53ed0ab4a10e6f224183aacbf0",
+ "method_sha": "92bad3dce663112a2160b3f6d199f134514bad4eff5cf17ce7475be96823240d",
+ "outcome": "CANCEL",
+ "fallback": false,
+ "confidence": "medium",
+ "summary": "Recommend cancellation by non-technical survey for sign-off. E2 and E3 are separate first-hand sources reporting 23 and 21 years of safe use, respectively, meeting the two-source, five-year criterion. No direct or indirect evidence of EO is recorded, and no past accident is recorded inside the area. The rule check passed.",
+ "flags": [
+  "E1 supports absence but was treated as second-hand (reliability class 5); the cancellation recommendation rests on the first-hand reports in E2 and E3.",
+  "The area is recorded as 100% forest and has had one NTS visit; the reported recurring trail, family use and woodcutting are the evidence of use considered."
+ ],
+ "rule_check": {
+  "result": "pass",
+  "outcome": "CANCEL",
+  "checks": [
+   {
+    "rule": "R5",
+    "passed": true,
+    "detail": "Every item of the evidence log is in the register."
+   },
+   {
+    "rule": "R1",
+    "passed": true,
+    "detail": "There is no direct evidence and no indirect evidence of class 1 to 4, and every item of weaker indirect evidence is explained by evidence of absence of class 1 to 4."
+   },
+   {
+    "rule": "R2",
+    "passed": true,
+    "detail": "2 different reliable source(s) report at least 5 years of safe use (E2; E3); the criteria need 2."
+   },
+   {
+    "rule": "R6",
+    "passed": true,
+    "detail": "No past landmine accident is recorded inside the area."
+   }
+  ]
+ },
+ "register": {
+  "E1": {
+   "item_id": "E1",
+   "quote": "the board has recorded no find or accident in the area in the 18 years she has held the post, and that families use land in the area every week.",
+   "evidence_class": "absence",
+   "reliability_class": 5,
+   "explains": [],
+   "note": "Supports absence through community records and reported regular use, but the statement does not establish that the informant personally used or observed the land, so treat as second-hand.",
+   "step": 3
+  },
+  "E2": {
+   "item_id": "E2",
+   "quote": "she has walked the trail across the area to the school every year for the past 23 years, and has never found anything or heard of an accident there.",
+   "evidence_class": "absence",
+   "reliability_class": 4,
+   "explains": [],
+   "note": "The informant personally traversed the area repeatedly for 23 years and reports safe use with no finds or accidents; this is first-hand evidence of absence.",
+   "step": 4
+  },
+  "E3": {
+   "item_id": "E3",
+   "quote": "We have cut firewood and timber here for 21 years. Nobody has found anything, and nobody has been hurt.",
+   "evidence_class": "absence",
+   "reliability_class": 4,
+   "explains": [],
+   "note": "The woodcutter reports 21 years of personal work in the area without finds or injuries, providing first-hand evidence of absence.",
+   "step": 5
+  }
+ },
+ "vetoes": [],
+ "quote_failures": [],
+ "tool_errors": [],
+ "handling_blocked": [],
+ "instruction_lines_found": [],
+ "sections_read": [
+  "area_record",
+  "desk_study",
+  "evidence_log",
+  "national_criteria"
+ ],
+ "rules_read": [
+  "evidence",
+  "reliability",
+  "cancellation",
+  "desk_study",
+  "outcomes",
+  "dossier_text",
+  "further_survey",
+  "safety"
+ ],
+ "usage": {
+  "input_tokens": 32091,
+  "cached_tokens": 26717,
+  "output_tokens": 1456,
+  "reasoning_tokens": 717
+ },
+ "cost_usd": 0.003937100000000001,
+ "stats": {
+  "model_calls": 8,
+  "tool_calls": 17,
+  "error": "",
+  "error_scope": "",
+  "seconds": 21.2
+ }
+}

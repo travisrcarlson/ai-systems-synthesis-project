@@ -1,0 +1,86 @@
+{
+ "area": "ECV-0150",
+ "week": 13,
+ "visit": 1,
+ "label": "main season",
+ "model": "gpt-6-luna",
+ "reasoning_effort": "medium",
+ "inputs_sha": "e43ebec9ec69f53869dba2d38705664230dfc33526b623a312bdd5753bc7f71f",
+ "dossier_sha": "882c80ad462f57e6df9ceb712be5b3518512c8692afbbecb99df744d19fee1de",
+ "method_sha": "92bad3dce663112a2160b3f6d199f134514bad4eff5cf17ce7475be96823240d",
+ "outcome": "FURTHER_NTS",
+ "fallback": false,
+ "confidence": "high",
+ "summary": "The evidence log contains no direct or indirect target for intrusive follow-up and does not meet the cancellation standard. The meeting participants could not speak to prior land use, and the survey team could not see the interior, so the evidence is too thin to conclude the area is clear. Recommend another non-technical survey visit before deciding.",
+ "flags": [
+  "The survey team reached only the edge; the interior remains unobserved. A return visit should seek access and information from people with knowledge of the area's use.",
+  "The nearest recorded accident is within 1 km, not recorded inside this area; the zone flag and survey priority are not evidence of EO in the area."
+ ],
+ "rule_check": {
+  "result": "pass",
+  "outcome": "FURTHER_NTS",
+  "checks": [
+   {
+    "rule": "-",
+    "passed": true,
+    "detail": "Further non-technical survey is always open."
+   }
+  ]
+ },
+ "register": {
+  "E1": {
+   "item_id": "E1",
+   "quote": "The people at the community meeting had moved to the vereda in the last 2 years and could not say how the area was used before.",
+   "evidence_class": "not_evidence",
+   "reliability_class": 7,
+   "explains": [],
+   "note": "The respondents lack knowledge of the area's earlier use, so their statement neither suggests EO presence nor supports safe use or absence.",
+   "step": 3
+  },
+  "E2": {
+   "item_id": "E2",
+   "quote": "The survey team could reach only the edge of the area, because rain had closed the trail into it, and could not see the land inside.",
+   "evidence_class": "not_evidence",
+   "reliability_class": 2,
+   "explains": [],
+   "note": "This is a credible first-hand observation of limited access, but seeing neither the interior nor any EO does not establish EO presence or absence.",
+   "step": 4
+  }
+ },
+ "vetoes": [],
+ "quote_failures": [],
+ "tool_errors": [],
+ "handling_blocked": [],
+ "instruction_lines_found": [],
+ "sections_read": [
+  "area_record",
+  "desk_study",
+  "evidence_log",
+  "national_criteria"
+ ],
+ "rules_read": [
+  "evidence",
+  "reliability",
+  "further_survey",
+  "outcomes",
+  "dossier_text",
+  "desk_study",
+  "cancellation",
+  "technical_survey",
+  "safety"
+ ],
+ "usage": {
+  "input_tokens": 24219,
+  "cached_tokens": 18809,
+  "output_tokens": 1337,
+  "reasoning_tokens": 676
+ },
+ "cost_usd": 0.0030904,
+ "stats": {
+  "model_calls": 7,
+  "tool_calls": 17,
+  "error": "",
+  "error_scope": "",
+  "seconds": 19.6
+ }
+}

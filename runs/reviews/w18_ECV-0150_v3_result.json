@@ -1,0 +1,153 @@
+{
+ "area": "ECV-0150",
+ "week": 18,
+ "visit": 3,
+ "label": "main season",
+ "model": "gpt-6-luna",
+ "reasoning_effort": "medium",
+ "inputs_sha": "a5f2b67de99266bede4d65a3fa3f6c70f962891e6fc170358f416bb925730cfa",
+ "dossier_sha": "c7e36d8da915962d201a663216e47f629e4e57c50a3bb53b2f0d0c16cee38a0d",
+ "method_sha": "92bad3dce663112a2160b3f6d199f134514bad4eff5cf17ce7475be96823240d",
+ "outcome": "CANCEL",
+ "fallback": false,
+ "confidence": "medium",
+ "summary": "Recommend cancellation by non-technical survey. Three distinct reliable first-hand sources report at least 21 years of safe use, including weekly or recurring use, with no finds or accidents. The team found no contamination indicators on the paths and field edges; its earlier visits could not inspect the interior, so cancellation relies chiefly on the users’ long-term accounts. No direct evidence or qualifying indirect evidence of contamination is recorded, and the national criteria are met.",
+ "flags": [
+  "The survey team could not see the interior during visits 1 and 2; visit 3 observations cover paths and field edges only.",
+  "The nearest database accident is within 1 km, not recorded inside this area; the zone flag and survey priority are not evidence about contamination."
+ ],
+ "rule_check": {
+  "result": "pass",
+  "outcome": "CANCEL",
+  "checks": [
+   {
+    "rule": "R5",
+    "passed": true,
+    "detail": "Every item of the evidence log is in the register."
+   },
+   {
+    "rule": "R1",
+    "passed": true,
+    "detail": "There is no direct evidence and no indirect evidence of class 1 to 4, and every item of weaker indirect evidence is explained by evidence of absence of class 1 to 4."
+   },
+   {
+    "rule": "R2",
+    "passed": true,
+    "detail": "3 different reliable source(s) report at least 5 years of safe use (E5; E6; E8); the criteria need 2."
+   },
+   {
+    "rule": "R6",
+    "passed": true,
+    "detail": "No past landmine accident is recorded inside the area."
+   }
+  ]
+ },
+ "register": {
+  "E1": {
+   "item_id": "E1",
+   "quote": "The people at the community meeting had moved to the vereda in the last 2 years and could not say how the area was used before.",
+   "evidence_class": "not_evidence",
+   "reliability_class": 4,
+   "explains": [],
+   "note": "These recent arrivals explicitly lacked knowledge of the area's prior use, so their statement provides neither evidence of contamination nor of absence.",
+   "step": 3
+  },
+  "E2": {
+   "item_id": "E2",
+   "quote": "The survey team could reach only the edge of the area, because rain had closed the trail into it, and could not see the land inside.",
+   "evidence_class": "not_evidence",
+   "reliability_class": 2,
+   "explains": [],
+   "note": "The team's observation establishes that it did not inspect the interior; it supports neither presence nor absence there.",
+   "step": 3
+  },
+  "E3": {
+   "item_id": "E3",
+   "quote": "A bus driver said he only passes along the road at the edge of the area and does not know the land inside it.",
+   "evidence_class": "not_evidence",
+   "reliability_class": 4,
+   "explains": [],
+   "note": "The driver reports no knowledge of the land itself, so the statement provides no evidence about contamination in the area.",
+   "step": 3
+  },
+  "E4": {
+   "item_id": "E4",
+   "quote": "The survey team could reach only the edge of the area, because rain had closed the trail into it, and could not see the land inside.",
+   "evidence_class": "not_evidence",
+   "reliability_class": 2,
+   "explains": [],
+   "note": "The team's observation establishes that it did not inspect the interior; it supports neither presence nor absence there.",
+   "step": 3
+  },
+  "E5": {
+   "item_id": "E5",
+   "quote": "A man who hunts and fishes said he has hunted and fished along the streams in the area every year for the past 21 years, and has never found anything or heard of an accident there.",
+   "evidence_class": "absence",
+   "reliability_class": 4,
+   "explains": [],
+   "note": "A long-term user of the area reports repeated safe use and no finds or accidents, which supports absence.",
+   "step": 3
+  },
+  "E6": {
+   "item_id": "E6",
+   "quote": "We have walked the trail across this land to the school for 22 years. Nobody has found anything, and nobody has been hurt.",
+   "evidence_class": "absence",
+   "reliability_class": 4,
+   "explains": [],
+   "note": "The teacher reports firsthand, long-term use of a trail through the area without finds or injury, supporting absence.",
+   "step": 3
+  },
+  "E7": {
+   "item_id": "E7",
+   "quote": "The survey team walked the paths and field edges of the area and saw no items, signs, fencing or other marks of contamination.",
+   "evidence_class": "absence",
+   "reliability_class": 2,
+   "explains": [],
+   "note": "The team's own observations on the paths and edges found no indications of contamination, though this covers only those observed locations.",
+   "step": 3
+  },
+  "E8": {
+   "item_id": "E8",
+   "quote": "The president of the community action board (Junta de Acción Comunal) said the board has recorded no find or accident in the area in the 25 years she has held the post, and that families use land in the area every week.",
+   "evidence_class": "absence",
+   "reliability_class": 4,
+   "explains": [],
+   "note": "A long-term local official reports weekly use and no recorded finds or accidents over 25 years, supporting absence.",
+   "step": 3
+  }
+ },
+ "vetoes": [],
+ "quote_failures": [],
+ "tool_errors": [],
+ "handling_blocked": [],
+ "instruction_lines_found": [],
+ "sections_read": [
+  "area_record",
+  "desk_study",
+  "evidence_log",
+  "national_criteria"
+ ],
+ "rules_read": [
+  "evidence",
+  "reliability",
+  "desk_study",
+  "cancellation",
+  "technical_survey",
+  "outcomes",
+  "dossier_text"
+ ],
+ "usage": {
+  "input_tokens": 20977,
+  "cached_tokens": 14286,
+  "output_tokens": 2000,
+  "reasoning_tokens": 814
+ },
+ "cost_usd": 0.0030977,
+ "stats": {
+  "model_calls": 5,
+  "tool_calls": 21,
+  "error": "",
+  "error_scope": "",
+  "seconds": 20.1
+ }
+}

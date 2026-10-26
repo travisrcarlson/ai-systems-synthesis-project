@@ -1,0 +1,75 @@
+{
+ "week": 12,
+ "model": "gpt-6-luna",
+ "inputs_sha": "4e09aa754aa5724ae5822dc8cfe0d764e1c7af69288e32df9e6623a64b19d071",
+ "time": "2026-10-26T13:59:53+00:00",
+ "facts": {
+  "week": 12,
+  "month": "March",
+  "teams active": {
+   "survey": 4,
+   "clearance": 4
+  },
+  "teams stood down": {
+   "count": 0
+  },
+  "teams with no report for more than a week": {
+   "count": 0
+  },
+  "tasks finished this week": {
+   "zone surveys": 1,
+   "visits": 0,
+   "technical surveys": 0,
+   "clearances": 0
+  },
+  "zones surveyed so far": 10,
+  "zones declared free so far": 2,
+  "zones declared free this week": {
+   "count": 0,
+   "zones": []
+  },
+  "areas released so far": 3,
+  "areas cleared so far": 1,
+  "areas where mines were found so far": 1,
+  "areas suspected or confirmed, still open": 570,
+  "zones closed by the access feed": {
+   "count": 12
+  },
+  "plan": "P03",
+  "new plan approved this week": false,
+  "dossiers held for missing items": {
+   "count": 0,
+   "areas": []
+  },
+  "team-days worked this week": 23,
+  "team-days lost to rain or wind this week": 17,
+  "reports held by the report checker this week": 0,
+  "reports queried by the report checker this week": 0,
+  "forecast": {
+   "made in week": 10,
+   "scope": "the zones of the plan it was made with, and what is done already",
+   "mine areas cleared this season, P10 to P90": [
+    10,
+    14
+   ],
+   "zones declared free this season, P10 to P90": [
+    10,
+    14
+   ]
+  }
+ },
+ "draft": "This week, 4 survey teams and 4 clearance teams were active. They completed 1 zone survey, with no visits, technical surveys or clearances. So far, 10 zones have been surveyed; 2 have been declared free, 3 areas released, 1 area cleared and 1 area found to contain mines.\n\nNo teams were stood down or had reports overdue by more than a week. No dossiers or reports were held or queried, and no zones were declared free this week. The access feed shows 12 zones closed. No new plan was approved; the plan remains P03. There were 23 team-days worked and 17 lost to rain or wind.\n\nThe forecast, made in week 10 for the zones of the plan it was made with and counting what is done already, gives a range of 10 to 14 mine areas cleared this season and 10 to 14 zones declared free this season.",
+ "error": "",
+ "usage": {
+  "input_tokens": 630,
+  "input_tokens_details": {
+   "cache_write_tokens": 0,
+   "cached_tokens": 0
+  },
+  "output_tokens": 192,
+  "output_tokens_details": {
+   "reasoning_tokens": 0
+  },
+  "total_tokens": 822
+ }
+}

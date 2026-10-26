@@ -1,0 +1,114 @@
+{
+ "area": "SFR-0078",
+ "week": 46,
+ "visit": 1,
+ "label": "main season",
+ "model": "gpt-6-luna",
+ "reasoning_effort": "medium",
+ "inputs_sha": "5f0e7d4e312a29f050ce433ea35a7fddb61273cd1df0e600b8ab92e449dc5edc",
+ "dossier_sha": "2ce8938a6a27571d0689c86bbe535b68c7ee67bd875da40bee84c23e2af9a009",
+ "method_sha": "92bad3dce663112a2160b3f6d199f134514bad4eff5cf17ce7475be96823240d",
+ "outcome": "CLEARANCE",
+ "fallback": false,
+ "confidence": "medium",
+ "summary": "Recommend clearance for sign-off. E1 is an unverified-location database record of a past accident, classed as indirect evidence (reliability class 6). Under the national criteria it is a clearance target after the first visit, and technical survey is unavailable. The reported safe use and the team's observations are relevant evidence of absence but do not remove this required target.",
+ "flags": [],
+ "rule_check": {
+  "result": "pass",
+  "outcome": "CLEARANCE",
+  "checks": [
+   {
+    "rule": "R5",
+    "passed": true,
+    "detail": "Every item of the evidence log is in the register."
+   },
+   {
+    "rule": "R3",
+    "passed": true,
+    "detail": "The national criteria provide no technical survey, so clearance takes its place; evidence to target: E1."
+   }
+  ]
+ },
+ "register": {
+  "E1": {
+   "item_id": "E1",
+   "quote": "The national mine action database records one or more past landmine accidents inside this area.",
+   "evidence_class": "indirect",
+   "reliability_class": 6,
+   "explains": [],
+   "note": "The database entry is indirect evidence because its location and reliability have not been checked on the ground.",
+   "step": 3
+  },
+  "E2": {
+   "item_id": "E2",
+   "quote": "We have cut firewood and timber here for 14 years. Nobody has found anything, and nobody has been hurt.",
+   "evidence_class": "absence",
+   "reliability_class": 4,
+   "explains": [],
+   "note": "The informant reports 14 years of first-hand land use without finding anything or an injury, supporting absence.",
+   "step": 3
+  },
+  "E3": {
+   "item_id": "E3",
+   "quote": "she has walked the trail across the area to the school every year for the past 8 years, and has never found anything or heard of an accident there.",
+   "evidence_class": "absence",
+   "reliability_class": 4,
+   "explains": [],
+   "note": "The teacher is a first-hand user of the area and reports repeated safe use over eight years.",
+   "step": 3
+  },
+  "E4": {
+   "item_id": "E4",
+   "quote": "The survey team walked the paths and field edges of the area and saw no items, signs, fencing or other marks of contamination.",
+   "evidence_class": "absence",
+   "reliability_class": 2,
+   "explains": [],
+   "note": "This is the survey team's own observation of no signs along paths and field edges; it does not negate the database accident target.",
+   "step": 3
+  },
+  "E5": {
+   "item_id": "E5",
+   "quote": "he has hunted and fished along the streams in the area every year for the past 25 years, and has never found anything or heard of an accident there.",
+   "evidence_class": "absence",
+   "reliability_class": 4,
+   "explains": [],
+   "note": "The informant is a first-hand user and reports repeated safe use over 25 years.",
+   "step": 3
+  }
+ },
+ "vetoes": [],
+ "quote_failures": [],
+ "tool_errors": [],
+ "handling_blocked": [],
+ "instruction_lines_found": [],
+ "sections_read": [
+  "area_record",
+  "desk_study",
+  "evidence_log",
+  "national_criteria"
+ ],
+ "rules_read": [
+  "evidence",
+  "reliability",
+  "cancellation",
+  "outcomes",
+  "clearance",
+  "further_survey",
+  "desk_study",
+  "technical_survey"
+ ],
+ "usage": {
+  "input_tokens": 24720,
+  "cached_tokens": 18671,
+  "output_tokens": 1457,
+  "reasoning_tokens": 639
+ },
+ "cost_usd": 0.0032005,
+ "stats": {
+  "model_calls": 6,
+  "tool_calls": 19,
+  "error": "",
+  "error_scope": "",
+  "seconds": 15.6
+ }
+}

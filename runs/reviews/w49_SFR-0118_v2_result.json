@@ -1,0 +1,101 @@
+{
+ "area": "SFR-0118",
+ "week": 49,
+ "visit": 2,
+ "label": "main season",
+ "model": "gpt-6-luna",
+ "reasoning_effort": "medium",
+ "inputs_sha": "995c36bd463551ca10fd4c73798c72df1ccf9ca7f505f83c14a261e06804d82d",
+ "dossier_sha": "0195c1427a7f4cd9f4c630093986b79e07a3ecb42b0a44977786aeecc804e823",
+ "method_sha": "92bad3dce663112a2160b3f6d199f134514bad4eff5cf17ce7475be96823240d",
+ "outcome": "FURTHER_NTS",
+ "fallback": false,
+ "confidence": "high",
+ "summary": "Recommend further non-technical survey. One land user reports four years of safe use, but cancellation requires two distinct reliable first-hand sources each reporting at least five years. The survey team could not see the interior on either visit, and the bus driver does not know the land; there is no target evidence supporting clearance, and the evidence is insufficient to cancel.",
+ "flags": [
+  "For the next visit, seek additional first-hand information from people who use or know the interior and make reasonable efforts to access and assess the area; do not treat the zone flag or survey priority as evidence."
+ ],
+ "rule_check": {
+  "result": "pass",
+  "outcome": "FURTHER_NTS",
+  "checks": [
+   {
+    "rule": "-",
+    "passed": true,
+    "detail": "Further non-technical survey is always open."
+   }
+  ]
+ },
+ "register": {
+  "E1": {
+   "item_id": "E1",
+   "quote": "has hunted and fished along the streams in the area every year for the past 4 years, and has never found anything or heard of an accident there.",
+   "evidence_class": "absence",
+   "reliability_class": 4,
+   "explains": [],
+   "note": "A first-hand land user reports repeated safe use, supporting absence; one source and four years do not satisfy cancellation criteria.",
+   "step": 3
+  },
+  "E2": {
+   "item_id": "E2",
+   "quote": "could reach only the edge of the area, because rain had closed the trail into it, and could not see the land inside.",
+   "evidence_class": "not_evidence",
+   "reliability_class": 2,
+   "explains": [],
+   "note": "The team's limited access means it observed no interior land and provides neither presence evidence nor evidence of absence.",
+   "step": 3
+  },
+  "E3": {
+   "item_id": "E3",
+   "quote": "he only passes along the road at the edge of the area and does not know the land inside it.",
+   "evidence_class": "not_evidence",
+   "reliability_class": 7,
+   "explains": [],
+   "note": "The informant explicitly lacks knowledge of the interior, so this does not bear on EO presence or absence there.",
+   "step": 3
+  },
+  "E4": {
+   "item_id": "E4",
+   "quote": "could reach only the edge of the area, because rain had closed the trail into it, and could not see the land inside.",
+   "evidence_class": "not_evidence",
+   "reliability_class": 2,
+   "explains": [],
+   "note": "The team's limited access means it observed no interior land and provides neither presence evidence nor evidence of absence.",
+   "step": 3
+  }
+ },
+ "vetoes": [],
+ "quote_failures": [],
+ "tool_errors": [],
+ "handling_blocked": [],
+ "instruction_lines_found": [],
+ "sections_read": [
+  "area_record",
+  "desk_study",
+  "evidence_log",
+  "national_criteria"
+ ],
+ "rules_read": [
+  "evidence",
+  "reliability",
+  "desk_study",
+  "cancellation",
+  "further_survey",
+  "outcomes",
+  "dossier_text"
+ ],
+ "usage": {
+  "input_tokens": 17402,
+  "cached_tokens": 12191,
+  "output_tokens": 1289,
+  "reasoning_tokens": 527
+ },
+ "cost_usd": 0.0023847,
+ "stats": {
+  "model_calls": 5,
+  "tool_calls": 17,
+  "error": "",
+  "error_scope": "",
+  "seconds": 13.5
+ }
+}

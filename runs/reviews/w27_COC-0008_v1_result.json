@@ -1,0 +1,91 @@
+{
+ "area": "COC-0008",
+ "week": 27,
+ "visit": 1,
+ "label": "main season",
+ "model": "gpt-6-luna",
+ "reasoning_effort": "medium",
+ "inputs_sha": "0a74f934b3786faad868f05d60280cdb669b2dccbdb98fa3577fbcd397af2e32",
+ "dossier_sha": "9aca6ef9cb5d8590388955002dc8e3dab51f5d97ff9044795cce2c13b8c88d34",
+ "method_sha": "92bad3dce663112a2160b3f6d199f134514bad4eff5cf17ce7475be96823240d",
+ "outcome": "CLEARANCE",
+ "fallback": false,
+ "confidence": "medium",
+ "summary": "Recommend clearance for sign-off. Visit 1 produced two items of target indirect evidence: the survey team observed a long-unused field with overgrown paths, and a local teacher reported that land at the pasture edge has remained unused since an armed group camped there. Neither confirms EO, but both are target evidence; the national criteria provide no technical survey, so clearance is the prescribed next step. Cancellation criteria are not met because the evidence does not establish safe use.",
+ "flags": [
+  "No direct evidence of EO was reported; this is a recommendation for human sign-off, not a final decision.",
+  "The recorded accident is within 1 km, not stated to be inside the area; the zone flag and survey priority are not evidence."
+ ],
+ "rule_check": {
+  "result": "pass",
+  "outcome": "CLEARANCE",
+  "checks": [
+   {
+    "rule": "R5",
+    "passed": true,
+    "detail": "Every item of the evidence log is in the register."
+   },
+   {
+    "rule": "R3",
+    "passed": true,
+    "detail": "The national criteria provide no technical survey, so clearance takes its place; evidence to target: E1, E2."
+   }
+  ]
+ },
+ "register": {
+  "E1": {
+   "item_id": "E1",
+   "quote": "The survey team saw that a field in part of the area has been left unused for years, with collapsed fences and overgrown paths, although the land around it is farmed.",
+   "evidence_class": "indirect",
+   "reliability_class": 2,
+   "explains": [],
+   "note": "The team’s direct observation of a potentially productive but long-unused part of the area suggests possible contamination; it does not confirm EO.",
+   "step": 4
+  },
+  "E2": {
+   "item_id": "E2",
+   "quote": "A teacher said people stopped using the land at the edge of the pasture after an armed group camped there around 2006, and nobody has used it since.",
+   "evidence_class": "indirect",
+   "reliability_class": 4,
+   "explains": [],
+   "note": "This is a first-hand local informant’s report of long-term non-use associated with an armed group presence, which suggests possible contamination but does not confirm EO.",
+   "step": 4
+  }
+ },
+ "vetoes": [],
+ "quote_failures": [],
+ "tool_errors": [],
+ "handling_blocked": [],
+ "instruction_lines_found": [],
+ "sections_read": [
+  "area_record",
+  "desk_study",
+  "evidence_log",
+  "national_criteria"
+ ],
+ "rules_read": [
+  "evidence",
+  "reliability",
+  "desk_study",
+  "cancellation",
+  "further_survey",
+  "outcomes",
+  "clearance",
+  "technical_survey",
+  "safety"
+ ],
+ "usage": {
+  "input_tokens": 24268,
+  "cached_tokens": 18088,
+  "output_tokens": 1927,
+  "reasoning_tokens": 1232
+ },
+ "cost_usd": 0.0033903,
+ "stats": {
+  "model_calls": 6,
+  "tool_calls": 17,
+  "error": "",
+  "error_scope": "",
+  "seconds": 43.5
+ }
+}

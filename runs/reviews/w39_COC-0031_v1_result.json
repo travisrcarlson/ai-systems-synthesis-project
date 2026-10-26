@@ -1,0 +1,101 @@
+{
+ "area": "COC-0031",
+ "week": 39,
+ "visit": 1,
+ "label": "main season",
+ "model": "gpt-6-luna",
+ "reasoning_effort": "medium",
+ "inputs_sha": "03494f3425e2bcf41afac06dcca3d45afbaf508f82cfc80adb0d4f2e65bc569d",
+ "dossier_sha": "88d308e42cbbcfa31f3ced58d6637993907ea78936d1d601a19f07f0d9b0b8ba",
+ "method_sha": "92bad3dce663112a2160b3f6d199f134514bad4eff5cf17ce7475be96823240d",
+ "outcome": "CLEARANCE",
+ "fallback": false,
+ "confidence": "medium",
+ "summary": "Recommend clearance for sign-off. E1 is an unchecked, undated database record and is indirect evidence, but the national criteria make an accident record inside the area a clearance target after the first visit. Technical survey is unavailable in this programme. E2 reports 23 years of safe trail use, but it cannot establish when the recorded accident occurred or override that criterion; E3 is not evidence about the interior.",
+ "flags": [
+  "The database record has no date or other detail, and its location has not been checked on the ground.",
+  "The teacher's first-hand report of 23 years of safe use should be considered, while noting that it does not resolve the undated accident record.",
+  "The zone flag and survey priority are routing information, not evidence."
+ ],
+ "rule_check": {
+  "result": "pass",
+  "outcome": "CLEARANCE",
+  "checks": [
+   {
+    "rule": "R5",
+    "passed": true,
+    "detail": "Every item of the evidence log is in the register."
+   },
+   {
+    "rule": "R3",
+    "passed": true,
+    "detail": "The national criteria provide no technical survey, so clearance takes its place; evidence to target: E1."
+   }
+  ]
+ },
+ "register": {
+  "E1": {
+   "item_id": "E1",
+   "quote": "The national mine action database records one or more past landmine accidents inside this area.",
+   "evidence_class": "indirect",
+   "reliability_class": 6,
+   "explains": [],
+   "note": "The accident record is unverified on the ground and lacks date or location detail, so it is indirect evidence under the desk-study rule.",
+   "step": 3
+  },
+  "E2": {
+   "item_id": "E2",
+   "quote": "We have walked the trail across this land to the school for 23 years. Nobody has found anything, and nobody has been hurt.",
+   "evidence_class": "absence",
+   "reliability_class": 4,
+   "explains": [],
+   "note": "The teacher personally uses a trail across the area and reports 23 years of safe use; this is first-hand evidence of absence, but it does not establish when the undated accident record occurred.",
+   "step": 3
+  },
+  "E3": {
+   "item_id": "E3",
+   "quote": "A bus driver said he only passes along the road at the edge of the area and does not know the land inside it.",
+   "evidence_class": "not_evidence",
+   "reliability_class": 7,
+   "explains": [],
+   "note": "The driver explicitly does not know the land inside the area, so the statement supports neither presence nor absence there.",
+   "step": 3
+  }
+ },
+ "vetoes": [],
+ "quote_failures": [],
+ "tool_errors": [],
+ "handling_blocked": [],
+ "instruction_lines_found": [],
+ "sections_read": [
+  "area_record",
+  "desk_study",
+  "evidence_log",
+  "national_criteria"
+ ],
+ "rules_read": [
+  "evidence",
+  "reliability",
+  "desk_study",
+  "cancellation",
+  "technical_survey",
+  "clearance",
+  "further_survey",
+  "outcomes",
+  "dossier_text"
+ ],
+ "usage": {
+  "input_tokens": 18855,
+  "cached_tokens": 13146,
+  "output_tokens": 1354,
+  "reasoning_tokens": 605
+ },
+ "cost_usd": 0.0025625,
+ "stats": {
+  "model_calls": 5,
+  "tool_calls": 18,
+  "error": "",
+  "error_scope": "",
+  "seconds": 19.4
+ }
+}

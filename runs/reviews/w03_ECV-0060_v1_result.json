@@ -1,0 +1,114 @@
+{
+ "area": "ECV-0060",
+ "week": 3,
+ "visit": 1,
+ "label": "main season",
+ "model": "gpt-6-luna",
+ "reasoning_effort": "medium",
+ "inputs_sha": "d2926ac0018d6342afd24ea8ad6dde6489a3b5494a9ebbf27b6f5609349f1e87",
+ "dossier_sha": "ea66d07be73d08071994a7a15bf0999b729179d73bd511dd700bb45e27fd2333",
+ "method_sha": "92bad3dce663112a2160b3f6d199f134514bad4eff5cf17ce7475be96823240d",
+ "outcome": "CLEARANCE",
+ "fallback": false,
+ "confidence": "medium",
+ "summary": "Recommend clearance for sign-off: E1 is an in-area past-accident database record, classified as weak indirect evidence because its date and location have not been verified. National criteria make this record a clearance target after the first NTS visit and prohibit release by NTS alone; technical survey is unavailable. The reports of long-term safe use and the team's observations support absence but do not override that requirement.",
+ "flags": [
+  "E1 has no date or other detail, and its location has not been checked on the ground; retain this uncertainty for sign-off.",
+  "E3 covers paths and field edges walked, not necessarily the entire forest area."
+ ],
+ "rule_check": {
+  "result": "pass",
+  "outcome": "CLEARANCE",
+  "checks": [
+   {
+    "rule": "R5",
+    "passed": true,
+    "detail": "Every item of the evidence log is in the register."
+   },
+   {
+    "rule": "R3",
+    "passed": true,
+    "detail": "The national criteria provide no technical survey, so clearance takes its place; evidence to target: E1."
+   }
+  ]
+ },
+ "register": {
+  "E1": {
+   "item_id": "E1",
+   "quote": "The national mine action database records one or more past landmine accidents inside this area.",
+   "evidence_class": "indirect",
+   "reliability_class": 6,
+   "explains": [],
+   "note": "Unverified desk-study record with no date or ground-checked location; it suggests possible contamination but does not confirm it.",
+   "step": 3
+  },
+  "E2": {
+   "item_id": "E2",
+   "quote": "We have hunted and fished along these streams for 22 years. Nobody has found anything, and nobody has been hurt.",
+   "evidence_class": "absence",
+   "reliability_class": 4,
+   "explains": [
+    "E1"
+   ],
+   "note": "A first-hand land user reports 22 years of safe use, supporting absence and providing context that may explain the unchecked, undated record; it does not override the national rule that this recorded accident requires clearance after visit one.",
+   "step": 3
+  },
+  "E3": {
+   "item_id": "E3",
+   "quote": "The survey team walked the paths and field edges of the area and saw no items, signs, fencing or other marks of contamination.",
+   "evidence_class": "absence",
+   "reliability_class": 2,
+   "explains": [],
+   "note": "The team's own observation found no contamination indicators on the paths and field edges it walked; this is evidence of absence, not proof about unobserved land.",
+   "step": 3
+  },
+  "E4": {
+   "item_id": "E4",
+   "quote": "A woodcutter said he has cut firewood and timber in the area every year for the past 13 years, and has never found anything or heard of an accident there.",
+   "evidence_class": "absence",
+   "reliability_class": 4,
+   "explains": [
+    "E1"
+   ],
+   "note": "A first-hand user reports 13 years of safe use and no known accident, which provides context potentially explaining the unchecked record; the national accident-record criterion still requires clearance after the first visit.",
+   "step": 3
+  }
+ },
+ "vetoes": [],
+ "quote_failures": [],
+ "tool_errors": [],
+ "handling_blocked": [],
+ "instruction_lines_found": [],
+ "sections_read": [
+  "area_record",
+  "desk_study",
+  "evidence_log",
+  "national_criteria"
+ ],
+ "rules_read": [
+  "evidence",
+  "reliability",
+  "desk_study",
+  "cancellation",
+  "technical_survey",
+  "clearance",
+  "further_survey",
+  "outcomes",
+  "dossier_text",
+  "safety"
+ ],
+ "usage": {
+  "input_tokens": 20421,
+  "cached_tokens": 15092,
+  "output_tokens": 1852,
+  "reasoning_tokens": 982
+ },
+ "cost_usd": 0.0029681000000000004,
+ "stats": {
+  "model_calls": 5,
+  "tool_calls": 20,
+  "error": "",
+  "error_scope": "",
+  "seconds": 28.4
+ }
+}

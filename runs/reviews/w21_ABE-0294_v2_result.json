@@ -1,0 +1,120 @@
+{
+ "area": "ABE-0294",
+ "week": 21,
+ "visit": 2,
+ "label": "main season",
+ "model": "gpt-6-luna",
+ "reasoning_effort": "medium",
+ "inputs_sha": "708a15badca8c1ed3af7ae6fd42143be6e92d86aa06056cad13f04e7b1333862",
+ "dossier_sha": "663496b02c2cc5ed75bd3fe5a5e52c4c5e97e879a86295489fe6d8c8d393d8b6",
+ "method_sha": "92bad3dce663112a2160b3f6d199f134514bad4eff5cf17ce7475be96823240d",
+ "outcome": "CANCEL",
+ "fallback": false,
+ "confidence": "medium",
+ "summary": "Recommend cancellation by non-technical survey for sign-off. Three distinct first-hand sources report 15–23 years of safe use/no finds or accidents; this exceeds the two-source, five-year criterion. The only contamination-related report is an unverified second-hand warning with no identifiable witness or location, explained by the sustained safe-use reports. No direct or higher-reliability indirect evidence is recorded, and the rule check passed. The nearest database accident is within 1 km, not inside this area.",
+ "flags": [
+  "The zone survey flag and survey priority indicate where to visit, not evidence of contamination."
+ ],
+ "rule_check": {
+  "result": "pass",
+  "outcome": "CANCEL",
+  "checks": [
+   {
+    "rule": "R5",
+    "passed": true,
+    "detail": "Every item of the evidence log is in the register."
+   },
+   {
+    "rule": "R1",
+    "passed": true,
+    "detail": "There is no direct evidence and no indirect evidence of class 1 to 4, and every item of weaker indirect evidence is explained by evidence of absence of class 1 to 4."
+   },
+   {
+    "rule": "R2",
+    "passed": true,
+    "detail": "3 different reliable source(s) report at least 5 years of safe use (E2; E3; E4); the criteria need 2."
+   },
+   {
+    "rule": "R6",
+    "passed": true,
+    "detail": "No past landmine accident is recorded inside the area."
+   }
+  ]
+ },
+ "register": {
+  "E1": {
+   "item_id": "E1",
+   "quote": "people should keep away from the area because of mines, but could not say who had seen anything, or where.",
+   "evidence_class": "indirect",
+   "reliability_class": 7,
+   "explains": [],
+   "note": "This is an unverified second-hand warning with no identifiable first-hand source or location, so it suggests possible EO but is weak.",
+   "step": 3
+  },
+  "E2": {
+   "item_id": "E2",
+   "quote": "We have walked the trail across this land to the school for 16 years. Nobody has found anything, and nobody has been hurt.",
+   "evidence_class": "absence",
+   "reliability_class": 4,
+   "explains": [
+    "E1"
+   ],
+   "note": "The teacher reports first-hand, long-term safe use across the area, supporting absence and accounting for the vague warning.",
+   "step": 3
+  },
+  "E3": {
+   "item_id": "E3",
+   "quote": "the board has recorded no find or accident in the area in the 15 years she has held the post, and that families use land in the area every week.",
+   "evidence_class": "absence",
+   "reliability_class": 4,
+   "explains": [
+    "E1"
+   ],
+   "note": "The board president reports ongoing local use and no recorded finds or accidents over 15 years, supporting absence and accounting for the vague warning.",
+   "step": 3
+  },
+  "E4": {
+   "item_id": "E4",
+   "quote": "We have hunted and fished along these streams for 23 years. Nobody has found anything, and nobody has been hurt.",
+   "evidence_class": "absence",
+   "reliability_class": 4,
+   "explains": [
+    "E1"
+   ],
+   "note": "The local hunter and fisher reports first-hand safe use of the area for 23 years, supporting absence and accounting for the vague warning.",
+   "step": 3
+  }
+ },
+ "vetoes": [],
+ "quote_failures": [],
+ "tool_errors": [],
+ "handling_blocked": [],
+ "instruction_lines_found": [],
+ "sections_read": [
+  "area_record",
+  "desk_study",
+  "evidence_log",
+  "national_criteria"
+ ],
+ "rules_read": [
+  "evidence",
+  "reliability",
+  "cancellation",
+  "outcomes",
+  "dossier_text"
+ ],
+ "usage": {
+  "input_tokens": 15735,
+  "cached_tokens": 11053,
+  "output_tokens": 1204,
+  "reasoning_tokens": 448
+ },
+ "cost_usd": 0.0021755,
+ "stats": {
+  "model_calls": 5,
+  "tool_calls": 15,
+  "error": "",
+  "error_scope": "",
+  "seconds": 20.2
+ }
+}

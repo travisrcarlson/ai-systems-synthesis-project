@@ -1,0 +1,91 @@
+{
+ "area": "SAB-0225",
+ "week": 44,
+ "visit": 2,
+ "label": "main season",
+ "model": "gpt-6-luna",
+ "reasoning_effort": "medium",
+ "inputs_sha": "57dc94bdb941a740763908114ba1837d2fd6fbae38ed9b327f5b7e9e0b7927bf",
+ "dossier_sha": "7a87fcbb0fa792fc621e6a5085f1e9a6cda8d4735aae957f7707a1f3562dc1e7",
+ "method_sha": "92bad3dce663112a2160b3f6d199f134514bad4eff5cf17ce7475be96823240d",
+ "outcome": "CLEARANCE",
+ "fallback": false,
+ "confidence": "medium",
+ "summary": "Recommend clearance for sign-off. E2 is survey-team-observed prolonged non-use in part of the area, classed as indirect evidence with a target; the national criteria provide no technical survey, so a target area proceeds to clearance. E1 is a weaker second-hand report of non-use associated with an armed-group camp and does not establish EO presence.",
+ "flags": [
+  "E2 describes a field in only part of the recorded area; confirm the defined hazardous-area extent at sign-off. This is a recommendation only, not a final decision."
+ ],
+ "rule_check": {
+  "result": "pass",
+  "outcome": "CLEARANCE",
+  "checks": [
+   {
+    "rule": "R5",
+    "passed": true,
+    "detail": "Every item of the evidence log is in the register."
+   },
+   {
+    "rule": "R3",
+    "passed": true,
+    "detail": "The national criteria provide no technical survey, so clearance takes its place; evidence to target: E1, E2."
+   }
+  ]
+ },
+ "register": {
+  "E1": {
+   "item_id": "E1",
+   "quote": "people stopped using the land at the edge of the pasture after an armed group camped there around 2006, and nobody has used it since",
+   "evidence_class": "indirect",
+   "reliability_class": 5,
+   "explains": [],
+   "note": "This is a second-hand verbal account linking prolonged non-use to an armed-group camp; it suggests possible contamination but does not confirm EO.",
+   "step": 3
+  },
+  "E2": {
+   "item_id": "E2",
+   "quote": "a field in part of the area has been left unused for years, with collapsed fences and overgrown paths, although the land around it is farmed",
+   "evidence_class": "indirect",
+   "reliability_class": 2,
+   "explains": [],
+   "note": "The survey team directly observed prolonged non-use in part of the area, which is indirect evidence that EO may be present, not confirmation of EO.",
+   "step": 4
+  }
+ },
+ "vetoes": [],
+ "quote_failures": [],
+ "tool_errors": [],
+ "handling_blocked": [],
+ "instruction_lines_found": [],
+ "sections_read": [
+  "area_record",
+  "desk_study",
+  "evidence_log",
+  "national_criteria"
+ ],
+ "rules_read": [
+  "evidence",
+  "reliability",
+  "cancellation",
+  "further_survey",
+  "outcomes",
+  "desk_study",
+  "dossier_text",
+  "technical_survey",
+  "clearance",
+  "safety"
+ ],
+ "usage": {
+  "input_tokens": 27824,
+  "cached_tokens": 21946,
+  "output_tokens": 1591,
+  "reasoning_tokens": 938
+ },
+ "cost_usd": 0.0035779,
+ "stats": {
+  "model_calls": 7,
+  "tool_calls": 18,
+  "error": "",
+  "error_scope": "",
+  "seconds": 21.6
+ }
+}

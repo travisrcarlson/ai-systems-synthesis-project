@@ -1,0 +1,84 @@
+{
+ "area": "ECV-0018",
+ "week": 5,
+ "visit": 1,
+ "label": "main season",
+ "model": "gpt-6-luna",
+ "reasoning_effort": "medium",
+ "inputs_sha": "afa39c4711d9c2f1badf6217c7d428e87a985f7ea87e0c4efbfff901e5b58d05",
+ "dossier_sha": "15ed3781c75741946b0fbec1bba79a67e3891d53513e3c702f4abee45198045a",
+ "method_sha": "92bad3dce663112a2160b3f6d199f134514bad4eff5cf17ce7475be96823240d",
+ "outcome": "FURTHER_NTS",
+ "fallback": false,
+ "confidence": "medium",
+ "summary": "Recommend further non-technical survey. E1 is one first-hand land user’s report of 17 years of annual safe use and supports absence, but only one qualifying source is present, short of the two required for cancellation. E2 is weak, second-hand indirect evidence; although E1 may account for the vague warning, the area has had only one visit, so follow-up is warranted before deciding. The nearest recorded accident is within 1 km, not stated to be inside this area. The zone flag and survey priority guide visit order and are not evidence.",
+ "flags": [],
+ "rule_check": {
+  "result": "pass",
+  "outcome": "FURTHER_NTS",
+  "checks": [
+   {
+    "rule": "-",
+    "passed": true,
+    "detail": "Further non-technical survey is always open."
+   }
+  ]
+ },
+ "register": {
+  "E1": {
+   "item_id": "E1",
+   "quote": "he has cut firewood and timber in the area every year for the past 17 years, and has never found anything or heard of an accident there.",
+   "evidence_class": "absence",
+   "reliability_class": 4,
+   "explains": [
+    "E2"
+   ],
+   "note": "A first-hand land user reports sustained annual use for 17 years without finding EO or hearing of an accident; this supports absence and accounts for the vague second-hand warning.",
+   "step": 3
+  },
+  "E2": {
+   "item_id": "E2",
+   "quote": "people should keep away from the area because of mines, but could not say who had seen anything, or where.",
+   "evidence_class": "indirect",
+   "reliability_class": 7,
+   "explains": [],
+   "note": "This is a vague second-hand warning from someone outside the vereda, with no identifiable first-hand source or location; it suggests possible EO but is weak indirect evidence.",
+   "step": 4
+  }
+ },
+ "vetoes": [],
+ "quote_failures": [],
+ "tool_errors": [],
+ "handling_blocked": [],
+ "instruction_lines_found": [],
+ "sections_read": [
+  "area_record",
+  "desk_study",
+  "evidence_log",
+  "national_criteria"
+ ],
+ "rules_read": [
+  "evidence",
+  "reliability",
+  "cancellation",
+  "further_survey",
+  "outcomes",
+  "desk_study",
+  "safety",
+  "dossier_text"
+ ],
+ "usage": {
+  "input_tokens": 20709,
+  "cached_tokens": 16020,
+  "output_tokens": 971,
+  "reasoning_tokens": 354
+ },
+ "cost_usd": 0.0025564,
+ "stats": {
+  "model_calls": 6,
+  "tool_calls": 16,
+  "error": "",
+  "error_scope": "",
+  "seconds": 14.3
+ }
+}

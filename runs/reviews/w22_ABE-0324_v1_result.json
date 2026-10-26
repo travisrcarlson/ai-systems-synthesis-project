@@ -1,0 +1,87 @@
+{
+ "area": "ABE-0324",
+ "week": 22,
+ "visit": 1,
+ "label": "main season",
+ "model": "gpt-6-luna",
+ "reasoning_effort": "medium",
+ "inputs_sha": "017295e02ab5c8e9e23c9a8a4eff3c87c8da901301fcff0f17f77e209ba6b9d8",
+ "dossier_sha": "a46af41757b0e2ff43238027df35f556b5554a29201b8155a25c4645b5461e55",
+ "method_sha": "92bad3dce663112a2160b3f6d199f134514bad4eff5cf17ce7475be96823240d",
+ "outcome": "FURTHER_NTS",
+ "fallback": false,
+ "confidence": "medium",
+ "summary": "Recommend returning ABE-0324 for further non-technical survey. The single land-using informant reports weekly use and no finds or accidents for four years, which is insufficient for cancellation (the criteria require two reliable first-hand sources each reporting at least five years of safe use). The team could not see the interior, and no direct evidence or other target for intrusive action is recorded. Further survey should seek additional first-hand information and assess the interior when access permits.",
+ "flags": [
+  "Visit 1 access was limited by rain; the interior was not observed, so this is not evidence of absence there.",
+  "The zone survey flag and survey-priority rank guide where to visit and do not count as evidence."
+ ],
+ "rule_check": {
+  "result": "pass",
+  "outcome": "FURTHER_NTS",
+  "checks": [
+   {
+    "rule": "-",
+    "passed": true,
+    "detail": "Further non-technical survey is always open."
+   }
+  ]
+ },
+ "register": {
+  "E1": {
+   "item_id": "E1",
+   "quote": "the board has recorded no find or accident in the area in the 4 years she has held the post, and that families use land in the area every week.",
+   "evidence_class": "absence",
+   "reliability_class": 4,
+   "explains": [],
+   "note": "The informant reports regular safe use and no finds over four years; as a land-using first-hand source this supports absence, but does not meet the five-year criterion or provide a second source.",
+   "step": 3
+  },
+  "E2": {
+   "item_id": "E2",
+   "quote": "could reach only the edge of the area, because rain had closed the trail into it, and could not see the land inside.",
+   "evidence_class": "not_evidence",
+   "reliability_class": 2,
+   "explains": [],
+   "note": "The team's reliable observation documents that the interior was not observed, so it supports neither presence nor absence there.",
+   "step": 3
+  }
+ },
+ "vetoes": [],
+ "quote_failures": [],
+ "tool_errors": [],
+ "handling_blocked": [],
+ "instruction_lines_found": [],
+ "sections_read": [
+  "area_record",
+  "desk_study",
+  "evidence_log",
+  "national_criteria"
+ ],
+ "rules_read": [
+  "evidence",
+  "reliability",
+  "desk_study",
+  "cancellation",
+  "technical_survey",
+  "clearance",
+  "further_survey",
+  "outcomes",
+  "dossier_text",
+  "safety"
+ ],
+ "usage": {
+  "input_tokens": 18448,
+  "cached_tokens": 13042,
+  "output_tokens": 1114,
+  "reasoning_tokens": 431
+ },
+ "cost_usd": 0.0024018000000000004,
+ "stats": {
+  "model_calls": 5,
+  "tool_calls": 18,
+  "error": "",
+  "error_scope": "",
+  "seconds": 20.7
+ }
+}

@@ -1,0 +1,77 @@
+{
+ "week": 34,
+ "model": "gpt-6-luna",
+ "inputs_sha": "c2d1550d762943ee9ee84b56652fe413a98017c46ac5873def105edc86947f91",
+ "time": "2026-10-26T14:16:25+00:00",
+ "facts": {
+  "week": 34,
+  "month": "August",
+  "teams active": {
+   "survey": 4,
+   "clearance": 4
+  },
+  "teams stood down": {
+   "count": 0
+  },
+  "teams with no report for more than a week": {
+   "count": 0
+  },
+  "tasks finished this week": {
+   "zone surveys": 1,
+   "visits": 2,
+   "technical surveys": 0,
+   "clearances": 1
+  },
+  "zones surveyed so far": 24,
+  "zones declared free so far": 9,
+  "zones declared free this week": {
+   "count": 1,
+   "zones": [
+    "COC-Z09"
+   ]
+  },
+  "areas released so far": 26,
+  "areas cleared so far": 12,
+  "areas where mines were found so far": 8,
+  "areas suspected or confirmed, still open": 574,
+  "zones closed by the access feed": {
+   "count": 10
+  },
+  "plan": "P08",
+  "new plan approved this week": false,
+  "dossiers held for missing items": {
+   "count": 0,
+   "areas": []
+  },
+  "team-days worked this week": 34,
+  "team-days lost to rain or wind this week": 6,
+  "reports held by the report checker this week": 0,
+  "reports queried by the report checker this week": 0,
+  "forecast": {
+   "made in week": 32,
+   "scope": "the zones of the plan it was made with, and what is done already",
+   "mine areas cleared this season, P10 to P90": [
+    10,
+    14
+   ],
+   "zones declared free this season, P10 to P90": [
+    8,
+    11
+   ]
+  }
+ },
+ "draft": "In week 34 of August, teams completed 1 zone survey, 2 visits and 1 clearance; no technical surveys were completed. COC-Z09 was declared free this week. So far, 24 zones have been surveyed, 9 declared free, 26 areas released and 12 cleared. Mines have been found in 8 areas; 574 suspected or confirmed areas remain open.\n\nNo teams were stood down or without a report for more than a week. No reports or dossiers were held or queried. The access feed shows 10 zones closed. No new plan was approved; the current plan is P08. Rain or wind cost 6 team-days.\n\nThe week 32 forecast covers the zones of the plan it was made with and counts what is already done. Its P10 to P90 range is 10 to 14 mine areas cleared this season and 8 to 11 zones declared free this season.",
+ "error": "",
+ "usage": {
+  "input_tokens": 635,
+  "input_tokens_details": {
+   "cache_write_tokens": 0,
+   "cached_tokens": 0
+  },
+  "output_tokens": 191,
+  "output_tokens_details": {
+   "reasoning_tokens": 0
+  },
+  "total_tokens": 826
+ }
+}

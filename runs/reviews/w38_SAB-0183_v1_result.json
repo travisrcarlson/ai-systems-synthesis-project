@@ -1,0 +1,77 @@
+{
+ "area": "SAB-0183",
+ "week": 38,
+ "visit": 1,
+ "label": "main season",
+ "model": "gpt-6-luna",
+ "reasoning_effort": "medium",
+ "inputs_sha": "58b8deabad940ab89d62c95d94e6c27709a1cc3ff461964915e724013a043ebe",
+ "dossier_sha": "fa81c7704abf840438cc65db31882dcfe3d14d47542d5c437176f09800c5c9cb",
+ "method_sha": "92bad3dce663112a2160b3f6d199f134514bad4eff5cf17ce7475be96823240d",
+ "outcome": "CLEARANCE",
+ "fallback": false,
+ "confidence": "medium",
+ "summary": "Recommend clearance for sign-off. The survey team recorded seeing an object that looked like explosive ordnance within the area, which is registered as direct evidence (E1). National criteria do not provide technical survey, so clearance is the prescribed next outcome for this target.",
+ "flags": [
+  "The evidence log describes the object as one that “looked like” explosive ordnance; preserve that qualification for sign-off. No technical survey is available under the national criteria."
+ ],
+ "rule_check": {
+  "result": "pass",
+  "outcome": "CLEARANCE",
+  "checks": [
+   {
+    "rule": "R5",
+    "passed": true,
+    "detail": "Every item of the evidence log is in the register."
+   },
+   {
+    "rule": "R3",
+    "passed": true,
+    "detail": "The national criteria provide no technical survey, so clearance takes its place; evidence to target: E1."
+   }
+  ]
+ },
+ "register": {
+  "E1": {
+   "item_id": "E1",
+   "quote": "The survey team saw an object that looked like explosive ordnance on the ground near the old path to the school.",
+   "evidence_class": "direct",
+   "reliability_class": 1,
+   "explains": [],
+   "note": "The survey team's own recorded observation of an apparent EO object is direct physical evidence in the area.",
+   "step": 3
+  }
+ },
+ "vetoes": [],
+ "quote_failures": [],
+ "tool_errors": [],
+ "handling_blocked": [],
+ "instruction_lines_found": [],
+ "sections_read": [
+  "area_record",
+  "desk_study",
+  "evidence_log",
+  "national_criteria"
+ ],
+ "rules_read": [
+  "evidence",
+  "reliability",
+  "clearance",
+  "outcomes",
+  "safety"
+ ],
+ "usage": {
+  "input_tokens": 12944,
+  "cached_tokens": 9417,
+  "output_tokens": 642,
+  "reasoning_tokens": 231
+ },
+ "cost_usd": 0.0016154000000000001,
+ "stats": {
+  "model_calls": 5,
+  "tool_calls": 12,
+  "error": "",
+  "error_scope": "",
+  "seconds": 19.2
+ }
+}

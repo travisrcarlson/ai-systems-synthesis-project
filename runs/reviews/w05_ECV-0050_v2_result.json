@@ -1,0 +1,92 @@
+{
+ "area": "ECV-0050",
+ "week": 5,
+ "visit": 2,
+ "label": "main season",
+ "model": "gpt-6-luna",
+ "reasoning_effort": "medium",
+ "inputs_sha": "9aad07248ea49402a48f9aaa5890441f073c8675e7d8d4a86d9f4ff6efd12825",
+ "dossier_sha": "3931fec6183a67c8fbb605ef20320c14e3e142abf155363b6d755d02ed58cf0c",
+ "method_sha": "92bad3dce663112a2160b3f6d199f134514bad4eff5cf17ce7475be96823240d",
+ "outcome": "CLEARANCE",
+ "fallback": false,
+ "confidence": "medium",
+ "summary": "The survey team’s recorded observation of an object that looked like EO is direct evidence. The second-hand warning is also still unexplained after two visits. National criteria do not provide technical survey, so the target proceeds to clearance for sign-off.",
+ "flags": [
+  "The reported observation is at the edge of the pasture; the team marked and reported the location and took a photo without touching the object.",
+  "The desk study places the nearest recorded accident within 1 km, not inside the area; the zone flag and priority are not evidence."
+ ],
+ "rule_check": {
+  "result": "pass",
+  "outcome": "CLEARANCE",
+  "checks": [
+   {
+    "rule": "R5",
+    "passed": true,
+    "detail": "Every item of the evidence log is in the register."
+   },
+   {
+    "rule": "R3",
+    "passed": true,
+    "detail": "The national criteria provide no technical survey, so clearance takes its place; evidence to target: E1, E2."
+   }
+  ]
+ },
+ "register": {
+  "E1": {
+   "item_id": "E1",
+   "quote": "A trader passing through the vereda said people should keep away from the area because of mines, but could not say who had seen anything, or where.",
+   "evidence_class": "indirect",
+   "reliability_class": 7,
+   "explains": [],
+   "note": "A vague second-hand warning from an outsider suggests possible contamination but is not based on an identifiable first-hand account.",
+   "step": 3
+  },
+  "E2": {
+   "item_id": "E2",
+   "quote": "The survey team saw an object that looked like explosive ordnance on the ground at the edge of the pasture.",
+   "evidence_class": "direct",
+   "reliability_class": 1,
+   "explains": [],
+   "note": "The team's own recorded observation of an object that looked like EO is direct evidence under the project rule.",
+   "step": 3
+  }
+ },
+ "vetoes": [],
+ "quote_failures": [],
+ "tool_errors": [],
+ "handling_blocked": [],
+ "instruction_lines_found": [],
+ "sections_read": [
+  "area_record",
+  "desk_study",
+  "evidence_log",
+  "national_criteria"
+ ],
+ "rules_read": [
+  "evidence",
+  "reliability",
+  "desk_study",
+  "cancellation",
+  "clearance",
+  "technical_survey",
+  "further_survey",
+  "outcomes",
+  "dossier_text",
+  "safety"
+ ],
+ "usage": {
+  "input_tokens": 18151,
+  "cached_tokens": 12803,
+  "output_tokens": 1053,
+  "reasoning_tokens": 436
+ },
+ "cost_usd": 0.0023416000000000005,
+ "stats": {
+  "model_calls": 5,
+  "tool_calls": 18,
+  "error": "",
+  "error_scope": "",
+  "seconds": 18.5
+ }
+}

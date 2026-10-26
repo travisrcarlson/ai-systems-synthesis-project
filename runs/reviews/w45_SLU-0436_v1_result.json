@@ -1,0 +1,90 @@
+{
+ "area": "SLU-0436",
+ "week": 45,
+ "visit": 1,
+ "label": "main season",
+ "model": "gpt-6-luna",
+ "reasoning_effort": "medium",
+ "inputs_sha": "57170f5e51e567b26e808db6a2c5396b6dc644cefe2876c6597969788a0fd2c7",
+ "dossier_sha": "aa52cd7b1b404ad55da8def80e8a37e15a7a4e18f0ede55b50277fa6dc73927e",
+ "method_sha": "92bad3dce663112a2160b3f6d199f134514bad4eff5cf17ce7475be96823240d",
+ "outcome": "CLEARANCE",
+ "fallback": false,
+ "confidence": "medium",
+ "summary": "Recommend clearance for sign-off. E1 is an unchecked national database record of a past accident inside the area; under the national criteria it is a clearance target after the first visit, and technical survey is not available in this programme. E2 is a weaker, second-hand report that does not independently establish a located incident.",
+ "flags": [
+  "The database entry has no date or other detail, and its location has not been verified on the ground; retain this limitation in the sign-off review.",
+  "The survey-zone flag and priority are not evidence and were not used as grounds for the recommendation."
+ ],
+ "rule_check": {
+  "result": "pass",
+  "outcome": "CLEARANCE",
+  "checks": [
+   {
+    "rule": "R5",
+    "passed": true,
+    "detail": "Every item of the evidence log is in the register."
+   },
+   {
+    "rule": "R3",
+    "passed": true,
+    "detail": "The national criteria provide no technical survey, so clearance takes its place; evidence to target: E1."
+   }
+  ]
+ },
+ "register": {
+  "E1": {
+   "item_id": "E1",
+   "quote": "The national mine action database records one or more past landmine accidents inside this area.",
+   "evidence_class": "indirect",
+   "reliability_class": 6,
+   "explains": [],
+   "note": "The location and reliability of the database record have not been checked on the ground, so it is indirect evidence and reliability class 6.",
+   "step": 4
+  },
+  "E2": {
+   "item_id": "E2",
+   "quote": "A bus driver said neighbours told him that an animal was killed by a mine somewhere in the area some years ago.",
+   "evidence_class": "indirect",
+   "reliability_class": 7,
+   "explains": [],
+   "note": "This is a second-hand report relayed by an informant whose underlying source cannot be identified as first-hand; it suggests possible contamination but does not locate or confirm it.",
+   "step": 5
+  }
+ },
+ "vetoes": [],
+ "quote_failures": [],
+ "tool_errors": [],
+ "handling_blocked": [],
+ "instruction_lines_found": [],
+ "sections_read": [
+  "area_record",
+  "desk_study",
+  "evidence_log",
+  "national_criteria"
+ ],
+ "rules_read": [
+  "evidence",
+  "reliability",
+  "desk_study",
+  "clearance",
+  "outcomes",
+  "further_survey",
+  "technical_survey",
+  "cancellation"
+ ],
+ "usage": {
+  "input_tokens": 26374,
+  "cached_tokens": 21203,
+  "output_tokens": 948,
+  "reasoning_tokens": 336
+ },
+ "cost_usd": 0.0031114000000000003,
+ "stats": {
+  "model_calls": 7,
+  "tool_calls": 16,
+  "error": "",
+  "error_scope": "",
+  "seconds": 14.3
+ }
+}

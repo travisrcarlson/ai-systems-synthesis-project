@@ -1,0 +1,76 @@
+{
+ "area": "SAB-0263",
+ "week": 28,
+ "visit": 1,
+ "label": "main season",
+ "model": "gpt-6-luna",
+ "reasoning_effort": "medium",
+ "inputs_sha": "7ec4e76c7b5d3e29d1bcd2180ea6e9eaf44c9479d15f72ba01878fee8ed161a6",
+ "dossier_sha": "a89e3a43c10d26e90a91badca4d272c914cb35653286ed2c8d90e5bc4756cf29",
+ "method_sha": "92bad3dce663112a2160b3f6d199f134514bad4eff5cf17ce7475be96823240d",
+ "outcome": "FURTHER_NTS",
+ "fallback": false,
+ "confidence": "medium",
+ "summary": "E1 is weak indirect evidence (reliability class 7): a passing trader relayed an unverified warning and could identify neither a first-hand source nor a location. After only one visit, it has not met the national follow-up threshold for clearance. There is no qualifying evidence of absence to support cancellation, and the nearby recorded accident is within 1 km, not stated to be inside this area. Recommend another non-technical survey visit before deciding.",
+ "flags": [
+  "On further survey, seek first-hand sources with knowledge of the area and clarify whether any report refers to this area. The zone flag and survey priority indicate where to survey, not evidence of contamination."
+ ],
+ "rule_check": {
+  "result": "pass",
+  "outcome": "FURTHER_NTS",
+  "checks": [
+   {
+    "rule": "-",
+    "passed": true,
+    "detail": "Further non-technical survey is always open."
+   }
+  ]
+ },
+ "register": {
+  "E1": {
+   "item_id": "E1",
+   "quote": "A trader passing through the vereda said people should keep away from the area because of mines, but could not say who had seen anything, or where.",
+   "evidence_class": "indirect",
+   "reliability_class": 7,
+   "explains": [],
+   "note": "This is a second-hand warning relayed by an outsider who cannot identify any first-hand source or location; it suggests possible EO but is weak indirect evidence.",
+   "step": 3
+  }
+ },
+ "vetoes": [],
+ "quote_failures": [],
+ "tool_errors": [],
+ "handling_blocked": [],
+ "instruction_lines_found": [],
+ "sections_read": [
+  "area_record",
+  "desk_study",
+  "evidence_log",
+  "national_criteria"
+ ],
+ "rules_read": [
+  "evidence",
+  "reliability",
+  "desk_study",
+  "cancellation",
+  "further_survey",
+  "outcomes",
+  "technical_survey",
+  "dossier_text",
+  "safety"
+ ],
+ "usage": {
+  "input_tokens": 16940,
+  "cached_tokens": 12055,
+  "output_tokens": 910,
+  "reasoning_tokens": 363
+ },
+ "cost_usd": 0.002149,
+ "stats": {
+  "model_calls": 5,
+  "tool_calls": 16,
+  "error": "",
+  "error_scope": "",
+  "seconds": 13.1
+ }
+}

@@ -1,0 +1,101 @@
+{
+ "area": "ABE-0324",
+ "week": 23,
+ "visit": 2,
+ "label": "main season",
+ "model": "gpt-6-luna",
+ "reasoning_effort": "medium",
+ "inputs_sha": "824a59c28eb0a2833deff656865d41f820f137738532d01472a99229451c2687",
+ "dossier_sha": "39d83e0208ce90dd7ba9a11f4372577b1eb9dd432252146beb7cee4186bb8ec5",
+ "method_sha": "92bad3dce663112a2160b3f6d199f134514bad4eff5cf17ce7475be96823240d",
+ "outcome": "FURTHER_NTS",
+ "fallback": false,
+ "confidence": "medium",
+ "summary": "Recommend further non-technical survey. The evidence log contains no direct or target indirect evidence of explosive ordnance, but cancellation criteria are not met: only the woodcutter reports at least five years of first-hand safe use (19 years); the teacher reports three years, and the community-board president's report covers four years and is not clearly first-hand. The team could not see the area interior on visit 1. Further evidence is needed before release can be recommended.",
+ "flags": [
+  "Visit 1 reached only the edge and could not see the land inside; cancellation therefore relies on informant reports.",
+  "Zone flag and survey priority guide where to visit and are not evidence about contamination."
+ ],
+ "rule_check": {
+  "result": "pass",
+  "outcome": "FURTHER_NTS",
+  "checks": [
+   {
+    "rule": "-",
+    "passed": true,
+    "detail": "Further non-technical survey is always open."
+   }
+  ]
+ },
+ "register": {
+  "E1": {
+   "item_id": "E1",
+   "quote": "The president of the community action board (Junta de Acción Comunal) said the board has recorded no find or accident in the area in the 4 years she has held the post, and that families use land in the area every week.",
+   "evidence_class": "absence",
+   "reliability_class": 5,
+   "explains": [],
+   "note": "Reports no recorded find or accident and regular use, but she is not identified as a land user or as having personally observed all use; treat as second-hand for the absence claim.",
+   "step": 3
+  },
+  "E2": {
+   "item_id": "E2",
+   "quote": "The survey team could reach only the edge of the area, because rain had closed the trail into it, and could not see the land inside.",
+   "evidence_class": "not_evidence",
+   "reliability_class": 2,
+   "explains": [],
+   "note": "This documents a limitation on survey coverage, not presence or absence inside the area.",
+   "step": 3
+  },
+  "E3": {
+   "item_id": "E3",
+   "quote": "We have cut firewood and timber here for 19 years. Nobody has found anything, and nobody has been hurt.",
+   "evidence_class": "absence",
+   "reliability_class": 4,
+   "explains": [],
+   "note": "The woodcutter describes his own 19 years of work in the area without finds or injuries, a first-hand report supporting safe use.",
+   "step": 3
+  },
+  "E4": {
+   "item_id": "E4",
+   "quote": "A teacher said she has walked the trail across the area to the school every year for the past 3 years, and has never found anything or heard of an accident there.",
+   "evidence_class": "absence",
+   "reliability_class": 4,
+   "explains": [],
+   "note": "The teacher gives first-hand evidence of her own regular use without finding anything, though the reported period is only 3 years.",
+   "step": 3
+  }
+ },
+ "vetoes": [],
+ "quote_failures": [],
+ "tool_errors": [],
+ "handling_blocked": [],
+ "instruction_lines_found": [],
+ "sections_read": [
+  "area_record",
+  "desk_study",
+  "evidence_log",
+  "national_criteria"
+ ],
+ "rules_read": [
+  "evidence",
+  "reliability",
+  "cancellation",
+  "further_survey",
+  "outcomes",
+  "dossier_text"
+ ],
+ "usage": {
+  "input_tokens": 16469,
+  "cached_tokens": 11535,
+  "output_tokens": 1413,
+  "reasoning_tokens": 595
+ },
+ "cost_usd": 0.0023534000000000003,
+ "stats": {
+  "model_calls": 5,
+  "tool_calls": 16,
+  "error": "",
+  "error_scope": "",
+  "seconds": 17.0
+ }
+}

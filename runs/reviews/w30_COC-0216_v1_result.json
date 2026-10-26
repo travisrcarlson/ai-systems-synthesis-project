@@ -1,0 +1,111 @@
+{
+ "area": "COC-0216",
+ "week": 30,
+ "visit": 1,
+ "label": "main season",
+ "model": "gpt-6-luna",
+ "reasoning_effort": "medium",
+ "inputs_sha": "8a7f34bd6a2cc18eacb6124e7a3f539849ed12f76365f7fb099bab147441868b",
+ "dossier_sha": "d10af36c71e7de372fd2e69665e3e801eed6a1bf64e5117e9152355717d74190",
+ "method_sha": "92bad3dce663112a2160b3f6d199f134514bad4eff5cf17ce7475be96823240d",
+ "outcome": "CLEARANCE",
+ "fallback": false,
+ "confidence": "medium",
+ "summary": "The national database records a past landmine accident inside the area (E1), which is an indirect target for clearance after the first visit under the national criteria. Three first-hand accounts report sustained safe use and explain the weaker unchecked record, but they do not remove the specific requirement that this area be released only after clearance. Technical survey is not available in this programme.",
+ "flags": [
+  "The database entry has no date or other detail, and its location has not been checked on the ground; review this limitation at sign-off."
+ ],
+ "rule_check": {
+  "result": "pass",
+  "outcome": "CLEARANCE",
+  "checks": [
+   {
+    "rule": "R5",
+    "passed": true,
+    "detail": "Every item of the evidence log is in the register."
+   },
+   {
+    "rule": "R3",
+    "passed": true,
+    "detail": "The national criteria provide no technical survey, so clearance takes its place; evidence to target: E1."
+   }
+  ]
+ },
+ "register": {
+  "E1": {
+   "item_id": "E1",
+   "quote": "The national mine action database records one or more past landmine accidents inside this area.",
+   "evidence_class": "indirect",
+   "reliability_class": 6,
+   "explains": [],
+   "note": "The database accident record has no date or detail and its location is unchecked on the ground, so it is indirect evidence from an unassessed record (class 6).",
+   "step": 3
+  },
+  "E2": {
+   "item_id": "E2",
+   "quote": "A teacher said she has walked the trail across the area to the school every year for the past 22 years, and has never found anything or heard of an accident there.",
+   "evidence_class": "absence",
+   "reliability_class": 4,
+   "explains": [
+    "E1"
+   ],
+   "note": "The teacher is a first-hand land user reporting 22 years of safe use; this supports absence and accounts for the weaker unchecked accident record, but cannot override its status as a clearance target.",
+   "step": 3
+  },
+  "E3": {
+   "item_id": "E3",
+   "quote": "We have hunted and fished along these streams for 6 years. Nobody has found anything, and nobody has been hurt.",
+   "evidence_class": "absence",
+   "reliability_class": 4,
+   "explains": [
+    "E1"
+   ],
+   "note": "The speaker is a first-hand user reporting six years of safe use, supporting absence and accounting for the weaker unchecked record, without removing the record-based clearance requirement.",
+   "step": 3
+  },
+  "E4": {
+   "item_id": "E4",
+   "quote": "The president of the community action board (Junta de Acción Comunal) said the board has recorded no find or accident in the area in the 23 years she has held the post, and that families use land in the area every week.",
+   "evidence_class": "absence",
+   "reliability_class": 4,
+   "explains": [
+    "E1"
+   ],
+   "note": "The community board president reports regular land use and no recorded find or accident over 23 years, supporting absence and accounting for the weaker unchecked record; the national criteria still require clearance.",
+   "step": 3
+  }
+ },
+ "vetoes": [],
+ "quote_failures": [],
+ "tool_errors": [],
+ "handling_blocked": [],
+ "instruction_lines_found": [],
+ "sections_read": [
+  "area_record",
+  "desk_study",
+  "evidence_log",
+  "national_criteria"
+ ],
+ "rules_read": [
+  "evidence",
+  "reliability",
+  "desk_study",
+  "cancellation",
+  "outcomes",
+  "further_survey"
+ ],
+ "usage": {
+  "input_tokens": 16944,
+  "cached_tokens": 11941,
+  "output_tokens": 1168,
+  "reasoning_tokens": 356
+ },
+ "cost_usd": 0.0022784000000000003,
+ "stats": {
+  "model_calls": 5,
+  "tool_calls": 16,
+  "error": "",
+  "error_scope": "",
+  "seconds": 15.5
+ }
+}

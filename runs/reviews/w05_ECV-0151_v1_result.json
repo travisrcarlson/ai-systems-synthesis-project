@@ -1,0 +1,97 @@
+{
+ "area": "ECV-0151",
+ "week": 5,
+ "visit": 1,
+ "label": "main season",
+ "model": "gpt-6-luna",
+ "reasoning_effort": "medium",
+ "inputs_sha": "8bfa180700d0d9d0381f5f4e1266eac9c6c5fd98cb20578dc2e66c9b9d8d4fc0",
+ "dossier_sha": "36e081c2b6adf3df2a25bb26a88f16b955b45ad9b48d7993a9921f01010864f7",
+ "method_sha": "92bad3dce663112a2160b3f6d199f134514bad4eff5cf17ce7475be96823240d",
+ "outcome": "CLEARANCE",
+ "fallback": false,
+ "confidence": "medium",
+ "summary": "The national database records a past landmine accident inside the area. Although the unchecked record is indirect evidence and its location has not been verified on the ground, the national criteria make it a clearance target after the first NTS visit and do not provide technical survey. Recommend clearance for sign-off; the NTS evidence does not establish safe use or absence in the interior.",
+ "flags": [
+  "Visit 1 reached only the edge because rain closed the trail; the interior was not observed."
+ ],
+ "rule_check": {
+  "result": "pass",
+  "outcome": "CLEARANCE",
+  "checks": [
+   {
+    "rule": "R5",
+    "passed": true,
+    "detail": "Every item of the evidence log is in the register."
+   },
+   {
+    "rule": "R3",
+    "passed": true,
+    "detail": "The national criteria provide no technical survey, so clearance takes its place; evidence to target: E1."
+   }
+  ]
+ },
+ "register": {
+  "E1": {
+   "item_id": "E1",
+   "quote": "The national mine action database records one or more past landmine accidents inside this area.",
+   "evidence_class": "indirect",
+   "reliability_class": 6,
+   "explains": [],
+   "note": "The database record has no date or detail and its location has not been ground-checked, so it is an unchecked historical record suggesting possible EO presence.",
+   "step": 3
+  },
+  "E2": {
+   "item_id": "E2",
+   "quote": "A bus driver said he only passes along the road at the edge of the area and does not know the land inside it.",
+   "evidence_class": "not_evidence",
+   "reliability_class": 4,
+   "explains": [],
+   "note": "The informant expressly does not know the land inside and provides no information about EO presence or safe use there.",
+   "step": 3
+  },
+  "E3": {
+   "item_id": "E3",
+   "quote": "The survey team could reach only the edge of the area, because rain had closed the trail into it, and could not see the land inside.",
+   "evidence_class": "not_evidence",
+   "reliability_class": 2,
+   "explains": [],
+   "note": "The team's observation establishes that the interior was not observed; it supports neither presence nor absence of EO there.",
+   "step": 3
+  }
+ },
+ "vetoes": [],
+ "quote_failures": [],
+ "tool_errors": [],
+ "handling_blocked": [],
+ "instruction_lines_found": [],
+ "sections_read": [
+  "area_record",
+  "desk_study",
+  "evidence_log",
+  "national_criteria"
+ ],
+ "rules_read": [
+  "evidence",
+  "reliability",
+  "cancellation",
+  "further_survey",
+  "clearance",
+  "outcomes",
+  "dossier_text"
+ ],
+ "usage": {
+  "input_tokens": 16160,
+  "cached_tokens": 11405,
+  "output_tokens": 1088,
+  "reasoning_tokens": 436
+ },
+ "cost_usd": 0.00216,
+ "stats": {
+  "model_calls": 5,
+  "tool_calls": 16,
+  "error": "",
+  "error_scope": "",
+  "seconds": 35.8
+ }
+}

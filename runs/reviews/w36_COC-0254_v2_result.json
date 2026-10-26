@@ -1,0 +1,129 @@
+{
+ "area": "COC-0254",
+ "week": 36,
+ "visit": 2,
+ "label": "main season",
+ "model": "gpt-6-luna",
+ "reasoning_effort": "medium",
+ "inputs_sha": "364452bc8637549c995ac68195fe57701d5de14812d8398c442fba5a40f19abc",
+ "dossier_sha": "9f03d5f2a33c58f2db41bb99be866b9497330713f0697f0a5620741401dbe273",
+ "method_sha": "92bad3dce663112a2160b3f6d199f134514bad4eff5cf17ce7475be96823240d",
+ "outcome": "CANCEL",
+ "fallback": false,
+ "confidence": "medium",
+ "summary": "Recommend cancellation by non-technical survey for sign-off. No direct evidence or class 1–4 indirect evidence was recorded. The team's observations on both visits support absence, and two distinct sources report at least five years of safe use (the community board president's 15-year account and the farming family's seven-year use). Their evidence of absence explains the weak, unlocated second-hand report (E2); the national criteria check passes.",
+ "flags": [
+  "For sign-off, confirm E4 is accepted as a reliable first-hand institutional source for the reported 15 years of safe use; E5 is the farming family's direct account of its own seven-year use.",
+  "The zone survey flag and survey priority were treated as visit-planning information, not evidence."
+ ],
+ "rule_check": {
+  "result": "pass",
+  "outcome": "CANCEL",
+  "checks": [
+   {
+    "rule": "R5",
+    "passed": true,
+    "detail": "Every item of the evidence log is in the register."
+   },
+   {
+    "rule": "R1",
+    "passed": true,
+    "detail": "There is no direct evidence and no indirect evidence of class 1 to 4, and every item of weaker indirect evidence is explained by evidence of absence of class 1 to 4."
+   },
+   {
+    "rule": "R2",
+    "passed": true,
+    "detail": "2 different reliable source(s) report at least 5 years of safe use (E4; E5); the criteria need 2."
+   },
+   {
+    "rule": "R6",
+    "passed": true,
+    "detail": "No past landmine accident is recorded inside the area."
+   }
+  ]
+ },
+ "register": {
+  "E1": {
+   "item_id": "E1",
+   "quote": "The survey team walked the paths and field edges of the area and saw no items, signs, fencing or other marks of contamination.",
+   "evidence_class": "absence",
+   "reliability_class": 2,
+   "explains": [],
+   "note": "The team's own observation on visit 1 supports absence; team-observed evidence of absence is class 2.",
+   "step": 3
+  },
+  "E2": {
+   "item_id": "E2",
+   "quote": "A bus driver said neighbours told him that an animal was killed by a mine somewhere in the area some years ago.",
+   "evidence_class": "indirect",
+   "reliability_class": 7,
+   "explains": [],
+   "note": "This is an unverified, imprecisely located second-hand report, and the neighbours are not identified as first-hand witnesses.",
+   "step": 3
+  },
+  "E3": {
+   "item_id": "E3",
+   "quote": "The survey team walked the paths and field edges of the area and saw no items, signs, fencing or other marks of contamination.",
+   "evidence_class": "absence",
+   "reliability_class": 2,
+   "explains": [],
+   "note": "The team's own observation on visit 2 supports absence; team-observed evidence of absence is class 2.",
+   "step": 3
+  },
+  "E4": {
+   "item_id": "E4",
+   "quote": "The president of the community action board (Junta de Acción Comunal) said the board has recorded no find or accident in the area in the 15 years she has held the post, and that families use land in the area every week.",
+   "evidence_class": "absence",
+   "reliability_class": 4,
+   "explains": [
+    "E2"
+   ],
+   "note": "The community board president reports 15 years of local records without an incident and regular land use; this reliable first-hand institutional account helps explain the weaker, unlocated second-hand report.",
+   "step": 3
+  },
+  "E5": {
+   "item_id": "E5",
+   "quote": "We have kept a cassava and sugar-cane field here for 7 years. Nobody has found anything, and nobody has been hurt.",
+   "evidence_class": "absence",
+   "reliability_class": 4,
+   "explains": [
+    "E2"
+   ],
+   "note": "The farming family directly reports seven years of its own safe use of the area, explaining the weaker, unlocated second-hand report.",
+   "step": 3
+  }
+ },
+ "vetoes": [],
+ "quote_failures": [],
+ "tool_errors": [],
+ "handling_blocked": [],
+ "instruction_lines_found": [],
+ "sections_read": [
+  "area_record",
+  "desk_study",
+  "evidence_log",
+  "national_criteria"
+ ],
+ "rules_read": [
+  "evidence",
+  "reliability",
+  "cancellation",
+  "outcomes",
+  "further_survey",
+  "desk_study"
+ ],
+ "usage": {
+  "input_tokens": 19244,
+  "cached_tokens": 13072,
+  "output_tokens": 2243,
+  "reasoning_tokens": 1332
+ },
+ "cost_usd": 0.0030459000000000003,
+ "stats": {
+  "model_calls": 5,
+  "tool_calls": 17,
+  "error": "",
+  "error_scope": "",
+  "seconds": 22.5
+ }
+}

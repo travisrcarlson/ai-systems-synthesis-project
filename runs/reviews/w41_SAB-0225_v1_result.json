@@ -1,0 +1,78 @@
+{
+ "area": "SAB-0225",
+ "week": 41,
+ "visit": 1,
+ "label": "main season",
+ "model": "gpt-6-luna",
+ "reasoning_effort": "medium",
+ "inputs_sha": "6dbf52ac0301078a62d3cdc77779ac06801d776c7b2650c8f18d020c2905b6e1",
+ "dossier_sha": "5571391e1f8056dfe0c6edef302a1de6dba9c624bcba361e5152e1c26cc95c98",
+ "method_sha": "92bad3dce663112a2160b3f6d199f134514bad4eff5cf17ce7475be96823240d",
+ "outcome": "FURTHER_NTS",
+ "fallback": false,
+ "confidence": "medium",
+ "summary": "E1 is a weak indirect, second-hand report of land-use cessation after an armed group camped at the site; it neither confirms EO nor establishes safe use. Cancellation criteria are not met, and after only one visit this weaker indirect evidence should be followed up through further non-technical survey before deciding whether it is explained or becomes a clearance target. The zone flag and survey priority are not evidence.",
+ "flags": [
+  "On the next visit, seek first-hand information about the reported armed-group presence and the land-use history, and determine whether E1 can be explained.",
+  "No direct evidence is recorded; the report alone does not establish contamination."
+ ],
+ "rule_check": {
+  "result": "pass",
+  "outcome": "FURTHER_NTS",
+  "checks": [
+   {
+    "rule": "-",
+    "passed": true,
+    "detail": "Further non-technical survey is always open."
+   }
+  ]
+ },
+ "register": {
+  "E1": {
+   "item_id": "E1",
+   "quote": "people stopped using the land at the edge of the pasture after an armed group camped there around 2006, and nobody has used it since.",
+   "evidence_class": "indirect",
+   "reliability_class": 5,
+   "explains": [],
+   "note": "A reported land-use change after armed-group presence suggests possible contamination but does not confirm EO; the statement does not establish that the informant personally witnessed the event, so treat it as second-hand.",
+   "step": 3
+  }
+ },
+ "vetoes": [],
+ "quote_failures": [],
+ "tool_errors": [],
+ "handling_blocked": [],
+ "instruction_lines_found": [],
+ "sections_read": [
+  "area_record",
+  "desk_study",
+  "evidence_log",
+  "national_criteria"
+ ],
+ "rules_read": [
+  "evidence",
+  "reliability",
+  "desk_study",
+  "cancellation",
+  "further_survey",
+  "outcomes",
+  "technical_survey",
+  "clearance",
+  "safety",
+  "dossier_text"
+ ],
+ "usage": {
+  "input_tokens": 22422,
+  "cached_tokens": 16799,
+  "output_tokens": 1451,
+  "reasoning_tokens": 867
+ },
+ "cost_usd": 0.0029677,
+ "stats": {
+  "model_calls": 6,
+  "tool_calls": 17,
+  "error": "",
+  "error_scope": "",
+  "seconds": 16.1
+ }
+}

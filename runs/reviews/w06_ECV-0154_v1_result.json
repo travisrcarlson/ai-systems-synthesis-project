@@ -1,0 +1,109 @@
+{
+ "area": "ECV-0154",
+ "week": 6,
+ "visit": 1,
+ "label": "main season",
+ "model": "gpt-6-luna",
+ "reasoning_effort": "medium",
+ "inputs_sha": "cf32185236727be2ca1187fd8c38de6c485a1c60b3fabc5ea0fe1fb25f795a35",
+ "dossier_sha": "0691d9d1b64f675859c55a93d10771d3244238c92be6950a8f1563527365cb2f",
+ "method_sha": "92bad3dce663112a2160b3f6d199f134514bad4eff5cf17ce7475be96823240d",
+ "outcome": "CLEARANCE",
+ "fallback": false,
+ "confidence": "medium",
+ "summary": "Recommend clearance for sign-off. E1 records one or more past landmine accidents inside the area; although the database entry has no date or ground-checked location and is weaker indirect evidence, the national criteria make an area with such a record a clearance target after the first non-technical survey visit. The criteria provide no technical-survey option. E2–E4 support absence but do not displace that requirement.",
+ "flags": [
+  "The database record has no date or other detail, and its location has not been checked on the ground.",
+  "The survey team's observation covered paths and field edges; the area is recorded as 100% forest.",
+  "The zone-survey flag and priority are visit-planning information, not evidence."
+ ],
+ "rule_check": {
+  "result": "pass",
+  "outcome": "CLEARANCE",
+  "checks": [
+   {
+    "rule": "R5",
+    "passed": true,
+    "detail": "Every item of the evidence log is in the register."
+   },
+   {
+    "rule": "R3",
+    "passed": true,
+    "detail": "The national criteria provide no technical survey, so clearance takes its place; evidence to target: E1."
+   }
+  ]
+ },
+ "register": {
+  "E1": {
+   "item_id": "E1",
+   "quote": "The national mine action database records one or more past landmine accidents inside this area.",
+   "evidence_class": "indirect",
+   "reliability_class": 6,
+   "explains": [],
+   "note": "The database entry is unchecked on the ground and its reliability and location detail are not established, so it is weaker indirect evidence rather than confirmation.",
+   "step": 3
+  },
+  "E2": {
+   "item_id": "E2",
+   "quote": "The survey team walked the paths and field edges of the area and saw no items, signs, fencing or other marks of contamination.",
+   "evidence_class": "absence",
+   "reliability_class": 2,
+   "explains": [],
+   "note": "This is the survey team's own observation supporting absence along the routes and edges it inspected; it is not evidence of contamination.",
+   "step": 3
+  },
+  "E3": {
+   "item_id": "E3",
+   "quote": "We have hunted and fished along these streams for 4 years. Nobody has found anything, and nobody has been hurt.",
+   "evidence_class": "absence",
+   "reliability_class": 4,
+   "explains": [],
+   "note": "The informant describes his own use of the area and no finds or harm, supporting absence, but reports only four years of use.",
+   "step": 3
+  },
+  "E4": {
+   "item_id": "E4",
+   "quote": "The president of the community action board (Junta de Acción Comunal) said the board has recorded no find or accident in the area in the 19 years she has held the post, and that families use land in the area every week.",
+   "evidence_class": "absence",
+   "reliability_class": 4,
+   "explains": [],
+   "note": "The informant reports her own 19-year experience and regular community use without recorded finds or accidents, supporting absence.",
+   "step": 3
+  }
+ },
+ "vetoes": [],
+ "quote_failures": [],
+ "tool_errors": [],
+ "handling_blocked": [],
+ "instruction_lines_found": [],
+ "sections_read": [
+  "area_record",
+  "desk_study",
+  "evidence_log",
+  "national_criteria"
+ ],
+ "rules_read": [
+  "evidence",
+  "reliability",
+  "cancellation",
+  "clearance",
+  "further_survey",
+  "outcomes",
+  "safety",
+  "dossier_text"
+ ],
+ "usage": {
+  "input_tokens": 17362,
+  "cached_tokens": 12142,
+  "output_tokens": 1430,
+  "reasoning_tokens": 604
+ },
+ "cost_usd": 0.0024511999999999997,
+ "stats": {
+  "model_calls": 5,
+  "tool_calls": 18,
+  "error": "",
+  "error_scope": "",
+  "seconds": 28.0
+ }
+}

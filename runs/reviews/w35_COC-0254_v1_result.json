@@ -1,0 +1,84 @@
+{
+ "area": "COC-0254",
+ "week": 35,
+ "visit": 1,
+ "label": "main season",
+ "model": "gpt-6-luna",
+ "reasoning_effort": "medium",
+ "inputs_sha": "c48938a85d9b80cd3ccd40058c414ea427b74c6ca3347ac071a7d7941b4a22e0",
+ "dossier_sha": "a65405c458c0c3eb60a1dd2f503729b3f9c66c840ad503ffd3354941396507e4",
+ "method_sha": "92bad3dce663112a2160b3f6d199f134514bad4eff5cf17ce7475be96823240d",
+ "outcome": "FURTHER_NTS",
+ "fallback": false,
+ "confidence": "medium",
+ "summary": "Recommend further non-technical survey. The team's observation is evidence of absence limited to the paths and field edges observed, while E2 is a weak, vague second-hand report (reliability class 7) that remains unexplained. There is no direct or qualifying target evidence for clearance, and cancellation criteria are not met; national criteria require follow-up of weaker indirect evidence, with clearance considered if it remains unexplained after two visits.",
+ "flags": [
+  "The zone survey flag and priority are not evidence and were not used to determine the outcome.",
+  "E2's reported incident is not precisely located and is relayed through a bus driver; seek clarification from community members who may have first-hand knowledge and assess land use/safe use history on further survey."
+ ],
+ "rule_check": {
+  "result": "pass",
+  "outcome": "FURTHER_NTS",
+  "checks": [
+   {
+    "rule": "-",
+    "passed": true,
+    "detail": "Further non-technical survey is always open."
+   }
+  ]
+ },
+ "register": {
+  "E1": {
+   "item_id": "E1",
+   "quote": "The survey team walked the paths and field edges of the area and saw no items, signs, fencing or other marks of contamination.",
+   "evidence_class": "absence",
+   "reliability_class": 2,
+   "explains": [],
+   "note": "The survey team's own observation supports absence of visible indicators in the paths and field edges it surveyed; it does not establish safe use over time or account for the separate vague report.",
+   "step": 3
+  },
+  "E2": {
+   "item_id": "E2",
+   "quote": "A bus driver said neighbours told him that an animal was killed by a mine somewhere in the area some years ago.",
+   "evidence_class": "indirect",
+   "reliability_class": 7,
+   "explains": [],
+   "note": "This is an unverified, vague second-hand report with an unidentified first-hand source and no determinable location; it suggests possible EO but does not confirm it.",
+   "step": 3
+  }
+ },
+ "vetoes": [],
+ "quote_failures": [],
+ "tool_errors": [],
+ "handling_blocked": [],
+ "instruction_lines_found": [],
+ "sections_read": [
+  "area_record",
+  "desk_study",
+  "evidence_log",
+  "national_criteria"
+ ],
+ "rules_read": [
+  "evidence",
+  "reliability",
+  "cancellation",
+  "further_survey",
+  "outcomes",
+  "desk_study",
+  "dossier_text"
+ ],
+ "usage": {
+  "input_tokens": 15890,
+  "cached_tokens": 11332,
+  "output_tokens": 876,
+  "reasoning_tokens": 236
+ },
+ "cost_usd": 0.002027,
+ "stats": {
+  "model_calls": 5,
+  "tool_calls": 15,
+  "error": "",
+  "error_scope": "",
+  "seconds": 12.9
+ }
+}

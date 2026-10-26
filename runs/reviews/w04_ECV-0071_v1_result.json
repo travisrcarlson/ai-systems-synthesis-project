@@ -1,0 +1,120 @@
+{
+ "area": "ECV-0071",
+ "week": 4,
+ "visit": 1,
+ "label": "main season",
+ "model": "gpt-6-luna",
+ "reasoning_effort": "medium",
+ "inputs_sha": "6480c76e5e74e9cd63570a302e75ffdd7cfafa5ca65cee150915b7d28adb5099",
+ "dossier_sha": "1e7e8ac75748b2ed64d82514cf036e05cfec44566c5dc7e35ba1ae6a06552612",
+ "method_sha": "92bad3dce663112a2160b3f6d199f134514bad4eff5cf17ce7475be96823240d",
+ "outcome": "CLEARANCE",
+ "fallback": false,
+ "confidence": "medium",
+ "summary": "Recommend clearance for sign-off. E1 is an unverified database record of a past accident inside the area, classed as weak indirect evidence, but the national criteria make such a record a target for clearance after the first NTS visit and do not provide technical survey. The reported safe use and the survey team's observations do not remove that target; no direct evidence was reported.",
+ "flags": [
+  "E1 has no date or other details, and its location has not been checked on the ground.",
+  "The survey team observed only paths and field edges; the dossier describes the area as 100% forest.",
+  "Three first-hand users report recurring safe use, but their periods cannot be linked to the undated database record.",
+  "Zone survey flag and priority are visit-planning information, not evidence."
+ ],
+ "rule_check": {
+  "result": "pass",
+  "outcome": "CLEARANCE",
+  "checks": [
+   {
+    "rule": "R5",
+    "passed": true,
+    "detail": "Every item of the evidence log is in the register."
+   },
+   {
+    "rule": "R3",
+    "passed": true,
+    "detail": "The national criteria provide no technical survey, so clearance takes its place; evidence to target: E1."
+   }
+  ]
+ },
+ "register": {
+  "E1": {
+   "item_id": "E1",
+   "quote": "The national mine action database records one or more past landmine accidents inside this area.",
+   "evidence_class": "indirect",
+   "reliability_class": 6,
+   "explains": [],
+   "note": "The database record is unverified: its date and other details are absent and its location has not been checked on the ground, so it suggests possible EO presence but does not confirm it.",
+   "step": 3
+  },
+  "E2": {
+   "item_id": "E2",
+   "quote": "The survey team walked the paths and field edges of the area and saw no items, signs, fencing or other marks of contamination.",
+   "evidence_class": "absence",
+   "reliability_class": 2,
+   "explains": [],
+   "note": "This is the survey team's own observation of no indicators on the paths and field edges it covered; it does not resolve the recorded accident, whose date and precise location are unknown.",
+   "step": 3
+  },
+  "E3": {
+   "item_id": "E3",
+   "quote": "the board has recorded no find or accident in the area in the 8 years she has held the post, and that families use land in the area every week.",
+   "evidence_class": "absence",
+   "reliability_class": 4,
+   "explains": [],
+   "note": "A first-hand community representative reports recurring land use and no recorded finds or accidents over eight years; the unknown date of the database record means this does not establish safe use after that record.",
+   "step": 3
+  },
+  "E4": {
+   "item_id": "E4",
+   "quote": "he has hunted and fished along the streams in the area every year for the past 10 years, and has never found anything or heard of an accident there.",
+   "evidence_class": "absence",
+   "reliability_class": 4,
+   "explains": [],
+   "note": "This first-hand land user reports ten years of recurring use without findings or known accidents; the period cannot be linked to the undated database record.",
+   "step": 3
+  },
+  "E5": {
+   "item_id": "E5",
+   "quote": "he has cut firewood and timber in the area every year for the past 13 years, and has never found anything or heard of an accident there.",
+   "evidence_class": "absence",
+   "reliability_class": 4,
+   "explains": [],
+   "note": "This first-hand land user reports thirteen years of recurring use without findings or known accidents; the period cannot be linked to the undated database record.",
+   "step": 3
+  }
+ },
+ "vetoes": [],
+ "quote_failures": [],
+ "tool_errors": [],
+ "handling_blocked": [],
+ "instruction_lines_found": [],
+ "sections_read": [
+  "area_record",
+  "desk_study",
+  "evidence_log",
+  "national_criteria"
+ ],
+ "rules_read": [
+  "evidence",
+  "reliability",
+  "cancellation",
+  "outcomes",
+  "clearance",
+  "further_survey",
+  "technical_survey",
+  "dossier_text",
+  "safety"
+ ],
+ "usage": {
+  "input_tokens": 19846,
+  "cached_tokens": 13681,
+  "output_tokens": 1835,
+  "reasoning_tokens": 855
+ },
+ "cost_usd": 0.0029021000000000003,
+ "stats": {
+  "model_calls": 5,
+  "tool_calls": 20,
+  "error": "",
+  "error_scope": "",
+  "seconds": 19.0
+ }
+}

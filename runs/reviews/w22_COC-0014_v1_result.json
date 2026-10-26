@@ -1,0 +1,90 @@
+{
+ "area": "COC-0014",
+ "week": 22,
+ "visit": 1,
+ "label": "main season",
+ "model": "gpt-6-luna",
+ "reasoning_effort": "medium",
+ "inputs_sha": "3f913f887a63c702b0b670c4ec9bf47edfd257031dfc71e3a23f251175a48dee",
+ "dossier_sha": "26e0fda404d55c34f8339cad3e2d1d4321e21b75ce1853ac2412671db1baf5ef",
+ "method_sha": "92bad3dce663112a2160b3f6d199f134514bad4eff5cf17ce7475be96823240d",
+ "outcome": "CLEARANCE",
+ "fallback": false,
+ "confidence": "medium",
+ "summary": "E1 is an indirect, unchecked national database record of a past accident inside the area (reliability class 6). The national criteria make this record a clearance target after the first NTS visit, and technical survey is unavailable. E2 is not evidence because the informant does not know the land inside the area.",
+ "flags": [
+  "The database record's date, detail and location have not been checked on the ground; the criteria nevertheless require an intrusive check before release.",
+  "Zone flag and survey priority indicate where to survey and are not evidence."
+ ],
+ "rule_check": {
+  "result": "pass",
+  "outcome": "CLEARANCE",
+  "checks": [
+   {
+    "rule": "R5",
+    "passed": true,
+    "detail": "Every item of the evidence log is in the register."
+   },
+   {
+    "rule": "R3",
+    "passed": true,
+    "detail": "The national criteria provide no technical survey, so clearance takes its place; evidence to target: E1."
+   }
+  ]
+ },
+ "register": {
+  "E1": {
+   "item_id": "E1",
+   "quote": "The national mine action database records one or more past landmine accidents inside this area.",
+   "evidence_class": "indirect",
+   "reliability_class": 6,
+   "explains": [],
+   "note": "The database record's location and reliability have not been checked on the ground, so it suggests possible EO presence but does not confirm it.",
+   "step": 3
+  },
+  "E2": {
+   "item_id": "E2",
+   "quote": "A bus driver said he only passes along the road at the edge of the area and does not know the land inside it.",
+   "evidence_class": "not_evidence",
+   "reliability_class": 7,
+   "explains": [],
+   "note": "The informant explicitly does not know the land inside the area, so this statement neither supports EO presence nor absence.",
+   "step": 4
+  }
+ },
+ "vetoes": [],
+ "quote_failures": [],
+ "tool_errors": [],
+ "handling_blocked": [],
+ "instruction_lines_found": [],
+ "sections_read": [
+  "area_record",
+  "desk_study",
+  "evidence_log",
+  "national_criteria"
+ ],
+ "rules_read": [
+  "evidence",
+  "reliability",
+  "desk_study",
+  "cancellation",
+  "outcomes",
+  "clearance",
+  "further_survey",
+  "technical_survey"
+ ],
+ "usage": {
+  "input_tokens": 22296,
+  "cached_tokens": 17205,
+  "output_tokens": 872,
+  "reasoning_tokens": 297
+ },
+ "cost_usd": 0.0026655999999999997,
+ "stats": {
+  "model_calls": 6,
+  "tool_calls": 16,
+  "error": "",
+  "error_scope": "",
+  "seconds": 14.7
+ }
+}

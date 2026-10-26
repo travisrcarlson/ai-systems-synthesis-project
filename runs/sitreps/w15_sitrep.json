@@ -1,0 +1,75 @@
+{
+ "week": 15,
+ "model": "gpt-6-luna",
+ "inputs_sha": "5a76aa1d9c4de30928dea72ab5d4417070346dcfbae0b6a9dc3a8f65cca2b2aa",
+ "time": "2026-10-26T14:00:44+00:00",
+ "facts": {
+  "week": 15,
+  "month": "April",
+  "teams active": {
+   "survey": 4,
+   "clearance": 4
+  },
+  "teams stood down": {
+   "count": 0
+  },
+  "teams with no report for more than a week": {
+   "count": 0
+  },
+  "tasks finished this week": {
+   "zone surveys": 2,
+   "visits": 0,
+   "technical surveys": 0,
+   "clearances": 0
+  },
+  "zones surveyed so far": 12,
+  "zones declared free so far": 2,
+  "zones declared free this week": {
+   "count": 0,
+   "zones": []
+  },
+  "areas released so far": 3,
+  "areas cleared so far": 1,
+  "areas where mines were found so far": 1,
+  "areas suspected or confirmed, still open": 572,
+  "zones closed by the access feed": {
+   "count": 8
+  },
+  "plan": "P04",
+  "new plan approved this week": false,
+  "dossiers held for missing items": {
+   "count": 0,
+   "areas": []
+  },
+  "team-days worked this week": 23,
+  "team-days lost to rain or wind this week": 17,
+  "reports held by the report checker this week": 0,
+  "reports queried by the report checker this week": 0,
+  "forecast": {
+   "made in week": 14,
+   "scope": "the zones of the plan it was made with, and what is done already",
+   "mine areas cleared this season, P10 to P90": [
+    9,
+    14
+   ],
+   "zones declared free this season, P10 to P90": [
+    9,
+    13
+   ]
+  }
+ },
+ "draft": "In week 15 of April, 4 survey teams and 4 clearance teams were active. Teams completed 2 zone surveys; there were 0 visits, 0 technical surveys and 0 clearances. So far, 12 zones have been surveyed, 2 declared free, 3 areas released and 1 area cleared. 1 area has mines found; 572 suspected or confirmed areas remain open. Teams worked 23 team-days, with 17 lost to rain or wind.\n\nNo teams were stood down or had reports overdue by more than a week. There were 0 reports held or queried and 0 dossiers held. The access feed shows 8 zones closed. No new plan was approved; the current plan is P04.\n\nThe forecast, made in week 14, covers the zones of the plan it was made with and counts what is done already. It gives a range of 9 to 14 mine areas cleared this season and 9 to 13 zones declared free this season.",
+ "error": "",
+ "usage": {
+  "input_tokens": 630,
+  "input_tokens_details": {
+   "cache_write_tokens": 0,
+   "cached_tokens": 0
+  },
+  "output_tokens": 414,
+  "output_tokens_details": {
+   "reasoning_tokens": 205
+  },
+  "total_tokens": 1044
+ }
+}

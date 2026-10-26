@@ -1,0 +1,860 @@
+n,week,entry,kind,subject,decision,source,reason,before,after,decided_by,recommended_by,overlays,evidence,rule_check
+1,1,report,access,access feed,,security coordination feed (simulated),"access feed: ABE-Z14 closed, ABE-Z22 closed, GRA-Z04 closed, SAB-Z02 closed, SAB-Z06 closed, SFR-Z12 closed, SLU-Z16 closed, SON-Z22 closed, SON-Z53 closed",,,,,,,
+2,1,decision,plan,P01,approve,,the season's first plan,,P01,departmental office (season sign-off policy: approves the plan as proposed),season planner,"['risk prioritisation', 'season planner']",[],n/a
+3,1,decision,consultation,SFR-Z15,request consultation,,a planned zone where communities must first be consulted,,,departmental office (season sign-off policy: approves the plan as proposed),season planner,[],[],n/a
+4,1,decision,consultation,ABE-Z01,request consultation,,a planned zone where communities must first be consulted,,,departmental office (season sign-off policy: approves the plan as proposed),season planner,[],[],n/a
+5,1,decision,task order,K0001,S1: zone survey ECV-Z17,,the plan's next zone for this kind of team,,,operations officer (season sign-off policy: orders the next task in the plan),plan P01,[],[],n/a
+6,1,decision,task order,K0002,S2: zone survey ECV-Z16,,the plan's next zone for this kind of team,,,operations officer (season sign-off policy: orders the next task in the plan),plan P01,[],[],n/a
+7,1,decision,task order,K0003,S3: zone survey ECV-Z19,,the plan's next zone for this kind of team,,,operations officer (season sign-off policy: orders the next task in the plan),plan P01,[],[],n/a
+8,1,decision,task order,K0004,S4: zone survey ECV-Z13,,the plan's next zone for this kind of team,,,operations officer (season sign-off policy: orders the next task in the plan),plan P01,[],[],n/a
+9,1,report,team report,S1,,team S1,S1: 4 day(s) on zone survey ECV-Z17,,,,,,,
+10,1,report,team report,S2,,team S2,S2: 5 day(s) on zone survey ECV-Z16,,,,,,,
+11,1,report,team report,S3,,team S3,S3: 5 day(s) on zone survey ECV-Z19,,,,,,,
+12,1,report,team report,S4,,team S4,S4: 5 day(s) on zone survey ECV-Z13,,,,,,,
+13,2,report,access,access feed,,security coordination feed (simulated),access feed: no change,,,,,,,
+14,2,report,team report,S2,,team S2,ECV-Z16 surveyed: 4 area(s) flagged for a visit,,,,,,,
+15,2,report,team report,S3,,team S3,ECV-Z19 surveyed: 3 area(s) flagged for a visit,,,,,,,
+16,2,report,team report,S1,,team S1,S1: 4 day(s) on zone survey ECV-Z17,,,,,,,
+17,2,report,team report,S4,,team S4,S4: 4 day(s) on zone survey ECV-Z13,,,,,,,
+18,3,report,access,access feed,,security coordination feed (simulated),access feed: no change,,,,,,,
+19,3,decision,task order,K0005,S2: visit ECV-0060,,the plan's next zone for this kind of team,,,operations officer (season sign-off policy: orders the next task in the plan),plan P01,[],[],n/a
+20,3,decision,task order,K0006,S3: visit ECV-0026,,the plan's next zone for this kind of team,,,operations officer (season sign-off policy: orders the next task in the plan),plan P01,[],[],n/a
+21,3,report,team report,S4,,team S4,ECV-Z13 surveyed: 6 area(s) flagged for a visit,,,,,,,
+22,3,decision,task order,K0007,S4: visit ECV-0115,,the plan's next zone for this kind of team,,,operations officer (season sign-off policy: orders the next task in the plan),plan P01,[],[],n/a
+23,3,report,team report,S1,,team S1,ECV-Z17 surveyed: 2 area(s) flagged for a visit,,,,,,,
+24,3,decision,task order,K0008,S1: visit ECV-0050,,the plan's next zone for this kind of team,,,operations officer (season sign-off policy: orders the next task in the plan),plan P01,[],[],n/a
+25,3,report,team report,S2,,team S2,"ECV-0060: visit 1, 3 item(s) received",,,,,,,
+26,3,decision,area,ECV-0060,CLEARANCE,,,suspected,suspected,QC reviewer (season sign-off policy: signs off what passes the rule check),dossier reviewer agent (gpt-6-luna),['dossier reviewer'],"['E1', 'E2', 'E3', 'E4']",pass
+27,3,report,team report,S3,,team S3,S3: 4 day(s) on visit ECV-0026,,,,,,,
+28,3,report,team report,S4,,team S4,S4: 3 day(s) on visit ECV-0115,,,,,,,
+29,3,report,team report,S1,,team S1,S1: 2 day(s) on visit ECV-0050,,,,,,,
+30,4,report,access,access feed,,security coordination feed (simulated),access feed: no change,,,,,,,
+31,4,decision,task order,K0009,S2: visit ECV-0071,,the plan's next zone for this kind of team,,,operations officer (season sign-off policy: orders the next task in the plan),plan P01,[],[],n/a
+32,4,decision,task order,K0010,C1: clearance ECV-0060,,the plan's next zone for this kind of team,,,operations officer (season sign-off policy: orders the next task in the plan),plan P01,[],[],n/a
+33,4,report,team report,S3,,team S3,"ECV-0026: visit 1, 3 item(s) received",,,,,,,
+34,4,decision,area,ECV-0026,CLEARANCE,,,suspected,suspected,QC reviewer (season sign-off policy: signs off what passes the rule check),dossier reviewer agent (gpt-6-luna),['dossier reviewer'],"['E1', 'E2', 'E3', 'E4']",pass
+35,4,decision,task order,K0011,S3: visit ECV-0018,,the plan's next zone for this kind of team,,,operations officer (season sign-off policy: orders the next task in the plan),plan P01,[],[],n/a
+36,4,decision,task order,K0012,C2: clearance ECV-0026,,the plan's next zone for this kind of team,,,operations officer (season sign-off policy: orders the next task in the plan),plan P01,[],[],n/a
+37,4,report,team report,S4,,team S4,"ECV-0115: visit 1, 2 item(s) received",,,,,,,
+38,4,decision,area,ECV-0115,CLEARANCE,,,suspected,suspected,QC reviewer (season sign-off policy: signs off what passes the rule check),dossier reviewer agent (gpt-6-luna),['dossier reviewer'],"['E1', 'E2', 'E3']",pass
+39,4,decision,task order,K0013,S4: visit ECV-0151,,the plan's next zone for this kind of team,,,operations officer (season sign-off policy: orders the next task in the plan),plan P01,[],[],n/a
+40,4,decision,task order,K0014,C3: clearance ECV-0115,,the plan's next zone for this kind of team,,,operations officer (season sign-off policy: orders the next task in the plan),plan P01,[],[],n/a
+41,4,report,team report,S1,,team S1,"ECV-0050: visit 1, 1 item(s) received",,,,,,,
+42,4,decision,area,ECV-0050,FURTHER_NTS,,,suspected,suspected,QC reviewer (season sign-off policy: signs off what passes the rule check),dossier reviewer agent (gpt-6-luna),['dossier reviewer'],['E1'],pass
+43,4,decision,task order,K0015,S1: visit ECV-0050,,the plan's next zone for this kind of team,,,operations officer (season sign-off policy: orders the next task in the plan),plan P01,[],[],n/a
+44,4,report,team report,S2,,team S2,"ECV-0071: visit 1, 4 item(s) received",,,,,,,
+45,4,decision,area,ECV-0071,CLEARANCE,,,suspected,suspected,QC reviewer (season sign-off policy: signs off what passes the rule check),dossier reviewer agent (gpt-6-luna),['dossier reviewer'],"['E1', 'E2', 'E3', 'E4', 'E5']",pass
+46,4,report,team report,C1,,team C1,C1: 5 day(s) on clearance ECV-0060,,,,,,,
+47,4,report,team report,S3,,team S3,S3: 4 day(s) on visit ECV-0018,,,,,,,
+48,4,report,team report,C2,,team C2,C2: 4 day(s) on clearance ECV-0026,,,,,,,
+49,4,report,team report,S4,,team S4,S4: 3 day(s) on visit ECV-0151,,,,,,,
+50,4,report,team report,C3,,team C3,C3: 3 day(s) on clearance ECV-0115,,,,,,,
+51,4,report,team report,S1,,team S1,S1: 2 day(s) on visit ECV-0050,,,,,,,
+52,5,report,access,access feed,,security coordination feed (simulated),access feed: no change,,,,,,,
+53,5,report,consultation,ABE-Z01,,municipal liaison (simulated),consultation held in ABE-Z01,,,,,,,
+54,5,report,consultation,SFR-Z15,,municipal liaison (simulated),consultation held in SFR-Z15,,,,,,,
+55,5,decision,task order,K0016,S2: visit ECV-0047,,the plan's next zone for this kind of team,,,operations officer (season sign-off policy: orders the next task in the plan),plan P01,[],[],n/a
+56,5,decision,task order,K0017,C4: clearance ECV-0071,,the plan's next zone for this kind of team,,,operations officer (season sign-off policy: orders the next task in the plan),plan P01,[],[],n/a
+57,5,report,team report,S3,,team S3,"ECV-0018: visit 1, 2 item(s) received",,,,,,,
+58,5,decision,area,ECV-0018,FURTHER_NTS,,,suspected,suspected,QC reviewer (season sign-off policy: signs off what passes the rule check),dossier reviewer agent (gpt-6-luna),['dossier reviewer'],"['E1', 'E2']",pass
+59,5,decision,task order,K0018,S3: visit ECV-0018,,the plan's next zone for this kind of team,,,operations officer (season sign-off policy: orders the next task in the plan),plan P01,[],[],n/a
+60,5,report,team report,S4,,team S4,"ECV-0151: visit 1, 2 item(s) received",,,,,,,
+61,5,decision,area,ECV-0151,CLEARANCE,,,suspected,suspected,QC reviewer (season sign-off policy: signs off what passes the rule check),dossier reviewer agent (gpt-6-luna),['dossier reviewer'],"['E1', 'E2', 'E3']",pass
+62,5,decision,task order,K0019,S4: visit ECV-0154,,the plan's next zone for this kind of team,,,operations officer (season sign-off policy: orders the next task in the plan),plan P01,[],[],n/a
+63,5,report,team report,S1,,team S1,"ECV-0050: visit 2, 1 item(s) received",,,,,,,
+64,5,decision,area,ECV-0050,CLEARANCE,,,suspected,confirmed,QC reviewer (season sign-off policy: signs off what passes the rule check),dossier reviewer agent (gpt-6-luna),['dossier reviewer'],"['E1', 'E2']",pass
+65,5,decision,task order,K0020,S1: visit ECV-0051,,the plan's next zone for this kind of team,,,operations officer (season sign-off policy: orders the next task in the plan),plan P01,[],[],n/a
+66,5,report,team report,S2,,team S2,"ECV-0047: visit 1, 2 item(s) received",,,,,,,
+67,5,decision,area,ECV-0047,CLEARANCE,,,suspected,suspected,QC reviewer (season sign-off policy: signs off what passes the rule check),dossier reviewer agent (gpt-6-luna),['dossier reviewer'],"['E1', 'E2']",pass
+68,5,report,team report,C1,,team C1,C1: 5 day(s) on clearance ECV-0060,,,,,,,
+69,5,report,team report,C2,,team C2,C2: 4 day(s) on clearance ECV-0026,,,,,,,
+70,5,report,team report,C3,,team C3,C3: 5 day(s) on clearance ECV-0115,,,,,,,
+71,5,report,team report,C4,,team C4,C4: 5 day(s) on clearance ECV-0071,,,,,,,
+72,5,report,team report,S3,,team S3,S3: 3 day(s) on visit ECV-0018,,,,,,,
+73,5,report,team report,S4,,team S4,S4: 3 day(s) on visit ECV-0154,,,,,,,
+74,5,report,team report,S1,,team S1,S1: 1 day(s) on visit ECV-0051,,,,,,,
+75,6,report,access,access feed,,security coordination feed (simulated),"access feed: ABE-Z14 open, NAR-Z09 closed, SFR-Z16 closed, SLU-Z06 closed, SLU-Z13 closed, SON-Z01 closed, SON-Z46 closed",,,,,,,
+76,6,decision,plan,P02,approve,,the monthly plan; changes in the feeds: ABE-Z14 open,P01,P02,departmental office (season sign-off policy: approves the plan as proposed),season planner,"['risk prioritisation', 'season planner']",[],n/a
+77,6,decision,task order,K0021,S2: zone survey ECV-Z07,,the plan's next zone for this kind of team,,,operations officer (season sign-off policy: orders the next task in the plan),plan P02,[],[],n/a
+78,6,report,team report,S3,,team S3,"ECV-0018: visit 2, 1 item(s) received",,,,,,,
+79,6,decision,area,ECV-0018,CLEARANCE,,,suspected,confirmed,QC reviewer (season sign-off policy: signs off what passes the rule check),dossier reviewer agent (gpt-6-luna),['dossier reviewer'],"['E1', 'E2', 'E3']",pass
+80,6,report,team report,S4,,team S4,"ECV-0154: visit 1, 3 item(s) received",,,,,,,
+81,6,decision,area,ECV-0154,CLEARANCE,,,suspected,suspected,QC reviewer (season sign-off policy: signs off what passes the rule check),dossier reviewer agent (gpt-6-luna),['dossier reviewer'],"['E1', 'E2', 'E3', 'E4']",pass
+82,6,decision,task order,K0022,S3: zone survey SFR-Z15,,the plan's next zone for this kind of team,,,operations officer (season sign-off policy: orders the next task in the plan),plan P02,[],[],n/a
+83,6,decision,task order,K0023,S4: zone survey SRA-Z02,,the plan's next zone for this kind of team,,,operations officer (season sign-off policy: orders the next task in the plan),plan P02,[],[],n/a
+84,6,report,team report,S1,,team S1,"ECV-0051: visit 1, 2 item(s) received",,,,,,,
+85,6,decision,area,ECV-0051,CLEARANCE,,,suspected,suspected,QC reviewer (season sign-off policy: signs off what passes the rule check),dossier reviewer agent (gpt-6-luna),['dossier reviewer'],"['E1', 'E2']",pass
+86,6,decision,task order,K0024,S1: zone survey NAR-Z02,,the plan's next zone for this kind of team,,,operations officer (season sign-off policy: orders the next task in the plan),plan P02,[],[],n/a
+87,6,report,team report,S2,,team S2,S2: 4 day(s) on zone survey ECV-Z07,,,,,,,
+88,6,report,team report,C1,,team C1,C1: 5 day(s) on clearance ECV-0060,,,,,,,
+89,6,report,team report,C2,,team C2,C2: 5 day(s) on clearance ECV-0026,,,,,,,
+90,6,report,team report,C3,,team C3,C3: 5 day(s) on clearance ECV-0115,,,,,,,
+91,6,report,team report,C4,,team C4,C4: 5 day(s) on clearance ECV-0071,,,,,,,
+92,6,report,team report,S3,,team S3,S3: 3 day(s) on zone survey SFR-Z15,,,,,,,
+93,6,report,team report,S4,,team S4,S4: 3 day(s) on zone survey SRA-Z02,,,,,,,
+94,6,report,team report,S1,,team S1,S1: 1 day(s) on zone survey NAR-Z02,,,,,,,
+95,7,report,access,access feed,,security coordination feed (simulated),access feed: no change,,,,,,,
+96,7,report,team report,S1,,team S1,S1: 5 day(s) on zone survey NAR-Z02,,,,,,,
+97,7,report,team report,S2,,team S2,S2: 5 day(s) on zone survey ECV-Z07,,,,,,,
+98,7,report,team report,S3,,team S3,S3: 5 day(s) on zone survey SFR-Z15,,,,,,,
+99,7,report,team report,S4,,team S4,S4: 5 day(s) on zone survey SRA-Z02,,,,,,,
+100,7,report,team report,C1,,team C1,C1: 5 day(s) on clearance ECV-0060,,,,,,,
+101,7,report,team report,C2,,team C2,C2: 5 day(s) on clearance ECV-0026,,,,,,,
+102,7,report,team report,C3,,team C3,C3: 5 day(s) on clearance ECV-0115,,,,,,,
+103,7,report,team report,C4,,team C4,C4: 5 day(s) on clearance ECV-0071,,,,,,,
+104,8,report,access,access feed,,security coordination feed (simulated),access feed: no change,,,,,,,
+105,8,report,team report,S2,,team S2,ECV-Z07 surveyed: 1 area(s) flagged for a visit,,,,,,,
+106,8,decision,task order,K0025,S2: visit ECV-0300,,the plan's next zone for this kind of team,,,operations officer (season sign-off policy: orders the next task in the plan),plan P02,[],[],n/a
+107,8,report,team report,S3,,team S3,SFR-Z15 surveyed: 0 area(s) flagged for a visit,,,,,,,
+108,8,report,team report,S4,,team S4,SRA-Z02 surveyed: 1 area(s) flagged for a visit,,,,,,,
+109,8,decision,task order,K0026,S3: visit SRA-0289,,the plan's next zone for this kind of team,,,operations officer (season sign-off policy: orders the next task in the plan),plan P02,[],[],n/a
+110,8,decision,task order,K0027,S4: zone survey ECV-Z10,,the plan's next zone for this kind of team,,,operations officer (season sign-off policy: orders the next task in the plan),plan P02,[],[],n/a
+111,8,report,team report,S1,,team S1,NAR-Z02 surveyed: 3 area(s) flagged for a visit,,,,,,,
+112,8,report,team report,C1,,team C1,C1: 5 day(s) on clearance ECV-0060,,,,,,,
+113,8,report,team report,C2,,team C2,C2: 5 day(s) on clearance ECV-0026,,,,,,,
+114,8,report,team report,C3,,team C3,C3: 4 day(s) on clearance ECV-0115,,,,,,,
+115,8,report,team report,C4,,team C4,C4: 5 day(s) on clearance ECV-0071,,,,,,,
+116,8,report,team report,S2,,team S2,S2: 4 day(s) on visit ECV-0300,,,,,,,
+117,8,report,team report,S3,,team S3,S3: 3 day(s) on visit SRA-0289,,,,,,,
+118,8,report,team report,S4,,team S4,S4: 3 day(s) on zone survey ECV-Z10,,,,,,,
+119,8,decision,zone,SFR-Z15,declare free,,Travis's setting (question 39): free once every flagged area is resolved,open,free,national authority (season sign-off policy: declares free what passes the twin's check),"the twin's check: surveyed, every flagged area released",[],[],n/a
+120,9,report,access,access feed,,security coordination feed (simulated),access feed: no change,,,,,,,
+121,9,decision,task order,K0028,S1: visit NAR-0282,,the plan's next zone for this kind of team,,,operations officer (season sign-off policy: orders the next task in the plan),plan P02,[],[],n/a
+122,9,report,team report,S2,,team S2,"ECV-0300: visit 1, 2 item(s) received",,,,,,,
+123,9,decision,area,ECV-0300,CANCEL,,,suspected,cancelled,QC reviewer (season sign-off policy: signs off what passes the rule check),dossier reviewer agent (gpt-6-luna),['dossier reviewer'],"['E1', 'E2']",pass
+124,9,decision,task order,K0029,S2: visit ECV-0102,,the plan's next zone for this kind of team,,,operations officer (season sign-off policy: orders the next task in the plan),plan P02,[],[],n/a
+125,9,report,team report,S3,,team S3,"SRA-0289: visit 1, 1 item(s) received",,,,,,,
+126,9,decision,area,SRA-0289,FURTHER_NTS,,,suspected,suspected,QC reviewer (season sign-off policy: signs off what passes the rule check),dossier reviewer agent (gpt-6-luna),['dossier reviewer'],['E1'],pass
+127,9,report,team report,C1,,team C1,"ECV-0060: clearance done, result awaiting sign-off",,,,,,,
+128,9,decision,area,ECV-0060,CLEARED,,2 mine cell(s) found and cleared,suspected,cleared,QC reviewer (season sign-off policy: signs off what passes the rule check),clearance team C1,[],[],n/a
+129,9,decision,task order,K0030,S3: visit SRA-0289,,the plan's next zone for this kind of team,,,operations officer (season sign-off policy: orders the next task in the plan),plan P02,[],[],n/a
+130,9,decision,task order,K0031,C1: clearance ECV-0047,,the plan's next zone for this kind of team,,,operations officer (season sign-off policy: orders the next task in the plan),plan P02,[],[],n/a
+131,9,report,team report,S1,,team S1,"NAR-0282: visit 1, 2 item(s) received",,,,,,,
+132,9,decision,area,NAR-0282,CLEARANCE,,,suspected,suspected,QC reviewer (season sign-off policy: signs off what passes the rule check),dossier reviewer agent (gpt-6-luna),['dossier reviewer'],"['E1', 'E2', 'E3']",pass
+133,9,report,team report,S4,,team S4,S4: 5 day(s) on zone survey ECV-Z10,,,,,,,
+134,9,report,team report,C2,,team C2,C2: 5 day(s) on clearance ECV-0026,,,,,,,
+135,9,report,team report,C3,,team C3,C3: 5 day(s) on clearance ECV-0115,,,,,,,
+136,9,report,team report,C4,,team C4,C4: 4 day(s) on clearance ECV-0071,,,,,,,
+137,9,report,team report,S2,,team S2,S2: 3 day(s) on visit ECV-0102,,,,,,,
+138,9,report,team report,S3,,team S3,S3: 3 day(s) on visit SRA-0289,,,,,,,
+139,9,report,team report,C1,,team C1,C1: 2 day(s) on clearance ECV-0047,,,,,,,
+140,9,decision,zone,ECV-Z07,declare free,,Travis's setting (question 39): free once every flagged area is resolved,open,free,national authority (season sign-off policy: declares free what passes the twin's check),"the twin's check: surveyed, every flagged area released",[],[],n/a
+141,10,report,access,access feed,,security coordination feed (simulated),"access feed: ABE-Z16 closed, ABE-Z22 open, CHI-Z31 closed, COC-Z05 closed, SFR-Z12 open, SLU-Z13 open, SON-Z22 open, SON-Z46 open",,,,,,,
+142,10,decision,plan,P03,approve,,the monthly plan; changes in the feeds: CHI-Z31 closed,P02,P03,departmental office (season sign-off policy: approves the plan as proposed),season planner,"['risk prioritisation', 'season planner']",[],n/a
+143,10,decision,task order,K0032,S1: visit ECV-0132,,the plan's next zone for this kind of team,,,operations officer (season sign-off policy: orders the next task in the plan),plan P03,[],[],n/a
+144,10,report,team report,S2,,team S2,"ECV-0102: visit 1, 2 item(s) received",,,,,,,
+145,10,decision,area,ECV-0102,CLEARANCE,,,suspected,confirmed,QC reviewer (season sign-off policy: signs off what passes the rule check),dossier reviewer agent (gpt-6-luna),['dossier reviewer'],"['E1', 'E2']",pass
+146,10,report,team report,S4,,team S4,ECV-Z10 surveyed: 3 area(s) flagged for a visit,,,,,,,
+147,10,decision,task order,K0033,S2: zone survey NAR-Z11,,the plan's next zone for this kind of team,,,operations officer (season sign-off policy: orders the next task in the plan),plan P03,[],[],n/a
+148,10,decision,task order,K0034,S4: zone survey ABE-Z14,,the plan's next zone for this kind of team,,,operations officer (season sign-off policy: orders the next task in the plan),plan P03,[],[],n/a
+149,10,report,team report,S1,,team S1,S1: 3 day(s) on visit ECV-0132,,,,,,,
+150,10,report,team report,S3,,team S3,S3: 0 day(s) on visit SRA-0289,,,,,,,
+151,10,report,team report,C1,,team C1,C1: 2 day(s) on clearance ECV-0047,,,,,,,
+152,10,report,team report,C2,,team C2,C2: 3 day(s) on clearance ECV-0026,,,,,,,
+153,10,report,team report,C3,,team C3,C3: 3 day(s) on clearance ECV-0115,,,,,,,
+154,10,report,team report,C4,,team C4,C4: 2 day(s) on clearance ECV-0071,,,,,,,
+155,10,report,team report,S2,,team S2,S2: 0 day(s) on zone survey NAR-Z11,,,,,,,
+156,10,report,team report,S4,,team S4,S4: 1 day(s) on zone survey ABE-Z14,,,,,,,
+157,11,report,access,access feed,,security coordination feed (simulated),access feed: no change,,,,,,,
+158,11,report,team report,S3,,team S3,"SRA-0289: visit 2, 2 item(s) received",,,,,,,
+159,11,decision,area,SRA-0289,FURTHER_NTS,,,suspected,suspected,QC reviewer (season sign-off policy: signs off what passes the rule check),dossier reviewer agent (gpt-6-luna),['dossier reviewer'],"['E1', 'E2', 'E3']",pass
+160,11,decision,task order,K0035,S3: zone survey COC-Z09,,the plan's next zone for this kind of team,,,operations officer (season sign-off policy: orders the next task in the plan),plan P03,[],[],n/a
+161,11,report,team report,S1,,team S1,"ECV-0132: visit 1, 3 item(s) received",,,,,,,
+162,11,decision,area,ECV-0132,CANCEL,,,suspected,cancelled,QC reviewer (season sign-off policy: signs off what passes the rule check),dossier reviewer agent (gpt-6-luna),['dossier reviewer'],"['E1', 'E2', 'E3']",pass
+163,11,decision,task order,K0036,S1: visit ECV-0150,,the plan's next zone for this kind of team,,,operations officer (season sign-off policy: orders the next task in the plan),plan P03,[],[],n/a
+164,11,report,team report,S2,,team S2,S2: 3 day(s) on zone survey NAR-Z11,,,,,,,
+165,11,report,team report,S4,,team S4,S4: 5 day(s) on zone survey ABE-Z14,,,,,,,
+166,11,report,team report,C1,,team C1,C1: 3 day(s) on clearance ECV-0047,,,,,,,
+167,11,report,team report,C2,,team C2,C2: 4 day(s) on clearance ECV-0026,,,,,,,
+168,11,report,team report,C3,,team C3,C3: 3 day(s) on clearance ECV-0115,,,,,,,
+169,11,report,team report,C4,,team C4,C4: 3 day(s) on clearance ECV-0071,,,,,,,
+170,11,report,team report,S3,,team S3,S3: 1 day(s) on zone survey COC-Z09,,,,,,,
+171,11,report,team report,S1,,team S1,S1: 1 day(s) on visit ECV-0150,,,,,,,
+172,12,report,access,access feed,,security coordination feed (simulated),access feed: no change,,,,,,,
+173,12,report,team report,S4,,team S4,ABE-Z14 surveyed: 2 area(s) flagged for a visit,,,,,,,
+174,12,report,team report,S1,,team S1,S1: 2 day(s) on visit ECV-0150,,,,,,,
+175,12,report,team report,S2,,team S2,S2: 3 day(s) on zone survey NAR-Z11,,,,,,,
+176,12,report,team report,S3,,team S3,S3: 5 day(s) on zone survey COC-Z09,,,,,,,
+177,12,report,team report,C1,,team C1,C1: 3 day(s) on clearance ECV-0047,,,,,,,
+178,12,report,team report,C2,,team C2,C2: 1 day(s) on clearance ECV-0026,,,,,,,
+179,12,report,team report,C3,,team C3,C3: 2 day(s) on clearance ECV-0115,,,,,,,
+180,12,report,team report,C4,,team C4,C4: 3 day(s) on clearance ECV-0071,,,,,,,
+181,13,report,access,access feed,,security coordination feed (simulated),access feed: no change,,,,,,,
+182,13,decision,task order,K0037,S4: visit ABE-0294,,the plan's next zone for this kind of team,,,operations officer (season sign-off policy: orders the next task in the plan),plan P03,[],[],n/a
+183,13,report,team report,S1,,team S1,"ECV-0150: visit 1, 2 item(s) received",,,,,,,
+184,13,decision,area,ECV-0150,FURTHER_NTS,,,suspected,suspected,QC reviewer (season sign-off policy: signs off what passes the rule check),dossier reviewer agent (gpt-6-luna),['dossier reviewer'],"['E1', 'E2']",pass
+185,13,report,team report,S2,,team S2,S2: 0 day(s) on zone survey NAR-Z11,,,,,,,
+186,13,decision,report,S2 week 13,query the team,,unusual report (anomaly score -0.653),,,operations officer (season sign-off policy: orders the next task in the plan),report checker,[],[],n/a
+187,13,report,team report,S3,,team S3,S3: 1 day(s) on zone survey COC-Z09,,,,,,,
+188,13,report,team report,S4,,team S4,S4: 4 day(s) on visit ABE-0294,,,,,,,
+189,13,report,team report,C1,,team C1,C1: 3 day(s) on clearance ECV-0047,,,,,,,
+190,13,report,team report,C2,,team C2,C2: 3 day(s) on clearance ECV-0026,,,,,,,
+191,13,report,team report,C3,,team C3,C3: 2 day(s) on clearance ECV-0115,,,,,,,
+192,13,report,team report,C4,,team C4,C4: 3 day(s) on clearance ECV-0071,,,,,,,
+193,14,report,access,access feed,,security coordination feed (simulated),"access feed: COC-Z05 open, GRA-Z04 open, GRA-Z05 closed, SAB-Z06 open, SFR-Z16 open, SLU-Z06 open, SLU-Z16 open, SLU-Z18 closed, SON-Z17 closed, SON-Z53 open",,,,,,,
+194,14,decision,plan,P04,approve,,the monthly plan,P03,P04,departmental office (season sign-off policy: approves the plan as proposed),season planner,"['risk prioritisation', 'season planner']",[],n/a
+195,14,decision,task order,K0038,S1: zone survey SLU-Z11,,the plan's next zone for this kind of team,,,operations officer (season sign-off policy: orders the next task in the plan),plan P04,[],[],n/a
+196,14,report,team report,S4,,team S4,"ABE-0294: visit 1, 1 item(s) received",,,,,,,
+197,14,decision,area,ABE-0294,FURTHER_NTS,,,suspected,suspected,QC reviewer (season sign-off policy: signs off what passes the rule check),dossier reviewer agent (gpt-6-luna),['dossier reviewer'],['E1'],pass
+198,14,decision,task order,K0039,S4: zone survey ABE-Z01,,the plan's next zone for this kind of team,,,operations officer (season sign-off policy: orders the next task in the plan),plan P04,[],[],n/a
+199,14,report,team report,S1,,team S1,S1: 2 day(s) on zone survey SLU-Z11,,,,,,,
+200,14,report,team report,S2,,team S2,S2: 2 day(s) on zone survey NAR-Z11,,,,,,,
+201,14,report,team report,S3,,team S3,S3: 2 day(s) on zone survey COC-Z09,,,,,,,
+202,14,report,team report,C1,,team C1,C1: 4 day(s) on clearance ECV-0047,,,,,,,
+203,14,report,team report,C2,,team C2,C2: 2 day(s) on clearance ECV-0026,,,,,,,
+204,14,report,team report,C3,,team C3,C3: 2 day(s) on clearance ECV-0115,,,,,,,
+205,14,report,team report,C4,,team C4,C4: 4 day(s) on clearance ECV-0071,,,,,,,
+206,14,report,team report,S4,,team S4,S4: 1 day(s) on zone survey ABE-Z01,,,,,,,
+207,15,report,access,access feed,,security coordination feed (simulated),access feed: no change,,,,,,,
+208,15,report,team report,S3,,team S3,COC-Z09 surveyed: 1 area(s) flagged for a visit,,,,,,,
+209,15,decision,task order,K0040,S3: visit COC-0090,,the plan's next zone for this kind of team,,,operations officer (season sign-off policy: orders the next task in the plan),plan P04,[],[],n/a
+210,15,report,team report,S2,,team S2,NAR-Z11 surveyed: 1 area(s) flagged for a visit,,,,,,,
+211,15,decision,task order,K0041,S2: visit ECV-0150,,the plan's next zone for this kind of team,,,operations officer (season sign-off policy: orders the next task in the plan),plan P04,[],[],n/a
+212,15,report,team report,S1,,team S1,S1: 1 day(s) on zone survey SLU-Z11,,,,,,,
+213,15,report,team report,S4,,team S4,S4: 1 day(s) on zone survey ABE-Z01,,,,,,,
+214,15,report,team report,C1,,team C1,C1: 3 day(s) on clearance ECV-0047,,,,,,,
+215,15,report,team report,C2,,team C2,C2: 4 day(s) on clearance ECV-0026,,,,,,,
+216,15,report,team report,C3,,team C3,C3: 2 day(s) on clearance ECV-0115,,,,,,,
+217,15,report,team report,C4,,team C4,C4: 3 day(s) on clearance ECV-0071,,,,,,,
+218,15,report,team report,S3,,team S3,S3: 4 day(s) on visit COC-0090,,,,,,,
+219,15,report,team report,S2,,team S2,S2: 2 day(s) on visit ECV-0150,,,,,,,
+220,16,report,access,access feed,,security coordination feed (simulated),access feed: no change,,,,,,,
+221,16,report,team report,S3,,team S3,"COC-0090: visit 1, 1 item(s) received",,,,,,,
+222,16,decision,area,COC-0090,FURTHER_NTS,,,suspected,suspected,QC reviewer (season sign-off policy: signs off what passes the rule check),dossier reviewer agent (gpt-6-luna),['dossier reviewer'],['E1'],pass
+223,16,decision,task order,K0042,S3: visit COC-0090,,the plan's next zone for this kind of team,,,operations officer (season sign-off policy: orders the next task in the plan),plan P04,[],[],n/a
+224,16,report,team report,C3,,team C3,"ECV-0115: clearance done, result awaiting sign-off",,,,,,,
+225,16,decision,area,ECV-0115,CLEARED,,clearance found no mines,suspected,cleared,QC reviewer (season sign-off policy: signs off what passes the rule check),clearance team C3,[],[],n/a
+226,16,decision,task order,K0043,C3: clearance ECV-0050,,the plan's next zone for this kind of team,,,operations officer (season sign-off policy: orders the next task in the plan),plan P04,[],[],n/a
+227,16,report,team report,S2,,team S2,"ECV-0150: visit 2, 2 item(s) received",,,,,,,
+228,16,decision,area,ECV-0150,FURTHER_NTS,,,suspected,suspected,QC reviewer (season sign-off policy: signs off what passes the rule check),dossier reviewer agent (gpt-6-luna),['dossier reviewer'],"['E1', 'E2', 'E3', 'E4']",pass
+229,16,report,team report,S1,,team S1,S1: 4 day(s) on zone survey SLU-Z11,,,,,,,
+230,16,report,team report,S4,,team S4,S4: 4 day(s) on zone survey ABE-Z01,,,,,,,
+231,16,report,team report,C1,,team C1,C1: 3 day(s) on clearance ECV-0047,,,,,,,
+232,16,report,team report,C2,,team C2,C2: 4 day(s) on clearance ECV-0026,,,,,,,
+233,16,report,team report,C4,,team C4,C4: 3 day(s) on clearance ECV-0071,,,,,,,
+234,16,report,team report,S3,,team S3,S3: 0 day(s) on visit COC-0090,,,,,,,
+235,16,report,team report,C3,,team C3,C3: 1 day(s) on clearance ECV-0050,,,,,,,
+236,17,report,access,access feed,,security coordination feed (simulated),access feed: no change,,,,,,,
+237,17,decision,task order,K0044,S2: visit ECV-0150,,the plan's next zone for this kind of team,,,operations officer (season sign-off policy: orders the next task in the plan),plan P04,[],[],n/a
+238,17,report,team report,S1,,team S1,SLU-Z11 surveyed: 3 area(s) flagged for a visit,,,,,,,
+239,17,decision,task order,K0045,S1: visit SLU-0152,,the plan's next zone for this kind of team,,,operations officer (season sign-off policy: orders the next task in the plan),plan P04,[],[],n/a
+240,17,report,team report,S2,,team S2,S2: 3 day(s) on visit ECV-0150,,,,,,,
+241,17,report,team report,S3,,team S3,S3: 4 day(s) on visit COC-0090,,,,,,,
+242,17,report,team report,S4,,team S4,S4: 3 day(s) on zone survey ABE-Z01,,,,,,,
+243,17,report,team report,C1,,team C1,C1: 0 day(s) on clearance ECV-0047,,,,,,,
+244,17,report,team report,C2,,team C2,C2: 3 day(s) on clearance ECV-0026,,,,,,,
+245,17,report,team report,C3,,team C3,C3: 5 day(s) on clearance ECV-0050,,,,,,,
+246,17,report,team report,C4,,team C4,C4: 0 day(s) on clearance ECV-0071,,,,,,,
+247,17,report,team report,S1,,team S1,S1: 1 day(s) on visit SLU-0152,,,,,,,
+248,18,report,access,access feed,,security coordination feed (simulated),access feed: no change,,,,,,,
+249,18,report,team report,S3,,team S3,"COC-0090: visit 2, 1 item(s) received",,,,,,,
+250,18,decision,area,COC-0090,CLEARANCE,,,suspected,suspected,QC reviewer (season sign-off policy: signs off what passes the rule check),dossier reviewer agent (gpt-6-luna),['dossier reviewer'],"['E1', 'E2']",pass
+251,18,decision,task order,K0046,S3: visit ECV-0007,,the plan's next zone for this kind of team,,,operations officer (season sign-off policy: orders the next task in the plan),plan P04,[],[],n/a
+252,18,report,team report,S2,,team S2,"ECV-0150: visit 3, 4 item(s) received",,,,,,,
+253,18,decision,area,ECV-0150,CANCEL,,,suspected,cancelled,QC reviewer (season sign-off policy: signs off what passes the rule check),dossier reviewer agent (gpt-6-luna),['dossier reviewer'],"['E1', 'E2', 'E3', 'E4', 'E5', 'E6', 'E7', 'E8']",pass
+254,18,report,team report,S4,,team S4,ABE-Z01 surveyed: 2 area(s) flagged for a visit,,,,,,,
+255,18,decision,task order,K0047,S2: visit ABE-0538,,the plan's next zone for this kind of team,,,operations officer (season sign-off policy: orders the next task in the plan),plan P04,[],[],n/a
+256,18,decision,task order,K0048,S4: visit ECV-0118,,the plan's next zone for this kind of team,,,operations officer (season sign-off policy: orders the next task in the plan),plan P04,[],[],n/a
+257,18,report,team report,S1,,team S1,"SLU-0152: visit 1, 2 item(s) received",,,,,,,
+258,18,decision,area,SLU-0152,CLEARANCE,,,suspected,suspected,QC reviewer (season sign-off policy: signs off what passes the rule check),dossier reviewer agent (gpt-6-luna),['dossier reviewer'],"['E1', 'E2', 'E3']",pass
+259,18,report,team report,C2,,team C2,"ECV-0026: clearance done, result awaiting sign-off",,,,,,,
+260,18,decision,area,ECV-0026,CLEARED,,clearance found no mines,suspected,cleared,QC reviewer (season sign-off policy: signs off what passes the rule check),clearance team C2,[],[],n/a
+261,18,decision,task order,K0049,S1: visit SLU-0187,,the plan's next zone for this kind of team,,,operations officer (season sign-off policy: orders the next task in the plan),plan P04,[],[],n/a
+262,18,decision,task order,K0050,C2: clearance ECV-0051,,the plan's next zone for this kind of team,,,operations officer (season sign-off policy: orders the next task in the plan),plan P04,[],[],n/a
+263,18,report,team report,C1,,team C1,C1: 3 day(s) on clearance ECV-0047,,,,,,,
+264,18,report,team report,C3,,team C3,C3: 2 day(s) on clearance ECV-0050,,,,,,,
+265,18,report,team report,C4,,team C4,C4: 3 day(s) on clearance ECV-0071,,,,,,,
+266,18,report,team report,S3,,team S3,S3: 2 day(s) on visit ECV-0007,,,,,,,
+267,18,report,team report,S2,,team S2,S2: 2 day(s) on visit ABE-0538,,,,,,,
+268,18,report,team report,S4,,team S4,S4: 0 day(s) on visit ECV-0118,,,,,,,
+269,18,report,team report,S1,,team S1,S1: 0 day(s) on visit SLU-0187,,,,,,,
+270,18,report,team report,C2,,team C2,C2: 0 day(s) on clearance ECV-0051,,,,,,,
+271,19,report,access,access feed,,security coordination feed (simulated),"access feed: CHI-Z30 closed, NAR-Z09 open, NAR-Z12 closed, SAB-Z02 open, SFR-Z09 closed, SLU-Z18 open, SON-Z01 open, SON-Z17 open, SON-Z32 closed",,,,,,,
+272,19,decision,plan,P05,approve,,the monthly plan; changes in the feeds: SAB-Z02 open,P04,P05,departmental office (season sign-off policy: approves the plan as proposed),season planner,"['risk prioritisation', 'season planner']",[],n/a
+273,19,report,team report,C4,,team C4,"ECV-0071: clearance done, result awaiting sign-off",,,,,,,
+274,19,decision,area,ECV-0071,CLEARED,,clearance found no mines,suspected,cleared,QC reviewer (season sign-off policy: signs off what passes the rule check),clearance team C4,[],[],n/a
+275,19,decision,task order,K0051,C4: clearance ECV-0102,,the plan's next zone for this kind of team,,,operations officer (season sign-off policy: orders the next task in the plan),plan P05,[],[],n/a
+276,19,report,team report,S2,,team S2,"ABE-0538: visit 1, 3 item(s) received",,,,,,,
+277,19,decision,area,ABE-0538,CANCEL,,,suspected,cancelled,QC reviewer (season sign-off policy: signs off what passes the rule check),dossier reviewer agent (gpt-6-luna),['dossier reviewer'],"['E1', 'E2', 'E3']",pass
+278,19,decision,task order,K0052,S2: visit NAR-0283,,the plan's next zone for this kind of team,,,operations officer (season sign-off policy: orders the next task in the plan),plan P05,[],[],n/a
+279,19,report,team report,S3,,team S3,"ECV-0007: visit 1, 2 item(s) received",,,,,,,
+280,19,decision,area,ECV-0007,FURTHER_NTS,,,suspected,suspected,QC reviewer (season sign-off policy: signs off what passes the rule check),dossier reviewer agent (gpt-6-luna),['dossier reviewer'],"['E1', 'E2']",pass
+281,19,decision,task order,K0053,S3: visit ECV-0248,,the plan's next zone for this kind of team,,,operations officer (season sign-off policy: orders the next task in the plan),plan P05,[],[],n/a
+282,19,report,team report,S4,,team S4,"ECV-0118: visit 1, 2 item(s) received",,,,,,,
+283,19,decision,area,ECV-0118,CLEARANCE,,,suspected,suspected,QC reviewer (season sign-off policy: signs off what passes the rule check),dossier reviewer agent (gpt-6-luna),['dossier reviewer'],"['E1', 'E2']",pass
+284,19,report,team report,S1,,team S1,S1: 4 day(s) on visit SLU-0187,,,,,,,
+285,19,report,team report,C1,,team C1,C1: 4 day(s) on clearance ECV-0047,,,,,,,
+286,19,report,team report,C2,,team C2,C2: 5 day(s) on clearance ECV-0051,,,,,,,
+287,19,report,team report,C3,,team C3,C3: 5 day(s) on clearance ECV-0050,,,,,,,
+288,19,report,team report,C4,,team C4,C4: 3 day(s) on clearance ECV-0102,,,,,,,
+289,19,report,team report,S2,,team S2,S2: 2 day(s) on visit NAR-0283,,,,,,,
+290,19,report,team report,S3,,team S3,S3: 1 day(s) on visit ECV-0248,,,,,,,
+291,20,report,access,access feed,,security coordination feed (simulated),access feed: no change,,,,,,,
+292,20,decision,task order,K0054,S4: zone survey COC-Z11,,the plan's next zone for this kind of team,,,operations officer (season sign-off policy: orders the next task in the plan),plan P05,[],[],n/a
+293,20,report,team report,S1,,team S1,"SLU-0187: visit 1, 1 item(s) received",,,,,,,
+294,20,decision,area,SLU-0187,CLEARANCE,,,suspected,suspected,QC reviewer (season sign-off policy: signs off what passes the rule check),dossier reviewer agent (gpt-6-luna),['dossier reviewer'],"['E1', 'E2']",pass
+295,20,decision,task order,K0055,S1: visit ABE-0294,,the plan's next zone for this kind of team,,,operations officer (season sign-off policy: orders the next task in the plan),plan P05,[],[],n/a
+296,20,report,team report,S2,,team S2,"NAR-0283: visit 1, 1 item(s) received",,,,,,,
+297,20,decision,area,NAR-0283,FURTHER_NTS,,,suspected,suspected,QC reviewer (season sign-off policy: signs off what passes the rule check),dossier reviewer agent (gpt-6-luna),['dossier reviewer'],['E1'],pass
+298,20,decision,task order,K0056,S2: visit NAR-0283,,the plan's next zone for this kind of team,,,operations officer (season sign-off policy: orders the next task in the plan),plan P05,[],[],n/a
+299,20,report,team report,S3,,team S3,"ECV-0248: visit 1, 3 item(s) received",,,,,,,
+300,20,decision,area,ECV-0248,CLEARANCE,,,suspected,suspected,QC reviewer (season sign-off policy: signs off what passes the rule check),dossier reviewer agent (gpt-6-luna),['dossier reviewer'],"['E1', 'E2', 'E3', 'E4']",pass
+301,20,report,team report,S4,,team S4,S4: 5 day(s) on zone survey COC-Z11,,,,,,,
+302,20,report,team report,C1,,team C1,C1: 5 day(s) on clearance ECV-0047,,,,,,,
+303,20,report,team report,C2,,team C2,C2: 5 day(s) on clearance ECV-0051,,,,,,,
+304,20,report,team report,C3,,team C3,C3: 5 day(s) on clearance ECV-0050,,,,,,,
+305,20,report,team report,C4,,team C4,C4: 5 day(s) on clearance ECV-0102,,,,,,,
+306,20,report,team report,S1,,team S1,S1: 4 day(s) on visit ABE-0294,,,,,,,
+307,20,report,team report,S2,,team S2,S2: 2 day(s) on visit NAR-0283,,,,,,,
+308,21,report,access,access feed,,security coordination feed (simulated),access feed: no change,,,,,,,
+309,21,decision,task order,K0057,S3: visit ECV-0243,,the plan's next zone for this kind of team,,,operations officer (season sign-off policy: orders the next task in the plan),plan P05,[],[],n/a
+310,21,report,team report,S1,,team S1,"ABE-0294: visit 2, 3 item(s) received",,,,,,,
+311,21,decision,area,ABE-0294,CANCEL,,,suspected,cancelled,QC reviewer (season sign-off policy: signs off what passes the rule check),dossier reviewer agent (gpt-6-luna),['dossier reviewer'],"['E1', 'E2', 'E3', 'E4']",pass
+312,21,decision,task order,K0058,S1: visit ABE-0324,,the plan's next zone for this kind of team,,,operations officer (season sign-off policy: orders the next task in the plan),plan P05,[],[],n/a
+313,21,report,team report,S2,,team S2,"NAR-0283: visit 2, 1 item(s) received",,,,,,,
+314,21,decision,area,NAR-0283,CLEARANCE,,,suspected,suspected,QC reviewer (season sign-off policy: signs off what passes the rule check),dossier reviewer agent (gpt-6-luna),['dossier reviewer'],"['E1', 'E2']",pass
+315,21,decision,task order,K0059,S2: visit NAR-0301,,the plan's next zone for this kind of team,,,operations officer (season sign-off policy: orders the next task in the plan),plan P05,[],[],n/a
+316,21,report,team report,S3,,team S3,"ECV-0243: visit 1, 1 item(s) received",,,,,,,
+317,21,decision,area,ECV-0243,FURTHER_NTS,,,suspected,suspected,QC reviewer (season sign-off policy: signs off what passes the rule check),dossier reviewer agent (gpt-6-luna),['dossier reviewer'],['E1'],pass
+318,21,report,team report,S4,,team S4,COC-Z11 surveyed: 6 area(s) flagged for a visit,,,,,,,
+319,21,report,team report,C1,,team C1,C1: 5 day(s) on clearance ECV-0047,,,,,,,
+320,21,report,team report,C2,,team C2,C2: 5 day(s) on clearance ECV-0051,,,,,,,
+321,21,report,team report,C3,,team C3,C3: 5 day(s) on clearance ECV-0050,,,,,,,
+322,21,report,team report,C4,,team C4,C4: 5 day(s) on clearance ECV-0102,,,,,,,
+323,21,report,team report,S1,,team S1,S1: 1 day(s) on visit ABE-0324,,,,,,,
+324,21,report,team report,S2,,team S2,S2: 2 day(s) on visit NAR-0301,,,,,,,
+325,22,report,access,access feed,,security coordination feed (simulated),access feed: no change,,,,,,,
+326,22,decision,task order,K0060,S3: visit ECV-0243,,the plan's next zone for this kind of team,,,operations officer (season sign-off policy: orders the next task in the plan),plan P05,[],[],n/a
+327,22,decision,task order,K0061,S4: visit COC-0014,,the plan's next zone for this kind of team,,,operations officer (season sign-off policy: orders the next task in the plan),plan P05,[],[],n/a
+328,22,report,team report,S2,,team S2,"NAR-0301: visit 1, 2 item(s) received",,,,,,,
+329,22,decision,area,NAR-0301,CLEARANCE,,,suspected,confirmed,QC reviewer (season sign-off policy: signs off what passes the rule check),dossier reviewer agent (gpt-6-luna),['dossier reviewer'],"['E1', 'E2']",pass
+330,22,decision,task order,K0062,S2: zone survey SFR-Z13,,the plan's next zone for this kind of team,,,operations officer (season sign-off policy: orders the next task in the plan),plan P05,[],[],n/a
+331,22,report,team report,S1,,team S1,"ABE-0324: visit 1, 2 item(s) received",,,,,,,
+332,22,decision,area,ABE-0324,FURTHER_NTS,,,suspected,suspected,QC reviewer (season sign-off policy: signs off what passes the rule check),dossier reviewer agent (gpt-6-luna),['dossier reviewer'],"['E1', 'E2']",pass
+333,22,report,team report,C2,,team C2,"ECV-0051: clearance done, result awaiting sign-off",,,,,,,
+334,22,decision,area,ECV-0051,CLEARED,,1 mine cell(s) found and cleared,suspected,cleared,QC reviewer (season sign-off policy: signs off what passes the rule check),clearance team C2,[],[],n/a
+335,22,decision,task order,K0063,S1: visit ABE-0324,,the plan's next zone for this kind of team,,,operations officer (season sign-off policy: orders the next task in the plan),plan P05,[],[],n/a
+336,22,decision,task order,K0064,C2: clearance COC-0090,,the plan's next zone for this kind of team,,,operations officer (season sign-off policy: orders the next task in the plan),plan P05,[],[],n/a
+337,22,report,team report,S3,,team S3,"ECV-0243: visit 2, 3 item(s) received",,,,,,,
+338,22,decision,area,ECV-0243,CANCEL,,,suspected,cancelled,QC reviewer (season sign-off policy: signs off what passes the rule check),dossier reviewer agent (gpt-6-luna),['dossier reviewer'],"['E1', 'E2', 'E3', 'E4']",pass
+339,22,report,team report,S4,,team S4,"COC-0014: visit 1, 1 item(s) received",,,,,,,
+340,22,decision,area,COC-0014,CLEARANCE,,,suspected,suspected,QC reviewer (season sign-off policy: signs off what passes the rule check),dossier reviewer agent (gpt-6-luna),['dossier reviewer'],"['E1', 'E2']",pass
+341,22,report,team report,C1,,team C1,"ECV-0047: clearance done, result awaiting sign-off",,,,,,,
+342,22,decision,area,ECV-0047,CLEARED,,1 mine cell(s) found and cleared,suspected,cleared,QC reviewer (season sign-off policy: signs off what passes the rule check),clearance team C1,[],[],n/a
+343,22,report,team report,C3,,team C3,C3: 4 day(s) on clearance ECV-0050,,,,,,,
+344,22,report,team report,C4,,team C4,C4: 4 day(s) on clearance ECV-0102,,,,,,,
+345,22,report,team report,S2,,team S2,S2: 1 day(s) on zone survey SFR-Z13,,,,,,,
+346,22,report,team report,S1,,team S1,S1: 1 day(s) on visit ABE-0324,,,,,,,
+347,22,report,team report,C2,,team C2,C2: 1 day(s) on clearance COC-0090,,,,,,,
+348,23,report,access,access feed,,security coordination feed (simulated),"access feed: ABE-Z05 closed, ABE-Z06 closed, ABE-Z16 open, ABE-Z18 closed, CHI-Z31 open, GRA-Z05 open, NAR-Z14 closed, SAB-Z08 closed, SCA-Z27 closed, SON-Z32 open, SON-Z48 closed, SRA-Z16 closed",,,,,,,
+349,23,decision,plan,P06,approve,,the monthly plan; changes in the feeds: CHI-Z31 open,P05,P06,departmental office (season sign-off policy: approves the plan as proposed),season planner,"['risk prioritisation', 'season planner']",[],n/a
+350,23,decision,task order,K0065,S3: visit COC-0004,,the plan's next zone for this kind of team,,,operations officer (season sign-off policy: orders the next task in the plan),plan P06,[],[],n/a
+351,23,decision,task order,K0066,S4: zone survey CHI-Z31,,the plan's next zone for this kind of team,,,operations officer (season sign-off policy: orders the next task in the plan),plan P06,[],[],n/a
+352,23,decision,task order,K0067,C1: clearance NAR-0301,,the plan's next zone for this kind of team,,,operations officer (season sign-off policy: orders the next task in the plan),plan P06,[],[],n/a
+353,23,report,team report,S1,,team S1,"ABE-0324: visit 2, 2 item(s) received",,,,,,,
+354,23,decision,area,ABE-0324,FURTHER_NTS,,,suspected,suspected,QC reviewer (season sign-off policy: signs off what passes the rule check),dossier reviewer agent (gpt-6-luna),['dossier reviewer'],"['E1', 'E2', 'E3', 'E4']",pass
+355,23,decision,task order,K0068,S1: visit ECV-0007,,the plan's next zone for this kind of team,,,operations officer (season sign-off policy: orders the next task in the plan),plan P06,[],[],n/a
+356,23,report,team report,S2,,team S2,S2: 5 day(s) on zone survey SFR-Z13,,,,,,,
+357,23,report,team report,S3,,team S3,S3: 4 day(s) on visit COC-0004,,,,,,,
+358,23,report,team report,S4,,team S4,S4: 4 day(s) on zone survey CHI-Z31,,,,,,,
+359,23,report,team report,C1,,team C1,C1: 4 day(s) on clearance NAR-0301,,,,,,,
+360,23,report,team report,C2,,team C2,C2: 4 day(s) on clearance COC-0090,,,,,,,
+361,23,report,team report,C3,,team C3,C3: 5 day(s) on clearance ECV-0050,,,,,,,
+362,23,report,team report,C4,,team C4,C4: 5 day(s) on clearance ECV-0102,,,,,,,
+363,23,report,team report,S1,,team S1,S1: 1 day(s) on visit ECV-0007,,,,,,,
+364,24,report,access,access feed,,security coordination feed (simulated),access feed: no change,,,,,,,
+365,24,report,team report,S3,,team S3,"COC-0004: visit 1, 1 item(s) received",,,,,,,
+366,24,decision,area,COC-0004,CLEARANCE,,,suspected,confirmed,QC reviewer (season sign-off policy: signs off what passes the rule check),dossier reviewer agent (gpt-6-luna),['dossier reviewer'],['E1'],pass
+367,24,decision,task order,K0069,S3: visit COC-0001,,the plan's next zone for this kind of team,,,operations officer (season sign-off policy: orders the next task in the plan),plan P06,[],[],n/a
+368,24,report,team report,S1,,team S1,"ECV-0007: visit 2, 1 item(s) received",,,,,,,
+369,24,decision,area,ECV-0007,CLEARANCE,,,suspected,suspected,QC reviewer (season sign-off policy: signs off what passes the rule check),dossier reviewer agent (gpt-6-luna),['dossier reviewer'],"['E1', 'E2', 'E3']",pass
+370,24,report,team report,S2,,team S2,SFR-Z13 surveyed: 2 area(s) flagged for a visit,,,,,,,
+371,24,decision,task order,K0070,S1: zone survey SAB-Z02,,the plan's next zone for this kind of team,,,operations officer (season sign-off policy: orders the next task in the plan),plan P06,[],[],n/a
+372,24,decision,task order,K0071,S2: zone survey COC-Z08,,the plan's next zone for this kind of team,,,operations officer (season sign-off policy: orders the next task in the plan),plan P06,[],[],n/a
+373,24,report,team report,S4,,team S4,S4: 5 day(s) on zone survey CHI-Z31,,,,,,,
+374,24,report,team report,C1,,team C1,C1: 4 day(s) on clearance NAR-0301,,,,,,,
+375,24,report,team report,C2,,team C2,C2: 5 day(s) on clearance COC-0090,,,,,,,
+376,24,report,team report,C3,,team C3,C3: 5 day(s) on clearance ECV-0050,,,,,,,
+377,24,report,team report,C4,,team C4,C4: 5 day(s) on clearance ECV-0102,,,,,,,
+378,24,report,team report,S3,,team S3,S3: 4 day(s) on visit COC-0001,,,,,,,
+379,24,report,team report,S1,,team S1,S1: 1 day(s) on zone survey SAB-Z02,,,,,,,
+380,24,report,team report,S2,,team S2,S2: 1 day(s) on zone survey COC-Z08,,,,,,,
+381,25,report,access,access feed,,security coordination feed (simulated),access feed: no change,,,,,,,
+382,25,report,team report,S3,,team S3,"COC-0001: visit 1, 1 item(s) received",,,,,,,
+383,25,decision,area,COC-0001,CLEARANCE,,,suspected,suspected,QC reviewer (season sign-off policy: signs off what passes the rule check),dossier reviewer agent (gpt-6-luna),['dossier reviewer'],['E1'],pass
+384,25,report,team report,S4,,team S4,CHI-Z31 surveyed: 0 area(s) flagged for a visit,,,,,,,
+385,25,decision,task order,K0072,S3: visit COC-0013,,the plan's next zone for this kind of team,,,operations officer (season sign-off policy: orders the next task in the plan),plan P06,[],[],n/a
+386,25,decision,task order,K0073,S4: visit SRA-0289,,no work left in the plan's list: the zone with the most expected mine areas per working day,,,operations officer (season sign-off policy: orders the next task in the plan),plan P06,[],[],n/a
+387,25,report,team report,C3,,team C3,"ECV-0050: clearance done, result awaiting sign-off",,,,,,,
+388,25,decision,report,C3 week 25,query the team,,unusual report (anomaly score -0.666),,,operations officer (season sign-off policy: orders the next task in the plan),report checker,[],[],n/a
+389,25,decision,area,ECV-0050,CLEARED,,4 mine cell(s) found and cleared,confirmed,cleared,QC reviewer (season sign-off policy: signs off what passes the rule check),clearance team C3,[],[],n/a
+390,25,report,team report,S1,,team S1,S1: 4 day(s) on zone survey SAB-Z02,,,,,,,
+391,25,report,team report,S2,,team S2,S2: 5 day(s) on zone survey COC-Z08,,,,,,,
+392,25,report,team report,C1,,team C1,C1: 5 day(s) on clearance NAR-0301,,,,,,,
+393,25,report,team report,C2,,team C2,C2: 4 day(s) on clearance COC-0090,,,,,,,
+394,25,report,team report,C4,,team C4,C4: 4 day(s) on clearance ECV-0102,,,,,,,
+395,25,report,team report,S3,,team S3,S3: 3 day(s) on visit COC-0013,,,,,,,
+396,25,report,team report,S4,,team S4,S4: 4 day(s) on visit SRA-0289,,,,,,,
+397,25,decision,zone,CHI-Z31,declare free,,Travis's setting (question 39): free once every flagged area is resolved,open,free,national authority (season sign-off policy: declares free what passes the twin's check),"the twin's check: surveyed, every flagged area released",[],[],n/a
+398,25,decision,zone,ECV-Z17,declare free,,Travis's setting (question 39): free once every flagged area is resolved,open,free,national authority (season sign-off policy: declares free what passes the twin's check),"the twin's check: surveyed, every flagged area released",[],[],n/a
+399,26,report,access,access feed,,security coordination feed (simulated),access feed: no change,,,,,,,
+400,26,decision,task order,K0074,C3: clearance NAR-0282,,the plan's next zone for this kind of team,,,operations officer (season sign-off policy: orders the next task in the plan),plan P06,[],[],n/a
+401,26,report,team report,S4,,team S4,"SRA-0289: visit 3, 3 item(s) received",,,,,,,
+402,26,decision,area,SRA-0289,CANCEL,,,suspected,cancelled,QC reviewer (season sign-off policy: signs off what passes the rule check),dossier reviewer agent (gpt-6-luna),['dossier reviewer'],"['E1', 'E2', 'E3', 'E4', 'E5', 'E6']",pass
+403,26,decision,task order,K0075,S4: zone survey COC-Z04,,no work left in the plan's list: the zone with the most expected mine areas per working day,,,operations officer (season sign-off policy: orders the next task in the plan),plan P06,[],[],n/a
+404,26,report,team report,S3,,team S3,"COC-0013: visit 1, 1 item(s) received",,,,,,,
+405,26,decision,area,COC-0013,CLEARANCE,,,suspected,confirmed,QC reviewer (season sign-off policy: signs off what passes the rule check),dossier reviewer agent (gpt-6-luna),['dossier reviewer'],['E1'],pass
+406,26,report,team report,C4,,team C4,"ECV-0102: clearance done, result awaiting sign-off",,,,,,,
+407,26,decision,area,ECV-0102,CLEARED,,1 mine cell(s) found and cleared,confirmed,cleared,QC reviewer (season sign-off policy: signs off what passes the rule check),clearance team C4,[],[],n/a
+408,26,decision,task order,K0076,S3: visit COC-0008,,the plan's next zone for this kind of team,,,operations officer (season sign-off policy: orders the next task in the plan),plan P06,[],[],n/a
+409,26,decision,task order,K0077,C4: clearance NAR-0283,,the plan's next zone for this kind of team,,,operations officer (season sign-off policy: orders the next task in the plan),plan P06,[],[],n/a
+410,26,report,team report,S2,,team S2,COC-Z08 surveyed: 5 area(s) flagged for a visit,,,,,,,
+411,26,decision,task order,K0078,S2: visit COC-0100,,the plan's next zone for this kind of team,,,operations officer (season sign-off policy: orders the next task in the plan),plan P06,[],[],n/a
+412,26,report,team report,S1,,team S1,S1: 4 day(s) on zone survey SAB-Z02,,,,,,,
+413,26,report,team report,C1,,team C1,C1: 4 day(s) on clearance NAR-0301,,,,,,,
+414,26,report,team report,C2,,team C2,C2: 5 day(s) on clearance COC-0090,,,,,,,
+415,26,report,team report,C3,,team C3,C3: 4 day(s) on clearance NAR-0282,,,,,,,
+416,26,report,team report,S4,,team S4,S4: 3 day(s) on zone survey COC-Z04,,,,,,,
+417,26,report,team report,S3,,team S3,S3: 1 day(s) on visit COC-0008,,,,,,,
+418,26,report,team report,C4,,team C4,C4: 2 day(s) on clearance NAR-0283,,,,,,,
+419,26,report,team report,S2,,team S2,S2: 1 day(s) on visit COC-0100,,,,,,,
+420,26,decision,zone,ECV-Z16,declare free,,Travis's setting (question 39): free once every flagged area is resolved,open,free,national authority (season sign-off policy: declares free what passes the twin's check),"the twin's check: surveyed, every flagged area released",[],[],n/a
+421,26,decision,zone,SRA-Z02,declare free,,Travis's setting (question 39): free once every flagged area is resolved,open,free,national authority (season sign-off policy: declares free what passes the twin's check),"the twin's check: surveyed, every flagged area released",[],[],n/a
+422,27,report,access,access feed,,security coordination feed (simulated),"access feed: ABE-Z03 closed, ABE-Z05 open, ABE-Z06 open, CHI-Z30 open, COC-Z02 closed, GRA-Z07 closed, NAR-Z12 open, NAR-Z14 open, SAB-Z05 closed, SCA-Z29 closed, SON-Z22 closed, SON-Z41 closed",,,,,,,
+423,27,decision,plan,P07,approve,,the monthly plan,P06,P07,departmental office (season sign-off policy: approves the plan as proposed),season planner,"['risk prioritisation', 'season planner']",[],n/a
+424,27,report,team report,S1,,team S1,SAB-Z02 surveyed: 2 area(s) flagged for a visit,,,,,,,
+425,27,decision,task order,K0079,S1: visit SAB-0263,,the plan's next zone for this kind of team,,,operations officer (season sign-off policy: orders the next task in the plan),plan P07,[],[],n/a
+426,27,report,team report,S2,,team S2,"COC-0100: visit 1, 2 item(s) received",,,,,,,
+427,27,decision,area,COC-0100,CLEARANCE,,,suspected,suspected,QC reviewer (season sign-off policy: signs off what passes the rule check),dossier reviewer agent (gpt-6-luna),['dossier reviewer'],"['E1', 'E2', 'E3']",pass
+428,27,report,team report,S3,,team S3,"COC-0008: visit 1, 2 item(s) received",,,,,,,
+429,27,decision,area,COC-0008,CLEARANCE,,,suspected,suspected,QC reviewer (season sign-off policy: signs off what passes the rule check),dossier reviewer agent (gpt-6-luna),['dossier reviewer'],"['E1', 'E2']",pass
+430,27,report,team report,S4,,team S4,S4: 5 day(s) on zone survey COC-Z04,,,,,,,
+431,27,report,team report,C1,,team C1,C1: 5 day(s) on clearance NAR-0301,,,,,,,
+432,27,report,team report,C2,,team C2,C2: 4 day(s) on clearance COC-0090,,,,,,,
+433,27,report,team report,C3,,team C3,C3: 5 day(s) on clearance NAR-0282,,,,,,,
+434,27,report,team report,C4,,team C4,C4: 5 day(s) on clearance NAR-0283,,,,,,,
+435,27,report,team report,S1,,team S1,S1: 4 day(s) on visit SAB-0263,,,,,,,
+436,28,report,access,access feed,,security coordination feed (simulated),access feed: no change,,,,,,,
+437,28,decision,task order,K0080,S2: visit COC-0036,,the plan's next zone for this kind of team,,,operations officer (season sign-off policy: orders the next task in the plan),plan P07,[],[],n/a
+438,28,decision,task order,K0081,S3: visit COC-0112,,no work left in the plan's list: the zone with the most expected mine areas per working day,,,operations officer (season sign-off policy: orders the next task in the plan),plan P07,[],[],n/a
+439,28,report,team report,S1,,team S1,"SAB-0263: visit 1, 1 item(s) received",,,,,,,
+440,28,decision,area,SAB-0263,FURTHER_NTS,,,suspected,suspected,QC reviewer (season sign-off policy: signs off what passes the rule check),dossier reviewer agent (gpt-6-luna),['dossier reviewer'],['E1'],pass
+441,28,decision,task order,K0082,S1: visit SAB-0263,,the plan's next zone for this kind of team,,,operations officer (season sign-off policy: orders the next task in the plan),plan P07,[],[],n/a
+442,28,report,team report,S2,,team S2,"COC-0036: visit 1, 2 item(s) received",,,,,,,
+443,28,decision,area,COC-0036,CANCEL,,,suspected,cancelled,QC reviewer (season sign-off policy: signs off what passes the rule check),dossier reviewer agent (gpt-6-luna),['dossier reviewer'],"['E1', 'E2']",pass
+444,28,report,team report,S3,,team S3,"COC-0112: visit 1, 3 item(s) received",,,,,,,
+445,28,decision,area,COC-0112,FURTHER_NTS,,,suspected,suspected,QC reviewer (season sign-off policy: signs off what passes the rule check),dossier reviewer agent (gpt-6-luna),['dossier reviewer'],"['E1', 'E2', 'E3']",pass
+446,28,report,team report,S4,,team S4,COC-Z04 surveyed: 2 area(s) flagged for a visit,,,,,,,
+447,28,report,team report,C1,,team C1,C1: 3 day(s) on clearance NAR-0301,,,,,,,
+448,28,report,team report,C2,,team C2,C2: 5 day(s) on clearance COC-0090,,,,,,,
+449,28,report,team report,C3,,team C3,C3: 3 day(s) on clearance NAR-0282,,,,,,,
+450,28,report,team report,C4,,team C4,C4: 3 day(s) on clearance NAR-0283,,,,,,,
+451,28,report,team report,S1,,team S1,S1: 3 day(s) on visit SAB-0263,,,,,,,
+452,29,report,access,access feed,,security coordination feed (simulated),access feed: no change,,,,,,,
+453,29,decision,task order,K0083,S2: visit COC-0112,,no work left in the plan's list: the zone with the most expected mine areas per working day,,,operations officer (season sign-off policy: orders the next task in the plan),plan P07,[],[],n/a
+454,29,decision,task order,K0084,S3: visit COC-0218,,no work left in the plan's list: the zone with the most expected mine areas per working day,,,operations officer (season sign-off policy: orders the next task in the plan),plan P07,[],[],n/a
+455,29,decision,task order,K0085,S4: zone survey COC-Z05,,no work left in the plan's list: the zone with the most expected mine areas per working day,,,operations officer (season sign-off policy: orders the next task in the plan),plan P07,[],[],n/a
+456,29,report,team report,S1,,team S1,"SAB-0263: visit 2, 3 item(s) received",,,,,,,
+457,29,decision,area,SAB-0263,CANCEL,,,suspected,cancelled,QC reviewer (season sign-off policy: signs off what passes the rule check),dossier reviewer agent (gpt-6-luna),['dossier reviewer'],"['E1', 'E2', 'E3', 'E4']",pass
+458,29,decision,task order,K0086,S1: visit SAB-0246,,the plan's next zone for this kind of team,,,operations officer (season sign-off policy: orders the next task in the plan),plan P07,[],[],n/a
+459,29,report,team report,S2,,team S2,"COC-0112: visit 2, 2 item(s) received",,,,,,,
+460,29,decision,area,COC-0112,CANCEL,,,suspected,cancelled,QC reviewer (season sign-off policy: signs off what passes the rule check),dossier reviewer agent (gpt-6-luna),['dossier reviewer'],"['E1', 'E2', 'E3', 'E4', 'E5']",pass
+461,29,report,team report,S3,,team S3,"COC-0218: visit 1, 3 item(s) received",,,,,,,
+462,29,decision,area,COC-0218,CLEARANCE,,,suspected,suspected,QC reviewer (season sign-off policy: signs off what passes the rule check),dossier reviewer agent (gpt-6-luna),['dossier reviewer'],"['E1', 'E2', 'E3', 'E4']",pass
+463,29,report,team report,S4,,team S4,S4: 5 day(s) on zone survey COC-Z05,,,,,,,
+464,29,report,team report,C1,,team C1,C1: 4 day(s) on clearance NAR-0301,,,,,,,
+465,29,report,team report,C2,,team C2,C2: 4 day(s) on clearance COC-0090,,,,,,,
+466,29,report,team report,C3,,team C3,C3: 4 day(s) on clearance NAR-0282,,,,,,,
+467,29,report,team report,C4,,team C4,C4: 4 day(s) on clearance NAR-0283,,,,,,,
+468,29,report,team report,S1,,team S1,S1: 1 day(s) on visit SAB-0246,,,,,,,
+469,30,report,access,access feed,,security coordination feed (simulated),access feed: no change,,,,,,,
+470,30,decision,task order,K0087,S2: visit COC-0129,,no work left in the plan's list: the zone with the most expected mine areas per working day,,,operations officer (season sign-off policy: orders the next task in the plan),plan P07,[],[],n/a
+471,30,decision,task order,K0088,S3: visit COC-0216,,no work left in the plan's list: the zone with the most expected mine areas per working day,,,operations officer (season sign-off policy: orders the next task in the plan),plan P07,[],[],n/a
+472,30,report,team report,C1,,team C1,"NAR-0301: clearance done, result awaiting sign-off",,,,,,,
+473,30,decision,area,NAR-0301,CLEARED,,1 mine cell(s) found and cleared,confirmed,cleared,QC reviewer (season sign-off policy: signs off what passes the rule check),clearance team C1,[],[],n/a
+474,30,decision,task order,K0089,C1: clearance ECV-0018,,the plan's next zone for this kind of team,,,operations officer (season sign-off policy: orders the next task in the plan),plan P07,[],[],n/a
+475,30,report,team report,S1,,team S1,"SAB-0246: visit 1, 2 item(s) received",,,,,,,
+476,30,decision,area,SAB-0246,CANCEL,,,suspected,cancelled,QC reviewer (season sign-off policy: signs off what passes the rule check),dossier reviewer agent (gpt-6-luna),['dossier reviewer'],"['E1', 'E2']",pass
+477,30,decision,task order,K0090,S1: zone survey COC-Z06,,no work left in the plan's list: the zone with the most expected mine areas per working day,,,operations officer (season sign-off policy: orders the next task in the plan),plan P07,[],[],n/a
+478,30,report,team report,S2,,team S2,"COC-0129: visit 1, 2 item(s) received",,,,,,,
+479,30,decision,area,COC-0129,FURTHER_NTS,,,suspected,suspected,QC reviewer (season sign-off policy: signs off what passes the rule check),dossier reviewer agent (gpt-6-luna),['dossier reviewer'],"['E1', 'E2']",pass
+480,30,report,team report,S3,,team S3,"COC-0216: visit 1, 3 item(s) received",,,,,,,
+481,30,decision,area,COC-0216,CLEARANCE,,,suspected,suspected,QC reviewer (season sign-off policy: signs off what passes the rule check),dossier reviewer agent (gpt-6-luna),['dossier reviewer'],"['E1', 'E2', 'E3', 'E4']",pass
+482,30,report,team report,S4,,team S4,COC-Z05 surveyed: 12 area(s) flagged for a visit,,,,,,,
+483,30,report,team report,C2,,team C2,C2: 5 day(s) on clearance COC-0090,,,,,,,
+484,30,report,team report,C3,,team C3,C3: 4 day(s) on clearance NAR-0282,,,,,,,
+485,30,report,team report,C4,,team C4,C4: 4 day(s) on clearance NAR-0283,,,,,,,
+486,30,report,team report,C1,,team C1,C1: 4 day(s) on clearance ECV-0018,,,,,,,
+487,30,report,team report,S1,,team S1,S1: 1 day(s) on zone survey COC-Z06,,,,,,,
+488,30,decision,zone,SAB-Z02,declare free,,Travis's setting (question 39): free once every flagged area is resolved,open,free,national authority (season sign-off policy: declares free what passes the twin's check),"the twin's check: surveyed, every flagged area released",[],[],n/a
+489,31,report,access,access feed,,security coordination feed (simulated),access feed: no change,,,,,,,
+490,31,decision,task order,K0091,S2: visit COC-0129,,no work left in the plan's list: the zone with the most expected mine areas per working day,,,operations officer (season sign-off policy: orders the next task in the plan),plan P07,[],[],n/a
+491,31,decision,task order,K0092,S3: visit COC-0192,,no work left in the plan's list: the zone with the most expected mine areas per working day,,,operations officer (season sign-off policy: orders the next task in the plan),plan P07,[],[],n/a
+492,31,decision,task order,K0093,S4: zone survey COC-Z01,,no work left in the plan's list: the zone with the most expected mine areas per working day,,,operations officer (season sign-off policy: orders the next task in the plan),plan P07,[],[],n/a
+493,31,report,team report,S2,,team S2,"COC-0129: visit 2, 3 item(s) received",,,,,,,
+494,31,decision,area,COC-0129,CANCEL,,,suspected,cancelled,QC reviewer (season sign-off policy: signs off what passes the rule check),dossier reviewer agent (gpt-6-luna),['dossier reviewer'],"['E1', 'E2', 'E3', 'E4', 'E5']",pass
+495,31,report,team report,S1,,team S1,S1: 4 day(s) on zone survey COC-Z06,,,,,,,
+496,31,report,team report,S3,,team S3,S3: 4 day(s) on visit COC-0192,,,,,,,
+497,31,report,team report,S4,,team S4,S4: 3 day(s) on zone survey COC-Z01,,,,,,,
+498,31,report,team report,C1,,team C1,C1: 3 day(s) on clearance ECV-0018,,,,,,,
+499,31,report,team report,C2,,team C2,C2: 5 day(s) on clearance COC-0090,,,,,,,
+500,31,report,team report,C3,,team C3,C3: 5 day(s) on clearance NAR-0282,,,,,,,
+501,31,report,team report,C4,,team C4,C4: 5 day(s) on clearance NAR-0283,,,,,,,
+502,32,report,access,access feed,,security coordination feed (simulated),"access feed: ABE-Z18 open, SFR-Z09 open, SON-Z12 closed, SON-Z22 open, SON-Z41 open, SON-Z44 closed, SRA-Z16 open",,,,,,,
+503,32,decision,plan,P08,approve,,the monthly plan,P07,P08,departmental office (season sign-off policy: approves the plan as proposed),season planner,"['risk prioritisation', 'season planner']",[],n/a
+504,32,decision,consultation,COC-Z10,request consultation,,a planned zone where communities must first be consulted,,,departmental office (season sign-off policy: approves the plan as proposed),season planner,[],[],n/a
+505,32,decision,consultation,COC-Z07,request consultation,,a planned zone where communities must first be consulted,,,departmental office (season sign-off policy: approves the plan as proposed),season planner,[],[],n/a
+506,32,decision,task order,K0094,S2: visit COC-0130,,the plan's next zone for this kind of team,,,operations officer (season sign-off policy: orders the next task in the plan),plan P08,[],[],n/a
+507,32,report,team report,S3,,team S3,"COC-0192: visit 1, 2 item(s) received",,,,,,,
+508,32,decision,area,COC-0192,CLEARANCE,,,suspected,suspected,QC reviewer (season sign-off policy: signs off what passes the rule check),dossier reviewer agent (gpt-6-luna),['dossier reviewer'],"['E1', 'E2', 'E3']",pass
+509,32,decision,task order,K0095,S3: zone survey SAB-Z04,,the plan's next zone for this kind of team,,,operations officer (season sign-off policy: orders the next task in the plan),plan P08,[],[],n/a
+510,32,report,team report,S1,,team S1,COC-Z06 surveyed: 6 area(s) flagged for a visit,,,,,,,
+511,32,report,team report,S2,,team S2,"COC-0130: visit 1, 4 item(s) received",,,,,,,
+512,32,decision,area,COC-0130,CANCEL,,,suspected,cancelled,QC reviewer (season sign-off policy: signs off what passes the rule check),dossier reviewer agent (gpt-6-luna),['dossier reviewer'],"['E1', 'E2', 'E3', 'E4']",pass
+513,32,report,team report,S4,,team S4,S4: 5 day(s) on zone survey COC-Z01,,,,,,,
+514,32,report,team report,C1,,team C1,C1: 5 day(s) on clearance ECV-0018,,,,,,,
+515,32,report,team report,C2,,team C2,C2: 5 day(s) on clearance COC-0090,,,,,,,
+516,32,report,team report,C3,,team C3,C3: 4 day(s) on clearance NAR-0282,,,,,,,
+517,32,report,team report,C4,,team C4,C4: 4 day(s) on clearance NAR-0283,,,,,,,
+518,32,report,team report,S3,,team S3,S3: 4 day(s) on zone survey SAB-Z04,,,,,,,
+519,33,report,access,access feed,,security coordination feed (simulated),access feed: no change,,,,,,,
+520,33,decision,task order,K0096,S1: visit COC-0084,,the plan's next zone for this kind of team,,,operations officer (season sign-off policy: orders the next task in the plan),plan P08,[],[],n/a
+521,33,decision,task order,K0097,S2: visit SLU-0189,,no work left in the plan's list: the zone with the most expected mine areas per working day,,,operations officer (season sign-off policy: orders the next task in the plan),plan P08,[],[],n/a
+522,33,report,team report,S4,,team S4,COC-Z01 surveyed: 2 area(s) flagged for a visit,,,,,,,
+523,33,report,team report,C3,,team C3,"NAR-0282: clearance done, result awaiting sign-off",,,,,,,
+524,33,decision,area,NAR-0282,CLEARED,,2 mine cell(s) found and cleared,suspected,cleared,QC reviewer (season sign-off policy: signs off what passes the rule check),clearance team C3,[],[],n/a
+525,33,decision,task order,K0098,S4: visit COC-0257,,the plan's next zone for this kind of team,,,operations officer (season sign-off policy: orders the next task in the plan),plan P08,[],[],n/a
+526,33,decision,task order,K0099,C3: clearance ECV-0007,,the plan's next zone for this kind of team,,,operations officer (season sign-off policy: orders the next task in the plan),plan P08,[],[],n/a
+527,33,report,team report,C4,,team C4,"NAR-0283: clearance done, result awaiting sign-off",,,,,,,
+528,33,decision,area,NAR-0283,CLEARED,,1 mine cell(s) found and cleared,suspected,cleared,QC reviewer (season sign-off policy: signs off what passes the rule check),clearance team C4,[],[],n/a
+529,33,decision,task order,K0100,C4: clearance COC-0004,,the plan's next zone for this kind of team,,,operations officer (season sign-off policy: orders the next task in the plan),plan P08,[],[],n/a
+530,33,report,team report,S1,,team S1,"COC-0084: visit 1, 1 item(s) received",,,,,,,
+531,33,decision,area,COC-0084,CLEARANCE,,,suspected,suspected,QC reviewer (season sign-off policy: signs off what passes the rule check),dossier reviewer agent (gpt-6-luna),['dossier reviewer'],['E1'],pass
+532,33,report,team report,S2,,team S2,S2: 4 day(s) on visit SLU-0189,,,,,,,
+533,33,report,team report,S3,,team S3,S3: 4 day(s) on zone survey SAB-Z04,,,,,,,
+534,33,report,team report,C1,,team C1,C1: 5 day(s) on clearance ECV-0018,,,,,,,
+535,33,report,team report,C2,,team C2,C2: 4 day(s) on clearance COC-0090,,,,,,,
+536,33,report,team report,S4,,team S4,S4: 2 day(s) on visit COC-0257,,,,,,,
+537,33,report,team report,C3,,team C3,C3: 2 day(s) on clearance ECV-0007,,,,,,,
+538,33,report,team report,C4,,team C4,C4: 1 day(s) on clearance COC-0004,,,,,,,
+539,33,decision,zone,NAR-Z02,declare free,,Travis's setting (question 39): free once every flagged area is resolved,open,free,national authority (season sign-off policy: declares free what passes the twin's check),"the twin's check: surveyed, every flagged area released",[],[],n/a
+540,34,report,access,access feed,,security coordination feed (simulated),access feed: no change,,,,,,,
+541,34,decision,task order,K0101,S1: zone survey SLU-Z05,,no work left in the plan's list: the zone with the most expected mine areas per working day,,,operations officer (season sign-off policy: orders the next task in the plan),plan P08,[],[],n/a
+542,34,report,team report,S2,,team S2,"SLU-0189: visit 1, 3 item(s) received",,,,,,,
+543,34,decision,area,SLU-0189,CANCEL,,,suspected,cancelled,QC reviewer (season sign-off policy: signs off what passes the rule check),dossier reviewer agent (gpt-6-luna),['dossier reviewer'],"['E1', 'E2', 'E3']",pass
+544,34,decision,task order,K0102,S2: zone survey SLU-Z01,,no work left in the plan's list: the zone with the most expected mine areas per working day,,,operations officer (season sign-off policy: orders the next task in the plan),plan P08,[],[],n/a
+545,34,report,team report,S3,,team S3,SAB-Z04 surveyed: 8 area(s) flagged for a visit,,,,,,,
+546,34,decision,task order,K0103,S3: visit SAB-0228,,the plan's next zone for this kind of team,,,operations officer (season sign-off policy: orders the next task in the plan),plan P08,[],[],n/a
+547,34,report,team report,S4,,team S4,"COC-0257: visit 1, 3 item(s) received",,,,,,,
+548,34,decision,area,COC-0257,CLEARANCE,,,suspected,suspected,QC reviewer (season sign-off policy: signs off what passes the rule check),dossier reviewer agent (gpt-6-luna),['dossier reviewer'],"['E1', 'E2', 'E3', 'E4']",pass
+549,34,decision,task order,K0104,S4: visit COC-0254,,the plan's next zone for this kind of team,,,operations officer (season sign-off policy: orders the next task in the plan),plan P08,[],[],n/a
+550,34,report,team report,C2,,team C2,"COC-0090: clearance done, result awaiting sign-off",,,,,,,
+551,34,decision,area,COC-0090,CLEARED,,clearance found no mines,suspected,cleared,QC reviewer (season sign-off policy: signs off what passes the rule check),clearance team C2,[],[],n/a
+552,34,report,team report,S1,,team S1,S1: 5 day(s) on zone survey SLU-Z05,,,,,,,
+553,34,report,team report,C1,,team C1,C1: 4 day(s) on clearance ECV-0018,,,,,,,
+554,34,report,team report,C3,,team C3,C3: 4 day(s) on clearance ECV-0007,,,,,,,
+555,34,report,team report,C4,,team C4,C4: 5 day(s) on clearance COC-0004,,,,,,,
+556,34,report,team report,S2,,team S2,S2: 4 day(s) on zone survey SLU-Z01,,,,,,,
+557,34,report,team report,S3,,team S3,S3: 2 day(s) on visit SAB-0228,,,,,,,
+558,34,report,team report,S4,,team S4,S4: 1 day(s) on visit COC-0254,,,,,,,
+559,34,decision,zone,COC-Z09,declare free,,Travis's setting (question 39): free once every flagged area is resolved,open,free,national authority (season sign-off policy: declares free what passes the twin's check),"the twin's check: surveyed, every flagged area released",[],[],n/a
+560,35,report,access,access feed,,security coordination feed (simulated),access feed: no change,,,,,,,
+561,35,decision,task order,K0105,C2: clearance COC-0013,,the plan's next zone for this kind of team,,,operations officer (season sign-off policy: orders the next task in the plan),plan P08,[],[],n/a
+562,35,report,team report,S3,,team S3,"SAB-0228: visit 1, 3 item(s) received",,,,,,,
+563,35,decision,area,SAB-0228,CLEARANCE,,,suspected,suspected,QC reviewer (season sign-off policy: signs off what passes the rule check),dossier reviewer agent (gpt-6-luna),['dossier reviewer'],"['E1', 'E2', 'E3', 'E4']",pass
+564,35,decision,task order,K0106,S3: visit SAB-0194,,the plan's next zone for this kind of team,,,operations officer (season sign-off policy: orders the next task in the plan),plan P08,[],[],n/a
+565,35,report,team report,S4,,team S4,"COC-0254: visit 1, 2 item(s) received",,,,,,,
+566,35,decision,area,COC-0254,FURTHER_NTS,,,suspected,suspected,QC reviewer (season sign-off policy: signs off what passes the rule check),dossier reviewer agent (gpt-6-luna),['dossier reviewer'],"['E1', 'E2']",pass
+567,35,decision,task order,K0107,S4: visit COC-0254,,the plan's next zone for this kind of team,,,operations officer (season sign-off policy: orders the next task in the plan),plan P08,[],[],n/a
+568,35,report,team report,S1,,team S1,S1: 4 day(s) on zone survey SLU-Z05,,,,,,,
+569,35,report,team report,S2,,team S2,S2: 4 day(s) on zone survey SLU-Z01,,,,,,,
+570,35,report,team report,C1,,team C1,C1: 5 day(s) on clearance ECV-0018,,,,,,,
+571,35,report,team report,C2,,team C2,C2: 5 day(s) on clearance COC-0013,,,,,,,
+572,35,report,team report,C3,,team C3,C3: 5 day(s) on clearance ECV-0007,,,,,,,
+573,35,report,team report,C4,,team C4,C4: 5 day(s) on clearance COC-0004,,,,,,,
+574,35,report,team report,S3,,team S3,S3: 2 day(s) on visit SAB-0194,,,,,,,
+575,35,report,team report,S4,,team S4,S4: 1 day(s) on visit COC-0254,,,,,,,
+576,36,report,access,access feed,,security coordination feed (simulated),"access feed: CHI-Z16 closed, CHI-Z18 closed, CHI-Z19 closed, COC-Z02 open, GRA-Z07 open, SAB-Z05 open, SAB-Z08 open, SCA-Z27 open, SON-Z43 closed, SON-Z44 open, SON-Z48 open, SRO-Z04 closed",,,,,,,
+577,36,report,consultation,COC-Z07,,municipal liaison (simulated),consultation held in COC-Z07,,,,,,,
+578,36,report,consultation,COC-Z10,,municipal liaison (simulated),consultation held in COC-Z10,,,,,,,
+579,36,decision,plan,P09,approve,,the monthly plan,P08,P09,departmental office (season sign-off policy: approves the plan as proposed),season planner,"['risk prioritisation', 'season planner']",[],n/a
+580,36,report,team report,S1,,team S1,SLU-Z05 surveyed: 4 area(s) flagged for a visit,,,,,,,
+581,36,decision,task order,K0108,S1: visit SLU-0307,,no work left in the plan's list: the zone with the most expected mine areas per working day,,,operations officer (season sign-off policy: orders the next task in the plan),plan P09,[],[],n/a
+582,36,report,team report,S2,,team S2,SLU-Z01 surveyed: 9 area(s) flagged for a visit,,,,,,,
+583,36,decision,task order,K0109,S2: zone survey COC-Z10,,no work left in the plan's list: the zone with the most expected mine areas per working day,,,operations officer (season sign-off policy: orders the next task in the plan),plan P09,[],[],n/a
+584,36,report,team report,S3,,team S3,"SAB-0194: visit 1, 1 item(s) received",,,,,,,
+585,36,decision,area,SAB-0194,CLEARANCE,,,suspected,suspected,QC reviewer (season sign-off policy: signs off what passes the rule check),dossier reviewer agent (gpt-6-luna),['dossier reviewer'],"['E1', 'E2']",pass
+586,36,decision,task order,K0110,S3: visit SAB-0216,,no work left in the plan's list: the zone with the most expected mine areas per working day,,,operations officer (season sign-off policy: orders the next task in the plan),plan P09,[],[],n/a
+587,36,report,team report,S4,,team S4,"COC-0254: visit 2, 3 item(s) received",,,,,,,
+588,36,decision,area,COC-0254,CANCEL,,,suspected,cancelled,QC reviewer (season sign-off policy: signs off what passes the rule check),dossier reviewer agent (gpt-6-luna),['dossier reviewer'],"['E1', 'E2', 'E3', 'E4', 'E5']",pass
+589,36,report,team report,C1,,team C1,C1: 5 day(s) on clearance ECV-0018,,,,,,,
+590,36,report,team report,C2,,team C2,C2: 5 day(s) on clearance COC-0013,,,,,,,
+591,36,report,team report,C3,,team C3,C3: 5 day(s) on clearance ECV-0007,,,,,,,
+592,36,report,team report,C4,,team C4,C4: 5 day(s) on clearance COC-0004,,,,,,,
+593,36,report,team report,S1,,team S1,S1: 4 day(s) on visit SLU-0307,,,,,,,
+594,36,report,team report,S2,,team S2,S2: 2 day(s) on zone survey COC-Z10,,,,,,,
+595,36,report,team report,S3,,team S3,S3: 0 day(s) on visit SAB-0216,,,,,,,
+596,37,report,access,access feed,,security coordination feed (simulated),access feed: no change,,,,,,,
+597,37,decision,task order,K0111,S4: visit SLU-0447,,no work left in the plan's list: the zone with the most expected mine areas per working day,,,operations officer (season sign-off policy: orders the next task in the plan),plan P09,[],[],n/a
+598,37,report,team report,S1,,team S1,"SLU-0307: visit 1, 4 item(s) received",,,,,,,
+599,37,decision,area,SLU-0307,CLEARANCE,,,suspected,suspected,QC reviewer (season sign-off policy: signs off what passes the rule check),dossier reviewer agent (gpt-6-luna),['dossier reviewer'],"['E1', 'E2', 'E3', 'E4', 'E5']",pass
+600,37,decision,task order,K0112,S1: visit SLU-0347,,no work left in the plan's list: the zone with the most expected mine areas per working day,,,operations officer (season sign-off policy: orders the next task in the plan),plan P09,[],[],n/a
+601,37,report,team report,S3,,team S3,"SAB-0216: visit 1, 3 item(s) received",,,,,,,
+602,37,decision,area,SAB-0216,CLEARANCE,,,suspected,suspected,QC reviewer (season sign-off policy: signs off what passes the rule check),dossier reviewer agent (gpt-6-luna),['dossier reviewer'],"['E1', 'E2', 'E3', 'E4']",pass
+603,37,report,team report,S4,,team S4,"SLU-0447: visit 1, 2 item(s) received",,,,,,,
+604,37,decision,area,SLU-0447,CLEARANCE,,,suspected,suspected,QC reviewer (season sign-off policy: signs off what passes the rule check),dossier reviewer agent (gpt-6-luna),['dossier reviewer'],"['E1', 'E2', 'E3']",pass
+605,37,report,team report,S2,,team S2,S2: 5 day(s) on zone survey COC-Z10,,,,,,,
+606,37,report,team report,C1,,team C1,C1: 5 day(s) on clearance ECV-0018,,,,,,,
+607,37,report,team report,C2,,team C2,C2: 5 day(s) on clearance COC-0013,,,,,,,
+608,37,report,team report,C3,,team C3,C3: 5 day(s) on clearance ECV-0007,,,,,,,
+609,37,report,team report,C4,,team C4,C4: 5 day(s) on clearance COC-0004,,,,,,,
+610,37,report,team report,S1,,team S1,S1: 3 day(s) on visit SLU-0347,,,,,,,
+611,38,report,access,access feed,,security coordination feed (simulated),access feed: no change,,,,,,,
+612,38,decision,task order,K0113,S3: visit SAB-0183,,no work left in the plan's list: the zone with the most expected mine areas per working day,,,operations officer (season sign-off policy: orders the next task in the plan),plan P09,[],[],n/a
+613,38,decision,task order,K0114,S4: visit SLU-0449,,no work left in the plan's list: the zone with the most expected mine areas per working day,,,operations officer (season sign-off policy: orders the next task in the plan),plan P09,[],[],n/a
+614,38,report,team report,C1,,team C1,"ECV-0018: clearance done, result awaiting sign-off",,,,,,,
+615,38,decision,area,ECV-0018,CLEARED,,1 mine cell(s) found and cleared,confirmed,cleared,QC reviewer (season sign-off policy: signs off what passes the rule check),clearance team C1,[],[],n/a
+616,38,decision,task order,K0115,C1: clearance COC-0014,,the plan's next zone for this kind of team,,,operations officer (season sign-off policy: orders the next task in the plan),plan P09,[],[],n/a
+617,38,report,team report,S1,,team S1,"SLU-0347: visit 1, 1 item(s) received",,,,,,,
+618,38,decision,area,SLU-0347,CLEARANCE,,,suspected,suspected,QC reviewer (season sign-off policy: signs off what passes the rule check),dossier reviewer agent (gpt-6-luna),['dossier reviewer'],"['E1', 'E2']",pass
+619,38,decision,task order,K0116,S1: visit SLU-0383,,no work left in the plan's list: the zone with the most expected mine areas per working day,,,operations officer (season sign-off policy: orders the next task in the plan),plan P09,[],[],n/a
+620,38,report,team report,S2,,team S2,COC-Z10 surveyed: 6 area(s) flagged for a visit,,,,,,,
+621,38,decision,task order,K0117,S2: visit COC-0031,,no work left in the plan's list: the zone with the most expected mine areas per working day,,,operations officer (season sign-off policy: orders the next task in the plan),plan P09,[],[],n/a
+622,38,report,team report,S3,,team S3,"SAB-0183: visit 1, 1 item(s) received",,,,,,,
+623,38,decision,area,SAB-0183,CLEARANCE,,,suspected,confirmed,QC reviewer (season sign-off policy: signs off what passes the rule check),dossier reviewer agent (gpt-6-luna),['dossier reviewer'],['E1'],pass
+624,38,report,team report,S4,,team S4,"SLU-0449: visit 1, 1 item(s) received",,,,,,,
+625,38,decision,area,SLU-0449,CLEARANCE,,,suspected,suspected,QC reviewer (season sign-off policy: signs off what passes the rule check),dossier reviewer agent (gpt-6-luna),['dossier reviewer'],"['E1', 'E2']",pass
+626,38,report,team report,C2,,team C2,C2: 5 day(s) on clearance COC-0013,,,,,,,
+627,38,report,team report,C3,,team C3,C3: 4 day(s) on clearance ECV-0007,,,,,,,
+628,38,report,team report,C4,,team C4,C4: 5 day(s) on clearance COC-0004,,,,,,,
+629,38,report,team report,C1,,team C1,C1: 4 day(s) on clearance COC-0014,,,,,,,
+630,38,report,team report,S1,,team S1,S1: 3 day(s) on visit SLU-0383,,,,,,,
+631,38,report,team report,S2,,team S2,S2: 1 day(s) on visit COC-0031,,,,,,,
+632,39,report,access,access feed,,security coordination feed (simulated),access feed: no change,,,,,,,
+633,39,decision,task order,K0118,S3: visit SAB-0195,,no work left in the plan's list: the zone with the most expected mine areas per working day,,,operations officer (season sign-off policy: orders the next task in the plan),plan P09,[],[],n/a
+634,39,decision,task order,K0119,S4: visit SLU-0450,,no work left in the plan's list: the zone with the most expected mine areas per working day,,,operations officer (season sign-off policy: orders the next task in the plan),plan P09,[],[],n/a
+635,39,report,team report,S1,,team S1,"SLU-0383: visit 1, 2 item(s) received",,,,,,,
+636,39,decision,area,SLU-0383,CLEARANCE,,,suspected,suspected,QC reviewer (season sign-off policy: signs off what passes the rule check),dossier reviewer agent (gpt-6-luna),['dossier reviewer'],"['E1', 'E2', 'E3']",pass
+637,39,decision,task order,K0120,S1: visit SLU-0365,,no work left in the plan's list: the zone with the most expected mine areas per working day,,,operations officer (season sign-off policy: orders the next task in the plan),plan P09,[],[],n/a
+638,39,report,team report,S2,,team S2,"COC-0031: visit 1, 2 item(s) received",,,,,,,
+639,39,decision,area,COC-0031,CLEARANCE,,,suspected,suspected,QC reviewer (season sign-off policy: signs off what passes the rule check),dossier reviewer agent (gpt-6-luna),['dossier reviewer'],"['E1', 'E2', 'E3']",pass
+640,39,report,team report,S3,,team S3,S3: 4 day(s) on visit SAB-0195,,,,,,,
+641,39,report,team report,S4,,team S4,S4: 4 day(s) on visit SLU-0450,,,,,,,
+642,39,report,team report,C1,,team C1,C1: 4 day(s) on clearance COC-0014,,,,,,,
+643,39,report,team report,C2,,team C2,C2: 4 day(s) on clearance COC-0013,,,,,,,
+644,39,report,team report,C3,,team C3,C3: 4 day(s) on clearance ECV-0007,,,,,,,
+645,39,report,team report,C4,,team C4,C4: 4 day(s) on clearance COC-0004,,,,,,,
+646,39,report,team report,S1,,team S1,S1: 3 day(s) on visit SLU-0365,,,,,,,
+647,40,report,access,access feed,,security coordination feed (simulated),"access feed: ABE-Z03 open, CHI-Z24 closed, CHI-Z30 closed, GRA-Z06 closed, LUN-Z03 closed, SCA-Z29 open, SON-Z43 open",,,,,,,
+648,40,decision,plan,P10,approve,,the monthly plan,P09,P10,departmental office (season sign-off policy: approves the plan as proposed),season planner,"['risk prioritisation', 'season planner']",[],n/a
+649,40,decision,task order,K0121,S2: zone survey NAR-Z04,,the plan's next zone for this kind of team,,,operations officer (season sign-off policy: orders the next task in the plan),plan P10,[],[],n/a
+650,40,report,team report,S3,,team S3,"SAB-0195: visit 1, 4 item(s) received",,,,,,,
+651,40,decision,area,SAB-0195,CANCEL,,,suspected,cancelled,QC reviewer (season sign-off policy: signs off what passes the rule check),dossier reviewer agent (gpt-6-luna),['dossier reviewer'],"['E1', 'E2', 'E3', 'E4']",pass
+652,40,report,team report,S4,,team S4,"SLU-0450: visit 1, 2 item(s) received",,,,,,,
+653,40,decision,area,SLU-0450,CLEARANCE,,,suspected,suspected,QC reviewer (season sign-off policy: signs off what passes the rule check),dossier reviewer agent (gpt-6-luna),['dossier reviewer'],"['E1', 'E2', 'E3']",pass
+654,40,decision,task order,K0122,S3: visit SAB-0225,,no work left in the plan's list: the zone with the most expected mine areas per working day,,,operations officer (season sign-off policy: orders the next task in the plan),plan P10,[],[],n/a
+655,40,decision,task order,K0123,S4: zone survey COC-Z07,,no work left in the plan's list: the zone with the most expected mine areas per working day,,,operations officer (season sign-off policy: orders the next task in the plan),plan P10,[],[],n/a
+656,40,report,team report,S1,,team S1,"SLU-0365: visit 1, 2 item(s) received",,,,,,,
+657,40,decision,area,SLU-0365,CLEARANCE,,,suspected,suspected,QC reviewer (season sign-off policy: signs off what passes the rule check),dossier reviewer agent (gpt-6-luna),['dossier reviewer'],"['E1', 'E2', 'E3']",pass
+658,40,decision,task order,K0124,S1: visit COC-0043,,no work left in the plan's list: the zone with the most expected mine areas per working day,,,operations officer (season sign-off policy: orders the next task in the plan),plan P10,[],[],n/a
+659,40,report,team report,S2,,team S2,S2: 2 day(s) on zone survey NAR-Z04,,,,,,,
+660,40,report,team report,C1,,team C1,C1: 2 day(s) on clearance COC-0014,,,,,,,
+661,40,report,team report,C2,,team C2,C2: 2 day(s) on clearance COC-0013,,,,,,,
+662,40,report,team report,C3,,team C3,C3: 0 day(s) on clearance ECV-0007,,,,,,,
+663,40,report,team report,C4,,team C4,C4: 2 day(s) on clearance COC-0004,,,,,,,
+664,40,report,team report,S3,,team S3,S3: 2 day(s) on visit SAB-0225,,,,,,,
+665,40,report,team report,S4,,team S4,S4: 3 day(s) on zone survey COC-Z07,,,,,,,
+666,40,report,team report,S1,,team S1,S1: 0 day(s) on visit COC-0043,,,,,,,
+667,41,report,access,access feed,,security coordination feed (simulated),access feed: no change,,,,,,,
+668,41,report,team report,S3,,team S3,"SAB-0225: visit 1, 1 item(s) received",,,,,,,
+669,41,decision,area,SAB-0225,FURTHER_NTS,,,suspected,suspected,QC reviewer (season sign-off policy: signs off what passes the rule check),dossier reviewer agent (gpt-6-luna),['dossier reviewer'],['E1'],pass
+670,41,decision,task order,K0125,S3: visit SAB-0225,,no work left in the plan's list: the zone with the most expected mine areas per working day,,,operations officer (season sign-off policy: orders the next task in the plan),plan P10,[],[],n/a
+671,41,report,team report,S1,,team S1,S1: 4 day(s) on visit COC-0043,,,,,,,
+672,41,report,team report,S2,,team S2,S2: 2 day(s) on zone survey NAR-Z04,,,,,,,
+673,41,report,team report,S4,,team S4,S4: 3 day(s) on zone survey COC-Z07,,,,,,,
+674,41,report,team report,C1,,team C1,C1: 0 day(s) on clearance COC-0014,,,,,,,
+675,41,report,team report,C2,,team C2,C2: 0 day(s) on clearance COC-0013,,,,,,,
+676,41,report,team report,C3,,team C3,C3: 0 day(s) on clearance ECV-0007,,,,,,,
+677,41,report,team report,C4,,team C4,C4: 0 day(s) on clearance COC-0004,,,,,,,
+678,41,report,team report,S3,,team S3,S3: 0 day(s) on visit SAB-0225,,,,,,,
+679,42,report,access,access feed,,security coordination feed (simulated),access feed: no change,,,,,,,
+680,42,report,team report,S1,,team S1,"COC-0043: visit 1, 2 item(s) received",,,,,,,
+681,42,decision,area,COC-0043,CLEARANCE,,,suspected,suspected,QC reviewer (season sign-off policy: signs off what passes the rule check),dossier reviewer agent (gpt-6-luna),['dossier reviewer'],"['E1', 'E2', 'E3']",pass
+682,42,decision,task order,K0126,S1: visit COC-0020,,no work left in the plan's list: the zone with the most expected mine areas per working day,,,operations officer (season sign-off policy: orders the next task in the plan),plan P10,[],[],n/a
+683,42,report,team report,S2,,team S2,S2: 3 day(s) on zone survey NAR-Z04,,,,,,,
+684,42,report,team report,S3,,team S3,S3: 0 day(s) on visit SAB-0225,,,,,,,
+685,42,decision,report,S3 week 42,query the team,,unusual report (anomaly score -0.644),,,operations officer (season sign-off policy: orders the next task in the plan),report checker,[],[],n/a
+686,42,report,team report,S4,,team S4,S4: 3 day(s) on zone survey COC-Z07,,,,,,,
+687,42,report,team report,C1,,team C1,C1: 2 day(s) on clearance COC-0014,,,,,,,
+688,42,report,team report,C2,,team C2,C2: 2 day(s) on clearance COC-0013,,,,,,,
+689,42,report,team report,C3,,team C3,C3: 3 day(s) on clearance ECV-0007,,,,,,,
+690,42,report,team report,C4,,team C4,C4: 2 day(s) on clearance COC-0004,,,,,,,
+691,42,report,team report,S1,,team S1,S1: 2 day(s) on visit COC-0020,,,,,,,
+692,43,report,access,access feed,,security coordination feed (simulated),access feed: no change,,,,,,,
+693,43,report,team report,S4,,team S4,COC-Z07 surveyed: 5 area(s) flagged for a visit,,,,,,,
+694,43,decision,task order,K0127,S4: visit COC-0105,,no work left in the plan's list: the zone with the most expected mine areas per working day,,,operations officer (season sign-off policy: orders the next task in the plan),plan P10,[],[],n/a
+695,43,report,team report,S2,,team S2,NAR-Z04 surveyed: 0 area(s) flagged for a visit,,,,,,,
+696,43,decision,task order,K0128,S2: visit SLU-0436,,no work left in the plan's list: the zone with the most expected mine areas per working day,,,operations officer (season sign-off policy: orders the next task in the plan),plan P10,[],[],n/a
+697,43,report,team report,S1,,team S1,"COC-0020: visit 1, 2 item(s) received",,,,,,,
+698,43,decision,area,COC-0020,CLEARANCE,,,suspected,suspected,QC reviewer (season sign-off policy: signs off what passes the rule check),dossier reviewer agent (gpt-6-luna),['dossier reviewer'],"['E1', 'E2', 'E3']",pass
+699,43,report,team report,S3,,team S3,S3: 2 day(s) on visit SAB-0225,,,,,,,
+700,43,report,team report,C1,,team C1,C1: 1 day(s) on clearance COC-0014,,,,,,,
+701,43,report,team report,C2,,team C2,C2: 1 day(s) on clearance COC-0013,,,,,,,
+702,43,report,team report,C3,,team C3,C3: 2 day(s) on clearance ECV-0007,,,,,,,
+703,43,report,team report,C4,,team C4,C4: 1 day(s) on clearance COC-0004,,,,,,,
+704,43,report,team report,S4,,team S4,S4: 4 day(s) on visit COC-0105,,,,,,,
+705,43,report,team report,S2,,team S2,S2: 1 day(s) on visit SLU-0436,,,,,,,
+706,43,decision,zone,NAR-Z04,declare free,,Travis's setting (question 39): free once every flagged area is resolved,open,free,national authority (season sign-off policy: declares free what passes the twin's check),"the twin's check: surveyed, every flagged area released",[],[],n/a
+707,44,report,access,access feed,,security coordination feed (simulated),access feed: no change,,,,,,,
+708,44,decision,task order,K0129,S1: visit COC-0048,,no work left in the plan's list: the zone with the most expected mine areas per working day,,,operations officer (season sign-off policy: orders the next task in the plan),plan P10,[],[],n/a
+709,44,report,team report,S4,,team S4,"COC-0105: visit 1, 1 item(s) received",,,,,,,
+710,44,decision,area,COC-0105,CLEARANCE,,,suspected,suspected,QC reviewer (season sign-off policy: signs off what passes the rule check),dossier reviewer agent (gpt-6-luna),['dossier reviewer'],"['E1', 'E2']",pass
+711,44,decision,task order,K0130,S4: visit COC-0137,,no work left in the plan's list: the zone with the most expected mine areas per working day,,,operations officer (season sign-off policy: orders the next task in the plan),plan P10,[],[],n/a
+712,44,report,team report,S3,,team S3,"SAB-0225: visit 2, 1 item(s) received",,,,,,,
+713,44,decision,area,SAB-0225,CLEARANCE,,,suspected,suspected,QC reviewer (season sign-off policy: signs off what passes the rule check),dossier reviewer agent (gpt-6-luna),['dossier reviewer'],"['E1', 'E2']",pass
+714,44,decision,task order,K0131,S3: visit SAB-0214,,no work left in the plan's list: the zone with the most expected mine areas per working day,,,operations officer (season sign-off policy: orders the next task in the plan),plan P10,[],[],n/a
+715,44,report,team report,S1,,team S1,S1: 2 day(s) on visit COC-0048,,,,,,,
+716,44,report,team report,S2,,team S2,S2: 3 day(s) on visit SLU-0436,,,,,,,
+717,44,report,team report,C1,,team C1,C1: 2 day(s) on clearance COC-0014,,,,,,,
+718,44,report,team report,C2,,team C2,C2: 2 day(s) on clearance COC-0013,,,,,,,
+719,44,report,team report,C3,,team C3,C3: 2 day(s) on clearance ECV-0007,,,,,,,
+720,44,report,team report,C4,,team C4,C4: 2 day(s) on clearance COC-0004,,,,,,,
+721,44,report,team report,S4,,team S4,S4: 1 day(s) on visit COC-0137,,,,,,,
+722,44,report,team report,S3,,team S3,S3: 0 day(s) on visit SAB-0214,,,,,,,
+723,45,report,access,access feed,,security coordination feed (simulated),"access feed: ABE-Z01 closed, ABE-Z07 closed, CHI-Z06 closed, CHI-Z16 open, CHI-Z18 open, CHI-Z19 open, CHI-Z30 open, COC-Z01 closed, COC-Z10 closed, ECV-Z15 closed, GRA-Z06 open, LUN-Z03 open, SCA-Z18 closed, SLU-Z07 closed, SON-Z12 open, SON-Z26 closed, SON-Z39 closed",,,,,,,
+724,45,decision,pause,K0129,pause visit COC-0048,,COC-Z10 closed by the access feed,,,operations officer (season sign-off policy: orders the next task in the plan),access feed,[],[],n/a
+725,45,decision,plan,P11,approve,,the monthly plan,P10,P11,departmental office (season sign-off policy: approves the plan as proposed),season planner,"['risk prioritisation', 'season planner']",[],n/a
+726,45,decision,task order,K0132,S1: zone survey ABE-Z09,,the plan's next zone for this kind of team,,,operations officer (season sign-off policy: orders the next task in the plan),plan P11,[],[],n/a
+727,45,report,team report,S2,,team S2,"SLU-0436: visit 1, 1 item(s) received",,,,,,,
+728,45,decision,area,SLU-0436,CLEARANCE,,,suspected,suspected,QC reviewer (season sign-off policy: signs off what passes the rule check),dossier reviewer agent (gpt-6-luna),['dossier reviewer'],"['E1', 'E2']",pass
+729,45,decision,task order,K0133,S2: visit SFR-0078,,the plan's next zone for this kind of team,,,operations officer (season sign-off policy: orders the next task in the plan),plan P11,[],[],n/a
+730,45,report,team report,S1,,team S1,S1: 5 day(s) on zone survey ABE-Z09,,,,,,,
+731,45,report,team report,S3,,team S3,S3: 3 day(s) on visit SAB-0214,,,,,,,
+732,45,report,team report,S4,,team S4,S4: 2 day(s) on visit COC-0137,,,,,,,
+733,45,report,team report,C1,,team C1,C1: 1 day(s) on clearance COC-0014,,,,,,,
+734,45,report,team report,C2,,team C2,C2: 1 day(s) on clearance COC-0013,,,,,,,
+735,45,report,team report,C3,,team C3,C3: 2 day(s) on clearance ECV-0007,,,,,,,
+736,45,report,team report,C4,,team C4,C4: 1 day(s) on clearance COC-0004,,,,,,,
+737,45,report,team report,S2,,team S2,S2: 3 day(s) on visit SFR-0078,,,,,,,
+738,46,report,access,access feed,,security coordination feed (simulated),access feed: no change,,,,,,,
+739,46,report,team report,C3,,team C3,"ECV-0007: clearance done, result awaiting sign-off",,,,,,,
+740,46,decision,area,ECV-0007,CLEARED,,clearance found no mines,suspected,cleared,QC reviewer (season sign-off policy: signs off what passes the rule check),clearance team C3,[],[],n/a
+741,46,report,team report,C4,,team C4,"COC-0004: clearance done, result awaiting sign-off",,,,,,,
+742,46,decision,report,C4 week 46,query the team,,unusual report (anomaly score -0.669),,,operations officer (season sign-off policy: orders the next task in the plan),report checker,[],[],n/a
+743,46,decision,area,COC-0004,CLEARED,,2 mine cell(s) found and cleared,confirmed,cleared,QC reviewer (season sign-off policy: signs off what passes the rule check),clearance team C4,[],[],n/a
+744,46,decision,task order,K0134,C3: clearance COC-0001,,the plan's next zone for this kind of team,,,operations officer (season sign-off policy: orders the next task in the plan),plan P11,[],[],n/a
+745,46,decision,task order,K0135,C4: clearance COC-0008,,the plan's next zone for this kind of team,,,operations officer (season sign-off policy: orders the next task in the plan),plan P11,[],[],n/a
+746,46,report,team report,S2,,team S2,"SFR-0078: visit 1, 4 item(s) received",,,,,,,
+747,46,decision,area,SFR-0078,CLEARANCE,,,suspected,suspected,QC reviewer (season sign-off policy: signs off what passes the rule check),dossier reviewer agent (gpt-6-luna),['dossier reviewer'],"['E1', 'E2', 'E3', 'E4', 'E5']",pass
+748,46,decision,task order,K0136,S2: visit SFR-0118,,the plan's next zone for this kind of team,,,operations officer (season sign-off policy: orders the next task in the plan),plan P11,[],[],n/a
+749,46,report,team report,S3,,team S3,"SAB-0214: visit 1, 3 item(s) received",,,,,,,
+750,46,decision,area,SAB-0214,CLEARANCE,,,suspected,confirmed,QC reviewer (season sign-off policy: signs off what passes the rule check),dossier reviewer agent (gpt-6-luna),['dossier reviewer'],"['E1', 'E2', 'E3']",pass
+751,46,decision,task order,K0137,S3: visit ECV-0225,,the plan's next zone for this kind of team,,,operations officer (season sign-off policy: orders the next task in the plan),plan P11,[],[],n/a
+752,46,report,team report,S1,,team S1,S1: 2 day(s) on zone survey ABE-Z09,,,,,,,
+753,46,report,team report,S4,,team S4,S4: 1 day(s) on visit COC-0137,,,,,,,
+754,46,report,team report,C1,,team C1,C1: 4 day(s) on clearance COC-0014,,,,,,,
+755,46,report,team report,C2,,team C2,C2: 4 day(s) on clearance COC-0013,,,,,,,
+756,46,report,team report,C3,,team C3,C3: 3 day(s) on clearance COC-0001,,,,,,,
+757,46,report,team report,C4,,team C4,C4: 3 day(s) on clearance COC-0008,,,,,,,
+758,46,report,team report,S2,,team S2,S2: 0 day(s) on visit SFR-0118,,,,,,,
+759,46,report,team report,S3,,team S3,S3: 0 day(s) on visit ECV-0225,,,,,,,
+760,46,decision,zone,ECV-Z19,declare free,,Travis's setting (question 39): free once every flagged area is resolved,open,free,national authority (season sign-off policy: declares free what passes the twin's check),"the twin's check: surveyed, every flagged area released",[],[],n/a
+761,47,report,access,access feed,,security coordination feed (simulated),access feed: no change,,,,,,,
+762,47,report,team report,S1,,team S1,ABE-Z09 surveyed: 4 area(s) flagged for a visit,,,,,,,
+763,47,report,team report,S4,,team S4,"COC-0137: visit 1, 1 item(s) received",,,,,,,
+764,47,decision,area,COC-0137,CLEARANCE,,,suspected,suspected,QC reviewer (season sign-off policy: signs off what passes the rule check),dossier reviewer agent (gpt-6-luna),['dossier reviewer'],"['E1', 'E2']",pass
+765,47,report,team report,S2,,team S2,S2: 4 day(s) on visit SFR-0118,,,,,,,
+766,47,report,team report,S3,,team S3,S3: 3 day(s) on visit ECV-0225,,,,,,,
+767,47,report,team report,C1,,team C1,C1: 3 day(s) on clearance COC-0014,,,,,,,
+768,47,report,team report,C2,,team C2,C2: 3 day(s) on clearance COC-0013,,,,,,,
+769,47,report,team report,C3,,team C3,C3: 3 day(s) on clearance COC-0001,,,,,,,
+770,47,report,team report,C4,,team C4,C4: 3 day(s) on clearance COC-0008,,,,,,,
+771,48,report,access,access feed,,security coordination feed (simulated),access feed: no change,,,,,,,
+772,48,decision,task order,K0138,S1: visit ABE-0348,,the plan's next zone for this kind of team,,,operations officer (season sign-off policy: orders the next task in the plan),plan P11,[],[],n/a
+773,48,decision,task order,K0139,S4: visit SAB-0224,,no work left in the plan's list: the zone with the most expected mine areas per working day,,,operations officer (season sign-off policy: orders the next task in the plan),plan P11,[],[],n/a
+774,48,report,team report,S2,,team S2,"SFR-0118: visit 1, 3 item(s) received",,,,,,,
+775,48,decision,area,SFR-0118,FURTHER_NTS,,,suspected,suspected,QC reviewer (season sign-off policy: signs off what passes the rule check),dossier reviewer agent (gpt-6-luna),['dossier reviewer'],"['E1', 'E2', 'E3']",pass
+776,48,decision,task order,K0140,S2: visit SFR-0118,,the plan's next zone for this kind of team,,,operations officer (season sign-off policy: orders the next task in the plan),plan P11,[],[],n/a
+777,48,report,team report,S3,,team S3,"ECV-0225: visit 1, 1 item(s) received",,,,,,,
+778,48,decision,area,ECV-0225,FURTHER_NTS,,,suspected,suspected,QC reviewer (season sign-off policy: signs off what passes the rule check),dossier reviewer agent (gpt-6-luna),['dossier reviewer'],['E1'],pass
+779,48,report,team report,S1,,team S1,S1: 3 day(s) on visit ABE-0348,,,,,,,
+780,48,report,team report,S4,,team S4,S4: 3 day(s) on visit SAB-0224,,,,,,,
+781,48,report,team report,C1,,team C1,C1: 3 day(s) on clearance COC-0014,,,,,,,
+782,48,report,team report,C2,,team C2,C2: 3 day(s) on clearance COC-0013,,,,,,,
+783,48,report,team report,C3,,team C3,C3: 3 day(s) on clearance COC-0001,,,,,,,
+784,48,report,team report,C4,,team C4,C4: 3 day(s) on clearance COC-0008,,,,,,,
+785,48,report,team report,S2,,team S2,S2: 1 day(s) on visit SFR-0118,,,,,,,
+786,49,report,access,access feed,,security coordination feed (simulated),"access feed: ALE-Z05 closed, CHI-Z24 open, ECV-Z12 closed, ECV-Z15 open, NAR-Z10 closed, SFR-Z07 closed, SLU-Z04 closed, SLU-Z08 closed, SON-Z13 closed, SON-Z21 closed, SON-Z50 closed, SRA-Z14 closed, SRO-Z04 open",,,,,,,
+787,49,decision,plan,P12,approve,,the monthly plan,P11,P12,departmental office (season sign-off policy: approves the plan as proposed),season planner,"['risk prioritisation', 'season planner']",[],n/a
+788,49,decision,task order,K0141,S3: visit COC-0122,,no work left in the plan's list: the zone with the most expected mine areas per working day,,,operations officer (season sign-off policy: orders the next task in the plan),plan P12,[],[],n/a
+789,49,report,team report,S1,,team S1,"ABE-0348: visit 1, 1 item(s) received",,,,,,,
+790,49,decision,area,ABE-0348,CLEARANCE,,,suspected,suspected,QC reviewer (season sign-off policy: signs off what passes the rule check),dossier reviewer agent (gpt-6-luna),['dossier reviewer'],"['E1', 'E2']",pass
+791,49,report,team report,S4,,team S4,"SAB-0224: visit 1, 2 item(s) received",,,,,,,
+792,49,decision,area,SAB-0224,CANCEL,,,suspected,cancelled,QC reviewer (season sign-off policy: signs off what passes the rule check),dossier reviewer agent (gpt-6-luna),['dossier reviewer'],"['E1', 'E2']",pass
+793,49,decision,task order,K0142,S1: visit ABE-0347,,no work left in the plan's list: the zone with the most expected mine areas per working day,,,operations officer (season sign-off policy: orders the next task in the plan),plan P12,[],[],n/a
+794,49,decision,task order,K0143,S4: zone survey SAB-Z09,,no work left in the plan's list: the zone with the most expected mine areas per working day,,,operations officer (season sign-off policy: orders the next task in the plan),plan P12,[],[],n/a
+795,49,report,team report,C2,,team C2,"COC-0013: clearance done, result awaiting sign-off",,,,,,,
+796,49,decision,area,COC-0013,CLEARED,,1 mine cell(s) found and cleared,confirmed,cleared,QC reviewer (season sign-off policy: signs off what passes the rule check),clearance team C2,[],[],n/a
+797,49,decision,task order,K0144,C2: clearance SAB-0183,,no work left in the plan's list: the zone with the most expected mine areas per working day,,,operations officer (season sign-off policy: orders the next task in the plan),plan P12,[],[],n/a
+798,49,report,team report,S2,,team S2,"SFR-0118: visit 2, 1 item(s) received",,,,,,,
+799,49,decision,area,SFR-0118,FURTHER_NTS,,,suspected,suspected,QC reviewer (season sign-off policy: signs off what passes the rule check),dossier reviewer agent (gpt-6-luna),['dossier reviewer'],"['E1', 'E2', 'E3', 'E4']",pass
+800,49,decision,task order,K0145,S2: zone survey ABE-Z08,,no work left in the plan's list: the zone with the most expected mine areas per working day,,,operations officer (season sign-off policy: orders the next task in the plan),plan P12,[],[],n/a
+801,49,report,team report,S3,,team S3,S3: 4 day(s) on visit COC-0122,,,,,,,
+802,49,report,team report,C1,,team C1,C1: 4 day(s) on clearance COC-0014,,,,,,,
+803,49,report,team report,C3,,team C3,C3: 4 day(s) on clearance COC-0001,,,,,,,
+804,49,report,team report,C4,,team C4,C4: 4 day(s) on clearance COC-0008,,,,,,,
+805,49,report,team report,S1,,team S1,S1: 3 day(s) on visit ABE-0347,,,,,,,
+806,49,report,team report,S4,,team S4,S4: 2 day(s) on zone survey SAB-Z09,,,,,,,
+807,49,report,team report,C2,,team C2,C2: 1 day(s) on clearance SAB-0183,,,,,,,
+808,49,report,team report,S2,,team S2,S2: 1 day(s) on zone survey ABE-Z08,,,,,,,
+809,50,report,access,access feed,,security coordination feed (simulated),access feed: no change,,,,,,,
+810,50,report,team report,S3,,team S3,"COC-0122: visit 1, 2 item(s) received",,,,,,,
+811,50,decision,area,COC-0122,CLEARANCE,,,suspected,suspected,QC reviewer (season sign-off policy: signs off what passes the rule check),dossier reviewer agent (gpt-6-luna),['dossier reviewer'],"['E1', 'E2', 'E3']",pass
+812,50,decision,task order,K0146,S3: visit COC-0138,,no work left in the plan's list: the zone with the most expected mine areas per working day,,,operations officer (season sign-off policy: orders the next task in the plan),plan P12,[],[],n/a
+813,50,report,team report,S1,,team S1,"ABE-0347: visit 1, 2 item(s) received",,,,,,,
+814,50,decision,area,ABE-0347,FURTHER_NTS,,,suspected,suspected,QC reviewer (season sign-off policy: signs off what passes the rule check),dossier reviewer agent (gpt-6-luna),['dossier reviewer'],"['E1', 'E2']",pass
+815,50,decision,task order,K0147,S1: visit ABE-0347,,no work left in the plan's list: the zone with the most expected mine areas per working day,,,operations officer (season sign-off policy: orders the next task in the plan),plan P12,[],[],n/a
+816,50,report,team report,S2,,team S2,S2: 5 day(s) on zone survey ABE-Z08,,,,,,,
+817,50,report,team report,S4,,team S4,S4: 4 day(s) on zone survey SAB-Z09,,,,,,,
+818,50,report,team report,C1,,team C1,C1: 5 day(s) on clearance COC-0014,,,,,,,
+819,50,report,team report,C2,,team C2,C2: 4 day(s) on clearance SAB-0183,,,,,,,
+820,50,report,team report,C3,,team C3,C3: 5 day(s) on clearance COC-0001,,,,,,,
+821,50,report,team report,C4,,team C4,C4: 5 day(s) on clearance COC-0008,,,,,,,
+822,50,report,team report,S3,,team S3,S3: 4 day(s) on visit COC-0138,,,,,,,
+823,50,report,team report,S1,,team S1,S1: 2 day(s) on visit ABE-0347,,,,,,,
+824,51,report,access,access feed,,security coordination feed (simulated),access feed: no change,,,,,,,
+825,51,report,team report,S3,,team S3,"COC-0138: visit 1, 2 item(s) received",,,,,,,
+826,51,decision,area,COC-0138,CANCEL,,,suspected,cancelled,QC reviewer (season sign-off policy: signs off what passes the rule check),dossier reviewer agent (gpt-6-luna),['dossier reviewer'],"['E1', 'E2']",pass
+827,51,decision,task order,K0148,S3: visit COC-0120,,no work left in the plan's list: the zone with the most expected mine areas per working day,,,operations officer (season sign-off policy: orders the next task in the plan),plan P12,[],[],n/a
+828,51,report,team report,S1,,team S1,"ABE-0347: visit 2, 3 item(s) received",,,,,,,
+829,51,decision,area,ABE-0347,CANCEL,,,suspected,cancelled,QC reviewer (season sign-off policy: signs off what passes the rule check),dossier reviewer agent (gpt-6-luna),['dossier reviewer'],"['E1', 'E2', 'E3', 'E4', 'E5']",pass
+830,51,decision,task order,K0149,S1: visit ABE-0292,,no work left in the plan's list: the zone with the most expected mine areas per working day,,,operations officer (season sign-off policy: orders the next task in the plan),plan P12,[],[],n/a
+831,51,report,team report,S2,,team S2,ABE-Z08 surveyed: 2 area(s) flagged for a visit,,,,,,,
+832,51,decision,task order,K0150,S2: visit ABE-0279,,no work left in the plan's list: the zone with the most expected mine areas per working day,,,operations officer (season sign-off policy: orders the next task in the plan),plan P12,[],[],n/a
+833,51,report,team report,S4,,team S4,SAB-Z09 surveyed: 6 area(s) flagged for a visit,,,,,,,
+834,51,report,team report,C1,,team C1,C1: 4 day(s) on clearance COC-0014,,,,,,,
+835,51,report,team report,C2,,team C2,C2: 4 day(s) on clearance SAB-0183,,,,,,,
+836,51,report,team report,C3,,team C3,C3: 4 day(s) on clearance COC-0001,,,,,,,
+837,51,report,team report,C4,,team C4,C4: 4 day(s) on clearance COC-0008,,,,,,,
+838,51,report,team report,S3,,team S3,S3: 4 day(s) on visit COC-0120,,,,,,,
+839,51,report,team report,S1,,team S1,S1: 2 day(s) on visit ABE-0292,,,,,,,
+840,51,report,team report,S2,,team S2,S2: 1 day(s) on visit ABE-0279,,,,,,,
+841,52,report,access,access feed,,security coordination feed (simulated),access feed: no change,,,,,,,
+842,52,decision,task order,K0151,S4: visit SAB-0092,,no work left in the plan's list: the zone with the most expected mine areas per working day,,,operations officer (season sign-off policy: orders the next task in the plan),plan P12,[],[],n/a
+843,52,report,team report,S3,,team S3,"COC-0120: visit 1, 2 item(s) received",,,,,,,
+844,52,decision,area,COC-0120,CANCEL,,,suspected,cancelled,QC reviewer (season sign-off policy: signs off what passes the rule check),dossier reviewer agent (gpt-6-luna),['dossier reviewer'],"['E1', 'E2']",pass
+845,52,decision,task order,K0152,S3: visit SLU-0460,,no work left in the plan's list: the zone with the most expected mine areas per working day,,,operations officer (season sign-off policy: orders the next task in the plan),plan P12,[],[],n/a
+846,52,report,team report,S1,,team S1,"ABE-0292: visit 1, 4 item(s) received",,,,,,,
+847,52,decision,area,ABE-0292,CANCEL,,,suspected,cancelled,QC reviewer (season sign-off policy: signs off what passes the rule check),dossier reviewer agent (gpt-6-luna),['dossier reviewer'],"['E1', 'E2', 'E3', 'E4']",pass
+848,52,decision,task order,K0153,S1: visit ABE-0291,,no work left in the plan's list: the zone with the most expected mine areas per working day,,,operations officer (season sign-off policy: orders the next task in the plan),plan P12,[],[],n/a
+849,52,report,team report,C4,,team C4,"COC-0008: clearance done, result awaiting sign-off",,,,,,,
+850,52,decision,area,COC-0008,CLEARED,,1 mine cell(s) found and cleared,suspected,cleared,QC reviewer (season sign-off policy: signs off what passes the rule check),clearance team C4,[],[],n/a
+851,52,decision,task order,K0154,C4: clearance SAB-0214,,no work left in the plan's list: the zone with the most expected mine areas per working day,,,operations officer (season sign-off policy: orders the next task in the plan),plan P12,[],[],n/a
+852,52,report,team report,S2,,team S2,S2: 3 day(s) on visit ABE-0279,,,,,,,
+853,52,report,team report,S4,,team S4,S4: 4 day(s) on visit SAB-0092,,,,,,,
+854,52,report,team report,C1,,team C1,C1: 4 day(s) on clearance COC-0014,,,,,,,
+855,52,report,team report,C2,,team C2,C2: 4 day(s) on clearance SAB-0183,,,,,,,
+856,52,report,team report,C3,,team C3,C3: 4 day(s) on clearance COC-0001,,,,,,,
+857,52,report,team report,S3,,team S3,S3: 3 day(s) on visit SLU-0460,,,,,,,
+858,52,report,team report,S1,,team S1,S1: 2 day(s) on visit ABE-0291,,,,,,,
+859,52,report,team report,C4,,team C4,C4: 1 day(s) on clearance SAB-0214,,,,,,,

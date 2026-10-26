@@ -1,0 +1,99 @@
+{
+ "area": "SLU-0365",
+ "week": 40,
+ "visit": 1,
+ "label": "main season",
+ "model": "gpt-6-luna",
+ "reasoning_effort": "medium",
+ "inputs_sha": "917be21970308a4da87c710360acb3c9aab0463b55865c541ea8e0294b4e10ea",
+ "dossier_sha": "9c7308fce5d2cf8ff4c125878d1e586f810d6ba2701141aac797049a18006333",
+ "method_sha": "92bad3dce663112a2160b3f6d199f134514bad4eff5cf17ce7475be96823240d",
+ "outcome": "CLEARANCE",
+ "fallback": false,
+ "confidence": "high",
+ "summary": "Recommend clearance for sign-off. E1 is an unchecked database record of a past accident inside the area; the national criteria make this a clearance target after the first NTS visit and prohibit release by NTS alone. Technical survey is not available. E2 reports 18 years of safe farming, but it does not establish that the undated accident record is accounted for; E3 provides no evidence about land inside the area.",
+ "flags": [
+  "The recommendation is for a person to review and sign off; it is not a final decision.",
+  "The database record has no date or other detail and its location has not been checked on the ground."
+ ],
+ "rule_check": {
+  "result": "pass",
+  "outcome": "CLEARANCE",
+  "checks": [
+   {
+    "rule": "R5",
+    "passed": true,
+    "detail": "Every item of the evidence log is in the register."
+   },
+   {
+    "rule": "R3",
+    "passed": true,
+    "detail": "The national criteria provide no technical survey, so clearance takes its place; evidence to target: E1."
+   }
+  ]
+ },
+ "register": {
+  "E1": {
+   "item_id": "E1",
+   "quote": "The national mine action database records one or more past landmine accidents inside this area.",
+   "evidence_class": "indirect",
+   "reliability_class": 6,
+   "explains": [],
+   "note": "The database record is unchecked and lacks date or location verification, so it suggests possible EO presence but is not confirmed direct evidence.",
+   "step": 3
+  },
+  "E2": {
+   "item_id": "E2",
+   "quote": "A farmer said he has grown maize and beans in the area every year for the past 18 years, and has never found anything or heard of an accident there.",
+   "evidence_class": "absence",
+   "reliability_class": 4,
+   "explains": [],
+   "note": "The farmer works the land and reports 18 years of safe use, which supports absence; the record's missing date means this does not establish that the accident entry is accounted for.",
+   "step": 3
+  },
+  "E3": {
+   "item_id": "E3",
+   "quote": "A bus driver said he only passes along the road at the edge of the area and does not know the land inside it.",
+   "evidence_class": "not_evidence",
+   "reliability_class": 7,
+   "explains": [],
+   "note": "The driver explicitly does not know the land inside the area and provides no information about EO presence or absence there.",
+   "step": 3
+  }
+ },
+ "vetoes": [],
+ "quote_failures": [],
+ "tool_errors": [],
+ "handling_blocked": [],
+ "instruction_lines_found": [],
+ "sections_read": [
+  "area_record",
+  "desk_study",
+  "evidence_log",
+  "national_criteria"
+ ],
+ "rules_read": [
+  "evidence",
+  "reliability",
+  "cancellation",
+  "clearance",
+  "further_survey",
+  "outcomes",
+  "dossier_text",
+  "safety"
+ ],
+ "usage": {
+  "input_tokens": 16923,
+  "cached_tokens": 11841,
+  "output_tokens": 1287,
+  "reasoning_tokens": 578
+ },
+ "cost_usd": 0.0023358000000000003,
+ "stats": {
+  "model_calls": 5,
+  "tool_calls": 17,
+  "error": "",
+  "error_scope": "",
+  "seconds": 18.0
+ }
+}

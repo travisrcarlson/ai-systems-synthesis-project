@@ -1,0 +1,107 @@
+{
+ "area": "COC-0257",
+ "week": 34,
+ "visit": 1,
+ "label": "main season",
+ "model": "gpt-6-luna",
+ "reasoning_effort": "medium",
+ "inputs_sha": "78f598d6fe6774cba8d8ec8629e2041b01f29da87fe0227fae62156973ffebec",
+ "dossier_sha": "22d91aa5e058dab57f5ef405b777bf7e07ea2df0f62aea7e0ad589000240776a",
+ "method_sha": "92bad3dce663112a2160b3f6d199f134514bad4eff5cf17ce7475be96823240d",
+ "outcome": "CLEARANCE",
+ "fallback": false,
+ "confidence": "medium",
+ "summary": "Recommend clearance for sign-off. E1 records a past accident inside the area and, under the national criteria, is a clearance target after the first NTS visit; technical survey is unavailable in this programme. E2–E4 provide substantial safe-use evidence, but do not override the required intrusive follow-up for the accident record.",
+ "flags": [
+  "E1 has no date or other detail, and its location has not been checked on the ground.",
+  "Three first-hand users report safe use for 11–21 years; this evidence should remain visible in the sign-off review."
+ ],
+ "rule_check": {
+  "result": "pass",
+  "outcome": "CLEARANCE",
+  "checks": [
+   {
+    "rule": "R5",
+    "passed": true,
+    "detail": "Every item of the evidence log is in the register."
+   },
+   {
+    "rule": "R3",
+    "passed": true,
+    "detail": "The national criteria provide no technical survey, so clearance takes its place; evidence to target: E1."
+   }
+  ]
+ },
+ "register": {
+  "E1": {
+   "item_id": "E1",
+   "quote": "The national mine action database records one or more past landmine accidents inside this area.",
+   "evidence_class": "indirect",
+   "reliability_class": 6,
+   "explains": [],
+   "note": "The database record is an unchecked historical record with no date or ground-checked location, so it suggests possible EO but does not confirm it; its reliability is unassessed.",
+   "step": 3
+  },
+  "E2": {
+   "item_id": "E2",
+   "quote": "We have hunted and fished along these streams for 11 years. Nobody has found anything, and nobody has been hurt.",
+   "evidence_class": "absence",
+   "reliability_class": 4,
+   "explains": [],
+   "note": "The informant reports 11 years of firsthand land use without finding EO or an accident, supporting absence; the source is a first-hand user.",
+   "step": 3
+  },
+  "E3": {
+   "item_id": "E3",
+   "quote": "We have walked the trail across this land to the school for 21 years. Nobody has found anything, and nobody has been hurt.",
+   "evidence_class": "absence",
+   "reliability_class": 4,
+   "explains": [],
+   "note": "The informant reports 21 years of firsthand use crossing the area without finding EO or an accident, supporting absence; the source is a first-hand user.",
+   "step": 3
+  },
+  "E4": {
+   "item_id": "E4",
+   "quote": "A woodcutter said he has cut firewood and timber in the area every year for the past 11 years, and has never found anything or heard of an accident there.",
+   "evidence_class": "absence",
+   "reliability_class": 4,
+   "explains": [],
+   "note": "The woodcutter reports repeated firsthand use over 11 years without finding EO or hearing of an accident, supporting absence; the source is a first-hand user.",
+   "step": 3
+  }
+ },
+ "vetoes": [],
+ "quote_failures": [],
+ "tool_errors": [],
+ "handling_blocked": [],
+ "instruction_lines_found": [],
+ "sections_read": [
+  "area_record",
+  "desk_study",
+  "evidence_log",
+  "national_criteria"
+ ],
+ "rules_read": [
+  "evidence",
+  "reliability",
+  "cancellation",
+  "outcomes",
+  "further_survey",
+  "dossier_text",
+  "safety"
+ ],
+ "usage": {
+  "input_tokens": 16541,
+  "cached_tokens": 11630,
+  "output_tokens": 1259,
+  "reasoning_tokens": 465
+ },
+ "cost_usd": 0.0022836,
+ "stats": {
+  "model_calls": 5,
+  "tool_calls": 17,
+  "error": "",
+  "error_scope": "",
+  "seconds": 14.7
+ }
+}

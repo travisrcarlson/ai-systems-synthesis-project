@@ -1,0 +1,75 @@
+{
+ "week": 11,
+ "model": "gpt-6-luna",
+ "inputs_sha": "dd6342f8f3f6a78d58a74409f25252be71131b00f8c636a3c4ac8824893dec16",
+ "time": "2026-10-26T13:59:49+00:00",
+ "facts": {
+  "week": 11,
+  "month": "March",
+  "teams active": {
+   "survey": 4,
+   "clearance": 4
+  },
+  "teams stood down": {
+   "count": 0
+  },
+  "teams with no report for more than a week": {
+   "count": 0
+  },
+  "tasks finished this week": {
+   "zone surveys": 0,
+   "visits": 2,
+   "technical surveys": 0,
+   "clearances": 0
+  },
+  "zones surveyed so far": 9,
+  "zones declared free so far": 2,
+  "zones declared free this week": {
+   "count": 0,
+   "zones": []
+  },
+  "areas released so far": 3,
+  "areas cleared so far": 1,
+  "areas where mines were found so far": 1,
+  "areas suspected or confirmed, still open": 568,
+  "zones closed by the access feed": {
+   "count": 12
+  },
+  "plan": "P03",
+  "new plan approved this week": false,
+  "dossiers held for missing items": {
+   "count": 0,
+   "areas": []
+  },
+  "team-days worked this week": 27,
+  "team-days lost to rain or wind this week": 13,
+  "reports held by the report checker this week": 0,
+  "reports queried by the report checker this week": 0,
+  "forecast": {
+   "made in week": 10,
+   "scope": "the zones of the plan it was made with, and what is done already",
+   "mine areas cleared this season, P10 to P90": [
+    10,
+    14
+   ],
+   "zones declared free this season, P10 to P90": [
+    10,
+    14
+   ]
+  }
+ },
+ "draft": "This week, 4 survey teams and 4 clearance teams were active. Teams completed 2 visits; no surveys or clearances were finished. So far, 9 zones have been surveyed, 2 declared free, 3 areas released and 1 area cleared. Mines have been found in 1 area.\n\nThe officer’s attention is drawn to 12 zones closed by the access feed. No teams were stood down or had reports overdue by more than a week. No reports or dossiers were held, and no new plan was approved; work remains under plan P03. Rain or wind accounted for 13 team-days lost.\n\nThe week 10 forecast, for the zones of the plan it was made with and counting what is done already, puts mine areas cleared this season at P10 to P90 of 10 to 14, and zones declared free this season at P10 to P90 of 10 to 14.",
+ "error": "",
+ "usage": {
+  "input_tokens": 630,
+  "input_tokens_details": {
+   "cache_write_tokens": 0,
+   "cached_tokens": 0
+  },
+  "output_tokens": 191,
+  "output_tokens_details": {
+   "reasoning_tokens": 0
+  },
+  "total_tokens": 821
+ }
+}

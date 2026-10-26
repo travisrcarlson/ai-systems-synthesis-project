@@ -1,0 +1,91 @@
+{
+ "area": "SFR-0118",
+ "week": 48,
+ "visit": 1,
+ "label": "main season",
+ "model": "gpt-6-luna",
+ "reasoning_effort": "medium",
+ "inputs_sha": "96747e800cc803f966c77cbbb3724e01795748700b9c75b2827ece4b2a230b2a",
+ "dossier_sha": "c03362edd62218f721f56358e03c7d589ec62c85f6e590aa8ee0060fd881289c",
+ "method_sha": "92bad3dce663112a2160b3f6d199f134514bad4eff5cf17ce7475be96823240d",
+ "outcome": "FURTHER_NTS",
+ "fallback": false,
+ "confidence": "medium",
+ "summary": "Recommend returning SFR-0118 for further non-technical survey. The sole informative source reports only four years of safe use along streams, below the cancellation threshold of two reliable first-hand sources each reporting at least five years. The survey team could not see the interior, and the other informant does not know it; there is no target for technical survey or clearance.",
+ "flags": [
+  "The survey visit was limited to the area edge because rain closed the trail; further NTS should seek adequate information about the interior and additional reliable first-hand accounts of land use and safety."
+ ],
+ "rule_check": {
+  "result": "pass",
+  "outcome": "FURTHER_NTS",
+  "checks": [
+   {
+    "rule": "-",
+    "passed": true,
+    "detail": "Further non-technical survey is always open."
+   }
+  ]
+ },
+ "register": {
+  "E1": {
+   "item_id": "E1",
+   "quote": "he has hunted and fished along the streams in the area every year for the past 4 years, and has never found anything or heard of an accident there.",
+   "evidence_class": "absence",
+   "reliability_class": 4,
+   "explains": [],
+   "note": "The informant personally uses part of the area and reports repeated safe use, supporting absence; this is one first-hand source and covers four years.",
+   "step": 3
+  },
+  "E2": {
+   "item_id": "E2",
+   "quote": "could reach only the edge of the area, because rain had closed the trail into it, and could not see the land inside.",
+   "evidence_class": "not_evidence",
+   "reliability_class": 2,
+   "explains": [],
+   "note": "This records the limits of the visit, not whether EO is present or absent in the unseen area.",
+   "step": 3
+  },
+  "E3": {
+   "item_id": "E3",
+   "quote": "he only passes along the road at the edge of the area and does not know the land inside it.",
+   "evidence_class": "not_evidence",
+   "reliability_class": 7,
+   "explains": [],
+   "note": "The driver expressly lacks knowledge of the land inside, so this provides no evidence of presence or absence.",
+   "step": 3
+  }
+ },
+ "vetoes": [],
+ "quote_failures": [],
+ "tool_errors": [],
+ "handling_blocked": [],
+ "instruction_lines_found": [],
+ "sections_read": [
+  "area_record",
+  "desk_study",
+  "evidence_log",
+  "national_criteria"
+ ],
+ "rules_read": [
+  "evidence",
+  "reliability",
+  "cancellation",
+  "further_survey",
+  "outcomes",
+  "dossier_text"
+ ],
+ "usage": {
+  "input_tokens": 15516,
+  "cached_tokens": 10987,
+  "output_tokens": 1027,
+  "reasoning_tokens": 363
+ },
+ "cost_usd": 0.0020651000000000003,
+ "stats": {
+  "model_calls": 5,
+  "tool_calls": 15,
+  "error": "",
+  "error_scope": "",
+  "seconds": 11.8
+ }
+}

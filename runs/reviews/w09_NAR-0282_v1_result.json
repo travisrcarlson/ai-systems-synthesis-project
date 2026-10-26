@@ -1,0 +1,98 @@
+{
+ "area": "NAR-0282",
+ "week": 9,
+ "visit": 1,
+ "label": "main season",
+ "model": "gpt-6-luna",
+ "reasoning_effort": "medium",
+ "inputs_sha": "e780cd4a336e4e00d5a4bc01ee1021fa7674c5d31a76da69869876c9aedb1a2f",
+ "dossier_sha": "1f0fae8e6c5a45d21bee86c39878e438e8d0dc1e964fafa70cbc8cda92abf518",
+ "method_sha": "92bad3dce663112a2160b3f6d199f134514bad4eff5cf17ce7475be96823240d",
+ "outcome": "CLEARANCE",
+ "fallback": false,
+ "confidence": "high",
+ "summary": "Recommend clearance for sign-off. The unchecked database accident record (E1) is indirect evidence and is explicitly a clearance target after the first visit under the national criteria. The team's observation of unused land (E2) and the farmer's first-hand accident report (E3) also remain unexplained; technical survey is not available in this programme. This recommendation is about the required pathway, not a claim that EO has been confirmed.",
+ "flags": [
+  "A person must review and sign off; this is a recommendation, not a final decision.",
+  "The zone flag and survey priority indicate where to survey and were not treated as evidence."
+ ],
+ "rule_check": {
+  "result": "pass",
+  "outcome": "CLEARANCE",
+  "checks": [
+   {
+    "rule": "R5",
+    "passed": true,
+    "detail": "Every item of the evidence log is in the register."
+   },
+   {
+    "rule": "R3",
+    "passed": true,
+    "detail": "The national criteria provide no technical survey, so clearance takes its place; evidence to target: E1, E2, E3."
+   }
+  ]
+ },
+ "register": {
+  "E1": {
+   "item_id": "E1",
+   "quote": "The national mine action database records one or more past landmine accidents inside this area.",
+   "evidence_class": "indirect",
+   "reliability_class": 6,
+   "explains": [],
+   "note": "Unchecked database record is indirect evidence under the desk-study rule; its location and reliability have not been verified on the ground.",
+   "step": 3
+  },
+  "E2": {
+   "item_id": "E2",
+   "quote": "a field in part of the area has been left unused for years, with collapsed fences and overgrown paths, although the land around it is farmed.",
+   "evidence_class": "indirect",
+   "reliability_class": 2,
+   "explains": [],
+   "note": "The survey team directly observed potentially productive land left unused; this suggests possible contamination but does not confirm EO or show safe use.",
+   "step": 3
+  },
+  "E3": {
+   "item_id": "E3",
+   "quote": "A woman farmer said a cow was killed by an explosion on the ridge about 2 years ago; she saw the place the next day and can show it to the team.",
+   "evidence_class": "indirect",
+   "reliability_class": 4,
+   "explains": [],
+   "note": "This is a first-hand local report of an accident aftermath and identifiable location, suggesting EO presence but not itself confirming EO with certainty.",
+   "step": 3
+  }
+ },
+ "vetoes": [],
+ "quote_failures": [],
+ "tool_errors": [],
+ "handling_blocked": [],
+ "instruction_lines_found": [],
+ "sections_read": [
+  "area_record",
+  "desk_study",
+  "evidence_log",
+  "national_criteria"
+ ],
+ "rules_read": [
+  "evidence",
+  "reliability",
+  "desk_study",
+  "cancellation",
+  "further_survey",
+  "outcomes",
+  "dossier_text"
+ ],
+ "usage": {
+  "input_tokens": 17673,
+  "cached_tokens": 12333,
+  "output_tokens": 1586,
+  "reasoning_tokens": 892
+ },
+ "cost_usd": 0.0025603,
+ "stats": {
+  "model_calls": 5,
+  "tool_calls": 16,
+  "error": "",
+  "error_scope": "",
+  "seconds": 17.9
+ }
+}

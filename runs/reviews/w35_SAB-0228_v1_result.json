@@ -1,0 +1,110 @@
+{
+ "area": "SAB-0228",
+ "week": 35,
+ "visit": 1,
+ "label": "main season",
+ "model": "gpt-6-luna",
+ "reasoning_effort": "medium",
+ "inputs_sha": "ee3d5f976fa38576c95eed8e9be8a8372d1c13ab56465f5347427f0e2ccfe884",
+ "dossier_sha": "fdbb4c61862e2665e2c3934ed36a1e012fc2ae0deb9f14d68560e54ee1cdc2f4",
+ "method_sha": "92bad3dce663112a2160b3f6d199f134514bad4eff5cf17ce7475be96823240d",
+ "outcome": "CLEARANCE",
+ "fallback": false,
+ "confidence": "medium",
+ "summary": "E1 is an unchecked national database record of a past accident inside the area. National criteria require clearance after the first NTS visit for such an area and do not allow release by NTS alone; technical survey is unavailable. E2 and E3 report years of local use without finds or accidents, and E4 records no visible signs along the paths and field edges walked, but these do not override the accident-record criterion.",
+ "flags": [
+  "The database record's date, details, and location have not been verified on the ground.",
+  "The survey team walked paths and field edges; the area is recorded as 100% forest."
+ ],
+ "rule_check": {
+  "result": "pass",
+  "outcome": "CLEARANCE",
+  "checks": [
+   {
+    "rule": "R5",
+    "passed": true,
+    "detail": "Every item of the evidence log is in the register."
+   },
+   {
+    "rule": "R3",
+    "passed": true,
+    "detail": "The national criteria provide no technical survey, so clearance takes its place; evidence to target: E1."
+   }
+  ]
+ },
+ "register": {
+  "E1": {
+   "item_id": "E1",
+   "quote": "The national mine action database records one or more past landmine accidents inside this area.",
+   "evidence_class": "indirect",
+   "reliability_class": 6,
+   "explains": [],
+   "note": "The database entry's date, detail, location, and reliability have not been checked on the ground, so it is unchecked indirect evidence under the desk-study rule.",
+   "step": 3
+  },
+  "E2": {
+   "item_id": "E2",
+   "quote": "he has cut firewood and timber in the area every year for the past 10 years, and has never found anything or heard of an accident there.",
+   "evidence_class": "absence",
+   "reliability_class": 4,
+   "explains": [],
+   "note": "This first-hand user reports sustained use and no finds or accidents, which supports absence; it does not override the national rule making the accident record a target for clearance.",
+   "step": 3
+  },
+  "E3": {
+   "item_id": "E3",
+   "quote": "the board has recorded no find or accident in the area in the 11 years she has held the post, and that families use land in the area every week.",
+   "evidence_class": "absence",
+   "reliability_class": 4,
+   "explains": [],
+   "note": "The community board president reports regular local use and no recorded finds or accidents, supporting absence; the national accident-record criterion still requires clearance.",
+   "step": 3
+  },
+  "E4": {
+   "item_id": "E4",
+   "quote": "The survey team walked the paths and field edges of the area and saw no items, signs, fencing or other marks of contamination.",
+   "evidence_class": "absence",
+   "reliability_class": 2,
+   "explains": [],
+   "note": "This is the survey team's own observation of no visible signs during the visit, supporting absence, but it cannot explain away the database accident record under the national criterion.",
+   "step": 3
+  }
+ },
+ "vetoes": [],
+ "quote_failures": [],
+ "tool_errors": [],
+ "handling_blocked": [],
+ "instruction_lines_found": [],
+ "sections_read": [
+  "area_record",
+  "desk_study",
+  "evidence_log",
+  "national_criteria"
+ ],
+ "rules_read": [
+  "evidence",
+  "reliability",
+  "cancellation",
+  "outcomes",
+  "further_survey",
+  "desk_study",
+  "technical_survey",
+  "clearance",
+  "safety",
+  "dossier_text"
+ ],
+ "usage": {
+  "input_tokens": 29676,
+  "cached_tokens": 23557,
+  "output_tokens": 1447,
+  "reasoning_tokens": 408
+ },
+ "cost_usd": 0.0036911000000000005,
+ "stats": {
+  "model_calls": 7,
+  "tool_calls": 20,
+  "error": "",
+  "error_scope": "",
+  "seconds": 22.2
+ }
+}

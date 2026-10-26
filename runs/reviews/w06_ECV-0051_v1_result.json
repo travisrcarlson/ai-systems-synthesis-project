@@ -1,0 +1,93 @@
+{
+ "area": "ECV-0051",
+ "week": 6,
+ "visit": 1,
+ "label": "main season",
+ "model": "gpt-6-luna",
+ "reasoning_effort": "medium",
+ "inputs_sha": "a3b0d794efe5da4af391495f6ef3c4e3cb33cdb0403ac5c120b41937885aa593",
+ "dossier_sha": "8d464e753307ea7fdc45907ea131c60672bbddd61fd8bc918f7f2d482b5f5c92",
+ "method_sha": "92bad3dce663112a2160b3f6d199f134514bad4eff5cf17ce7475be96823240d",
+ "outcome": "CLEARANCE",
+ "fallback": false,
+ "confidence": "medium",
+ "summary": "Recommend clearance for sign-off. E2 is the survey team's own observation of potentially productive land left unused, an indirect-evidence target; E1 also reports prolonged non-use after armed-group presence. The evidence does not confirm EO, but cancellation criteria are not met, and the national criteria provide no technical survey, so a target proceeds to clearance.",
+ "flags": [
+  "The evidence supports suspected, not confirmed, contamination; this is a recommendation for sign-off, not a final decision.",
+  "The nearest recorded accident is within 1 km, not reported inside ECV-0051; it is not being treated as an in-area accident record.",
+  "The zone flag and survey priority are planning information, not evidence."
+ ],
+ "rule_check": {
+  "result": "pass",
+  "outcome": "CLEARANCE",
+  "checks": [
+   {
+    "rule": "R5",
+    "passed": true,
+    "detail": "Every item of the evidence log is in the register."
+   },
+   {
+    "rule": "R3",
+    "passed": true,
+    "detail": "The national criteria provide no technical survey, so clearance takes its place; evidence to target: E1, E2."
+   }
+  ]
+ },
+ "register": {
+  "E1": {
+   "item_id": "E1",
+   "quote": "A man who hunts and fishes said people stopped using the land beside the stream after an armed group camped there around 2003, and nobody has used it since.",
+   "evidence_class": "indirect",
+   "reliability_class": 4,
+   "explains": [],
+   "note": "The local land user reports armed-group presence and prolonged non-use, which suggests possible contamination but does not confirm EO; his account of local land-use history is treated as first-hand.",
+   "step": 3
+  },
+  "E2": {
+   "item_id": "E2",
+   "quote": "The survey team saw that a field in part of the area has been left unused for years, with collapsed fences and overgrown paths, although the land around it is farmed.",
+   "evidence_class": "indirect",
+   "reliability_class": 2,
+   "explains": [],
+   "note": "The team's own observation of potentially productive land left unused is indirect evidence of possible contamination, not evidence of safe use or absence.",
+   "step": 3
+  }
+ },
+ "vetoes": [],
+ "quote_failures": [],
+ "tool_errors": [],
+ "handling_blocked": [],
+ "instruction_lines_found": [],
+ "sections_read": [
+  "area_record",
+  "desk_study",
+  "evidence_log",
+  "national_criteria"
+ ],
+ "rules_read": [
+  "evidence",
+  "reliability",
+  "desk_study",
+  "cancellation",
+  "technical_survey",
+  "clearance",
+  "further_survey",
+  "outcomes",
+  "dossier_text",
+  "safety"
+ ],
+ "usage": {
+  "input_tokens": 21604,
+  "cached_tokens": 14577,
+  "output_tokens": 2768,
+  "reasoning_tokens": 2080
+ },
+ "cost_usd": 0.0035444,
+ "stats": {
+  "model_calls": 5,
+  "tool_calls": 18,
+  "error": "",
+  "error_scope": "",
+  "seconds": 33.2
+ }
+}

@@ -1,0 +1,87 @@
+{
+ "model": "gpt-6-luna",
+ "reasoning_effort": "medium",
+ "reviews": 96,
+ "reviews run in this session": 21,
+ "reviews that ended on an API error": 0,
+ "situation reports drafted in this session": 13,
+ "finished": "2026-10-26T16:51:26+00:00",
+ "python": "3.13.0",
+ "openai_library": "3.37.0",
+ "smoke_test": false,
+ "policy": "main policy",
+ "criteria": {
+  "min_years": 5,
+  "sources": 2,
+  "follow_up_visits": 2,
+  "recorded_accident_needs_ts": true,
+  "technical_survey": false
+ },
+ "season": {
+  "weeks": 52,
+  "days_per_week": 5,
+  "month_weeks": [
+   5,
+   4,
+   4,
+   5,
+   4,
+   4,
+   5,
+   4,
+   4,
+   5,
+   4,
+   4
+  ],
+  "zone_areas": 25,
+  "zone_access_weight": 6.0,
+  "survey_teams": 4,
+  "clearance_teams": 4,
+  "ts_teams": 0,
+  "zone_survey_weeks": 2,
+  "visit_weeks": 1,
+  "clearance_weeks": 8,
+  "ts_weeks": 2,
+  "flag_mined": 0.85,
+  "flag_clean": 0.05,
+  "rainy_months": [
+   3,
+   4,
+   10,
+   11
+  ],
+  "rainy_day_loss": 0.5,
+  "other_day_loss": 0.1,
+  "closure_chance": 0.02,
+  "closure_months": [
+   1,
+   3
+  ],
+  "duration_spread": 0.3,
+  "consultation_share": 0.1,
+  "consultation_weeks": 4,
+  "stale_after_weeks": 1,
+  "zone_free_value": 0.01
+ },
+ "assumptions": {
+  "mined": [
+   0.5,
+   0.35,
+   0.15
+  ],
+  "clean": [
+   0.6,
+   0.15,
+   0.25
+  ],
+  "land_use_effect": 0.5,
+  "ts_detection": 0.95,
+  "nothing_looks_clean": true
+ },
+ "sha256": {
+  "prompts/system_prompt.md": "1579829a91f9fb3c273557bff0efe9e5309d4e29cd5089069faff1795170f103",
+  "prompts/sitrep_prompt.md": "c707b7261bf0744a272c4eeb04983ab719836b5a95f9fd864558f6245ea29854",
+  "rules/land_release_rules.md": "d7d5a870ee05782c7b637d75b57a9f6127ca35b3d1d271daaf5834256768dfeb"
+ }
+}

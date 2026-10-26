@@ -1,0 +1,118 @@
+{
+ "area": "ECV-0243",
+ "week": 22,
+ "visit": 2,
+ "label": "main season",
+ "model": "gpt-6-luna",
+ "reasoning_effort": "medium",
+ "inputs_sha": "0f8b51c08a7097306930c2977f3f3183b3071338004cb8d5373b6c6cb9e8b721",
+ "dossier_sha": "1020b55e388c4b166d1d974b07ede354a14de473e7eb020ffe9427f215e3faf2",
+ "method_sha": "92bad3dce663112a2160b3f6d199f134514bad4eff5cf17ce7475be96823240d",
+ "outcome": "CANCEL",
+ "fallback": false,
+ "confidence": "medium",
+ "summary": "Recommend cancellation by non-technical survey for sign-off. Three distinct reliable first-hand sources report safe use over at least five years (E2, E3 and E4); no direct or class 1–4 indirect evidence is recorded, and all evidence-log items have been registered. The national criteria check passes, including that no past accident is recorded inside this area.",
+ "flags": [
+  "The desk study notes the nearest database accident is within 1 km, not inside the area; it does not trigger the inside-area clearance rule.",
+  "The community-meeting zone flag and survey-priority rank indicate where to visit, not evidence about EO presence.",
+  "E2 reports weekly family use but does not state how long that use has continued; E3 and E4 independently meet the five-year safe-use duration."
+ ],
+ "rule_check": {
+  "result": "pass",
+  "outcome": "CANCEL",
+  "checks": [
+   {
+    "rule": "R5",
+    "passed": true,
+    "detail": "Every item of the evidence log is in the register."
+   },
+   {
+    "rule": "R1",
+    "passed": true,
+    "detail": "There is no direct evidence and no indirect evidence of class 1 to 4, and every item of weaker indirect evidence is explained by evidence of absence of class 1 to 4."
+   },
+   {
+    "rule": "R2",
+    "passed": true,
+    "detail": "3 different reliable source(s) report at least 5 years of safe use (E2; E3; E4); the criteria need 2."
+   },
+   {
+    "rule": "R6",
+    "passed": true,
+    "detail": "No past landmine accident is recorded inside the area."
+   }
+  ]
+ },
+ "register": {
+  "E1": {
+   "item_id": "E1",
+   "quote": "does not know the land inside it.",
+   "evidence_class": "not_evidence",
+   "reliability_class": 7,
+   "explains": [],
+   "note": "The informant explicitly lacks knowledge of the land, so this says nothing about EO presence or absence in the area.",
+   "step": 3
+  },
+  "E2": {
+   "item_id": "E2",
+   "quote": "families use land in the area every week.",
+   "evidence_class": "absence",
+   "reliability_class": 4,
+   "explains": [],
+   "note": "A local first-hand source reports regular land use and no recorded find or accident during her 14 years in office, supporting absence; the duration of the families’ use itself is not stated.",
+   "step": 4
+  },
+  "E3": {
+   "item_id": "E3",
+   "quote": "has cut firewood and timber in the area every year for the past 5 years",
+   "evidence_class": "absence",
+   "reliability_class": 4,
+   "explains": [],
+   "note": "The woodcutter is a first-hand user and reports five years of recurring activity without finding anything or hearing of an accident, supporting safe use over the required period.",
+   "step": 5
+  },
+  "E4": {
+   "item_id": "E4",
+   "quote": "We have walked the trail across this land to the school for 21 years.",
+   "evidence_class": "absence",
+   "reliability_class": 4,
+   "explains": [],
+   "note": "The teacher is a first-hand user and reports 21 years of traversing the area without any find or injury, supporting safe use over time.",
+   "step": 6
+  }
+ },
+ "vetoes": [],
+ "quote_failures": [],
+ "tool_errors": [],
+ "handling_blocked": [],
+ "instruction_lines_found": [],
+ "sections_read": [
+  "area_record",
+  "desk_study",
+  "evidence_log",
+  "national_criteria"
+ ],
+ "rules_read": [
+  "evidence",
+  "reliability",
+  "cancellation",
+  "outcomes",
+  "dossier_text",
+  "safety",
+  "desk_study"
+ ],
+ "usage": {
+  "input_tokens": 31810,
+  "cached_tokens": 26426,
+  "output_tokens": 1581,
+  "reasoning_tokens": 803
+ },
+ "cost_usd": 0.0039715,
+ "stats": {
+  "model_calls": 8,
+  "tool_calls": 17,
+  "error": "",
+  "error_scope": "",
+  "seconds": 29.3
+ }
+}

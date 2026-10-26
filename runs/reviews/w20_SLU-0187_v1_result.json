@@ -1,0 +1,89 @@
+{
+ "area": "SLU-0187",
+ "week": 20,
+ "visit": 1,
+ "label": "main season",
+ "model": "gpt-6-luna",
+ "reasoning_effort": "medium",
+ "inputs_sha": "21648b6b7015b2a0303815977956cf20674b5d4761939aea94cc3287f8fc801b",
+ "dossier_sha": "a0ece32b199a60d615b744caba9fde1b9269914e18a79a576c018cdbf4821bad",
+ "method_sha": "92bad3dce663112a2160b3f6d199f134514bad4eff5cf17ce7475be96823240d",
+ "outcome": "CLEARANCE",
+ "fallback": false,
+ "confidence": "medium",
+ "summary": "Recommend clearance for sign-off. E1 is indirect, class 6 evidence: the database records a past accident inside the area, but its location and reliability are unverified. Under the national criteria, an area with such a record is a clearance target after the first visit and cannot be released by non-technical survey alone; technical survey is unavailable. E2 is weaker indirect evidence and does not alter that route.",
+ "flags": [
+  "The database accident record has not been checked on the ground; retain that uncertainty in the sign-off record.",
+  "The recommendation is not a final decision; submit for authorized review and sign-off."
+ ],
+ "rule_check": {
+  "result": "pass",
+  "outcome": "CLEARANCE",
+  "checks": [
+   {
+    "rule": "R5",
+    "passed": true,
+    "detail": "Every item of the evidence log is in the register."
+   },
+   {
+    "rule": "R3",
+    "passed": true,
+    "detail": "The national criteria provide no technical survey, so clearance takes its place; evidence to target: E1."
+   }
+  ]
+ },
+ "register": {
+  "E1": {
+   "item_id": "E1",
+   "quote": "The national mine action database records one or more past landmine accidents inside this area.",
+   "evidence_class": "indirect",
+   "reliability_class": 6,
+   "explains": [],
+   "note": "The accident record is indirect because its location has not been checked on the ground and its reliability is unassessed.",
+   "step": 3
+  },
+  "E2": {
+   "item_id": "E2",
+   "quote": "A trader passing through the vereda said people should keep away from the area because of mines, but could not say who had seen anything, or where.",
+   "evidence_class": "indirect",
+   "reliability_class": 7,
+   "explains": [],
+   "note": "This is a second-hand warning with no identifiable first-hand source or specific location, so it suggests possible EO but does not confirm it.",
+   "step": 3
+  }
+ },
+ "vetoes": [],
+ "quote_failures": [],
+ "tool_errors": [],
+ "handling_blocked": [],
+ "instruction_lines_found": [],
+ "sections_read": [
+  "area_record",
+  "desk_study",
+  "evidence_log",
+  "national_criteria"
+ ],
+ "rules_read": [
+  "evidence",
+  "reliability",
+  "desk_study",
+  "outcomes",
+  "further_survey",
+  "clearance",
+  "cancellation"
+ ],
+ "usage": {
+  "input_tokens": 16149,
+  "cached_tokens": 11523,
+  "output_tokens": 848,
+  "reasoning_tokens": 258
+ },
+ "cost_usd": 0.0020389,
+ "stats": {
+  "model_calls": 5,
+  "tool_calls": 15,
+  "error": "",
+  "error_scope": "",
+  "seconds": 14.1
+ }
+}

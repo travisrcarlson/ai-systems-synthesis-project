@@ -1,0 +1,90 @@
+{
+ "area": "ECV-0118",
+ "week": 19,
+ "visit": 1,
+ "label": "main season",
+ "model": "gpt-6-luna",
+ "reasoning_effort": "medium",
+ "inputs_sha": "fc7de12f90eea9ecc93c1f34f932ecf337eb17482b5dff691f216b2bd5948019",
+ "dossier_sha": "105801fde5f9748a6977d4ba8835b9dc3bbbd2f391a6c33a4baa02f630229fbf",
+ "method_sha": "92bad3dce663112a2160b3f6d199f134514bad4eff5cf17ce7475be96823240d",
+ "outcome": "CLEARANCE",
+ "fallback": false,
+ "confidence": "medium",
+ "summary": "E1 is indirect evidence from a local source and is a clearance target under the programme criteria; technical survey is not available. E2 supports only four years of trouble-free fishing along one stream and neither meets cancellation criteria nor explains E1. Recommend clearance for sign-off.",
+ "flags": [
+  "The area remains recorded as suspected; this is a recommendation for a person to review and sign off, not a final decision.",
+  "The zone survey flag and priority rank are visit-planning information, not evidence."
+ ],
+ "rule_check": {
+  "result": "pass",
+  "outcome": "CLEARANCE",
+  "checks": [
+   {
+    "rule": "R5",
+    "passed": true,
+    "detail": "Every item of the evidence log is in the register."
+   },
+   {
+    "rule": "R3",
+    "passed": true,
+    "detail": "The national criteria provide no technical survey, so clearance takes its place; evidence to target: E1."
+   }
+  ]
+ },
+ "register": {
+  "E1": {
+   "item_id": "E1",
+   "quote": "A woodcutter said people stopped using the land on the ridge after an armed group camped there around 2002, and nobody has used it since.",
+   "evidence_class": "indirect",
+   "reliability_class": 4,
+   "explains": [],
+   "note": "A local woodcutter's report of armed-group presence followed by abandonment suggests possible contamination, but does not confirm EO.",
+   "step": 3
+  },
+  "E2": {
+   "item_id": "E2",
+   "quote": "A man who hunts and fishes said he started to fish along one of the streams in the area 4 years ago and has had no trouble there.",
+   "evidence_class": "absence",
+   "reliability_class": 4,
+   "explains": [],
+   "note": "The informant reports his own four years of trouble-free fishing, which supports limited safe use but does not account for E1.",
+   "step": 3
+  }
+ },
+ "vetoes": [],
+ "quote_failures": [],
+ "tool_errors": [],
+ "handling_blocked": [],
+ "instruction_lines_found": [],
+ "sections_read": [
+  "area_record",
+  "desk_study",
+  "evidence_log",
+  "national_criteria"
+ ],
+ "rules_read": [
+  "evidence",
+  "reliability",
+  "desk_study",
+  "cancellation",
+  "technical_survey",
+  "further_survey",
+  "outcomes",
+  "dossier_text"
+ ],
+ "usage": {
+  "input_tokens": 18460,
+  "cached_tokens": 12519,
+  "output_tokens": 1870,
+  "reasoning_tokens": 1273
+ },
+ "cost_usd": 0.002781,
+ "stats": {
+  "model_calls": 5,
+  "tool_calls": 16,
+  "error": "",
+  "error_scope": "",
+  "seconds": 20.3
+ }
+}

@@ -1,0 +1,89 @@
+{
+ "area": "ECV-0102",
+ "week": 10,
+ "visit": 1,
+ "label": "main season",
+ "model": "gpt-6-luna",
+ "reasoning_effort": "medium",
+ "inputs_sha": "2c54a65beb783bd24669276e79bb085947eea2ee02234ccb9efdd0564f36c291",
+ "dossier_sha": "00046e3404f49fed13d357f4673b1948c6969f786bdc6fc3e86331cd91ad0f03",
+ "method_sha": "92bad3dce663112a2160b3f6d199f134514bad4eff5cf17ce7475be96823240d",
+ "outcome": "CLEARANCE",
+ "fallback": false,
+ "confidence": "medium",
+ "summary": "Recommend clearance for sign-off: the survey team recorded an object that looked like explosive ordnance (E2), which is direct evidence and a target. The programme provides no technical survey, so its criteria direct a target to clearance. E1 reports only four years of trouble-free fishing by one land user and does not meet cancellation criteria or explain E2.",
+ "flags": [],
+ "rule_check": {
+  "result": "pass",
+  "outcome": "CLEARANCE",
+  "checks": [
+   {
+    "rule": "R5",
+    "passed": true,
+    "detail": "Every item of the evidence log is in the register."
+   },
+   {
+    "rule": "R3",
+    "passed": true,
+    "detail": "The national criteria provide no technical survey, so clearance takes its place; evidence to target: E2."
+   }
+  ]
+ },
+ "register": {
+  "E1": {
+   "item_id": "E1",
+   "quote": "A man who hunts and fishes said he started to fish along one of the streams in the area 4 years ago and has had no trouble there.",
+   "evidence_class": "absence",
+   "reliability_class": 4,
+   "explains": [],
+   "note": "A land user reports four years of trouble-free fishing, supporting absence over that period; one source and less than five years do not meet cancellation criteria.",
+   "step": 2
+  },
+  "E2": {
+   "item_id": "E2",
+   "quote": "The survey team saw an object that looked like explosive ordnance on the ground near the old path to the school.",
+   "evidence_class": "direct",
+   "reliability_class": 1,
+   "explains": [],
+   "note": "The survey team's own recorded observation of an object that looked like EO is direct evidence and a target; absence evidence cannot explain it away.",
+   "step": 2
+  }
+ },
+ "vetoes": [],
+ "quote_failures": [],
+ "tool_errors": [],
+ "handling_blocked": [],
+ "instruction_lines_found": [],
+ "sections_read": [
+  "area_record",
+  "desk_study",
+  "evidence_log",
+  "national_criteria"
+ ],
+ "rules_read": [
+  "evidence",
+  "reliability",
+  "desk_study",
+  "cancellation",
+  "technical_survey",
+  "clearance",
+  "further_survey",
+  "outcomes",
+  "dossier_text",
+  "safety"
+ ],
+ "usage": {
+  "input_tokens": 15854,
+  "cached_tokens": 10705,
+  "output_tokens": 761,
+  "reasoning_tokens": 184
+ },
+ "cost_usd": 0.0019659,
+ "stats": {
+  "model_calls": 4,
+  "tool_calls": 18,
+  "error": "",
+  "error_scope": "",
+  "seconds": 12.9
+ }
+}

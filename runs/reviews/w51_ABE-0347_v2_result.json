@@ -1,0 +1,132 @@
+{
+ "area": "ABE-0347",
+ "week": 51,
+ "visit": 2,
+ "label": "main season",
+ "model": "gpt-6-luna",
+ "reasoning_effort": "medium",
+ "inputs_sha": "030d0e7894ad096ec6426e37b30a8814de48cfae1e14ecb8defe879aaba85d7d",
+ "dossier_sha": "adc208f4e285bf3aa20173e462b03275b3df741010552548600632186c5dda6a",
+ "method_sha": "92bad3dce663112a2160b3f6d199f134514bad4eff5cf17ce7475be96823240d",
+ "outcome": "CANCEL",
+ "fallback": false,
+ "confidence": "medium",
+ "summary": "Recommend cancellation by non-technical survey for sign-off. Three distinct first-hand land users report 6–10 years of safe use, exceeding the two-source/5-year criterion. No direct or class 1–4 indirect evidence was found; the vague, unlocated warning (E1, class 7) is explained by the absence evidence. The nearest recorded accident is within 1 km, not recorded inside the area, so the inside-area restriction does not apply. The coded rule check passed.",
+ "flags": [
+  "The survey team's own observations covered paths and field edges; cancellation also relies on the first-hand reports of people using the area. The area is forested.",
+  "The zone survey flag and priority are routing information, not evidence about the area."
+ ],
+ "rule_check": {
+  "result": "pass",
+  "outcome": "CANCEL",
+  "checks": [
+   {
+    "rule": "R5",
+    "passed": true,
+    "detail": "Every item of the evidence log is in the register."
+   },
+   {
+    "rule": "R1",
+    "passed": true,
+    "detail": "There is no direct evidence and no indirect evidence of class 1 to 4, and every item of weaker indirect evidence is explained by evidence of absence of class 1 to 4."
+   },
+   {
+    "rule": "R2",
+    "passed": true,
+    "detail": "3 different reliable source(s) report at least 5 years of safe use (E3; E4; E5); the criteria need 2."
+   },
+   {
+    "rule": "R6",
+    "passed": true,
+    "detail": "No past landmine accident is recorded inside the area."
+   }
+  ]
+ },
+ "register": {
+  "E1": {
+   "item_id": "E1",
+   "quote": "A trader passing through the vereda said people should keep away from the area because of mines, but could not say who had seen anything, or where.",
+   "evidence_class": "indirect",
+   "reliability_class": 7,
+   "explains": [],
+   "note": "A vague second-hand warning whose source and location cannot be identified suggests possible contamination but does not confirm it.",
+   "step": 3
+  },
+  "E2": {
+   "item_id": "E2",
+   "quote": "The survey team walked the paths and field edges of the area and saw no items, signs, fencing or other marks of contamination.",
+   "evidence_class": "absence",
+   "reliability_class": 2,
+   "explains": [
+    "E1"
+   ],
+   "note": "This is the team's own observation of no visible indications on the surveyed paths and edges, providing absence evidence that bears on the vague warning.",
+   "step": 3
+  },
+  "E3": {
+   "item_id": "E3",
+   "quote": "A teacher said she has walked the trail across the area to the school every year for the past 10 years, and has never found anything or heard of an accident there.",
+   "evidence_class": "absence",
+   "reliability_class": 4,
+   "explains": [
+    "E1"
+   ],
+   "note": "A first-hand user reports ten years of repeated safe passage through the area, which supports absence and explains the unspecified warning.",
+   "step": 3
+  },
+  "E4": {
+   "item_id": "E4",
+   "quote": "A woodcutter said he has cut firewood and timber in the area every year for the past 7 years, and has never found anything or heard of an accident there.",
+   "evidence_class": "absence",
+   "reliability_class": 4,
+   "explains": [
+    "E1"
+   ],
+   "note": "A first-hand user reports seven years of repeated safe work in the area, supporting absence and explaining the unspecified warning.",
+   "step": 3
+  },
+  "E5": {
+   "item_id": "E5",
+   "quote": "We have hunted and fished along these streams for 6 years. Nobody has found anything, and nobody has been hurt.",
+   "evidence_class": "absence",
+   "reliability_class": 4,
+   "explains": [
+    "E1"
+   ],
+   "note": "A first-hand user reports six years of repeated safe activity in the area, supporting absence and explaining the unspecified warning.",
+   "step": 3
+  }
+ },
+ "vetoes": [],
+ "quote_failures": [],
+ "tool_errors": [],
+ "handling_blocked": [],
+ "instruction_lines_found": [],
+ "sections_read": [
+  "area_record",
+  "desk_study",
+  "evidence_log",
+  "national_criteria"
+ ],
+ "rules_read": [
+  "evidence",
+  "reliability",
+  "cancellation",
+  "outcomes",
+  "desk_study"
+ ],
+ "usage": {
+  "input_tokens": 17173,
+  "cached_tokens": 11967,
+  "output_tokens": 1399,
+  "reasoning_tokens": 510
+ },
+ "cost_usd": 0.0024168,
+ "stats": {
+  "model_calls": 5,
+  "tool_calls": 16,
+  "error": "",
+  "error_scope": "",
+  "seconds": 14.3
+ }
+}

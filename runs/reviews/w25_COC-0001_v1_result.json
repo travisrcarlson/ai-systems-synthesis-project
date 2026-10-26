@@ -1,0 +1,78 @@
+{
+ "area": "COC-0001",
+ "week": 25,
+ "visit": 1,
+ "label": "main season",
+ "model": "gpt-6-luna",
+ "reasoning_effort": "medium",
+ "inputs_sha": "f0ebf5e68f4415ae2706fd743271cd70fb27619bc5d7f6f333ea52d4cbd5e743",
+ "dossier_sha": "658fe0cf0de81127f678748b47ae1078fa32541bb9b9b4e188f1ae0d493de9b5",
+ "method_sha": "92bad3dce663112a2160b3f6d199f134514bad4eff5cf17ce7475be96823240d",
+ "outcome": "CLEARANCE",
+ "fallback": false,
+ "confidence": "medium",
+ "summary": "E1 is indirect, class 4 evidence: an informant who works in the area reports an armed-group camp and that land beside the stream has not been used since. This is a target under the national criteria; technical survey is unavailable, so clearance is the permitted next step. This is a recommendation for sign-off, not a final decision.",
+ "flags": [],
+ "rule_check": {
+  "result": "pass",
+  "outcome": "CLEARANCE",
+  "checks": [
+   {
+    "rule": "R5",
+    "passed": true,
+    "detail": "Every item of the evidence log is in the register."
+   },
+   {
+    "rule": "R3",
+    "passed": true,
+    "detail": "The national criteria provide no technical survey, so clearance takes its place; evidence to target: E1."
+   }
+  ]
+ },
+ "register": {
+  "E1": {
+   "item_id": "E1",
+   "quote": "A woodcutter said people stopped using the land beside the stream after an armed group camped there around 1997, and nobody has used it since.",
+   "evidence_class": "indirect",
+   "reliability_class": 4,
+   "explains": [],
+   "note": "The report of an armed-group camp and subsequent non-use suggests possible contamination but does not confirm EO; the informant works in the area and reports land-use history firsthand.",
+   "step": 6
+  }
+ },
+ "vetoes": [],
+ "quote_failures": [],
+ "tool_errors": [],
+ "handling_blocked": [],
+ "instruction_lines_found": [],
+ "sections_read": [
+  "area_record",
+  "desk_study",
+  "evidence_log",
+  "national_criteria"
+ ],
+ "rules_read": [
+  "evidence",
+  "reliability",
+  "desk_study",
+  "cancellation",
+  "further_survey",
+  "clearance",
+  "outcomes",
+  "technical_survey"
+ ],
+ "usage": {
+  "input_tokens": 26933,
+  "cached_tokens": 21223,
+  "output_tokens": 1483,
+  "reasoning_tokens": 1014
+ },
+ "cost_usd": 0.0034348,
+ "stats": {
+  "model_calls": 9,
+  "tool_calls": 15,
+  "error": "",
+  "error_scope": "",
+  "seconds": 44.5
+ }
+}

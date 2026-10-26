@@ -1,0 +1,91 @@
+{
+ "area": "COC-0137",
+ "week": 47,
+ "visit": 1,
+ "label": "main season",
+ "model": "gpt-6-luna",
+ "reasoning_effort": "medium",
+ "inputs_sha": "01b4112a0cc0144a92e43d029b5f34c35b3000634bffff7a39a4b9f3a045d95f",
+ "dossier_sha": "5f499886345506ed337f8d9d6bb54af699c2efca8d7069543c319c7b3a2e34c1",
+ "method_sha": "92bad3dce663112a2160b3f6d199f134514bad4eff5cf17ce7475be96823240d",
+ "outcome": "CLEARANCE",
+ "fallback": false,
+ "confidence": "medium",
+ "summary": "The unverified national database record of a past accident inside the area is indirect evidence (E1, reliability class 6), but the national criteria make it a clearance target after the first visit. Technical survey is not available in this programme. E2 is also indirect and weak, and does not independently reach the follow-up threshold after only one visit. The clearance recommendation passes the rule check.",
+ "flags": [
+  "The database entry has no date or other detail, and its location has not been checked on the ground; the national criteria nevertheless require an intrusive check before release.",
+  "E2 is a second-hand, unlocated report; it has not yet had two visits for follow-up under the criteria.",
+  "The zone survey flag and rank are for visit prioritisation, not evidence."
+ ],
+ "rule_check": {
+  "result": "pass",
+  "outcome": "CLEARANCE",
+  "checks": [
+   {
+    "rule": "R5",
+    "passed": true,
+    "detail": "Every item of the evidence log is in the register."
+   },
+   {
+    "rule": "R3",
+    "passed": true,
+    "detail": "The national criteria provide no technical survey, so clearance takes its place; evidence to target: E1."
+   }
+  ]
+ },
+ "register": {
+  "E1": {
+   "item_id": "E1",
+   "quote": "The national mine action database records one or more past landmine accidents inside this area.",
+   "evidence_class": "indirect",
+   "reliability_class": 6,
+   "explains": [],
+   "note": "Unchecked database record with no date or ground-checked location is indirect evidence; its reliability is unassessed.",
+   "step": 4
+  },
+  "E2": {
+   "item_id": "E2",
+   "quote": "A newcomer to the vereda said neighbours told them that an animal was killed by a mine somewhere in the area some years ago.",
+   "evidence_class": "indirect",
+   "reliability_class": 7,
+   "explains": [],
+   "note": "This is an unlocated, second-hand report from a source who cannot establish that the neighbours were first-hand witnesses, so it suggests possible EO but does not confirm it.",
+   "step": 4
+  }
+ },
+ "vetoes": [],
+ "quote_failures": [],
+ "tool_errors": [],
+ "handling_blocked": [],
+ "instruction_lines_found": [],
+ "sections_read": [
+  "area_record",
+  "desk_study",
+  "evidence_log",
+  "national_criteria"
+ ],
+ "rules_read": [
+  "evidence",
+  "reliability",
+  "clearance",
+  "further_survey",
+  "outcomes",
+  "cancellation",
+  "technical_survey",
+  "desk_study"
+ ],
+ "usage": {
+  "input_tokens": 21405,
+  "cached_tokens": 16144,
+  "output_tokens": 1095,
+  "reasoning_tokens": 434
+ },
+ "cost_usd": 0.002688,
+ "stats": {
+  "model_calls": 6,
+  "tool_calls": 16,
+  "error": "",
+  "error_scope": "",
+  "seconds": 18.0
+ }
+}

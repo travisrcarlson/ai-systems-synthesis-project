@@ -1,0 +1,89 @@
+{
+ "area": "SLU-0347",
+ "week": 38,
+ "visit": 1,
+ "label": "main season",
+ "model": "gpt-6-luna",
+ "reasoning_effort": "medium",
+ "inputs_sha": "e140e763cc0df072f8518c98d349c72cef8d69909ef9ccb32465f8169a17dbec",
+ "dossier_sha": "5b29c272269ba711ae80190685b88478ddcaf5e9c33329648b01ca4eb993d521",
+ "method_sha": "92bad3dce663112a2160b3f6d199f134514bad4eff5cf17ce7475be96823240d",
+ "outcome": "CLEARANCE",
+ "fallback": false,
+ "confidence": "medium",
+ "summary": "Recommend clearance for sign-off because E1 is a national database record of a past accident inside the area. Although it is unchecked indirect evidence (reliability class 6), the national criteria designate such a record as a clearance target after the first visit, and this programme provides no technical survey. E2 does not establish safe use or evidence of EO.",
+ "flags": [
+  "E1's date, accuracy and location have not been verified on the ground; this recommendation follows the national criterion for the recorded accident, not confirmation of contamination.",
+  "E2 reports that meeting attendees were recent arrivals and could not describe prior land use; it provides no history of safe use."
+ ],
+ "rule_check": {
+  "result": "pass",
+  "outcome": "CLEARANCE",
+  "checks": [
+   {
+    "rule": "R5",
+    "passed": true,
+    "detail": "Every item of the evidence log is in the register."
+   },
+   {
+    "rule": "R3",
+    "passed": true,
+    "detail": "The national criteria provide no technical survey, so clearance takes its place; evidence to target: E1."
+   }
+  ]
+ },
+ "register": {
+  "E1": {
+   "item_id": "E1",
+   "quote": "The national mine action database records one or more past landmine accidents inside this area.",
+   "evidence_class": "indirect",
+   "reliability_class": 6,
+   "explains": [],
+   "note": "Unchecked database accident record suggests possible EO but its location and reliability have not been verified on the ground; national criteria make it a clearance target after the first visit.",
+   "step": 3
+  },
+  "E2": {
+   "item_id": "E2",
+   "quote": "The people at the community meeting had moved to the vereda in the last 5 years and could not say how the area was used before.",
+   "evidence_class": "not_evidence",
+   "reliability_class": 4,
+   "explains": [],
+   "note": "The attendees are firsthand only about their recent move, and do not know the area's prior use; this says neither that EO is present nor that the area was safely used.",
+   "step": 4
+  }
+ },
+ "vetoes": [],
+ "quote_failures": [],
+ "tool_errors": [],
+ "handling_blocked": [],
+ "instruction_lines_found": [],
+ "sections_read": [
+  "area_record",
+  "desk_study",
+  "evidence_log",
+  "national_criteria"
+ ],
+ "rules_read": [
+  "evidence",
+  "reliability",
+  "desk_study",
+  "cancellation",
+  "further_survey",
+  "outcomes",
+  "dossier_text"
+ ],
+ "usage": {
+  "input_tokens": 20027,
+  "cached_tokens": 15459,
+  "output_tokens": 926,
+  "reasoning_tokens": 322
+ },
+ "cost_usd": 0.0024657,
+ "stats": {
+  "model_calls": 6,
+  "tool_calls": 15,
+  "error": "",
+  "error_scope": "",
+  "seconds": 16.0
+ }
+}

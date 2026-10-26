@@ -1,0 +1,99 @@
+{
+ "area": "SLU-0450",
+ "week": 40,
+ "visit": 1,
+ "label": "main season",
+ "model": "gpt-6-luna",
+ "reasoning_effort": "medium",
+ "inputs_sha": "d110133bb8ec2d75f61778216430585f6b1382c38659783a463e03a4822edadf",
+ "dossier_sha": "a91e8cd724a05633a3d0a20c0cb1d97a9a1a9bdd56e71a86fcfe6e2dc5511c8f",
+ "method_sha": "92bad3dce663112a2160b3f6d199f134514bad4eff5cf17ce7475be96823240d",
+ "outcome": "CLEARANCE",
+ "fallback": false,
+ "confidence": "medium",
+ "summary": "E1 is an unchecked database record of a past accident inside the area (indirect evidence, reliability class 6). Under the national criteria, this record is a clearance target after the first visit, and technical survey is unavailable. E2 provides no information about earlier land use; E3 confirms the team could not see the interior. Cancellation is therefore unsupported, and the rule check passes clearance.",
+ "flags": [
+  "The survey team reached only the edge because rain closed the trail; the interior was not observed.",
+  "E1's date and location have not been verified on the ground."
+ ],
+ "rule_check": {
+  "result": "pass",
+  "outcome": "CLEARANCE",
+  "checks": [
+   {
+    "rule": "R5",
+    "passed": true,
+    "detail": "Every item of the evidence log is in the register."
+   },
+   {
+    "rule": "R3",
+    "passed": true,
+    "detail": "The national criteria provide no technical survey, so clearance takes its place; evidence to target: E1."
+   }
+  ]
+ },
+ "register": {
+  "E1": {
+   "item_id": "E1",
+   "quote": "The national mine action database records one or more past landmine accidents inside this area.",
+   "evidence_class": "indirect",
+   "reliability_class": 6,
+   "explains": [],
+   "note": "The record's date, location accuracy and reliability are unverified, so it is weaker indirect evidence; national criteria nevertheless treat this inside-area accident record as a clearance target after the first visit.",
+   "step": 3
+  },
+  "E2": {
+   "item_id": "E2",
+   "quote": "The people at the community meeting had moved to the vereda in the last 4 years and could not say how the area was used before.",
+   "evidence_class": "not_evidence",
+   "reliability_class": 4,
+   "explains": [],
+   "note": "These participants report no knowledge of prior land use and provide neither evidence of contamination nor evidence of safe use over time.",
+   "step": 3
+  },
+  "E3": {
+   "item_id": "E3",
+   "quote": "The survey team could reach only the edge of the area, because rain had closed the trail into it, and could not see the land inside.",
+   "evidence_class": "not_evidence",
+   "reliability_class": 2,
+   "explains": [],
+   "note": "The team did not observe the land inside the area, so this documents a survey limitation rather than evidence for or against EO there.",
+   "step": 3
+  }
+ },
+ "vetoes": [],
+ "quote_failures": [],
+ "tool_errors": [],
+ "handling_blocked": [],
+ "instruction_lines_found": [],
+ "sections_read": [
+  "area_record",
+  "desk_study",
+  "evidence_log",
+  "national_criteria"
+ ],
+ "rules_read": [
+  "evidence",
+  "reliability",
+  "desk_study",
+  "cancellation",
+  "outcomes",
+  "further_survey",
+  "technical_survey",
+  "clearance"
+ ],
+ "usage": {
+  "input_tokens": 18015,
+  "cached_tokens": 12673,
+  "output_tokens": 1012,
+  "reasoning_tokens": 306
+ },
+ "cost_usd": 0.0023075,
+ "stats": {
+  "model_calls": 5,
+  "tool_calls": 17,
+  "error": "",
+  "error_scope": "",
+  "seconds": 28.3
+ }
+}

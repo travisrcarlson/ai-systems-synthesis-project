@@ -1,0 +1,77 @@
+{
+ "area": "ECV-0050",
+ "week": 4,
+ "visit": 1,
+ "label": "main season",
+ "model": "gpt-6-luna",
+ "reasoning_effort": "medium",
+ "inputs_sha": "8ac20bbea673805d70ac8d7d0449420dab85ebac0d293dfada68dea35892b657",
+ "dossier_sha": "5c78efd7c15d564c8cf2e1deb60e7ad7f868b401aef882d601cfe1db3fa6ff61",
+ "method_sha": "92bad3dce663112a2160b3f6d199f134514bad4eff5cf17ce7475be96823240d",
+ "outcome": "FURTHER_NTS",
+ "fallback": false,
+ "confidence": "medium",
+ "summary": "Recommend a second non-technical survey visit. The only logged EO-related evidence is E1, a weak, unlocated second-hand warning (reliability class 7). Under the national criteria, this type of evidence should be followed up through non-technical survey and becomes a clearance target only if it remains unexplained after two visits. There is not enough evidence of absence to cancel, and E1 is not yet a target for clearance. This recommendation does not determine whether EO is present.",
+ "flags": [
+  "The desk study places the nearest recorded past landmine accident within 1 km, not inside this area; the dossier's intrusive-check trigger is for an accident recorded inside the area."
+ ],
+ "rule_check": {
+  "result": "pass",
+  "outcome": "FURTHER_NTS",
+  "checks": [
+   {
+    "rule": "-",
+    "passed": true,
+    "detail": "Further non-technical survey is always open."
+   }
+  ]
+ },
+ "register": {
+  "E1": {
+   "item_id": "E1",
+   "quote": "A trader passing through the vereda said people should keep away from the area because of mines, but could not say who had seen anything, or where.",
+   "evidence_class": "indirect",
+   "reliability_class": 7,
+   "explains": [],
+   "note": "This is a second-hand warning with no identified first-hand source or specific location; it suggests possible EO but is weak indirect evidence, not direct confirmation.",
+   "step": 3
+  }
+ },
+ "vetoes": [],
+ "quote_failures": [],
+ "tool_errors": [],
+ "handling_blocked": [],
+ "instruction_lines_found": [],
+ "sections_read": [
+  "area_record",
+  "desk_study",
+  "evidence_log",
+  "national_criteria"
+ ],
+ "rules_read": [
+  "evidence",
+  "reliability",
+  "desk_study",
+  "cancellation",
+  "technical_survey",
+  "clearance",
+  "further_survey",
+  "outcomes",
+  "dossier_text",
+  "safety"
+ ],
+ "usage": {
+  "input_tokens": 17433,
+  "cached_tokens": 12403,
+  "output_tokens": 901,
+  "reasoning_tokens": 334
+ },
+ "cost_usd": 0.0021938,
+ "stats": {
+  "model_calls": 5,
+  "tool_calls": 17,
+  "error": "",
+  "error_scope": "",
+  "seconds": 14.9
+ }
+}

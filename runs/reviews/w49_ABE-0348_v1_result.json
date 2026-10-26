@@ -1,0 +1,90 @@
+{
+ "area": "ABE-0348",
+ "week": 49,
+ "visit": 1,
+ "label": "main season",
+ "model": "gpt-6-luna",
+ "reasoning_effort": "medium",
+ "inputs_sha": "9f2812fff5e52f0e31e53ba2be5a003fc4fca603d0ac86bbbb0c5ecc0645e35e",
+ "dossier_sha": "c6f39b4d6747b111d689bf3fd55a9d9f8765fbd11ce852d61a477edbb97b61ca",
+ "method_sha": "92bad3dce663112a2160b3f6d199f134514bad4eff5cf17ce7475be96823240d",
+ "outcome": "CLEARANCE",
+ "fallback": false,
+ "confidence": "medium",
+ "summary": "Recommend clearance for sign-off. The national database records a past accident inside the area, which the criteria make a clearance target after the first visit; the survey team also observed a field left unused for years, indirect evidence that is a target. Technical survey is unavailable under the programme. The zone flag and priority were not treated as evidence.",
+ "flags": [
+  "The accident record has no date or other detail, and its location has not been checked on the ground.",
+  "The observed unused field is in part of the area; the surrounding land is farmed."
+ ],
+ "rule_check": {
+  "result": "pass",
+  "outcome": "CLEARANCE",
+  "checks": [
+   {
+    "rule": "R5",
+    "passed": true,
+    "detail": "Every item of the evidence log is in the register."
+   },
+   {
+    "rule": "R3",
+    "passed": true,
+    "detail": "The national criteria provide no technical survey, so clearance takes its place; evidence to target: E1, E2."
+   }
+  ]
+ },
+ "register": {
+  "E1": {
+   "item_id": "E1",
+   "quote": "The national mine action database records one or more past landmine accidents inside this area.",
+   "evidence_class": "indirect",
+   "reliability_class": 6,
+   "explains": [],
+   "note": "Unchecked database record with no location verification on the ground is weaker indirect evidence under the desk-study rule.",
+   "step": 3
+  },
+  "E2": {
+   "item_id": "E2",
+   "quote": "a field in part of the area has been left unused for years, with collapsed fences and overgrown paths, although the land around it is farmed.",
+   "evidence_class": "indirect",
+   "reliability_class": 2,
+   "explains": [],
+   "note": "The survey team directly observed potentially productive land left unused; this suggests possible EO and is not evidence of safe use or absence.",
+   "step": 4
+  }
+ },
+ "vetoes": [],
+ "quote_failures": [],
+ "tool_errors": [],
+ "handling_blocked": [],
+ "instruction_lines_found": [],
+ "sections_read": [
+  "area_record",
+  "desk_study",
+  "evidence_log",
+  "national_criteria"
+ ],
+ "rules_read": [
+  "evidence",
+  "reliability",
+  "desk_study",
+  "cancellation",
+  "technical_survey",
+  "clearance",
+  "further_survey",
+  "outcomes"
+ ],
+ "usage": {
+  "input_tokens": 22561,
+  "cached_tokens": 17352,
+  "output_tokens": 1019,
+  "reasoning_tokens": 442
+ },
+ "cost_usd": 0.0027656,
+ "stats": {
+  "model_calls": 6,
+  "tool_calls": 16,
+  "error": "",
+  "error_scope": "",
+  "seconds": 13.7
+ }
+}

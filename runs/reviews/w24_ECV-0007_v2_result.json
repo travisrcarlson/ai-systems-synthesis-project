@@ -1,0 +1,97 @@
+{
+ "area": "ECV-0007",
+ "week": 24,
+ "visit": 2,
+ "label": "main season",
+ "model": "gpt-6-luna",
+ "reasoning_effort": "medium",
+ "inputs_sha": "487a6fd3a860eebefc87ba4a999f2a34c5eec9afb7d9faf627f9c496650513df",
+ "dossier_sha": "325a2d8b840861beae865a34990db3bb69c3f16e3e15a1f607b50fdcf4908975",
+ "method_sha": "92bad3dce663112a2160b3f6d199f134514bad4eff5cf17ce7475be96823240d",
+ "outcome": "CLEARANCE",
+ "fallback": false,
+ "confidence": "low",
+ "summary": "Recommend clearance for sign-off: E3 is weak indirect evidence—a second-hand, unlocated report—and remains unexplained after the area’s two non-technical survey visits. National criteria make such evidence a clearance target after two visits, and technical survey is unavailable. E1 and E2 do not establish safe use or absence of EO.",
+ "flags": [
+  "E3 is hearsay and does not locate the reported event within the area; the recommendation follows the national follow-up threshold rather than direct confirmation.",
+  "The survey team could reach only the edge and did not see the land inside. The zone visit flag and survey priority are not evidence."
+ ],
+ "rule_check": {
+  "result": "pass",
+  "outcome": "CLEARANCE",
+  "checks": [
+   {
+    "rule": "R5",
+    "passed": true,
+    "detail": "Every item of the evidence log is in the register."
+   },
+   {
+    "rule": "R3",
+    "passed": true,
+    "detail": "The national criteria provide no technical survey, so clearance takes its place; evidence to target: E3."
+   }
+  ]
+ },
+ "register": {
+  "E1": {
+   "item_id": "E1",
+   "quote": "The people at the community meeting had moved to the vereda in the last 2 years and could not say how the area was used before.",
+   "evidence_class": "not_evidence",
+   "reliability_class": 7,
+   "explains": [],
+   "note": "The meeting participants lack knowledge of the area's earlier use, so their statement neither supports EO presence nor its absence.",
+   "step": 3
+  },
+  "E2": {
+   "item_id": "E2",
+   "quote": "The survey team could reach only the edge of the area, because rain had closed the trail into it, and could not see the land inside.",
+   "evidence_class": "not_evidence",
+   "reliability_class": 2,
+   "explains": [],
+   "note": "This is a reliable account of limited access, but it reports no observation about EO presence or absence inside the area.",
+   "step": 3
+  },
+  "E3": {
+   "item_id": "E3",
+   "quote": "A shopkeeper in the village said neighbours told her that an animal was killed by a mine somewhere in the area some years ago.",
+   "evidence_class": "indirect",
+   "reliability_class": 7,
+   "explains": [],
+   "note": "This is an unlocated second-hand report relayed by an informant whose underlying witnesses cannot be identified as first-hand sources; it suggests possible EO but does not confirm it.",
+   "step": 3
+  }
+ },
+ "vetoes": [],
+ "quote_failures": [],
+ "tool_errors": [],
+ "handling_blocked": [],
+ "instruction_lines_found": [],
+ "sections_read": [
+  "area_record",
+  "desk_study",
+  "evidence_log",
+  "national_criteria"
+ ],
+ "rules_read": [
+  "evidence",
+  "reliability",
+  "further_survey",
+  "clearance",
+  "outcomes",
+  "safety"
+ ],
+ "usage": {
+  "input_tokens": 20237,
+  "cached_tokens": 15280,
+  "output_tokens": 1708,
+  "reasoning_tokens": 995
+ },
+ "cost_usd": 0.0028777,
+ "stats": {
+  "model_calls": 6,
+  "tool_calls": 16,
+  "error": "",
+  "error_scope": "",
+  "seconds": 21.6
+ }
+}

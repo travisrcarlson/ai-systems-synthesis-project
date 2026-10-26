@@ -1,0 +1,79 @@
+{
+ "area": "COC-0013",
+ "week": 26,
+ "visit": 1,
+ "label": "main season",
+ "model": "gpt-6-luna",
+ "reasoning_effort": "medium",
+ "inputs_sha": "bc7e99e386975bd5ce6a0073a9d3bdbc68309133f822b42ea9df0d50a58be6ce",
+ "dossier_sha": "35e16975fa745a18a7063ca662f405f7a3a10ca9674664a74f3994021514e042",
+ "method_sha": "92bad3dce663112a2160b3f6d199f134514bad4eff5cf17ce7475be96823240d",
+ "outcome": "CLEARANCE",
+ "fallback": false,
+ "confidence": "medium",
+ "summary": "E1 reports an explosion-related mule death at a location the informant can identify. I recorded it as direct evidence under the area criteria; technical survey is unavailable, so the rule check passes clearance. The nearby database accident is within 1 km, not recorded inside this area, and is not the basis for this recommendation.",
+ "flags": [
+  "The informant saw the location the day after the reported event, not the event itself; confirm the location falls within COC-0013 before sign-off. This remains a recommendation for human review."
+ ],
+ "rule_check": {
+  "result": "pass",
+  "outcome": "CLEARANCE",
+  "checks": [
+   {
+    "rule": "R5",
+    "passed": true,
+    "detail": "Every item of the evidence log is in the register."
+   },
+   {
+    "rule": "R3",
+    "passed": true,
+    "detail": "The national criteria provide no technical survey, so clearance takes its place; evidence to target: E1."
+   }
+  ]
+ },
+ "register": {
+  "E1": {
+   "item_id": "E1",
+   "quote": "A teacher said a mule was killed by an explosion at the edge of the pasture about 11 years ago; she saw the place the next day and can show it to the team.",
+   "evidence_class": "direct",
+   "reliability_class": 4,
+   "explains": [],
+   "note": "The reported explosion-related animal death is a located accident that the informant can identify for verification; the accurate location makes it direct evidence under the project criteria, although she saw the site the next day rather than witnessing the event itself.",
+   "step": 3
+  }
+ },
+ "vetoes": [],
+ "quote_failures": [],
+ "tool_errors": [],
+ "handling_blocked": [],
+ "instruction_lines_found": [],
+ "sections_read": [
+  "area_record",
+  "desk_study",
+  "evidence_log",
+  "national_criteria"
+ ],
+ "rules_read": [
+  "evidence",
+  "reliability",
+  "desk_study",
+  "cancellation",
+  "further_survey",
+  "outcomes",
+  "dossier_text"
+ ],
+ "usage": {
+  "input_tokens": 17592,
+  "cached_tokens": 12107,
+  "output_tokens": 1953,
+  "reasoning_tokens": 1447
+ },
+ "cost_usd": 0.0027356999999999998,
+ "stats": {
+  "model_calls": 5,
+  "tool_calls": 14,
+  "error": "",
+  "error_scope": "",
+  "seconds": 25.5
+ }
+}

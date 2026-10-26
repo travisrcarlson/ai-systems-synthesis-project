@@ -1,0 +1,88 @@
+{
+ "area": "COC-0090",
+ "week": 18,
+ "visit": 2,
+ "label": "main season",
+ "model": "gpt-6-luna",
+ "reasoning_effort": "medium",
+ "inputs_sha": "f5322adb13aef4ba2d73bbc97e7059fe840459997ddc5f37c8a1f865e3fc7934",
+ "dossier_sha": "719bf2b628d1b2af08148d1cdcf7f3ca3405e78ae5974b25d66fab2455c706ad",
+ "method_sha": "92bad3dce663112a2160b3f6d199f134514bad4eff5cf17ce7475be96823240d",
+ "outcome": "CLEARANCE",
+ "fallback": false,
+ "confidence": "medium",
+ "summary": "E1 and E2 are indirect, second-hand reports (reliability classes 7 and 5) and remain unexplained after two NTS visits. Under the national criteria, weaker indirect evidence still unexplained after two visits becomes a target; technical survey is unavailable, so recommend clearance for sign-off.",
+ "flags": [
+  "The reports are hearsay and do not establish an incident location within the area with certainty; this recommendation follows the national follow-up criteria, not a conclusion that EO presence is confirmed."
+ ],
+ "rule_check": {
+  "result": "pass",
+  "outcome": "CLEARANCE",
+  "checks": [
+   {
+    "rule": "R5",
+    "passed": true,
+    "detail": "Every item of the evidence log is in the register."
+   },
+   {
+    "rule": "R3",
+    "passed": true,
+    "detail": "The national criteria provide no technical survey, so clearance takes its place; evidence to target: E1, E2."
+   }
+  ]
+ },
+ "register": {
+  "E1": {
+   "item_id": "E1",
+   "quote": "people should keep away from the area because of mines, but could not say who had seen anything, or where.",
+   "evidence_class": "indirect",
+   "reliability_class": 7,
+   "explains": [],
+   "note": "A hearsay warning suggests possible EO but identifies no firsthand source or location; as an outside trader repeating unverified talk, it is class 7.",
+   "step": 3
+  },
+  "E2": {
+   "item_id": "E2",
+   "quote": "neighbours told her that an animal was killed by a mine somewhere in the area some years ago.",
+   "evidence_class": "indirect",
+   "reliability_class": 5,
+   "explains": [],
+   "note": "This is a second-hand report of an incident with an imprecise location, suggesting possible EO but not confirming it; the shopkeeper repeats what neighbours told her.",
+   "step": 3
+  }
+ },
+ "vetoes": [],
+ "quote_failures": [],
+ "tool_errors": [],
+ "handling_blocked": [],
+ "instruction_lines_found": [],
+ "sections_read": [
+  "area_record",
+  "desk_study",
+  "evidence_log",
+  "national_criteria"
+ ],
+ "rules_read": [
+  "evidence",
+  "reliability",
+  "cancellation",
+  "further_survey",
+  "outcomes",
+  "technical_survey",
+  "clearance"
+ ],
+ "usage": {
+  "input_tokens": 16498,
+  "cached_tokens": 11723,
+  "output_tokens": 866,
+  "reasoning_tokens": 288
+ },
+ "cost_usd": 0.0020828,
+ "stats": {
+  "model_calls": 5,
+  "tool_calls": 15,
+  "error": "",
+  "error_scope": "",
+  "seconds": 17.2
+ }
+}

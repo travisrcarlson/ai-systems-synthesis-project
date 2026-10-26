@@ -1,0 +1,84 @@
+{
+ "area": "ECV-0007",
+ "week": 19,
+ "visit": 1,
+ "label": "main season",
+ "model": "gpt-6-luna",
+ "reasoning_effort": "medium",
+ "inputs_sha": "c22e6d4c2f70544511520a82aee3e62aee6ae634bb81345961781f3d9842dd5b",
+ "dossier_sha": "f044b17942a31b23a059ff771152eecd77454b5243016cf92480b67719dfc4ff",
+ "method_sha": "92bad3dce663112a2160b3f6d199f134514bad4eff5cf17ce7475be96823240d",
+ "outcome": "FURTHER_NTS",
+ "fallback": false,
+ "confidence": "low",
+ "summary": "The evidence log contains no direct or indirect evidence of EO and no adequate evidence of absence. The meeting participants had moved to the vereda recently and could not describe prior land use; the survey team could not observe the interior. The evidence is therefore too thin to support cancellation or an intrusive response, so further non-technical survey is recommended for sign-off.",
+ "flags": [
+  "The survey team could access only the edge because rain closed the trail; the interior remains unobserved.",
+  "Seek information from people with relevant knowledge of the area's land use; the community-meeting participants recorded in E1 could not provide it.",
+  "The zone flag and survey priority are not evidence and were not used to determine the outcome."
+ ],
+ "rule_check": {
+  "result": "pass",
+  "outcome": "FURTHER_NTS",
+  "checks": [
+   {
+    "rule": "-",
+    "passed": true,
+    "detail": "Further non-technical survey is always open."
+   }
+  ]
+ },
+ "register": {
+  "E1": {
+   "item_id": "E1",
+   "quote": "had moved to the vereda in the last 2 years and could not say how the area was used before.",
+   "evidence_class": "not_evidence",
+   "reliability_class": 7,
+   "explains": [],
+   "note": "These recent arrivals explicitly lack knowledge of the area's prior use, so their statement neither indicates EO nor supports safe use or absence.",
+   "step": 3
+  },
+  "E2": {
+   "item_id": "E2",
+   "quote": "could reach only the edge of the area, because rain had closed the trail into it, and could not see the land inside.",
+   "evidence_class": "not_evidence",
+   "reliability_class": 2,
+   "explains": [],
+   "note": "The team's own observation establishes that the interior was not observed; it provides no evidence about whether EO is present or absent inside.",
+   "step": 4
+  }
+ },
+ "vetoes": [],
+ "quote_failures": [],
+ "tool_errors": [],
+ "handling_blocked": [],
+ "instruction_lines_found": [],
+ "sections_read": [
+  "area_record",
+  "desk_study",
+  "evidence_log",
+  "national_criteria"
+ ],
+ "rules_read": [
+  "evidence",
+  "reliability",
+  "further_survey",
+  "outcomes",
+  "cancellation",
+  "dossier_text"
+ ],
+ "usage": {
+  "input_tokens": 18892,
+  "cached_tokens": 14606,
+  "output_tokens": 997,
+  "reasoning_tokens": 406
+ },
+ "cost_usd": 0.0023877,
+ "stats": {
+  "model_calls": 6,
+  "tool_calls": 14,
+  "error": "",
+  "error_scope": "",
+  "seconds": 15.4
+ }
+}

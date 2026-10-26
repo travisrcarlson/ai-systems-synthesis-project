@@ -1,0 +1,107 @@
+{
+ "area": "COC-0218",
+ "week": 29,
+ "visit": 1,
+ "label": "main season",
+ "model": "gpt-6-luna",
+ "reasoning_effort": "medium",
+ "inputs_sha": "2b2ae662f6837f92e80880b481a98990f3264c732d0db3d1d78635d11fc14709",
+ "dossier_sha": "7fab7fddaff019064c270d40f74522850b33d9339c72c79bc5ed2271e5867e2e",
+ "method_sha": "92bad3dce663112a2160b3f6d199f134514bad4eff5cf17ce7475be96823240d",
+ "outcome": "CLEARANCE",
+ "fallback": false,
+ "confidence": "medium",
+ "summary": "Recommend clearance for sign-off: the national database record of a past accident inside COC-0218 is an explicit target after the first NTS visit, and the programme provides no technical survey option. The three informants’ reports of safe use are relevant absence evidence but do not override the national criterion requiring intrusive follow-up of the recorded accident.",
+ "flags": [
+  "E1 has no date or other detail, and its location has not been checked on the ground; preserve this uncertainty for sign-off and follow-up planning.",
+  "E2–E4 report extended safe use, but the record does not establish whether that use post-dates the recorded accident.",
+  "This is a recommendation for a person to review and sign off, not a final decision."
+ ],
+ "rule_check": {
+  "result": "pass",
+  "outcome": "CLEARANCE",
+  "checks": [
+   {
+    "rule": "R5",
+    "passed": true,
+    "detail": "Every item of the evidence log is in the register."
+   },
+   {
+    "rule": "R3",
+    "passed": true,
+    "detail": "The national criteria provide no technical survey, so clearance takes its place; evidence to target: E1."
+   }
+  ]
+ },
+ "register": {
+  "E1": {
+   "item_id": "E1",
+   "quote": "The national mine action database records one or more past landmine accidents inside this area.",
+   "evidence_class": "indirect",
+   "reliability_class": 6,
+   "explains": [],
+   "note": "An unchecked historical database record suggests a past accident, but its date and ground location have not been verified.",
+   "step": 3
+  },
+  "E2": {
+   "item_id": "E2",
+   "quote": "the board has recorded no find or accident in the area in the 13 years she has held the post, and that families use land in the area every week.",
+   "evidence_class": "absence",
+   "reliability_class": 4,
+   "explains": [],
+   "note": "The board president reports prolonged, regular use and no reported finds or accidents from first-hand local knowledge.",
+   "step": 3
+  },
+  "E3": {
+   "item_id": "E3",
+   "quote": "We have grown coffee and plantain here for 24 years. Nobody has found anything, and nobody has been hurt.",
+   "evidence_class": "absence",
+   "reliability_class": 4,
+   "explains": [],
+   "note": "A farmer who uses a plot in the area reports 24 years of safe land use.",
+   "step": 3
+  },
+  "E4": {
+   "item_id": "E4",
+   "quote": "We have grown maize and beans on this land for 7 years. Nobody has found anything, and nobody has been hurt.",
+   "evidence_class": "absence",
+   "reliability_class": 4,
+   "explains": [],
+   "note": "A farmer who uses land in the area reports 7 years of safe land use.",
+   "step": 3
+  }
+ },
+ "vetoes": [],
+ "quote_failures": [],
+ "tool_errors": [],
+ "handling_blocked": [],
+ "instruction_lines_found": [],
+ "sections_read": [
+  "area_record",
+  "desk_study",
+  "evidence_log",
+  "national_criteria"
+ ],
+ "rules_read": [
+  "evidence",
+  "reliability",
+  "cancellation",
+  "clearance",
+  "outcomes",
+  "dossier_text"
+ ],
+ "usage": {
+  "input_tokens": 16798,
+  "cached_tokens": 11730,
+  "output_tokens": 1478,
+  "reasoning_tokens": 725
+ },
+ "cost_usd": 0.0024188,
+ "stats": {
+  "model_calls": 5,
+  "tool_calls": 16,
+  "error": "",
+  "error_scope": "",
+  "seconds": 18.2
+ }
+}

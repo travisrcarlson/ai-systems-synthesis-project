@@ -1,0 +1,98 @@
+{
+ "area": "COC-0036",
+ "week": 28,
+ "visit": 1,
+ "label": "main season",
+ "model": "gpt-6-luna",
+ "reasoning_effort": "medium",
+ "inputs_sha": "d281e6d83790c163c0b207ef8bbe85632ff917dc3f5f26ec4658abf406d54686",
+ "dossier_sha": "b2d2e47c461697cad5dfa97a87c2786b2a1f3e1eaec31554ddfd1519215136b9",
+ "method_sha": "92bad3dce663112a2160b3f6d199f134514bad4eff5cf17ce7475be96823240d",
+ "outcome": "CANCEL",
+ "fallback": false,
+ "confidence": "medium",
+ "summary": "Recommend cancellation by non-technical survey for sign-off. E1 and E2 are reports from two different first-hand sources, each supporting at least 5 years of safe use (13 years); the register contains no direct or target indirect evidence, and the decision check passes the national criteria. The nearest recorded accident is 1–3 km away, not inside this area.",
+ "flags": [
+  "The zone survey flag and survey-priority rank identify where to visit; they are not evidence about the area."
+ ],
+ "rule_check": {
+  "result": "pass",
+  "outcome": "CANCEL",
+  "checks": [
+   {
+    "rule": "R5",
+    "passed": true,
+    "detail": "Every item of the evidence log is in the register."
+   },
+   {
+    "rule": "R1",
+    "passed": true,
+    "detail": "There is no direct evidence and no indirect evidence of class 1 to 4, and every item of weaker indirect evidence is explained by evidence of absence of class 1 to 4."
+   },
+   {
+    "rule": "R2",
+    "passed": true,
+    "detail": "2 different reliable source(s) report at least 5 years of safe use (E1; E2); the criteria need 2."
+   },
+   {
+    "rule": "R6",
+    "passed": true,
+    "detail": "No past landmine accident is recorded inside the area."
+   }
+  ]
+ },
+ "register": {
+  "E1": {
+   "item_id": "E1",
+   "quote": "she has walked the trail across the area to the school every year for the past 13 years, and has never found anything or heard of an accident there.",
+   "evidence_class": "absence",
+   "reliability_class": 4,
+   "explains": [],
+   "note": "First-hand land user reports recurring safe passage through the area over 13 years; this supports absence.",
+   "step": 3
+  },
+  "E2": {
+   "item_id": "E2",
+   "quote": "the board has recorded no find or accident in the area in the 13 years she has held the post, and that families use land in the area every week.",
+   "evidence_class": "absence",
+   "reliability_class": 4,
+   "explains": [],
+   "note": "The board president reports weekly use of the area and no findings or accidents over 13 years; this supports absence.",
+   "step": 3
+  }
+ },
+ "vetoes": [],
+ "quote_failures": [],
+ "tool_errors": [],
+ "handling_blocked": [],
+ "instruction_lines_found": [],
+ "sections_read": [
+  "area_record",
+  "desk_study",
+  "evidence_log",
+  "national_criteria"
+ ],
+ "rules_read": [
+  "evidence",
+  "reliability",
+  "desk_study",
+  "cancellation",
+  "outcomes",
+  "dossier_text",
+  "safety"
+ ],
+ "usage": {
+  "input_tokens": 15571,
+  "cached_tokens": 11056,
+  "output_tokens": 919,
+  "reasoning_tokens": 343
+ },
+ "cost_usd": 0.0020166000000000003,
+ "stats": {
+  "model_calls": 5,
+  "tool_calls": 15,
+  "error": "",
+  "error_scope": "",
+  "seconds": 13.0
+ }
+}

@@ -1,0 +1,93 @@
+{
+ "area": "COC-0112",
+ "week": 28,
+ "visit": 1,
+ "label": "main season",
+ "model": "gpt-6-luna",
+ "reasoning_effort": "medium",
+ "inputs_sha": "e42ab4431edcc9fd860a2a3ac4a0cacb4fd61636a25d995ff38ab0a769a5d110",
+ "dossier_sha": "1545633824767b51321763a456940852bbcc022618758bc629f4847ac0e4a1c2",
+ "method_sha": "92bad3dce663112a2160b3f6d199f134514bad4eff5cf17ce7475be96823240d",
+ "outcome": "FURTHER_NTS",
+ "fallback": false,
+ "confidence": "medium",
+ "summary": "Recommend further non-technical survey. E1–E3 support absence and no direct or target indirect evidence is reported, but cancellation criteria are not met: only E2 reports at least five years of safe use; E1 reports four years. The team observed paths and field edges, not the full area. The coded rule check passes.",
+ "flags": [
+  "The nearest recorded past landmine accident is within 1 km, not stated to be inside this area; it does not trigger the dossier's inside-area clearance rule.",
+  "The zone-survey flag and zone priority are visit-planning information, not evidence about the area.",
+  "The team observation covered paths and field edges; further NTS should clarify safe-use coverage across the full forested area."
+ ],
+ "rule_check": {
+  "result": "pass",
+  "outcome": "FURTHER_NTS",
+  "checks": [
+   {
+    "rule": "-",
+    "passed": true,
+    "detail": "Further non-technical survey is always open."
+   }
+  ]
+ },
+ "register": {
+  "E1": {
+   "item_id": "E1",
+   "quote": "We have walked the trail across this land to the school for 4 years. Nobody has found anything, and nobody has been hurt.",
+   "evidence_class": "absence",
+   "reliability_class": 4,
+   "explains": [],
+   "note": "The teacher personally uses the trail and reports four years without finds or injuries, supporting absence; this is first-hand land-use information.",
+   "step": 3
+  },
+  "E2": {
+   "item_id": "E2",
+   "quote": "the board has recorded no find or accident in the area in the 24 years she has held the post, and that families use land in the area every week.",
+   "evidence_class": "absence",
+   "reliability_class": 4,
+   "explains": [],
+   "note": "The community board president reports long-term local use and no recorded finds or accidents, supporting absence as a first-hand source.",
+   "step": 3
+  },
+  "E3": {
+   "item_id": "E3",
+   "quote": "The survey team walked the paths and field edges of the area and saw no items, signs, fencing or other marks of contamination.",
+   "evidence_class": "absence",
+   "reliability_class": 2,
+   "explains": [],
+   "note": "The survey team's own observation found no signs of contamination in the areas it walked, supporting absence.",
+   "step": 3
+  }
+ },
+ "vetoes": [],
+ "quote_failures": [],
+ "tool_errors": [],
+ "handling_blocked": [],
+ "instruction_lines_found": [],
+ "sections_read": [
+  "area_record",
+  "desk_study",
+  "evidence_log",
+  "national_criteria"
+ ],
+ "rules_read": [
+  "evidence",
+  "reliability",
+  "cancellation",
+  "outcomes",
+  "further_survey",
+  "dossier_text"
+ ],
+ "usage": {
+  "input_tokens": 15669,
+  "cached_tokens": 11149,
+  "output_tokens": 1194,
+  "reasoning_tokens": 494
+ },
+ "cost_usd": 0.0021639000000000003,
+ "stats": {
+  "model_calls": 5,
+  "tool_calls": 15,
+  "error": "",
+  "error_scope": "",
+  "seconds": 17.8
+ }
+}

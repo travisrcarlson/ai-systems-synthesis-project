@@ -1,0 +1,97 @@
+{
+ "area": "SAB-0246",
+ "week": 30,
+ "visit": 1,
+ "label": "main season",
+ "model": "gpt-6-luna",
+ "reasoning_effort": "medium",
+ "inputs_sha": "a6054097aad41f2eef25a6f3af08c8dee523d3ee7a6e4e402c62a8243002b838",
+ "dossier_sha": "4ed24b15a670beb4857ac7c6aeb7e4ce5fec7db953e17f8c77879157b74a74a1",
+ "method_sha": "92bad3dce663112a2160b3f6d199f134514bad4eff5cf17ce7475be96823240d",
+ "outcome": "CANCEL",
+ "fallback": false,
+ "confidence": "medium",
+ "summary": "Recommend cancellation by non-technical survey: two different first-hand users report 12 and 24 years of safe use, meeting the national threshold. The evidence log contains no direct or target indirect evidence; the nearest recorded accident is within 1 km, not inside the area. The decision check passes.",
+ "flags": [
+  "For sign-off: confirm the desk-study distinction that the nearest past accident is within 1 km and is not recorded inside SAB-0246. The zone flag and survey priority indicate where to visit, not evidence about contamination."
+ ],
+ "rule_check": {
+  "result": "pass",
+  "outcome": "CANCEL",
+  "checks": [
+   {
+    "rule": "R5",
+    "passed": true,
+    "detail": "Every item of the evidence log is in the register."
+   },
+   {
+    "rule": "R1",
+    "passed": true,
+    "detail": "There is no direct evidence and no indirect evidence of class 1 to 4, and every item of weaker indirect evidence is explained by evidence of absence of class 1 to 4."
+   },
+   {
+    "rule": "R2",
+    "passed": true,
+    "detail": "2 different reliable source(s) report at least 5 years of safe use (E1; E2); the criteria need 2."
+   },
+   {
+    "rule": "R6",
+    "passed": true,
+    "detail": "No past landmine accident is recorded inside the area."
+   }
+  ]
+ },
+ "register": {
+  "E1": {
+   "item_id": "E1",
+   "quote": "We have hunted and fished along these streams for 12 years. Nobody has found anything, and nobody has been hurt.",
+   "evidence_class": "absence",
+   "reliability_class": 4,
+   "explains": [],
+   "note": "First-hand land user reports 12 years of safe hunting and fishing, meeting the five-year absence criterion; no weaker indirect item is identified for it to explain.",
+   "step": 3
+  },
+  "E2": {
+   "item_id": "E2",
+   "quote": "she has walked the trail across the area to the school every year for the past 24 years, and has never found anything or heard of an accident there.",
+   "evidence_class": "absence",
+   "reliability_class": 4,
+   "explains": [],
+   "note": "First-hand source regularly crosses the area and reports 24 years without finding anything or hearing of an accident, exceeding the five-year safe-use criterion; no weaker indirect item is identified for it to explain.",
+   "step": 4
+  }
+ },
+ "vetoes": [],
+ "quote_failures": [],
+ "tool_errors": [],
+ "handling_blocked": [],
+ "instruction_lines_found": [],
+ "sections_read": [
+  "area_record",
+  "desk_study",
+  "evidence_log",
+  "national_criteria"
+ ],
+ "rules_read": [
+  "evidence",
+  "reliability",
+  "cancellation",
+  "desk_study",
+  "outcomes",
+  "further_survey"
+ ],
+ "usage": {
+  "input_tokens": 20284,
+  "cached_tokens": 15386,
+  "output_tokens": 1210,
+  "reasoning_tokens": 631
+ },
+ "cost_usd": 0.0026334,
+ "stats": {
+  "model_calls": 6,
+  "tool_calls": 14,
+  "error": "",
+  "error_scope": "",
+  "seconds": 19.9
+ }
+}

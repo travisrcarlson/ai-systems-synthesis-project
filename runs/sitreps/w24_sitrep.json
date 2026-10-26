@@ -1,0 +1,75 @@
+{
+ "week": 24,
+ "model": "gpt-6-luna",
+ "inputs_sha": "d8eb415e1d53a88b547bf3a2e87c8f13d9fa2bbff4a58fc77ae8983aa930c8b8",
+ "time": "2026-10-26T14:08:01+00:00",
+ "facts": {
+  "week": 24,
+  "month": "June",
+  "teams active": {
+   "survey": 4,
+   "clearance": 4
+  },
+  "teams stood down": {
+   "count": 0
+  },
+  "teams with no report for more than a week": {
+   "count": 0
+  },
+  "tasks finished this week": {
+   "zone surveys": 1,
+   "visits": 2,
+   "technical surveys": 0,
+   "clearances": 0
+  },
+  "zones surveyed so far": 16,
+  "zones declared free so far": 2,
+  "zones declared free this week": {
+   "count": 0,
+   "zones": []
+  },
+  "areas released so far": 12,
+  "areas cleared so far": 6,
+  "areas where mines were found so far": 3,
+  "areas suspected or confirmed, still open": 572,
+  "zones closed by the access feed": {
+   "count": 11
+  },
+  "plan": "P06",
+  "new plan approved this week": false,
+  "dossiers held for missing items": {
+   "count": 0,
+   "areas": []
+  },
+  "team-days worked this week": 39,
+  "team-days lost to rain or wind this week": 1,
+  "reports held by the report checker this week": 0,
+  "reports queried by the report checker this week": 0,
+  "forecast": {
+   "made in week": 23,
+   "scope": "the zones of the plan it was made with, and what is done already",
+   "mine areas cleared this season, P10 to P90": [
+    10,
+    14
+   ],
+   "zones declared free this season, P10 to P90": [
+    7,
+    11
+   ]
+  }
+ },
+ "draft": "In week 24, 4 survey teams and 4 clearance teams were active. Teams completed 1 zone survey and 2 visits; there were 0 technical surveys and 0 clearances. So far, 16 zones have been surveyed, 2 declared free, and 12 areas released.\n\nThe access feed shows 11 zones closed. 0 teams were stood down, 0 had no report for more than a week, and 0 reports or dossiers were held. No new plan was approved; 0 zones were declared free this week.\n\nThe week 23 forecast covers the zones of the plan it was made with and counts work already done. Its P10 to P90 range is 10 to 14 mine areas cleared this season and 7 to 11 zones declared free this season.",
+ "error": "",
+ "usage": {
+  "input_tokens": 630,
+  "input_tokens_details": {
+   "cache_write_tokens": 0,
+   "cached_tokens": 0
+  },
+  "output_tokens": 510,
+  "output_tokens_details": {
+   "reasoning_tokens": 341
+  },
+  "total_tokens": 1140
+ }
+}

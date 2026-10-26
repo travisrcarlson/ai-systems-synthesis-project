@@ -1,0 +1,102 @@
+{
+ "area": "SLU-0383",
+ "week": 39,
+ "visit": 1,
+ "label": "main season",
+ "model": "gpt-6-luna",
+ "reasoning_effort": "medium",
+ "inputs_sha": "c45020679bc0e5e10c7456081b30a010ba91664388f5d72bb9327cc419f58fca",
+ "dossier_sha": "a09a38c86c839e5ff71869e5aed155cd74b235ff0896ddb82758f3d717c022a9",
+ "method_sha": "92bad3dce663112a2160b3f6d199f134514bad4eff5cf17ce7475be96823240d",
+ "outcome": "CLEARANCE",
+ "fallback": false,
+ "confidence": "medium",
+ "summary": "E1 is an unchecked national database record of a past accident inside the area (indirect evidence, reliability class 6). Under the national criteria it is a clearance target after the first NTS visit, and technical survey is unavailable. E2 provides meaningful evidence of 12 years of first-hand safe use and explains the weaker unchecked record, but it does not lift the national requirement that this area be released only after clearance. E3 adds no evidence about the land inside the area.",
+ "flags": [
+  "For sign-off: the accident record's date and location have not been verified on the ground; the national criteria nevertheless require clearance before release. The area's survey priority and zone flag are not evidence."
+ ],
+ "rule_check": {
+  "result": "pass",
+  "outcome": "CLEARANCE",
+  "checks": [
+   {
+    "rule": "R5",
+    "passed": true,
+    "detail": "Every item of the evidence log is in the register."
+   },
+   {
+    "rule": "R3",
+    "passed": true,
+    "detail": "The national criteria provide no technical survey, so clearance takes its place; evidence to target: E1."
+   }
+  ]
+ },
+ "register": {
+  "E1": {
+   "item_id": "E1",
+   "quote": "The national mine action database records one or more past landmine accidents inside this area.",
+   "evidence_class": "indirect",
+   "reliability_class": 6,
+   "explains": [],
+   "note": "An unchecked database record with no on-ground location verification is weaker indirect evidence, class 6.",
+   "step": 3
+  },
+  "E2": {
+   "item_id": "E2",
+   "quote": "he has cut firewood and timber in the area every year for the past 12 years, and has never found anything or heard of an accident there.",
+   "evidence_class": "absence",
+   "reliability_class": 4,
+   "explains": [
+    "E1"
+   ],
+   "note": "The area user reports 12 years of first-hand safe use; this supports absence and can account for the weaker unchecked record, but does not override the national clearance requirement for an accident record.",
+   "step": 3
+  },
+  "E3": {
+   "item_id": "E3",
+   "quote": "he only passes along the road at the edge of the area and does not know the land inside it.",
+   "evidence_class": "not_evidence",
+   "reliability_class": 4,
+   "explains": [],
+   "note": "The driver expressly lacks knowledge of the land inside the area, so this provides neither evidence of EO nor evidence of absence there.",
+   "step": 3
+  }
+ },
+ "vetoes": [],
+ "quote_failures": [],
+ "tool_errors": [],
+ "handling_blocked": [],
+ "instruction_lines_found": [],
+ "sections_read": [
+  "area_record",
+  "desk_study",
+  "evidence_log",
+  "national_criteria"
+ ],
+ "rules_read": [
+  "evidence",
+  "reliability",
+  "desk_study",
+  "cancellation",
+  "outcomes",
+  "further_survey",
+  "dossier_text",
+  "safety",
+  "clearance",
+  "technical_survey"
+ ],
+ "usage": {
+  "input_tokens": 22930,
+  "cached_tokens": 17299,
+  "output_tokens": 1197,
+  "reasoning_tokens": 424
+ },
+ "cost_usd": 0.0028915,
+ "stats": {
+  "model_calls": 6,
+  "tool_calls": 19,
+  "error": "",
+  "error_scope": "",
+  "seconds": 64.9
+ }
+}

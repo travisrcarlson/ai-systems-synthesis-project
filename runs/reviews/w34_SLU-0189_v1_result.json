@@ -1,0 +1,107 @@
+{
+ "area": "SLU-0189",
+ "week": 34,
+ "visit": 1,
+ "label": "main season",
+ "model": "gpt-6-luna",
+ "reasoning_effort": "medium",
+ "inputs_sha": "0decb525a02d444a82d7f4c0fa8057b2fcce897b5cf406a4940523f18cc66ded",
+ "dossier_sha": "e0b7e9333ebe0b8d6d53634082cadbe2f259c7f3576e1bdfcecb54358763ad8d",
+ "method_sha": "92bad3dce663112a2160b3f6d199f134514bad4eff5cf17ce7475be96823240d",
+ "outcome": "CANCEL",
+ "fallback": false,
+ "confidence": "medium",
+ "summary": "Recommend cancellation by non-technical survey for sign-off. Two different first-hand land users independently report 16 and 24 years of safe use; the survey team also observed no contamination indicators on the paths and field edges it covered. The evidence register contains no direct or qualifying indirect evidence, and the national cancellation criteria pass. The nearest recorded accident is within 1 km, not inside this area.",
+ "flags": [
+  "The team's own observation covered paths and field edges; confirm during sign-off that the visit and reported land use provide reasonable coverage of this forested area.",
+  "The zone survey flag and survey-priority rank indicate where to survey, not evidence of contamination."
+ ],
+ "rule_check": {
+  "result": "pass",
+  "outcome": "CANCEL",
+  "checks": [
+   {
+    "rule": "R5",
+    "passed": true,
+    "detail": "Every item of the evidence log is in the register."
+   },
+   {
+    "rule": "R1",
+    "passed": true,
+    "detail": "There is no direct evidence and no indirect evidence of class 1 to 4, and every item of weaker indirect evidence is explained by evidence of absence of class 1 to 4."
+   },
+   {
+    "rule": "R2",
+    "passed": true,
+    "detail": "2 different reliable source(s) report at least 5 years of safe use (E1; E2); the criteria need 2."
+   },
+   {
+    "rule": "R6",
+    "passed": true,
+    "detail": "No past landmine accident is recorded inside the area."
+   }
+  ]
+ },
+ "register": {
+  "E1": {
+   "item_id": "E1",
+   "quote": "has walked the trail across the area to the school every year for the past 16 years, and has never found anything or heard of an accident there.",
+   "evidence_class": "absence",
+   "reliability_class": 4,
+   "explains": [],
+   "note": "A first-hand land user reports sustained safe use and no findings or accidents; the source is class 4.",
+   "step": 3
+  },
+  "E2": {
+   "item_id": "E2",
+   "quote": "has cut firewood and timber in the area every year for the past 24 years, and has never found anything or heard of an accident there.",
+   "evidence_class": "absence",
+   "reliability_class": 4,
+   "explains": [],
+   "note": "A first-hand worker reports sustained safe use and no findings or accidents; the source is class 4.",
+   "step": 3
+  },
+  "E3": {
+   "item_id": "E3",
+   "quote": "walked the paths and field edges of the area and saw no items, signs, fencing or other marks of contamination.",
+   "evidence_class": "absence",
+   "reliability_class": 2,
+   "explains": [],
+   "note": "This is the survey team's own negative observation, classed as absence and ranked class 2 by the project rule.",
+   "step": 3
+  }
+ },
+ "vetoes": [],
+ "quote_failures": [],
+ "tool_errors": [],
+ "handling_blocked": [],
+ "instruction_lines_found": [],
+ "sections_read": [
+  "area_record",
+  "desk_study",
+  "evidence_log",
+  "national_criteria"
+ ],
+ "rules_read": [
+  "evidence",
+  "reliability",
+  "cancellation",
+  "outcomes",
+  "desk_study",
+  "dossier_text"
+ ],
+ "usage": {
+  "input_tokens": 16070,
+  "cached_tokens": 11285,
+  "output_tokens": 1179,
+  "reasoning_tokens": 505
+ },
+ "cost_usd": 0.0021965,
+ "stats": {
+  "model_calls": 5,
+  "tool_calls": 15,
+  "error": "",
+  "error_scope": "",
+  "seconds": 15.2
+ }
+}

@@ -1,0 +1,75 @@
+{
+ "week": 17,
+ "model": "gpt-6-luna",
+ "inputs_sha": "9c92a55dadac36d5763459150e2df5a906d3c15749a7cb13c13286d9474e7353",
+ "time": "2026-10-26T14:01:26+00:00",
+ "facts": {
+  "week": 17,
+  "month": "April",
+  "teams active": {
+   "survey": 4,
+   "clearance": 4
+  },
+  "teams stood down": {
+   "count": 0
+  },
+  "teams with no report for more than a week": {
+   "count": 0
+  },
+  "tasks finished this week": {
+   "zone surveys": 1,
+   "visits": 0,
+   "technical surveys": 0,
+   "clearances": 0
+  },
+  "zones surveyed so far": 13,
+  "zones declared free so far": 2,
+  "zones declared free this week": {
+   "count": 0,
+   "zones": []
+  },
+  "areas released so far": 4,
+  "areas cleared so far": 2,
+  "areas where mines were found so far": 1,
+  "areas suspected or confirmed, still open": 572,
+  "zones closed by the access feed": {
+   "count": 8
+  },
+  "plan": "P04",
+  "new plan approved this week": false,
+  "dossiers held for missing items": {
+   "count": 0,
+   "areas": []
+  },
+  "team-days worked this week": 22,
+  "team-days lost to rain or wind this week": 18,
+  "reports held by the report checker this week": 0,
+  "reports queried by the report checker this week": 0,
+  "forecast": {
+   "made in week": 14,
+   "scope": "the zones of the plan it was made with, and what is done already",
+   "mine areas cleared this season, P10 to P90": [
+    9,
+    14
+   ],
+   "zones declared free this season, P10 to P90": [
+    9,
+    13
+   ]
+  }
+ },
+ "draft": "This week, 1 zone survey was completed, with 0 visits, 0 technical surveys and 0 clearances. Teams worked 22 team-days; 18 team-days were lost to rain or wind. So far, 13 zones have been surveyed, 2 declared free, and 4 areas released.\n\nOfficer attention: the access feed shows 8 zones closed. 0 teams were stood down and 0 have not reported for more than a week. 0 dossiers were held, and 0 reports were held or queried. No new plan was approved; the plan is P04.\n\nThe forecast, made in week 14 for the zones of the plan it was made with and counting what is done already, gives a range of 9 to 14 mine areas cleared this season and 9 to 13 zones declared free this season.",
+ "error": "",
+ "usage": {
+  "input_tokens": 630,
+  "input_tokens_details": {
+   "cache_write_tokens": 0,
+   "cached_tokens": 0
+  },
+  "output_tokens": 328,
+  "output_tokens_details": {
+   "reasoning_tokens": 150
+  },
+  "total_tokens": 958
+ }
+}

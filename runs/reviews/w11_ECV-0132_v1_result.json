@@ -1,0 +1,107 @@
+{
+ "area": "ECV-0132",
+ "week": 11,
+ "visit": 1,
+ "label": "main season",
+ "model": "gpt-6-luna",
+ "reasoning_effort": "medium",
+ "inputs_sha": "58890d79b6fe9d677f57bb706ba205019432fcf4f81f2853bc884ed8f8bb89a8",
+ "dossier_sha": "24e6ced9fc558d610bc92f7c7d70c663837895fe7790da12b28b47e62faf8093",
+ "method_sha": "92bad3dce663112a2160b3f6d199f134514bad4eff5cf17ce7475be96823240d",
+ "outcome": "CANCEL",
+ "fallback": false,
+ "confidence": "medium",
+ "summary": "Recommend cancellation by non-technical survey for sign-off. Two distinct first-hand land users report recurring safe use for 11 and 13 years, meeting the national minimum. No direct or target-level indirect evidence is recorded; the weaker community-board report does not alter that assessment. The nearest database accident is reported within 1 km, not inside this area, so the stated mandatory clearance criterion for an accident inside the area is not met.",
+ "flags": [
+  "The area is forested and more than 5 km from a road; confirm during sign-off that the survey effort and the reports of recurring use provide adequate coverage for cancellation.",
+  "The zone survey flag and priority rank are visit-planning information, not evidence about contamination."
+ ],
+ "rule_check": {
+  "result": "pass",
+  "outcome": "CANCEL",
+  "checks": [
+   {
+    "rule": "R5",
+    "passed": true,
+    "detail": "Every item of the evidence log is in the register."
+   },
+   {
+    "rule": "R1",
+    "passed": true,
+    "detail": "There is no direct evidence and no indirect evidence of class 1 to 4, and every item of weaker indirect evidence is explained by evidence of absence of class 1 to 4."
+   },
+   {
+    "rule": "R2",
+    "passed": true,
+    "detail": "2 different reliable source(s) report at least 5 years of safe use (E1; E2); the criteria need 2."
+   },
+   {
+    "rule": "R6",
+    "passed": true,
+    "detail": "No past landmine accident is recorded inside the area."
+   }
+  ]
+ },
+ "register": {
+  "E1": {
+   "item_id": "E1",
+   "quote": "she has walked the trail across the area to the school every year for the past 11 years, and has never found anything or heard of an accident there.",
+   "evidence_class": "absence",
+   "reliability_class": 4,
+   "explains": [],
+   "note": "The teacher is a first-hand land user reporting 11 years of recurring safe use and no finds or accidents.",
+   "step": 3
+  },
+  "E2": {
+   "item_id": "E2",
+   "quote": "he has hunted and fished along the streams in the area every year for the past 13 years, and has never found anything or heard of an accident there.",
+   "evidence_class": "absence",
+   "reliability_class": 4,
+   "explains": [],
+   "note": "The informant is a first-hand land user reporting 13 years of recurring safe use and no finds or accidents.",
+   "step": 3
+  },
+  "E3": {
+   "item_id": "E3",
+   "quote": "the board has recorded no find or accident in the area in the 13 years she has held the post, and that families use land in the area every week.",
+   "evidence_class": "absence",
+   "reliability_class": 5,
+   "explains": [],
+   "note": "This supports absence through the president's report of board records and families' use, but it does not establish that she personally uses the land, so it is weaker than the two first-hand user accounts.",
+   "step": 3
+  }
+ },
+ "vetoes": [],
+ "quote_failures": [],
+ "tool_errors": [],
+ "handling_blocked": [],
+ "instruction_lines_found": [],
+ "sections_read": [
+  "area_record",
+  "desk_study",
+  "evidence_log",
+  "national_criteria"
+ ],
+ "rules_read": [
+  "evidence",
+  "reliability",
+  "cancellation",
+  "desk_study",
+  "outcomes",
+  "further_survey"
+ ],
+ "usage": {
+  "input_tokens": 17532,
+  "cached_tokens": 12119,
+  "output_tokens": 1692,
+  "reasoning_tokens": 973
+ },
+ "cost_usd": 0.0025992,
+ "stats": {
+  "model_calls": 5,
+  "tool_calls": 15,
+  "error": "",
+  "error_scope": "",
+  "seconds": 18.5
+ }
+}

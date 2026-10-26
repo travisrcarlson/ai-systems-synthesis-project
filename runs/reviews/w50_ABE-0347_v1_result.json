@@ -1,0 +1,86 @@
+{
+ "area": "ABE-0347",
+ "week": 50,
+ "visit": 1,
+ "label": "main season",
+ "model": "gpt-6-luna",
+ "reasoning_effort": "medium",
+ "inputs_sha": "6d639c4c92e865c33acc2ec6fece04450dab9a1762727ad778e0aa151411671d",
+ "dossier_sha": "79f15283d06617d185753941cf1be66d6db35d1d4e8d322154215ac840b6358f",
+ "method_sha": "92bad3dce663112a2160b3f6d199f134514bad4eff5cf17ce7475be96823240d",
+ "outcome": "FURTHER_NTS",
+ "fallback": false,
+ "confidence": "medium",
+ "summary": "Recommend further non-technical survey. E1 is weak, unverified second-hand indirect evidence (reliability class 7), and this is only the first visit, so it has not met the criteria for follow-up as a clearance target. E2 supports absence only along the paths and field edges observed; it does not establish sufficient grounds to cancel or explain E1. The nearby recorded accident is within 1 km, not recorded inside the area.",
+ "flags": [
+  "The zone survey flag and survey priority indicate where to visit, not evidence of contamination.",
+  "The survey team observed paths and field edges in a 100% forest area; the observation does not establish that the full area was assessed."
+ ],
+ "rule_check": {
+  "result": "pass",
+  "outcome": "FURTHER_NTS",
+  "checks": [
+   {
+    "rule": "-",
+    "passed": true,
+    "detail": "Further non-technical survey is always open."
+   }
+  ]
+ },
+ "register": {
+  "E1": {
+   "item_id": "E1",
+   "quote": "A trader passing through the vereda said people should keep away from the area because of mines, but could not say who had seen anything, or where.",
+   "evidence_class": "indirect",
+   "reliability_class": 7,
+   "explains": [],
+   "note": "This is a second-hand warning from an outsider who cannot identify any first-hand witness or location, so it suggests possible contamination but is weak indirect evidence.",
+   "step": 3
+  },
+  "E2": {
+   "item_id": "E2",
+   "quote": "The survey team walked the paths and field edges of the area and saw no items, signs, fencing or other marks of contamination.",
+   "evidence_class": "absence",
+   "reliability_class": 2,
+   "explains": [],
+   "note": "The team’s own observation of no indicators along paths and field edges supports absence in the observed locations, but does not establish safe use or explain the unverified warning.",
+   "step": 3
+  }
+ },
+ "vetoes": [],
+ "quote_failures": [],
+ "tool_errors": [],
+ "handling_blocked": [],
+ "instruction_lines_found": [],
+ "sections_read": [
+  "area_record",
+  "desk_study",
+  "evidence_log",
+  "national_criteria"
+ ],
+ "rules_read": [
+  "evidence",
+  "reliability",
+  "desk_study",
+  "cancellation",
+  "technical_survey",
+  "clearance",
+  "further_survey",
+  "outcomes",
+  "dossier_text"
+ ],
+ "usage": {
+  "input_tokens": 17958,
+  "cached_tokens": 12674,
+  "output_tokens": 1042,
+  "reasoning_tokens": 375
+ },
+ "cost_usd": 0.0023168000000000004,
+ "stats": {
+  "model_calls": 5,
+  "tool_calls": 17,
+  "error": "",
+  "error_scope": "",
+  "seconds": 12.6
+ }
+}

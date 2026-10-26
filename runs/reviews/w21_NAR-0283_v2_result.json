@@ -1,0 +1,91 @@
+{
+ "area": "NAR-0283",
+ "week": 21,
+ "visit": 2,
+ "label": "main season",
+ "model": "gpt-6-luna",
+ "reasoning_effort": "medium",
+ "inputs_sha": "e8e6a9f03b5c411e37f77999f1336445b5e352ef01b7e0c2d9160de06b2aea75",
+ "dossier_sha": "6c92f9644e32e3a5230085c1628d3f6e97e9d03c69727625b54996816a6199d1",
+ "method_sha": "92bad3dce663112a2160b3f6d199f134514bad4eff5cf17ce7475be96823240d",
+ "outcome": "CLEARANCE",
+ "fallback": false,
+ "confidence": "medium",
+ "summary": "Recommend clearance for sign-off. E2 is survey-team-observed indirect evidence of potentially productive land left unused, making it a target under the national criteria; technical survey is unavailable. E1 is weaker second-hand indirect evidence and does not independently establish contamination. The evidence supports a cautious recommendation, not a final determination.",
+ "flags": [
+  "E2 concerns a field in only part of the area; confirm the appropriate extent for action at sign-off."
+ ],
+ "rule_check": {
+  "result": "pass",
+  "outcome": "CLEARANCE",
+  "checks": [
+   {
+    "rule": "R5",
+    "passed": true,
+    "detail": "Every item of the evidence log is in the register."
+   },
+   {
+    "rule": "R3",
+    "passed": true,
+    "detail": "The national criteria provide no technical survey, so clearance takes its place; evidence to target: E1, E2."
+   }
+  ]
+ },
+ "register": {
+  "E1": {
+   "item_id": "E1",
+   "quote": "A teacher said people stopped using the land at the edge of the pasture after an armed group camped there around 2006, and nobody has used it since.",
+   "evidence_class": "indirect",
+   "reliability_class": 5,
+   "explains": [],
+   "note": "The report of an armed-group camp and subsequent non-use suggests possible contamination, but does not confirm EO; the teacher is not reported as having witnessed EO or the relevant events, so this is treated as second-hand.",
+   "step": 3
+  },
+  "E2": {
+   "item_id": "E2",
+   "quote": "The survey team saw that a field in part of the area has been left unused for years, with collapsed fences and overgrown paths, although the land around it is farmed.",
+   "evidence_class": "indirect",
+   "reliability_class": 2,
+   "explains": [],
+   "note": "The team's observation of potentially productive land left unused suggests possible contamination but does not confirm EO; the source is the survey team's own observation.",
+   "step": 3
+  }
+ },
+ "vetoes": [],
+ "quote_failures": [],
+ "tool_errors": [],
+ "handling_blocked": [],
+ "instruction_lines_found": [],
+ "sections_read": [
+  "area_record",
+  "desk_study",
+  "evidence_log",
+  "national_criteria"
+ ],
+ "rules_read": [
+  "evidence",
+  "reliability",
+  "cancellation",
+  "further_survey",
+  "outcomes",
+  "dossier_text",
+  "technical_survey",
+  "clearance",
+  "safety",
+  "desk_study"
+ ],
+ "usage": {
+  "input_tokens": 19064,
+  "cached_tokens": 13243,
+  "output_tokens": 1487,
+  "reasoning_tokens": 842
+ },
+ "cost_usd": 0.0026499,
+ "stats": {
+  "model_calls": 5,
+  "tool_calls": 18,
+  "error": "",
+  "error_scope": "",
+  "seconds": 28.4
+ }
+}

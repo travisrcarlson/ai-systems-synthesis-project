@@ -1,0 +1,101 @@
+{
+ "area": "ECV-0018",
+ "week": 6,
+ "visit": 2,
+ "label": "main season",
+ "model": "gpt-6-luna",
+ "reasoning_effort": "medium",
+ "inputs_sha": "104639577205437c1e5474a6871da2506b9db07e72dda1e283d50bb9877d4391",
+ "dossier_sha": "16d9d60b26c9c83395b9f5be0025817ffe048c2bc462b42dd05672cdd68ab447",
+ "method_sha": "92bad3dce663112a2160b3f6d199f134514bad4eff5cf17ce7475be96823240d",
+ "outcome": "CLEARANCE",
+ "fallback": false,
+ "confidence": "medium",
+ "summary": "Recommend clearance for sign-off. The survey team's recorded observation of an object that looked like EO (E3) is direct evidence and a target. National criteria provide no technical survey, so clearance is the prescribed next outcome. E1's report of 17 years of safe use does not negate direct evidence.",
+ "flags": [
+  "E3 is an observed apparent EO item documented and reported by the survey team; its identity is not independently established in the dossier."
+ ],
+ "rule_check": {
+  "result": "pass",
+  "outcome": "CLEARANCE",
+  "checks": [
+   {
+    "rule": "R5",
+    "passed": true,
+    "detail": "Every item of the evidence log is in the register."
+   },
+   {
+    "rule": "R3",
+    "passed": true,
+    "detail": "The national criteria provide no technical survey, so clearance takes its place; evidence to target: E3."
+   }
+  ]
+ },
+ "register": {
+  "E1": {
+   "item_id": "E1",
+   "quote": "he has cut firewood and timber in the area every year for the past 17 years, and has never found anything or heard of an accident there.",
+   "evidence_class": "absence",
+   "reliability_class": 4,
+   "explains": [
+    "E2"
+   ],
+   "note": "First-hand land user reports repeated safe use over many years; it may account for the weaker, unidentified rumour, but cannot negate the team's direct observation.",
+   "step": 3
+  },
+  "E2": {
+   "item_id": "E2",
+   "quote": "people should keep away from the area because of mines, but could not say who had seen anything, or where.",
+   "evidence_class": "indirect",
+   "reliability_class": 7,
+   "explains": [],
+   "note": "An unverified second-hand warning is weak indirect evidence from a source unable to identify any first-hand witness.",
+   "step": 3
+  },
+  "E3": {
+   "item_id": "E3",
+   "quote": "The survey team saw an object that looked like explosive ordnance on the ground beside the stream.",
+   "evidence_class": "direct",
+   "reliability_class": 1,
+   "explains": [],
+   "note": "The team's own recorded observation of an apparent EO object is direct evidence and a target; safe-distance documentation does not determine its identity.",
+   "step": 3
+  }
+ },
+ "vetoes": [],
+ "quote_failures": [],
+ "tool_errors": [],
+ "handling_blocked": [],
+ "instruction_lines_found": [],
+ "sections_read": [
+  "area_record",
+  "desk_study",
+  "evidence_log",
+  "national_criteria"
+ ],
+ "rules_read": [
+  "evidence",
+  "reliability",
+  "cancellation",
+  "outcomes",
+  "clearance",
+  "further_survey",
+  "technical_survey",
+  "dossier_text",
+  "safety"
+ ],
+ "usage": {
+  "input_tokens": 17989,
+  "cached_tokens": 12655,
+  "output_tokens": 1176,
+  "reasoning_tokens": 492
+ },
+ "cost_usd": 0.0023869,
+ "stats": {
+  "model_calls": 5,
+  "tool_calls": 18,
+  "error": "",
+  "error_scope": "",
+  "seconds": 22.1
+ }
+}

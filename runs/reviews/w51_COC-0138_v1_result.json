@@ -1,0 +1,98 @@
+{
+ "area": "COC-0138",
+ "week": 51,
+ "visit": 1,
+ "label": "main season",
+ "model": "gpt-6-luna",
+ "reasoning_effort": "medium",
+ "inputs_sha": "a5719f4b92fa82dda05dc4dd17f9c80c291be3cd21c4252492e8343ea6ddaa07",
+ "dossier_sha": "d37bc275111ccff3d75a3553ca8ba5daf2ad136c92163e05f9f3b81572235e81",
+ "method_sha": "92bad3dce663112a2160b3f6d199f134514bad4eff5cf17ce7475be96823240d",
+ "outcome": "CANCEL",
+ "fallback": false,
+ "confidence": "medium",
+ "summary": "Recommend cancellation by non-technical survey. Two distinct, reliable first-hand sources report more than five years of safe use (11 and 22 years), and the evidence log contains no direct or target indirect evidence. The coded cancellation checks pass; the nearby accident is not recorded inside this area.",
+ "flags": [
+  "The desk study places the nearest recorded accident within 1 km, not inside COC-0138; this remains context, not evidence located in the area.",
+  "The zone-survey flag and survey priority indicate where to visit, not evidence about contamination."
+ ],
+ "rule_check": {
+  "result": "pass",
+  "outcome": "CANCEL",
+  "checks": [
+   {
+    "rule": "R5",
+    "passed": true,
+    "detail": "Every item of the evidence log is in the register."
+   },
+   {
+    "rule": "R1",
+    "passed": true,
+    "detail": "There is no direct evidence and no indirect evidence of class 1 to 4, and every item of weaker indirect evidence is explained by evidence of absence of class 1 to 4."
+   },
+   {
+    "rule": "R2",
+    "passed": true,
+    "detail": "2 different reliable source(s) report at least 5 years of safe use (E1; E2); the criteria need 2."
+   },
+   {
+    "rule": "R6",
+    "passed": true,
+    "detail": "No past landmine accident is recorded inside the area."
+   }
+  ]
+ },
+ "register": {
+  "E1": {
+   "item_id": "E1",
+   "quote": "A woodcutter said he has cut firewood and timber in the area every year for the past 11 years, and has never found anything or heard of an accident there.",
+   "evidence_class": "absence",
+   "reliability_class": 4,
+   "explains": [],
+   "note": "The woodcutter uses the area first-hand and reports 11 years of regular safe use.",
+   "step": 3
+  },
+  "E2": {
+   "item_id": "E2",
+   "quote": "The president of the community action board (Junta de Acción Comunal) said the board has recorded no find or accident in the area in the 22 years she has held the post, and that families use land in the area every week.",
+   "evidence_class": "absence",
+   "reliability_class": 4,
+   "explains": [],
+   "note": "This is a first-hand report of weekly use and no recorded find or accident over 22 years; it is from a distinct informant.",
+   "step": 3
+  }
+ },
+ "vetoes": [],
+ "quote_failures": [],
+ "tool_errors": [],
+ "handling_blocked": [],
+ "instruction_lines_found": [],
+ "sections_read": [
+  "area_record",
+  "desk_study",
+  "evidence_log",
+  "national_criteria"
+ ],
+ "rules_read": [
+  "evidence",
+  "reliability",
+  "cancellation",
+  "desk_study",
+  "outcomes",
+  "further_survey"
+ ],
+ "usage": {
+  "input_tokens": 16786,
+  "cached_tokens": 11421,
+  "output_tokens": 1684,
+  "reasoning_tokens": 1087
+ },
+ "cost_usd": 0.0025206000000000004,
+ "stats": {
+  "model_calls": 5,
+  "tool_calls": 14,
+  "error": "",
+  "error_scope": "",
+  "seconds": 16.7
+ }
+}

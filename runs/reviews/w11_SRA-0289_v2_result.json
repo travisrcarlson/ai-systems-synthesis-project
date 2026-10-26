@@ -1,0 +1,95 @@
+{
+ "area": "SRA-0289",
+ "week": 11,
+ "visit": 2,
+ "label": "main season",
+ "model": "gpt-6-luna",
+ "reasoning_effort": "medium",
+ "inputs_sha": "382c8a4b9915c16171d9dd145898f354c92caa34d1b469f78bec24afb1c2a8bb",
+ "dossier_sha": "e35e2b37e0e94042ec7bdc51e3aacf1beae3ff6c14e19bd58b63722dc859f800",
+ "method_sha": "92bad3dce663112a2160b3f6d199f134514bad4eff5cf17ce7475be96823240d",
+ "outcome": "FURTHER_NTS",
+ "fallback": false,
+ "confidence": "medium",
+ "summary": "Recommend a further non-technical survey visit. The two survey visits could reach only the edge and saw nothing of the land inside; under project rules this is not evidence of absence. The community participants could not describe prior land use, and no direct evidence or qualifying target is recorded. There is insufficient evidence to cancel, while the available record does not support clearance.",
+ "flags": [
+  "Seek people with first-hand knowledge of the area's land use and make reasonable efforts to assess the interior; do not treat the zone-survey flag or survey priority as evidence.",
+  "The nearest recorded accident is 1–3 km away, not recorded inside this area."
+ ],
+ "rule_check": {
+  "result": "pass",
+  "outcome": "FURTHER_NTS",
+  "checks": [
+   {
+    "rule": "-",
+    "passed": true,
+    "detail": "Further non-technical survey is always open."
+   }
+  ]
+ },
+ "register": {
+  "E1": {
+   "item_id": "E1",
+   "quote": "The survey team could reach only the edge of the area, because rain had closed the trail into it, and could not see the land inside.",
+   "evidence_class": "not_evidence",
+   "reliability_class": 2,
+   "explains": [],
+   "note": "The team did not see the land inside; project rules say inaccessible land is evidence neither for nor against EO.",
+   "step": 3
+  },
+  "E2": {
+   "item_id": "E2",
+   "quote": "The people at the community meeting had moved to the vereda in the last 2 years and could not say how the area was used before.",
+   "evidence_class": "not_evidence",
+   "reliability_class": 7,
+   "explains": [],
+   "note": "These participants lacked knowledge of the area's prior use, so their statement supports neither EO presence nor absence.",
+   "step": 3
+  },
+  "E3": {
+   "item_id": "E3",
+   "quote": "The survey team could reach only the edge of the area, because rain had closed the trail into it, and could not see the land inside.",
+   "evidence_class": "not_evidence",
+   "reliability_class": 2,
+   "explains": [],
+   "note": "The team did not see the land inside; project rules say inaccessible land is evidence neither for nor against EO.",
+   "step": 3
+  }
+ },
+ "vetoes": [],
+ "quote_failures": [],
+ "tool_errors": [],
+ "handling_blocked": [],
+ "instruction_lines_found": [],
+ "sections_read": [
+  "area_record",
+  "desk_study",
+  "evidence_log",
+  "national_criteria"
+ ],
+ "rules_read": [
+  "evidence",
+  "reliability",
+  "desk_study",
+  "cancellation",
+  "technical_survey",
+  "further_survey",
+  "outcomes",
+  "dossier_text",
+  "safety"
+ ],
+ "usage": {
+  "input_tokens": 18146,
+  "cached_tokens": 12737,
+  "output_tokens": 1197,
+  "reasoning_tokens": 467
+ },
+ "cost_usd": 0.0024131000000000005,
+ "stats": {
+  "model_calls": 5,
+  "tool_calls": 18,
+  "error": "",
+  "error_scope": "",
+  "seconds": 18.5
+ }
+}

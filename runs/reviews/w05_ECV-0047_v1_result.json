@@ -1,0 +1,92 @@
+{
+ "area": "ECV-0047",
+ "week": 5,
+ "visit": 1,
+ "label": "main season",
+ "model": "gpt-6-luna",
+ "reasoning_effort": "medium",
+ "inputs_sha": "d9b72b53c60ce322ccd6a6135b6548098c24b5ffa497142e4a91483ad7e99dad",
+ "dossier_sha": "53eafdf2156a4efb58a48a56b1e3cfff7dd4b782b72d02ba753d1de17bf10be4",
+ "method_sha": "92bad3dce663112a2160b3f6d199f134514bad4eff5cf17ce7475be96823240d",
+ "outcome": "CLEARANCE",
+ "fallback": false,
+ "confidence": "medium",
+ "summary": "E2 is a first-hand report of an explosion-related animal death at a location the source can identify, making it target indirect evidence. The national criteria provide no technical survey, so this target supports clearance. E1 does not establish safe use or absence, and cancellation criteria are not met.",
+ "flags": [
+  "E2 is reported, not independently verified by the survey team; the source says they can show the location.",
+  "The desk study places the nearest national-database accident within 1 km, not inside this area; the zone flag and survey priority are not evidence."
+ ],
+ "rule_check": {
+  "result": "pass",
+  "outcome": "CLEARANCE",
+  "checks": [
+   {
+    "rule": "R5",
+    "passed": true,
+    "detail": "Every item of the evidence log is in the register."
+   },
+   {
+    "rule": "R3",
+    "passed": true,
+    "detail": "The national criteria provide no technical survey, so clearance takes its place; evidence to target: E2."
+   }
+  ]
+ },
+ "register": {
+  "E1": {
+   "item_id": "E1",
+   "quote": "A teacher said people stopped using the land on the ridge after an armed group camped there around 1999, and nobody has used it since.",
+   "evidence_class": "indirect",
+   "reliability_class": 5,
+   "explains": [],
+   "note": "The report of an armed-group camp and subsequent abandonment suggests possible EO contamination; it does not establish safe use or absence, and the teacher is not identified as a witness to EO or the camp.",
+   "step": 3
+  },
+  "E2": {
+   "item_id": "E2",
+   "quote": "A woodcutter said a horse was killed by an explosion on the slope above the trail about 9 years ago; he saw the place the next day and can show it to the team.",
+   "evidence_class": "indirect",
+   "reliability_class": 4,
+   "explains": [],
+   "note": "A first-hand source saw the incident location aftermath and can identify the place, indicating possible EO; no EO or explosion was verified by the survey team, so this is not direct evidence.",
+   "step": 3
+  }
+ },
+ "vetoes": [],
+ "quote_failures": [],
+ "tool_errors": [],
+ "handling_blocked": [],
+ "instruction_lines_found": [],
+ "sections_read": [
+  "area_record",
+  "desk_study",
+  "evidence_log",
+  "national_criteria"
+ ],
+ "rules_read": [
+  "evidence",
+  "reliability",
+  "desk_study",
+  "cancellation",
+  "technical_survey",
+  "clearance",
+  "further_survey",
+  "outcomes",
+  "dossier_text",
+  "safety"
+ ],
+ "usage": {
+  "input_tokens": 20565,
+  "cached_tokens": 14015,
+  "output_tokens": 2220,
+  "reasoning_tokens": 1544
+ },
+ "cost_usd": 0.0031665,
+ "stats": {
+  "model_calls": 5,
+  "tool_calls": 18,
+  "error": "",
+  "error_scope": "",
+  "seconds": 25.5
+ }
+}

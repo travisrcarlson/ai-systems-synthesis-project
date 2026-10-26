@@ -1,0 +1,79 @@
+{
+ "area": "ABE-0294",
+ "week": 14,
+ "visit": 1,
+ "label": "main season",
+ "model": "gpt-6-luna",
+ "reasoning_effort": "medium",
+ "inputs_sha": "19a4b47509b826005dd3bc661f4d9243157252be1f62f88466c02939479667f1",
+ "dossier_sha": "ef532d29f842d4eff42ed0b32bb4aeae2ce61052144713ef3c1697e357b586b6",
+ "method_sha": "92bad3dce663112a2160b3f6d199f134514bad4eff5cf17ce7475be96823240d",
+ "outcome": "FURTHER_NTS",
+ "fallback": false,
+ "confidence": "medium",
+ "summary": "E1 is weak indirect evidence: an outside trader repeated an untraceable warning and could identify neither a first-hand source nor a location. After one visit, it is too early to treat this as a clearance target under the pilot criteria, and there is no evidence of absence meeting cancellation criteria. Recommend further non-technical survey to follow up the report before deciding.",
+ "flags": [
+  "The desk study's nearby accident, zone flag and survey priority are not evidence of contamination within this area; the dossier does not record an accident inside ABE-0294."
+ ],
+ "rule_check": {
+  "result": "pass",
+  "outcome": "FURTHER_NTS",
+  "checks": [
+   {
+    "rule": "-",
+    "passed": true,
+    "detail": "Further non-technical survey is always open."
+   }
+  ]
+ },
+ "register": {
+  "E1": {
+   "item_id": "E1",
+   "quote": "people should keep away from the area because of mines, but could not say who had seen anything, or where.",
+   "evidence_class": "indirect",
+   "reliability_class": 7,
+   "explains": [],
+   "note": "[Removed: advice on handling items is not given; only qualified technicians deal with items.]",
+   "step": 3
+  }
+ },
+ "vetoes": [],
+ "quote_failures": [],
+ "tool_errors": [],
+ "handling_blocked": [
+  "This is a second-hand warning about possible mines with no identifiable first-hand source or location; it suggests possible contamination but is weak indirect evidence."
+ ],
+ "instruction_lines_found": [],
+ "sections_read": [
+  "area_record",
+  "desk_study",
+  "evidence_log",
+  "national_criteria"
+ ],
+ "rules_read": [
+  "evidence",
+  "reliability",
+  "desk_study",
+  "cancellation",
+  "technical_survey",
+  "clearance",
+  "further_survey",
+  "outcomes",
+  "dossier_text",
+  "safety"
+ ],
+ "usage": {
+  "input_tokens": 17581,
+  "cached_tokens": 12428,
+  "output_tokens": 957,
+  "reasoning_tokens": 427
+ },
+ "cost_usd": 0.0022366000000000005,
+ "stats": {
+  "model_calls": 5,
+  "tool_calls": 17,
+  "error": "",
+  "error_scope": "",
+  "seconds": 14.8
+ }
+}

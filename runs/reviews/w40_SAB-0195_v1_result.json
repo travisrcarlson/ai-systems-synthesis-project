@@ -1,0 +1,119 @@
+{
+ "area": "SAB-0195",
+ "week": 40,
+ "visit": 1,
+ "label": "main season",
+ "model": "gpt-6-luna",
+ "reasoning_effort": "medium",
+ "inputs_sha": "d817b95d49ad460949356df840296384030367742cbfecc29a64271f3470cdc9",
+ "dossier_sha": "51102b005f2b885241c88f232f67ebb4a8d276ea517d07ced7f053980d76a6e5",
+ "method_sha": "92bad3dce663112a2160b3f6d199f134514bad4eff5cf17ce7475be96823240d",
+ "outcome": "CANCEL",
+ "fallback": false,
+ "confidence": "medium",
+ "summary": "Recommend cancellation by non-technical survey for sign-off. The register contains no direct or target indirect evidence; two distinct first-hand sources report at least five years of safe use (15 years from the community board president and 16 years from the woodcutter), meeting the stated national criteria. The rule check passed. The nearest database accident is within 1 km, not recorded inside this area.",
+ "flags": [
+  "The area is recorded as 100% forest, while the survey team's own observation covered paths and field edges; confirm that the NTS effort and the informants' reported use provide adequate coverage before sign-off.",
+  "The zone flag and priority are not evidence; the desk study notes the nearest accident is within 1 km, not inside the area."
+ ],
+ "rule_check": {
+  "result": "pass",
+  "outcome": "CANCEL",
+  "checks": [
+   {
+    "rule": "R5",
+    "passed": true,
+    "detail": "Every item of the evidence log is in the register."
+   },
+   {
+    "rule": "R1",
+    "passed": true,
+    "detail": "There is no direct evidence and no indirect evidence of class 1 to 4, and every item of weaker indirect evidence is explained by evidence of absence of class 1 to 4."
+   },
+   {
+    "rule": "R2",
+    "passed": true,
+    "detail": "2 different reliable source(s) report at least 5 years of safe use (E2; E4); the criteria need 2."
+   },
+   {
+    "rule": "R6",
+    "passed": true,
+    "detail": "No past landmine accident is recorded inside the area."
+   }
+  ]
+ },
+ "register": {
+  "E1": {
+   "item_id": "E1",
+   "quote": "The survey team walked the paths and field edges of the area and saw no items, signs, fencing or other marks of contamination.",
+   "evidence_class": "absence",
+   "reliability_class": 2,
+   "explains": [],
+   "note": "The survey team's own observation found no visible contamination indicators along the paths and field edges.",
+   "step": 3
+  },
+  "E2": {
+   "item_id": "E2",
+   "quote": "The president of the community action board (Junta de Acción Comunal) said the board has recorded no find or accident in the area in the 15 years she has held the post, and that families use land in the area every week.",
+   "evidence_class": "absence",
+   "reliability_class": 4,
+   "explains": [],
+   "note": "A community representative reporting long-term familiarity and regular local land use supports absence, as a first-hand source.",
+   "step": 3
+  },
+  "E3": {
+   "item_id": "E3",
+   "quote": "A man who hunts and fishes said he has hunted and fished along the streams in the area every year for the past 3 years, and has never found anything or heard of an accident there.",
+   "evidence_class": "absence",
+   "reliability_class": 4,
+   "explains": [],
+   "note": "A person using the area reports three years of safe activity and no finds, which is absence evidence from a first-hand source.",
+   "step": 3
+  },
+  "E4": {
+   "item_id": "E4",
+   "quote": "We have cut firewood and timber here for 16 years. Nobody has found anything, and nobody has been hurt.",
+   "evidence_class": "absence",
+   "reliability_class": 4,
+   "explains": [],
+   "note": "[Removed: advice on handling items is not given; only qualified technicians deal with items.]",
+   "step": 3
+  }
+ },
+ "vetoes": [],
+ "quote_failures": [],
+ "tool_errors": [],
+ "handling_blocked": [
+  "The woodcutter reports 16 years of first-hand work without finds or injuries, supporting absence."
+ ],
+ "instruction_lines_found": [],
+ "sections_read": [
+  "area_record",
+  "desk_study",
+  "evidence_log",
+  "national_criteria"
+ ],
+ "rules_read": [
+  "evidence",
+  "reliability",
+  "cancellation",
+  "desk_study",
+  "outcomes",
+  "further_survey",
+  "dossier_text"
+ ],
+ "usage": {
+  "input_tokens": 17372,
+  "cached_tokens": 12154,
+  "output_tokens": 1307,
+  "reasoning_tokens": 486
+ },
+ "cost_usd": 0.0023907,
+ "stats": {
+  "model_calls": 5,
+  "tool_calls": 17,
+  "error": "",
+  "error_scope": "",
+  "seconds": 14.8
+ }
+}

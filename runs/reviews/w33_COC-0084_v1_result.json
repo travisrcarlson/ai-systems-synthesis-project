@@ -1,0 +1,83 @@
+{
+ "area": "COC-0084",
+ "week": 33,
+ "visit": 1,
+ "label": "main season",
+ "model": "gpt-6-luna",
+ "reasoning_effort": "medium",
+ "inputs_sha": "61280f492394d9231cadd3398bffdc4f8f5b1229ec61ddd63c167fb58abd80c0",
+ "dossier_sha": "d8b1c43b79cf24afe386ff02bb1f82c9e4f9e1fe1763c1de35ce7f81a02d4478",
+ "method_sha": "92bad3dce663112a2160b3f6d199f134514bad4eff5cf17ce7475be96823240d",
+ "outcome": "CLEARANCE",
+ "fallback": false,
+ "confidence": "medium",
+ "summary": "E1 is class-4 indirect evidence: the teacher who crosses the area reports that its use stopped after an armed-group camp and has not resumed. As a first-hand report it is a target under the pilot criteria; technical survey is unavailable, so clearance is the permitted next step. This does not confirm EO presence.",
+ "flags": [
+  "For sign-off: E1 is indirect, not direct, evidence; the recommendation follows the target rule and is not a finding that EO is confirmed.",
+  "The recorded past accident is within 1 km, not stated to be inside this area; the zone visit flag and priority are not evidence."
+ ],
+ "rule_check": {
+  "result": "pass",
+  "outcome": "CLEARANCE",
+  "checks": [
+   {
+    "rule": "R5",
+    "passed": true,
+    "detail": "Every item of the evidence log is in the register."
+   },
+   {
+    "rule": "R3",
+    "passed": true,
+    "detail": "The national criteria provide no technical survey, so clearance takes its place; evidence to target: E1."
+   }
+  ]
+ },
+ "register": {
+  "E1": {
+   "item_id": "E1",
+   "quote": "people stopped using the land near the old path to the school after an armed group camped there around 2004, and nobody has used it since.",
+   "evidence_class": "indirect",
+   "reliability_class": 4,
+   "explains": [],
+   "note": "The report of prolonged land non-use following an armed-group camp suggests possible contamination but does not confirm EO; the teacher crosses the area and provides first-hand local information.",
+   "step": 3
+  }
+ },
+ "vetoes": [],
+ "quote_failures": [],
+ "tool_errors": [],
+ "handling_blocked": [],
+ "instruction_lines_found": [],
+ "sections_read": [
+  "area_record",
+  "desk_study",
+  "evidence_log",
+  "national_criteria"
+ ],
+ "rules_read": [
+  "evidence",
+  "reliability",
+  "desk_study",
+  "cancellation",
+  "technical_survey",
+  "clearance",
+  "further_survey",
+  "outcomes",
+  "dossier_text",
+  "safety"
+ ],
+ "usage": {
+  "input_tokens": 19019,
+  "cached_tokens": 13140,
+  "output_tokens": 1636,
+  "reasoning_tokens": 1085
+ },
+ "cost_usd": 0.0027199,
+ "stats": {
+  "model_calls": 5,
+  "tool_calls": 17,
+  "error": "",
+  "error_scope": "",
+  "seconds": 18.2
+ }
+}

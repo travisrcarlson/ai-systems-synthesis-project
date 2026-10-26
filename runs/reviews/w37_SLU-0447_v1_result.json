@@ -1,0 +1,100 @@
+{
+ "area": "SLU-0447",
+ "week": 37,
+ "visit": 1,
+ "label": "main season",
+ "model": "gpt-6-luna",
+ "reasoning_effort": "medium",
+ "inputs_sha": "bda323c0aafbf3c0f1ab3b1c3bae260fb5d2824697088e0b0dd017f4550257bd",
+ "dossier_sha": "1264e632e8762d3966f1a18b3db9113ded70144b9efcf5e0a002504500ab44dd",
+ "method_sha": "92bad3dce663112a2160b3f6d199f134514bad4eff5cf17ce7475be96823240d",
+ "outcome": "CLEARANCE",
+ "fallback": false,
+ "confidence": "medium",
+ "summary": "Recommend clearance for sign-off. E1 is an unchecked database record of a past accident inside the area, which the national criteria make a clearance target after the first visit. E2 is a first-hand report of an armed-group camp and prolonged non-use, an indirect target; the area therefore cannot be cancelled by non-technical survey. Technical survey is unavailable under the programme.",
+ "flags": [
+  "E3 reports a mule killed by an explosion and a site the informant says he can show; the site and report have not yet been verified by the survey team.",
+  "The zone flag and priority rank are visit-planning information, not evidence."
+ ],
+ "rule_check": {
+  "result": "pass",
+  "outcome": "CLEARANCE",
+  "checks": [
+   {
+    "rule": "R5",
+    "passed": true,
+    "detail": "Every item of the evidence log is in the register."
+   },
+   {
+    "rule": "R3",
+    "passed": true,
+    "detail": "The national criteria provide no technical survey, so clearance takes its place; evidence to target: E1, E2."
+   }
+  ]
+ },
+ "register": {
+  "E1": {
+   "item_id": "E1",
+   "quote": "The national mine action database records one or more past landmine accidents inside this area.",
+   "evidence_class": "indirect",
+   "reliability_class": 6,
+   "explains": [],
+   "note": "The database record has not been checked on the ground and its reliability is unassessed, so it suggests possible EO presence but does not confirm it.",
+   "step": 3
+  },
+  "E2": {
+   "item_id": "E2",
+   "quote": "A woodcutter said people stopped using the land on the ridge after an armed group camped there around 1997, and nobody has used it since.",
+   "evidence_class": "indirect",
+   "reliability_class": 4,
+   "explains": [],
+   "note": "The reported armed-group camp and subsequent non-use suggest possible contamination; non-use is not safe use and does not support absence. The local land user is a first-hand source for land-use history.",
+   "step": 3
+  },
+  "E3": {
+   "item_id": "E3",
+   "quote": "A man who hunts and fishes said a mule was killed by an explosion at the edge of the pasture about 6 years ago; he saw the place the next day and can show it to the team.",
+   "evidence_class": "indirect",
+   "reliability_class": 5,
+   "explains": [],
+   "note": "This is a reported accident with a potentially locatable site, but the source did not witness the explosion or report seeing EO; as reported here it suggests possible EO rather than confirming it.",
+   "step": 3
+  }
+ },
+ "vetoes": [],
+ "quote_failures": [],
+ "tool_errors": [],
+ "handling_blocked": [],
+ "instruction_lines_found": [],
+ "sections_read": [
+  "area_record",
+  "desk_study",
+  "evidence_log",
+  "national_criteria"
+ ],
+ "rules_read": [
+  "evidence",
+  "reliability",
+  "desk_study",
+  "cancellation",
+  "technical_survey",
+  "further_survey",
+  "outcomes",
+  "dossier_text",
+  "safety"
+ ],
+ "usage": {
+  "input_tokens": 20521,
+  "cached_tokens": 13985,
+  "output_tokens": 2275,
+  "reasoning_tokens": 1509
+ },
+ "cost_usd": 0.0031896,
+ "stats": {
+  "model_calls": 5,
+  "tool_calls": 18,
+  "error": "",
+  "error_scope": "",
+  "seconds": 24.8
+ }
+}
