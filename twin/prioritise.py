@@ -333,7 +333,9 @@ class RiskOverlay(Overlay):
             ll += np.where(known[m] == 1, np.log(pk[:, m]), np.log(1 - pk[:, m])).sum(axis=1)
             post = np.exp(ll + log_prior - (ll + log_prior).max())
             post /= post.sum()
-            rows[code] = {"multiplier": float((LEARN_GRID * post).sum()),
+            # to 6 significant digits: the last digits of log and exp differ between computers, and the season
+            # planner's choice among nearly equal plans can turn on them; rounded, the same season runs on any computer
+            rows[code] = {"multiplier": float(f"{(LEARN_GRID * post).sum():.6g}"),
                           "areas surveyed": int(part["surveyed"].sum()),
                           "flagged, not recorded": int((part["flagged"] & ~part["recorded"]).sum()),
                           "outcomes known": int(part["known"].notna().sum())}

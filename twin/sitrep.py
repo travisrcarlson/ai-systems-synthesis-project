@@ -137,13 +137,14 @@ def week_facts(view, week, run=None):
         forecast = run.latest_forecast
         if forecast is not None and forecast.ok:
             t = forecast.answer["totals"]
+            # whole numbers: the percentiles are draws' own counts (forecast.py takes them without interpolation)
             facts["forecast"] = {
                 "made in week": forecast.week,
                 "scope": "the zones of the plan it was made with, and what is done already",
-                "mine areas cleared this season, P10 to P90": [t["mine areas cleared"]["P10"],
-                                                                t["mine areas cleared"]["P90"]],
-                "zones declared free this season, P10 to P90": [t["zones declared free"]["P10"],
-                                                                 t["zones declared free"]["P90"]]}
+                "mine areas cleared this season, P10 to P90": [int(t["mine areas cleared"]["P10"]),
+                                                                int(t["mine areas cleared"]["P90"])],
+                "zones declared free this season, P10 to P90": [int(t["zones declared free"]["P10"]),
+                                                                 int(t["zones declared free"]["P90"])]}
         elif forecast is not None:
             facts["forecast"] = "insufficient evidence"
     return facts
