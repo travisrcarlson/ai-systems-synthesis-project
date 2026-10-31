@@ -2,7 +2,7 @@
 
 A digital twin of land release in the 15 Antioquia municipalities of the RELand study, which helps people plan a season of survey and clearance and run it week by week. One state model of the pilot (municipality, operational zone, area and task, with the teams and the calendar) is kept in step with the teams' reports. The twin changes what the teams do, and the status of land, only through decisions a person approves, and it records every report and every decision in one log. Overlays read the twin and recommend: data layers, each registered with its source, licence and sensitivity, and six decision tools across machine learning, optimisation, statistics, generative AI and agentic AI, each of which can answer "insufficient evidence". A season replay against a simulated field, 20 seeds for each policy, measures how the system behaves, and five injected scenarios test it when things go wrong. The six earlier projects of my AI capstone on humanitarian mine action appear as insights. This is the seventh project.
 
-> **Status (27 October 2026):** built, reviewed, smoke-tested and run in full on my computer with my OpenAI API key; I have judged a sample of the agent's reviews and of the model's situation reports (`runs/expert_review.csv`); sections 11 and 12 of the notebook, the model cards and the risk register written from the results. Next: the application and the paper.
+> **Status (31 October 2026):** built, reviewed, smoke-tested and run in full on my computer with my OpenAI API key; I have judged a sample of the agent's reviews and of the model's situation reports (`runs/expert_review.csv`); sections 11 and 12 of the notebook, the model cards and the risk register written from the results; the application in `app/` built and checked. Next: the paper.
 
 ## What's in this repository
 - `integrated_system.ipynb`: the notebook, in 12 sections: the industry context, problem, users and boundaries; the architecture; setup; the data and data layers; the twin; planning; operations; release (the dossier reviewer, the rule check and sign-off); the season replay and its evaluation; the injected scenarios; failure cases, limitations and governance; and the summary. Sections 11 and 12 are written from the full run's results.
@@ -33,6 +33,7 @@ A digital twin of land release in the 15 Antioquia municipalities of the RELand 
 - `data/`: three public datasets, copied unchanged from P1, P2 and P3, with sources, licences and checksums in `data/README.md`; `docs/datasheets/` has a datasheet for each.
 - `docs/model_cards/`: a model card for each model (the risk model, the report checker, the dossier reviewer agent and the situation report), and `docs/risk_register.md`, the risk register, by the NIST AI Risk Management Framework's four functions.
 - `figures/`: the notebook's figures, saved when it runs.
+- `app/`: an extra beside the notebook: a local, read-only Streamlit viewer of the agent's season (operations, plans and forecasts, the log, the dossier reviews and sign-off sheets, the situation reports, the public summary, and the evaluation kept apart), built on the frozen `twin/` package and the saved runs; it writes nothing, calls no model and reads no key. Its own `README.md` has its screens and data rules.
 - `models/`: the risk models' scores, the gate's table and the calibration, fitted by the first run and saved so that later runs give the same results.
 - `runs/`: saved by the full run: the agent's reviews (`runs/reviews/`, a trace, a result and a sign-off sheet for each), the situation reports (`runs/sitreps/`), the season replay's records (`runs/replay/`), and the agent's season's reviews, log and run information. `runs/expert_review.csv` holds my expert review: the 2 reviews that differ from the coded rules, and a sample drawn at random with a fixed seed, 12 of the 94 that match them (4 of each outcome) and 6 of the 52 situation reports; for each, the question I was asked and its options, my answer word for word, and Claude's notes, checked against the saved files.
 - `requirements.txt`: the Python environment, from `pip freeze`.
@@ -63,5 +64,17 @@ jupyter nbconvert --to notebook --execute --inplace --ExecutePreprocessor.timeou
 
 **The smoke test.** To try it first, set the environment variable `SMOKE_TEST` to `1` before starting (PowerShell: `$env:SMOKE_TEST = "1"`). The agent then makes 5 reviews and the model drafts 2 reports, the coded rules and the coded draft take over after that, and the season replay runs on 2 seeds instead of 20; everything is saved in `runs_smoke/`, which is not committed. Without a key, the whole smoke test took about 10 minutes on two processors in this project's tests, including the models' fit; with a key, on my computer with 8 worker processes, about 20 minutes, and the model's calls cost about 1.5 US cents.
 
+**The application** (optional; the notebook is complete without it) has its own environment. From the repository's root in PowerShell:
+
+```
+python -m venv app\.venv
+.\app\.venv\Scripts\Activate.ps1
+pip install -r app\requirements.txt
+cd app
+streamlit run app.py
+```
+
+It opens on `localhost`; the first screen rebuilds the agent's season from the saved reviews and reports, which takes about two minutes.
+
 ## How this project is made
-I chose the use case, the country and the pilot, the digital-twin design (a digital shadow with approved write-back, for planning and operations), and every setting of the simulation that the notebook marks as mine, one question at a time; I approved the design. Claude (Anthropic) researched the sources, wrote the `twin/` package, the rules, the prompts and the notebook, and tested them in its workspace with scripted stand-in models, without a key. I run the smoke test and the full run on my own computer with my OpenAI API key, judge a sample of the agent's reviews and of the model's situation reports, and review every change before it is pushed.
+I chose the use case, the country and the pilot, the digital-twin design (a digital shadow with approved write-back, for planning and operations), and every setting of the simulation that the notebook marks as mine, one question at a time; I approved the design. Claude (Anthropic) researched the sources, wrote the `twin/` package, the rules, the prompts and the notebook, and tested them in its workspace with scripted stand-in models, without a key. I run the smoke test and the full run on my own computer with my OpenAI API key, judge a sample of the agent's reviews and of the model's situation reports, and review every change before it is pushed. I built the application in `app/` with Google Antigravity, an AI coding tool; Claude reviewed and corrected it at my request.
