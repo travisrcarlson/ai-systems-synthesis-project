@@ -6,7 +6,6 @@ ROOT = Path(__file__).resolve().parents[1]
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
-import importlib
 import matplotlib
 matplotlib.use("Agg")
 import streamlit as st
@@ -28,27 +27,6 @@ import screen_plan
 import screen_public
 import screen_reviews
 import screen_sitreps
-
-for _mod in (
-    loaders,
-    clearance_pipeline,
-    grid_map,
-    grounding_panels,
-    interactive_map,
-    literature_library,
-    operational_analytics,
-    ordnance_library,
-    screen_about,
-    screen_dashboard,
-    screen_evaluation,
-    screen_log,
-    screen_operations,
-    screen_plan,
-    screen_public,
-    screen_reviews,
-    screen_sitreps,
-):
-    importlib.reload(_mod)
 
 st.set_page_config(
     page_title="Antioquia Land Release Programme",

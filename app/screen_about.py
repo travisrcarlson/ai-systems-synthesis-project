@@ -37,7 +37,7 @@ def render(root: Path) -> None:
 ### What this application is and is not
 - **What it is:** A small, local, **read-only** viewer for the simulated season of land release across 15 municipalities of Antioquia, Colombia. It lets a reader inspect the season the way the people in the programme would: the weekly operations picture, the land release pipeline, the first plan and its completion forecast, the single operational log, the {n_reviews} dossier reviews with their sign-off sheets, the {n_sitreps} weekly situation reports, the public municipal summary, a library of the project's sources and documents, and, on a screen of its own, the evaluation against the simulation's hidden truth.
 - **What it is not:** This is a viewer of a **simulated** season and is **not for operational or field use** in mine action. In this project, land is released only on evidence that survey or clearance gathers, as IMAS 07.11 sets out, and a person signs off every decision. A model's chance or recommendation is not evidence, and no area is released on it.
-- **Relationship to the graded work:** The repository's notebook (`integrated_system.ipynb`) is the graded work and is complete on its own. This application in `app/` is a disclosed extra built on top of the frozen `twin/` package and the saved outputs in `runs/` and `models/`.
+- **Relationship to the graded work:** The repository's notebook (`integrated_system.ipynb`) and reflective synthesis paper (`module_summary.pdf`) are the graded work and are complete on their own. This application in `app/` is a disclosed extra built on top of the frozen `twin/` package and the saved outputs in `runs/` and `models/`.
 """
     )
 
@@ -60,7 +60,7 @@ def render(root: Path) -> None:
     st.subheader("How it was made")
     st.markdown(
         """
-- **The `twin/` package, rules, prompts and `integrated_system.ipynb`:** Written by **Claude (Anthropic)** under **Travis's** direction, as disclosed in the repository's root `README.md`.
+- **The `twin/` package, rules, prompts, `integrated_system.ipynb` and `module_summary.pdf`:** Written by **Claude (Anthropic)** under **Travis's** direction, as disclosed in the repository's root `README.md`.
 - **The web application (`app/`):** Built by **Travis** with **Google Antigravity**, an AI coding tool, which generated the code from the project's build briefs at Travis's direction. The application reads the frozen `twin/` package and the saved season records without changing any file outside `app/`. **Reviewed and corrected by Claude (Anthropic)** at Travis's request: Claude rebuilt the contamination categories on the national register, took the week-by-week states from the twin's own records, corrected labels and counts, and checked the application's statements against the twin and its sources.
 """
     )

@@ -664,29 +664,32 @@ def render_total_dashboard(root: Path) -> None:
 
     st.markdown("---")
     st.markdown("### Contamination Categories, Real-World Grounding & Programme Breakdowns")
-    tab_reg, tab_ground, tab_map, tab_plan, tab_prog = st.tabs(
-        [
-            "💣 Contamination Categories (Ordnance Library)",
-            "🌍 Real-World Grounding: Terrain, Past Output & Rules",
-            "🗺️ Municipality Explorer & All-15 Grid Layers",
-            "📅 Planning & Forecast Dashboard",
-            "📈 Season Progress & Team Capacity",
-        ]
+    dash_sections = [
+        "💣 Contamination Categories (Ordnance Library)",
+        "🌍 Real-World Grounding: Terrain, Past Output & Rules",
+        "🗺️ Municipality Explorer & All-15 Grid Layers",
+        "📅 Planning & Forecast Dashboard",
+        "📈 Season Progress & Team Capacity",
+    ]
+    active_dash_sec = st.segmented_control(
+        "Dashboard breakdown view",
+        options=dash_sections,
+        default=dash_sections[0],
+        required=True,
+        width="stretch",
+        label_visibility="collapsed",
+        key="total_dash_breakdown_sec",
     )
 
-    with tab_reg:
+    if active_dash_sec == dash_sections[0]:
         ordnance_library.render_catalogue(root, bundle)
-
-    with tab_ground:
+    elif active_dash_sec == dash_sections[1]:
         grounding_panels.render_grounding_and_calibration_section(root, bundle, log_df, reviews_df, week)
-
-    with tab_map:
+    elif active_dash_sec == dash_sections[2]:
         grid_map.render_municipality_map_explorer(root, bundle, log_df, gate_df, saved_sitreps, week)
-
-    with tab_plan:
+    elif active_dash_sec == dash_sections[3]:
         render_planning_dashboard_section(root, bundle, gate_df)
-
-    with tab_prog:
+    else:
         st.subheader("Season Progress, Field Team Capacity & Sign-Off Summary")
         st.caption(
             "Tracks cumulative zones surveyed and declared free across the 52 weeks (vertical dotted lines "

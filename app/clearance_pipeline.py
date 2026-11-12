@@ -1205,11 +1205,11 @@ def render_clearance_pipeline_studio(
         )
         c_w1, c_w2 = st.columns([1.8, 2.2])
         with c_w1:
+            st.session_state.setdefault("standalone_pipeline_week_slider", 52)
             week = st.slider(
                 "Select season week to show (1 to 52):",
                 min_value=1,
                 max_value=52,
-                value=52,
                 step=1,
                 key="standalone_pipeline_week_slider",
             )
@@ -1261,15 +1261,31 @@ def render_clearance_pipeline_studio(
             a for a in active_areas if a not in LISTED_FIRST
         ]
         area_key = f"pipeline_area_sel_{'emb' if embedded else 'main'}"
+        requested_area = st.session_state.pop("pipeline_requested_area", None) if not embedded else None
+        fallback_note = None
         if ordered_active and st.session_state.get(area_key) not in ordered_active:
-            st.session_state[area_key] = ordered_active[0]   # the week changed and the area chosen is not listed in it
+            missing_aid = requested_area or st.session_state.get(area_key)
+            st.session_state[area_key] = ordered_active[0]
+            if missing_aid and requested_area:
+                pipe_52 = build_area_pipeline_profiles(str(root), week=52)
+                if missing_aid in pipe_52.index and bool(pipe_52.loc[missing_aid, "has_dossier_or_task"]):
+                    fallback_note = (
+                        f"Area `{missing_aid}` had not yet had a visit ordered by the end of week {week}; "
+                        f"move the week slider forward to inspect `{missing_aid}`, or inspect `{ordered_active[0]}` below."
+                    )
+                else:
+                    fallback_note = (
+                        f"Area `{missing_aid}` had no area visit ordered during the 52-week season (for example, an "
+                        f"area not flagged in zone survey); showing `{ordered_active[0]}` instead."
+                    )
         selected_area_id = st.selectbox(
             f"1. Select an area ({len(ordered_active)} with a visit ordered by the end of week {week}):",
             options=ordered_active,
-            index=0,
             format_func=_area_label,
             key=area_key,
         )
+        if fallback_note:
+            st.info(fallback_note)
 
     if "pipeline_selected_stage" not in st.session_state:
         st.session_state["pipeline_selected_stage"] = 4  # step 4 (review and sign-off) first

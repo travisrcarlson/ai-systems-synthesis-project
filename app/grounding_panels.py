@@ -861,17 +861,24 @@ def render_grounding_and_calibration_section(
         "the communities of these zones are consulted before any tasking."
     )
 
-    g_tab1, g_tab2, g_tab3, g_tab4, g_tab5 = st.tabs(
-        [
-            "🌾 1. Terrain, Land Use & Land Released",
-            "📊 2. Past Output and Victims (`datos.gov.co`, P1 and P2)",
-            "🌧️ 3. Rainfall Season and Season Settings",
-            "⚖️ 4. Reliability Classes and the Saved Rule Check",
-            "🔐 5. SHA-256 Data Provenance & Layer Registry",
-        ]
+    ground_sections = [
+        "🌾 1. Terrain, Land Use & Land Released",
+        "📊 2. Past Output and Victims (`datos.gov.co`, P1 and P2)",
+        "🌧️ 3. Rainfall Season and Season Settings",
+        "⚖️ 4. Reliability Classes and the Saved Rule Check",
+        "🔐 5. SHA-256 Data Provenance & Layer Registry",
+    ]
+    active_g_sec = st.segmented_control(
+        "Real-world grounding view",
+        options=ground_sections,
+        default=ground_sections[0],
+        required=True,
+        width="stretch",
+        label_visibility="collapsed",
+        key="grounding_active_sec",
     )
 
-    with g_tab1:
+    if active_g_sec == ground_sections[0]:
         st.markdown(f"##### RELand Terrain and Land-Use Features, and Land Released by Week {week}, by Municipality")
         st.caption(
             "In the simulated field (`twin.config.Assumptions`), land use shapes what a non-technical survey visit "
@@ -908,7 +915,7 @@ def render_grounding_and_calibration_section(
             )
         st.dataframe(pd.DataFrame(muni_rows), width="stretch", hide_index=True)
 
-    with g_tab2:
+    elif active_g_sec == ground_sections[1]:
         st.markdown(
             f"##### Past Demining Output and Victims in the {len(config.PILOT)} Municipalities, Beside the Simulated Season"
         )
@@ -981,7 +988,7 @@ def render_grounding_and_calibration_section(
             hide_index=True,
         )
 
-    with g_tab3:
+    elif active_g_sec == ground_sections[2]:
         st.markdown("##### Season Settings (`twin/config.py`)")
         st.caption(
             f"In the twin, heavy rain or high wind stops work on {s_cfg.rainy_day_loss:.0%} of the working days in "
@@ -1086,7 +1093,7 @@ def render_grounding_and_calibration_section(
         ]
         st.dataframe(pd.DataFrame(param_rows), width="stretch", hide_index=True)
 
-    with g_tab4:
+    elif active_g_sec == ground_sections[3]:
         st.markdown("##### IMAS 08.10 (§8.2) Reliability Classes and the Saved Rule Check")
         st.caption(
             "The reviewer reads `rules/land_release_rules.md`, which paraphrases parts of **IMAS 07.11 (*Land release*, "
@@ -1137,7 +1144,7 @@ def render_grounding_and_calibration_section(
             if det.get("record"):
                 render_imas_and_rule_check_inspector(det["record"], bundle["setup"].twin.criteria)
 
-    with g_tab5:
+    else:
         st.markdown("##### Cryptographic Data Integrity (`twin.data.verify()`) & Registered Layer Governance (`twin.layers`)")
         st.caption(
             "When the twin is built (`twin.layers.build_twin`), `twin.data.verify()` computes the SHA-256 digest of each "

@@ -8,8 +8,9 @@ the people in the programme would.
 
 - **It is** a viewer of a **simulated** season, built on the frozen `twin/` package and the saved outputs in `runs/`
   and `models/`.
-- **It is not** for field or operational use. The repository's notebook (`integrated_system.ipynb`) is the graded work
-  and is complete on its own; this application is a disclosed extra.
+- **It is not** for field or operational use. The repository's notebook (`integrated_system.ipynb`) and reflective
+  synthesis paper (`module_summary.pdf`) are the graded work and are complete on their own; this application is a
+  disclosed extra.
 
 ## Screens
 
@@ -27,7 +28,8 @@ Screens marked *restricted* carry the heading "Inside the twin (restricted)".
   with who decided and the rule check, "insufficient evidence" notices, the season's end, and team deployment.
 - **2. Plan & Completion Forecast** (*restricted*): the week-1 integer programme beside the rule of thumb, the
   completion forecast (P10, P50, P90; it assumes its plan holds), and the risk overlay's monthly learning.
-- **3. Operational Log** (*restricted*): the one log of the season, filterable, and the story of any zone.
+- **3. Operational Log** (*restricted*): the one log of the season, the story of any zone, and a ledger of decisions
+  by the four human roles (`twin.season.ROLES`) and the tools they consulted.
 - **4. Dossier Sign-Off Reviews** (*restricted*): the dossier reviews, each sign-off sheet headed "Recommendation
   only: a person decides", and the rule check's results.
 - **5. Weekly Situation Reports** (*restricted*): each week's draft, the facts it was given and the figure check.
@@ -76,8 +78,8 @@ Run `streamlit run app.py` from inside `app/` so that `app/.streamlit/config.tom
 
 ## How it was made
 
-- **The `twin/` package, rules, prompts and `integrated_system.ipynb`:** written by **Claude (Anthropic)** under
-  **Travis's** direction, as the repository's root `README.md` discloses.
+- **The `twin/` package, rules, prompts, `integrated_system.ipynb` and `module_summary.pdf`:** written by **Claude
+  (Anthropic)** under **Travis's** direction, as the repository's root `README.md` discloses.
 - **This application (`app/`):** built by **Travis** with **Google Antigravity**, reading the frozen `twin/` package
   and the saved season outputs. **Reviewed and corrected by Claude (Anthropic)** at Travis's request: Claude rebuilt
   the contamination categories on the national register, took the week-by-week states from the twin's own records,

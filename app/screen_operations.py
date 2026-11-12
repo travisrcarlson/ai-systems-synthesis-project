@@ -51,11 +51,11 @@ def render_operations(root: Path) -> None:
 
     col_sel, col_info = st.columns([2, 3])
     with col_sel:
+        st.session_state.setdefault("ops_week_slider", 3)
         week = st.slider(
             "Select week of the season (1 to 52)",
             min_value=1,
             max_value=52,
-            value=3,
             step=1,
             key="ops_week_slider",
         )

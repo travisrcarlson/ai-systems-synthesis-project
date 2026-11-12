@@ -200,11 +200,14 @@ def render_situation_reports(root: Path) -> None:
             )
         st.dataframe(pd.DataFrame(ledger_rows), width="stretch", hide_index=True)
 
+    min_wk, max_wk = int(min(weeks_available)), int(max(weeks_available))
+    st.session_state["sitreps_week_slider"] = int(
+        min(max(int(st.session_state.get("sitreps_week_slider", min(20, max_wk))), min_wk), max_wk)
+    )
     week = st.slider(
-        f"Select week of the season ({min(weeks_available)} to {max(weeks_available)})",
-        min_value=min(weeks_available),
-        max_value=max(weeks_available),
-        value=min(20, max(weeks_available)),
+        f"Select week of the season ({min_wk} to {max_wk})",
+        min_value=min_wk,
+        max_value=max_wk,
         step=1,
         key="sitreps_week_slider",
     )

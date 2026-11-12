@@ -5,8 +5,10 @@ Business level only, as the project's rules require ("Stay at business level: ad
 munitions", `rules/land_release_rules.md`): no device models, mechanisms or calibres.
 - The categories are the register's own three, MAP, MUSE and AEI, read from the twin's open demining layer
   (`twin.activity`: datos.gov.co `jbqm-s5tn`, as P2 summed it by municipality and month). The app never reads `data/`.
-- In Colombia, all remaining mines are said to have been laid by non-state armed groups and all are of an improvised
-  nature (Mine Action Review, 2024, *Clearing the Mines 2024: Colombia*, p. 118).
+- In Colombia, the remaining mines are predominantly improvised, laid by non-state armed groups (Mine Action Review,
+  2025, *Clearing the Mines 2025: Colombia*, p. 123; 2024, p. 118). IMAS 09.30 sets four EOD qualification levels
+  (UNMAS, 2022, p. 2), with a parallel ladder for IEDD qualifications (Prater, 2023); the twin's teams carry no
+  qualification levels and its four review outcomes include no EOD spot task (`module_summary.pdf`).
 - The dossiers' statements are simulated by the twin's field and quoted by the reviewer agent in its evidence
   register (`runs/reviews/*_result.json`). They are grouped by the register's evidence class and by the source's
   reliability class, 1 to 7 (IMAS 08.10, §8.2, as `rules/land_release_rules.md` paraphrases it).
@@ -31,9 +33,13 @@ INK_2 = "#52514e"
 MUTED = "#85827a"
 GRID = "#e4e1d9"
 
-MAR_2024 = (
-    "Mine Action Review (2024), *Clearing the Mines 2024: Colombia*, p. 118: \"All the mines remaining in Colombia "
-    "are said to have been laid by NSAGs and all are of an improvised nature.\""
+MAR_NOTE = (
+    "Mine Action Review (2025), *Clearing the Mines 2025: Colombia*, p. 123: the remaining mines in Colombia are "
+    "predominantly improvised, laid by non-state armed groups (see also *Clearing the Mines 2024: Colombia*, p. 118). "
+    "IMAS 09.30 sets four EOD qualification levels and states that, generally, operators \"should deal only with those "
+    "items and situations for which they have been trained and authorized in writing\" (UNMAS, 2022, p. 2), with a "
+    "parallel ladder for IEDD qualifications (Prater, 2023). In this twin, teams (`S1–S4`, `C1–C4`) carry no "
+    "qualification levels and the four review outcomes include no EOD spot task (`module_summary.pdf`)."
 )
 
 # The register's three categories (column names as `twin/data.py` renames them)
@@ -42,8 +48,8 @@ CATEGORIES = [
         "code": "MAP",
         "column": "items_mines",
         "name": "Minas antipersonal (MAP)",
-        "meaning": "Anti-personnel mines. In Colombia, all remaining mines are said to be improvised, laid by "
-                   "non-state armed groups (Mine Action Review, 2024, p. 118).",
+        "meaning": "Anti-personnel mines. In Colombia, the remaining mines are predominantly improvised, laid by "
+                   "non-state armed groups (Mine Action Review, 2025, p. 123).",
         "colour": "#a8322b",
     },
     {
@@ -280,7 +286,7 @@ def render_catalogue(root: Path, bundle: dict) -> None:
     st.caption(
         (f"Register rows for the 15 municipalities cover {years[0]} to {years[-1]}. " if years else "")
         + "The register counts items destroyed by municipality and month; it does not record where in a "
-        "municipality they were found. " + MAR_2024
+        "municipality they were found. " + MAR_NOTE
     )
 
     # 2. By municipality, 3. by year

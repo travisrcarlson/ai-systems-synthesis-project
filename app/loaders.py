@@ -78,6 +78,7 @@ def nav_to_pipeline(area_id: str | None = None, week: int = 52, stage: int = 4) 
     st.session_state["pipeline_stage_dropdown_main"] = int(min(max(int(stage), 1), 6))
     if area_id:
         st.session_state["pipeline_area_sel_main"] = str(area_id)
+        st.session_state["pipeline_requested_area"] = str(area_id)
 
 
 def nav_to_log_zone(zone_id: str) -> None:
@@ -495,6 +496,9 @@ class _BaselineChances:
         return self._baseline.copy()
 
 
+_BUNDLE_CACHED: set[str] = set()
+
+
 @st.cache_resource(show_spinner=False)
 def _rebuild_twin_and_season(root_str: str) -> tuple[dict, dict]:
     """Build the twin, rebuild the agent's season from saved reviews/reports, and compute the first plan and forecast.
@@ -682,13 +686,14 @@ def _rebuild_twin_and_season(root_str: str) -> tuple[dict, dict]:
         "checks_df": checks_df,
         "month_names": list(config.MONTHS),
     }
+    _BUNDLE_CACHED.add(root_str)
     return bundle, evaluation
 
 
 def get_twin_bundle(root: Path) -> dict:
     """Load the cached twin and rebuilt season, showing a plain note while it runs the first time."""
     root_str = str(root)
-    if not st.session_state.get("_twin_bundle_ready", False):
+    if root_str not in _BUNDLE_CACHED and not st.session_state.get("_twin_bundle_ready", False):
         placeholder = st.empty()
         placeholder.info(
             "**Rebuilding the 52-week operational season from the saved reviews and weekly reports** "
@@ -701,6 +706,7 @@ def get_twin_bundle(root: Path) -> dict:
         placeholder.empty()
     else:
         bundle, _ = _rebuild_twin_and_season(root_str)
+        st.session_state["_twin_bundle_ready"] = True
 
     if bundle.get("missing_review_error"):
         st.warning(
@@ -708,6 +714,15 @@ def get_twin_bundle(root: Path) -> dict:
             f"{bundle['missing_review_error']} Showing the saved files directly."
         )
     return bundle
+
+
+def peek_twin_bundle(root: Path) -> dict | None:
+    """Return the truth-free programme bundle if already cached in this server process, else None."""
+    root_str = str(root)
+    if root_str in _BUNDLE_CACHED or st.session_state.get("_twin_bundle_ready", False):
+        bundle, _ = _rebuild_twin_and_season(root_str)
+        return bundle
+    return None
 
 
 def get_evaluation_objects(root: Path) -> dict:

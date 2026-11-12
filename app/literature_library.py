@@ -39,10 +39,11 @@ INK_3 = "#7c7a75"
 
 
 # =====================================================================================================================
-# 1. THE NOTEBOOK'S REFERENCES (SECTION 12) AND THE TWO DATASETS OF `docs/datasheets/`
+# 1. THE PROJECT'S REFERENCES (NOTEBOOK §12 AND `module_summary.pdf`) AND THE TWO DATASETS OF `docs/datasheets/`
 # =====================================================================================================================
-# The notebook's reference list (cell c86) is the source for every citation below. The two datasets are not in that
-# list; their entries follow `docs/datasheets/01_victims.md`, `02_demining.md` and `twin/layers.py`.
+# The notebook's reference list (cell c86) and `module_summary.pdf` are the sources for every citation below. The two
+# datasets are not in those lists; their entries follow `docs/datasheets/01_victims.md`, `02_demining.md` and
+# `twin/layers.py`.
 LITERATURE_CATALOGUE: list[dict] = [
     {
         "ref_id": "LIT-01",
@@ -236,7 +237,11 @@ LITERATURE_CATALOGUE: list[dict] = [
         "key_findings": (
             "Reports that Colombia's municipalities \"are subdivided into operational zones based on accessibility\", "
             "with \"the zone as the unit of measurement\", and that technical survey \"is not foreseen\" for the "
-            "baseline areas, which go to clearance after non-technical survey (notebook section 1.1)."
+            "baseline areas, which go to clearance after non-technical survey (pp. 134, 136; notebook section 1.1). "
+            "Also notes that the remaining mines in Colombia are predominantly improvised (p. 123), that in 2024 "
+            "almost half of clearance found no anti-personnel mines, and that after the 2025 suspension of US funding "
+            "one operator reported temporarily losing up to two-thirds of its clearance teams (pp. 125, 136; "
+            "`module_summary.pdf`)."
         ),
         "codebase_grounding": (
             "The main policy's `Criteria.technical_survey = False` (`twin/config.py`), under which a hazardous area "
@@ -672,6 +677,85 @@ LITERATURE_CATALOGUE: list[dict] = [
             "}"
         ),
     },
+    {
+        "ref_id": "LIT-16",
+        "kind": "reference",
+        "short_cite": "UNMAS (2022): IMAS 09.30",
+        "year": "2022",
+        "category": "Mine action standards and reports",
+        "title": "IMAS 09.30: Explosive ordnance disposal",
+        "authors": "United Nations Mine Action Service",
+        "venue": "International Mine Action Standards",
+        "doi_or_url": "https://www.mineactionstandards.org/fileadmin/uploads/imas/Standards/English/IMAS_09.30_Ed.2_Am.6.pdf",
+        "license_or_edition": "2nd ed., Amendment 6; cited in `module_summary.pdf`",
+        "key_findings": (
+            "Sets four explosive ordnance disposal (EOD) qualification levels and states that, generally, operators "
+            "\"should deal only with those items and situations for which they have been trained and authorized in "
+            "writing\" (p. 2; `module_summary.pdf`)."
+        ),
+        "codebase_grounding": (
+            "Cited in `module_summary.pdf` (Evaluation and Reflection; Professional Relevance) for a structural gap in "
+            "how the twin models people: the twin's teams (`twin/config.py`, `twin/core.py`) carry no EOD "
+            "qualification levels, so its plans assume any clearance team can take any task, and the dossier "
+            "reviewer's four outcomes (`twin/rules.py`) include no EOD spot task for single finds."
+        ),
+        "modules": "module_summary.pdf, twin/config.py, twin/core.py, twin/rules.py",
+        "apa_citation": (
+            "United Nations Mine Action Service. (2022). IMAS 09.30: Explosive ordnance disposal (2nd ed., Amendment "
+            "6). International Mine Action Standards. "
+            "https://www.mineactionstandards.org/fileadmin/uploads/imas/Standards/English/IMAS_09.30_Ed.2_Am.6.pdf"
+        ),
+        "bibtex": (
+            "@misc{unmas2022imas0930,\n"
+            "  author       = {{United Nations Mine Action Service}},\n"
+            "  title        = {{IMAS} 09.30: Explosive ordnance disposal},\n"
+            "  howpublished = {International Mine Action Standards},\n"
+            "  note         = {2nd ed., Amendment 6},\n"
+            "  year         = {2022},\n"
+            "  url          = {https://www.mineactionstandards.org/fileadmin/uploads/imas/Standards/English/IMAS_09.30_Ed.2_Am.6.pdf}\n"
+            "}"
+        ),
+    },
+    {
+        "ref_id": "LIT-17",
+        "kind": "reference",
+        "short_cite": "Prater (2023)",
+        "year": "2023",
+        "category": "Peer-reviewed research",
+        "title": "IMAS levels of EOD & IEDD qualifications",
+        "authors": "Prater, D.",
+        "venue": "The Journal of Conventional Weapons Destruction, 27(1), Article 8",
+        "doi_or_url": "https://commons.lib.jmu.edu/cisr-journal/vol27/iss1/8",
+        "license_or_edition": "Journal article; cited in `module_summary.pdf`",
+        "key_findings": (
+            "Explains how the disposal of improvised explosive devices (IEDD) has a parallel qualification ladder of "
+            "its own, recognised only alongside the equivalent EOD qualification (`module_summary.pdf`)."
+        ),
+        "codebase_grounding": (
+            "Cited in `module_summary.pdf` alongside IMAS 09.30 (UNMAS, 2022) and Mine Action Review (2025, p. 123): "
+            "because the remaining mines in Colombia are predominantly improvised, field practice calls for "
+            "appropriately qualified operators (Level 3+), whereas the twin's teams carry no qualification levels "
+            "(`twin/config.py`, `twin/core.py`). Before any field use, teams would need qualification levels, spot "
+            "tasks for single finds, and rules referring each find to an operator of the right level."
+        ),
+        "modules": "module_summary.pdf, twin/config.py, twin/core.py, twin/planner.py",
+        "apa_citation": (
+            "Prater, D. (2023). IMAS levels of EOD & IEDD qualifications. The Journal of Conventional Weapons "
+            "Destruction, 27(1), Article 8. https://commons.lib.jmu.edu/cisr-journal/vol27/iss1/8"
+        ),
+        "bibtex": (
+            "@article{prater2023imaslevels,\n"
+            "  author    = {Prater, Drew},\n"
+            "  title     = {{IMAS} levels of {EOD} \\& {IEDD} qualifications},\n"
+            "  journal   = {The Journal of Conventional Weapons Destruction},\n"
+            "  volume    = {27},\n"
+            "  number    = {1},\n"
+            "  articleno = {8},\n"
+            "  year      = {2023},\n"
+            "  url       = {https://commons.lib.jmu.edu/cisr-journal/vol27/iss1/8}\n"
+            "}"
+        ),
+    },
 ]
 
 
@@ -712,7 +796,7 @@ def plot_literature_traceability_diagram() -> plt.Figure:
         (16.5, 81, "Dulce Rubio et al. (2024): RELand\n26,761 cells · 63 features\nSmith & Winkler (2006): the optimiser's curse", "#eff6ff", "#2563eb"),
         (16.5, 65, "datos.gov.co: victims (`yhxn-eqqw`, Presidencia)\nand demining (`jbqm-s5tn`, DAPRE)", "#f0fdf4", "#16a34a"),
         (16.5, 49, "IDEAM (2025): two rainy seasons\nMine Action Review (2025): Colombia", "#fefce8", "#ca8a04"),
-        (16.5, 33, "UNMAS: IMAS 07.11 (2026), 08.10 and 08.20 (2019)\nLand release; source classes 1 to 7", "#fef2f2", "#dc2626"),
+        (16.5, 33, "UNMAS: IMAS 07.11 (2026), 08.10/08.20 (2019),\n09.30 (2022) · Prater (2023): EOD/IEDD levels", "#fef2f2", "#dc2626"),
         (16.5, 17, "NIST (2023) · IASC (2023) · Parasuraman & Manzey (2010)\nGebru et al. (2021) · Mitchell et al. (2019)\nKritzinger et al. (2018)", "#f5f3ff", "#7c3aed"),
     ]
 
@@ -1204,6 +1288,7 @@ DOCS_NOT_SHOWN = [
     "docs/model_cards/03_dossier_reviewer.md",
     "docs/model_cards/04_situation_report.md",
     "docs/risk_register.md",
+    "module_summary.pdf",
     "README.md",
 ]
 
@@ -1713,11 +1798,12 @@ def render_literature_library_studio(root: Path, key_prefix: str = "lit_studio")
     st.header("📚 Literature, Standards, Datasheets & Governance Library")
     st.markdown(
         "The twin draws on **peer-reviewed research** (Dulce Rubio et al., 2024; Kritzinger et al., 2018; Smith & "
-        "Winkler, 2006; Parasuraman & Manzey, 2010), the **International Mine Action Standards (IMAS)** and Mine "
-        "Action Review's report on Colombia, **Colombian open data** (`datos.gov.co`) and IDEAM's description of the "
-        "rainy seasons, and **frameworks for documenting and governing AI and data** (Gebru et al., 2021; Mitchell et "
-        "al., 2019; NIST, 2023; IASC, 2023). Its settings are the project's (`twin/config.py`), and the pilot's "
-        "national criteria are invented for it; only \"no technical survey\" follows Colombia (Mine Action Review, 2025)."
+        "Winkler, 2006; Parasuraman & Manzey, 2010; Prater, 2023), the **International Mine Action Standards (IMAS "
+        "07.11, 08.10, 08.20, 09.30)** and Mine Action Review's report on Colombia, **Colombian open data** "
+        "(`datos.gov.co`) and IDEAM's description of the rainy seasons, and **frameworks for documenting and governing "
+        "AI and data** (Gebru et al., 2021; Mitchell et al., 2019; NIST, 2023; IASC, 2023). Its settings are the "
+        "project's (`twin/config.py`), and the pilot's national criteria are invented for it; only \"no technical "
+        "survey\" follows Colombia (Mine Action Review, 2025)."
     )
 
     n_refs = sum(1 for it in LITERATURE_CATALOGUE if it["kind"] == "reference")
@@ -1731,7 +1817,7 @@ def render_literature_library_studio(root: Path, key_prefix: str = "lit_studio")
     cells_df, feat_list = _reland_cells(root)
 
     k1, k2, k3, k4, k5 = st.columns(5)
-    k1.metric("References & Datasets", f"{n_refs} References · {n_data} Datasets", "the notebook's references (section 12)")
+    k1.metric("References & Datasets", f"{n_refs} References · {n_data} Datasets", "the notebook's (§12) and paper's references")
     k2.metric("Dataset Datasheets", f"{n_datasheets} Datasheets", "Gebru et al. (2021) + SHA-256")
     k3.metric("Model Cards", f"{n_model_cards} Model Cards", "Mitchell et al. (2019), each with a section on replacing it")
     k4.metric(
@@ -1741,18 +1827,25 @@ def render_literature_library_studio(root: Path, key_prefix: str = "lit_studio")
     )
     k5.metric("RELand Grid", f"{len(feat_list)} Features · {len(cells_df):,} Cells", "the baseline-first gate (`models/gate.csv`)")
 
-    tab_cat, tab_nist, tab_checker, tab_reland, tab_docs, tab_more = st.tabs(
-        [
-            "📚 1. References & Datasets (+ BibTeX/APA)",
-            "🛡️ 2. Risk Register (`docs/risk_register.md`)",
-            "🔍 3. Report Checker (`twin/checker.py`)",
-            "🧬 4. RELand's Features & the Gate (`Datasheet 03`)",
-            "📄 5. Datasheets, Rules & Prompts Reader",
-            "🎓 6. The Earlier Projects as Insights (P1–P7)",
-        ]
+    lit_sections = [
+        "📚 1. References & Datasets (+ BibTeX/APA)",
+        "🛡️ 2. Risk Register (`docs/risk_register.md`)",
+        "🔍 3. Report Checker (`twin/checker.py`)",
+        "🧬 4. RELand's Features & the Gate (`Datasheet 03`)",
+        "📄 5. Datasheets, Rules & Prompts Reader",
+        "🎓 6. The Earlier Projects as Insights (P1–P7)",
+    ]
+    active_lit_sec = st.segmented_control(
+        "Literature library section",
+        options=lit_sections,
+        default=lit_sections[0],
+        required=True,
+        width="stretch",
+        label_visibility="collapsed",
+        key=f"{key_prefix}_active_sec",
     )
 
-    with tab_cat:
+    if active_lit_sec == lit_sections[0]:
         st.markdown("#### 🗺️ Sources, insights and where they show in the twin")
         st.caption(
             "Each row links sources (left), an insight of the earlier projects or the NIST AI RMF (centre), and where it "
@@ -1829,9 +1922,12 @@ def render_literature_library_studio(root: Path, key_prefix: str = "lit_studio")
 
                 c_apa, c_bib = st.columns(2)
                 with c_apa:
-                    st.markdown(
-                        "**APA Citation" + (" (as the notebook's section 12 gives it):**" if ref["kind"] == "reference" else ":**")
+                    apa_origin = (
+                        " (as `module_summary.pdf` gives it):"
+                        if ref["ref_id"] in ("LIT-16", "LIT-17")
+                        else (" (as the notebook's section 12 gives it):" if ref["kind"] == "reference" else ":")
                     )
+                    st.markdown(f"**APA Citation{apa_origin}**")
                     st.code(ref["apa_citation"], language="text")
                 with c_bib:
                     st.markdown("**BibTeX Entry:**")
@@ -1858,7 +1954,7 @@ def render_literature_library_studio(root: Path, key_prefix: str = "lit_studio")
                 key=f"{key_prefix}_dl_apa",
             )
 
-    with tab_nist:
+    elif active_lit_sec == lit_sections[1]:
         st.markdown("#### 🛡️ The risk register, by the NIST AI RMF's four functions (`docs/risk_register.md`)")
         intro, _ = read_risk_register(root)
         if intro:
@@ -1883,16 +1979,16 @@ def render_literature_library_studio(root: Path, key_prefix: str = "lit_studio")
             nist_view = register_df[register_df["NIST AI RMF function"] == chosen_fn] if chosen_fn else register_df
             st.dataframe(nist_view, width="stretch", hide_index=True)
 
-    with tab_checker:
+    elif active_lit_sec == lit_sections[2]:
         render_report_checker_inspector(root)
 
-    with tab_reland:
+    elif active_lit_sec == lit_sections[3]:
         render_reland_covariate_and_gate_explorer(root, key_prefix=f"{key_prefix}_reland")
 
-    with tab_docs:
+    elif active_lit_sec == lit_sections[4]:
         render_verbatim_docs_reader(root)
 
-    with tab_more:
+    else:
         render_p1_to_p7_synthesis_walkthrough(key_prefix=f"{key_prefix}_p1p7")
 
 
