@@ -35,10 +35,15 @@ ROLE_SHORT_NAMES = {
 }
 
 
+def _cites_overlay(overlays: pd.Series) -> pd.Series:
+    """True where a decision cites a tool: `runs/season_log.csv` saves a decision that cites none as `[]`."""
+    return ~overlays.astype(str).str.strip().isin(["", "[]"])
+
+
 def _plot_roles_and_writeback_ledger(log_df: pd.DataFrame) -> plt.Figure:
     """Render a 2-panel diagnostic figure of the season log (`runs/season_log.csv`):
-    - Left panel: decisions signed off by human role (`twin.season.ROLES`) and category (`kind`).
-    - Right panel: weekly field reports received (`entry == 'report'`) vs. human decisions signed off (`entry == 'decision'`).
+    - Left panel: decisions by role (`twin.season.ROLES`) and category (`kind`).
+    - Right panel: weekly field reports received (`entry == 'report'`) vs. decisions signed off (`entry == 'decision'`).
     """
     fig, (ax_roles, ax_wk) = plt.subplots(1, 2, figsize=(15.6, 4.8), facecolor="#faf9f5")
     for ax in (ax_roles, ax_wk):
@@ -75,13 +80,13 @@ def _plot_roles_and_writeback_ledger(log_df: pd.DataFrame) -> plt.Figure:
         ax_roles.set_xlim(0, max(vals, default=10) * 1.24)
         ax_roles.set_xlabel(f"Decisions signed off in the season (out of {len(decisions_df):,})", fontsize=8.4)
         ax_roles.set_title(
-            f"1. Human-Signed Decisions by Role (`twin.season.ROLES`) & Category ({len(decisions_df):,} Decisions)",
+            f"1. Decisions by Role (`twin.season.ROLES`) & Category ({len(decisions_df):,} Decisions)",
             fontsize=9.6,
             fontweight="bold",
         )
         ax_roles.grid(axis="x", linestyle=":", alpha=0.45)
 
-    # Right panel: weekly reports vs. human decisions across weeks 1..52
+    # Right panel: weekly reports vs. decisions across weeks 1..52
     weeks = np.arange(1, 53)
     rep_wk = reports_df.groupby("week").size().reindex(weeks, fill_value=0).to_numpy(dtype=int)
     dec_wk = decisions_df.groupby("week").size().reindex(weeks, fill_value=0).to_numpy(dtype=int)
@@ -93,7 +98,7 @@ def _plot_roles_and_writeback_ledger(log_df: pd.DataFrame) -> plt.Figure:
         bottom=rep_wk,
         color="#1f4e78",
         width=0.78,
-        label=f"Human decisions signed off ({len(decisions_df):,})",
+        label=f"Decisions signed off ({len(decisions_df):,})",
     )
     ax_wk.set_xlim(0.4, 52.6)
     ax_wk.set_xlabel("Week of the season (1 to 52)", fontsize=8.4)
@@ -111,20 +116,23 @@ def _plot_roles_and_writeback_ledger(log_df: pd.DataFrame) -> plt.Figure:
 
 
 def _render_role_and_writeback_ledger(log_df: pd.DataFrame, reviews_df: pd.DataFrame) -> None:
-    """Render the Human-in-the-Loop Role & Approved Write-Back Ledger tab in Screen 3."""
-    st.subheader("Human-in-the-loop roles and approved write-back (`twin.season.ROLES` & `runs/season_log.csv`)")
+    """Render the Roles & Approved Write-Back Ledger tab in Screen 3."""
+    st.subheader("Roles, sign-off and approved write-back (`twin.season.ROLES` & `runs/season_log.csv`)")
     st.markdown(
         "The twin is by design a **digital shadow with approved write-back** (Kritzinger et al., 2018; notebook "
         "sections 2.1 and 5): field and feed reports (`entry == 'report'`) flow into the twin as they arrive, while "
         "every change to a plan, task, dossier, area, zone or municipality (`entry == 'decision'`) is recorded with "
         "**who decided (`decided_by`)** under the season's stated sign-off policy (`twin/season.py`, `ROLES`), "
-        "**what recommended it (`recommended_by` / `overlays`)**, and **any coded rule check (`rule_check`)**."
+        "**what recommended it (`recommended_by` / `overlays`)**, and **any coded rule check (`rule_check`)**. "
+        "In this simulated season, no person signs: every decision in the replay follows a stated sign-off policy, "
+        "and no person reviewed in real time (notebook section 11.4). Each count below is a decision made under its "
+        "role's stated policy, standing in for the person who would decide in the field."
     )
 
     decisions_df = log_df[log_df["entry"] == "decision"].copy()
     reports_df = log_df[log_df["entry"] == "report"].copy()
     with_rule = decisions_df[decisions_df["rule_check"].astype(str).str.strip() != ""]
-    with_overlay = decisions_df[decisions_df["overlays"].astype(str).str.strip() != ""]
+    with_overlay = decisions_df[_cites_overlay(decisions_df["overlays"])]
 
     k1, k2, k3, k4 = st.columns(4)
     k1.metric(
@@ -135,9 +143,9 @@ def _render_role_and_writeback_ledger(log_df: pd.DataFrame, reviews_df: pd.DataF
         delta_arrow="off",
     )
     k2.metric(
-        "Human-Signed Decisions",
+        "Decisions by the Four Roles",
         f"{len(decisions_df):,}",
-        f"Across the {len(ROLES)} roles in `twin.season.ROLES`",
+        "each under its stated sign-off policy (`ROLES`)",
         delta_color="off",
         delta_arrow="off",
     )
@@ -160,7 +168,7 @@ def _render_role_and_writeback_ledger(log_df: pd.DataFrame, reviews_df: pd.DataF
     st.pyplot(fig_roles)
     plt.close(fig_roles)
 
-    # Summary table of the 4 human roles in twin.season.ROLES
+    # Summary table of the 4 roles in twin.season.ROLES
     role_rows = []
     for r_key, r_policy in ROLES.items():
         sub_r = decisions_df[decisions_df["decided_by"] == r_policy]
@@ -177,16 +185,16 @@ def _render_role_and_writeback_ledger(log_df: pd.DataFrame, reviews_df: pd.DataF
                 "Top Recommenders / Checks (`recommended_by`)": rec_counts,
             }
         )
-    st.markdown("#### 📋 The four human roles in `twin.season.ROLES` and their logged sign-offs")
+    st.markdown("#### 📋 The four roles in `twin.season.ROLES`, each a stated sign-off policy in this run, and their logged decisions")
     st.dataframe(pd.DataFrame(role_rows), width="stretch", hide_index=True)
 
     # Interactive filter for decisions by role, category, recommender, and rule check
-    st.markdown("#### 🔎 Filter logged decisions by human role, category, tool consulted and rule check")
+    st.markdown("#### 🔎 Filter logged decisions by role, category, tool consulted and rule check")
     f1, f2, f3 = st.columns(3)
     with f1:
         role_opts = list(ROLES.values())
         sel_roles = st.multiselect(
-            "Human role (`decided_by`):",
+            "Role (`decided_by`):",
             options=role_opts,
             default=role_opts,
             format_func=lambda r: ROLE_SHORT_NAMES.get(r, r),
@@ -217,9 +225,9 @@ def _render_role_and_writeback_ledger(log_df: pd.DataFrame, reviews_df: pd.DataF
     if sel_rc_mode.startswith("Only decisions with a rule check"):
         sub_dec = sub_dec[sub_dec["rule_check"].astype(str).str.strip() != ""]
     elif sel_rc_mode.startswith("Only decisions citing"):
-        sub_dec = sub_dec[sub_dec["overlays"].astype(str).str.strip() != ""]
+        sub_dec = sub_dec[_cites_overlay(sub_dec["overlays"])]
 
-    st.caption(f"Showing **{len(sub_dec):,}** of **{len(decisions_df):,}** human-signed decisions.")
+    st.caption(f"Showing **{len(sub_dec):,}** of **{len(decisions_df):,}** decisions.")
     st.dataframe(humanize_log_table(sub_dec), width="stretch", hide_index=True)
 
 
@@ -289,7 +297,7 @@ def render_log(root: Path) -> None:
     tab_story, tab_roles, tab_full = st.tabs(
         [
             "📖 Story of One Operational Zone",
-            "👥 Decisions by Human Role & Tool (`ROLES`)",
+            "👥 Decisions by Role & Tool (`ROLES`)",
             "🔎 Search & Filter the Full Log",
         ]
     )

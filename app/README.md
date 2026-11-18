@@ -32,7 +32,8 @@ Screens marked *restricted* carry the heading "Inside the twin (restricted)".
   integer programme beside the rule of thumb, monthly plan evolution, the risk overlay's monthly learning, the
   completion forecast (P10, P50, P90; it assumes its plan holds), and the regional planning map.
 - **3. Operational Log** (*restricted*): the one log of the season, the story of any zone, and a ledger of decisions
-  by the four human roles (`twin.season.ROLES`) and the tools they consulted.
+  by the four roles (`twin.season.ROLES`) and the tools they cited; in the saved run, a stated sign-off policy stands
+  in for each role.
 - **4. Dossier Sign-Off Reviews** (*restricted*): the dossier reviews, each sign-off sheet headed "Recommendation
   only: a person decides", and the rule check's results.
 - **5. Weekly Situation Reports** (*restricted*): each week's draft, the facts it was given and the figure check.
@@ -89,9 +90,14 @@ rendering across navigation views) from the repository's root:
 
 ## How it was made
 
-- **The `twin/` package, rules, prompts, `integrated_system.ipynb` and `module_summary.pdf`:** written by **Claude
-  (Anthropic)** under **Travis's** direction, as the repository's root `README.md` discloses.
+- **The `twin/` package, rules, prompts and `integrated_system.ipynb`:** written by **Claude (Anthropic)** under
+  **Travis's** direction. **The paper, `module_summary.pdf`:** drafted by **Claude** to a design Travis approved,
+  and reviewed by him. Both as the repository's root `README.md` discloses.
 - **This application (`app/`):** built by **Travis** with **Google Antigravity**, reading the frozen `twin/` package
-  and the saved season outputs. **Reviewed and corrected by Claude (Anthropic)** at Travis's request: Claude rebuilt
-  the contamination categories on the national register, took the week-by-week states from the twin's own records,
-  corrected labels and counts, and checked the application's statements against the twin and its sources.
+  and the saved season outputs. **Reviewed and corrected by Claude (Anthropic)** at Travis's request, twice. On 31
+  October 2026, Claude rebuilt the contamination categories on the national register, took the week-by-week states
+  from the twin's own records, corrected labels and counts, and checked the application's statements against the
+  twin and its sources. On 18 November 2026, Claude reviewed Travis's later changes with Antigravity (12 and 18
+  November: navigation and layout, the map's week-by-week chances, the ledger of decisions by role, the paper's
+  sources and the test suite) and corrected the ledger's count of decisions that cite a tool, its wording on who
+  signs off, one attribution in the library, and this note.

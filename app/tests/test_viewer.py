@@ -184,6 +184,20 @@ def main() -> None:
         print("SCREEN_2_SEGMENTS_OK")
         gc.collect()
 
+        # Screen 3: Operational Log, the ledger of decisions by role. In runs/season_log.csv, 108 of the 299 decisions
+        # cite a tool (96 the dossier reviewer; 12 the risk prioritisation and the season planner); the other 191
+        # cite none, saved as "[]".
+        at.sidebar.radio[0].set_value("3. Operational Log").run()
+        assert not at.exception, f"Screen 3 exception: {at.exception}"
+        overlay_metric = next(m for m in at.metric if m.label == "Decisions Citing an Overlay Tool")
+        assert overlay_metric.value == "108", f"decisions citing a tool: {overlay_metric.value}"
+        at.selectbox(key="log_role_filter_rc").set_value("Only decisions citing an overlay tool").run()
+        assert not at.exception, f"Screen 3 filter exception: {at.exception}"
+        shown = [c.value for c in at.caption if c.value.startswith("Showing **") and "of **299**" in c.value]
+        assert shown and shown[0].startswith("Showing **108** of **299**"), shown
+        print("SCREEN_3_ROLE_LEDGER_OK")
+        gc.collect()
+
         # Screen 6: Public Summary
         at.sidebar.radio[0].set_value("6. Public Summary").run()
         assert not at.exception, f"Screen 6 exception: {at.exception}"

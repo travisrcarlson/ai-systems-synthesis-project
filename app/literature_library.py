@@ -732,11 +732,12 @@ LITERATURE_CATALOGUE: list[dict] = [
             "its own, recognised only alongside the equivalent EOD qualification (`module_summary.pdf`)."
         ),
         "codebase_grounding": (
-            "Cited in `module_summary.pdf` alongside IMAS 09.30 (UNMAS, 2022) and Mine Action Review (2025, p. 123): "
-            "because the remaining mines in Colombia are predominantly improvised, field practice calls for "
-            "appropriately qualified operators (Level 3+), whereas the twin's teams carry no qualification levels "
-            "(`twin/config.py`, `twin/core.py`). Before any field use, teams would need qualification levels, spot "
-            "tasks for single finds, and rules referring each find to an operator of the right level."
+            "Cited in `module_summary.pdf` alongside IMAS 09.30 (UNMAS, 2022) and Mine Action Review (2025, p. 123), "
+            "which reports that the remaining mines in Colombia are predominantly improvised; the paper adds, from "
+            "Travis's own experience, that such tasks call for a Level 3+ operator. The twin's teams carry no "
+            "qualification levels (`twin/config.py`, `twin/core.py`). Before any field use, teams would need "
+            "qualification levels, spot tasks for single finds, and rules referring each find to an operator of the "
+            "right level."
         ),
         "modules": "module_summary.pdf, twin/config.py, twin/core.py, twin/planner.py",
         "apa_citation": (
