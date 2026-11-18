@@ -1,6 +1,10 @@
 """Read-only local Streamlit viewer for the Antioquia humanitarian mine action digital twin."""
+import os
 import sys
 from pathlib import Path
+
+for _env_var in ("OMP_NUM_THREADS", "OPENBLAS_NUM_THREADS", "MKL_NUM_THREADS"):
+    os.environ.setdefault(_env_var, "1")
 
 ROOT = Path(__file__).resolve().parents[1]
 if str(ROOT) not in sys.path:

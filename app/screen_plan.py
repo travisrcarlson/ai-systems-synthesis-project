@@ -82,21 +82,31 @@ def render_plan_and_forecast(root: Path) -> None:
     evol_span = (
         f" ({season_plans[0].get('plan_id', 'P01')} to {season_plans[-1].get('plan_id', '')})" if season_plans else ""
     )
-    tab_dash, tab_comp, tab_evol, tab_bayes, tab_fc, tab_map = st.tabs(
-        [
-            "📊 Visual Planning Dashboard",
-            "⚖️ Optimised Plan vs. Rule of Thumb",
-            f"🔄 Plan Evolution{evol_span} & Plan-to-Plan Comparison",
-            "📈 Bayesian Risk Learning (W1 vs. W52) & Spatial Gate Explorer",
-            "⏳ Completion Forecast (P10 / P50 / P90)",
-            "🗺️ Regional Planning Map",
-        ]
+    plan_sections = [
+        "📊 Visual Planning Dashboard",
+        "⚖️ Optimised Plan vs. Rule of Thumb",
+        f"🔄 Plan Evolution{evol_span}",
+        "📈 Bayesian Risk Learning & Spatial Gate",
+        "⏳ Completion Forecast (P10 / P50 / P90)",
+        "🗺️ Regional Planning Map",
+    ]
+    plan_sec = (
+        st.segmented_control(
+            "Plan & forecast section",
+            options=plan_sections,
+            default=plan_sections[0],
+            required=True,
+            width="stretch",
+            label_visibility="collapsed",
+            key="plan_main_sec",
+        )
+        or plan_sections[0]
     )
 
-    with tab_dash:
+    if plan_sec == plan_sections[0]:
         screen_dashboard.render_planning_dashboard_section(root, bundle, gate_df)
 
-    with tab_comp:
+    elif plan_sec == plan_sections[1]:
         st.subheader("The first plan (week 1, as notebook section 6.3 computes it): integer programme beside the rule of thumb")
         p01_exp = season_plans[0].get("expected", {}).get("mine areas cleared") if season_plans else None
         this_exp = milp_rec.answer.get("expected", {}).get("mine areas cleared") if milp_rec.ok else None
@@ -107,7 +117,7 @@ def render_plan_and_forecast(root: Path) -> None:
         )
         st.caption(
             "**Which plan this is:** both plans as notebook section 6.3 computes them, on the twin before week 1's "
-            "access feed. The plan the season approved in week 1 (P01, on the Plan Evolution tab) came after that "
+            "access feed. The plan the season approved in week 1 (P01, in the Plan Evolution view) came after that "
             f"feed, so it differs{p01_txt}.  \n"
             "**Recorded victims beside the plan (not weighed in the plan):** "
             "For each zone, the recorded victims of its municipality (counts only, all years) are shown beside "
@@ -252,14 +262,14 @@ def render_plan_and_forecast(root: Path) -> None:
                 )
                 st.dataframe(show_gate, width="stretch", hide_index=True)
 
-    with tab_evol:
+    elif plan_sec == plan_sections[2]:
         _render_plan_evolution_studio(bundle, zones_meta, victims_by_muni, gate_choice_by_muni)
 
-    with tab_bayes:
+    elif plan_sec == plan_sections[3]:
         log_df_b = load_saved_log(str(root))
         operational_analytics.render_bayesian_learning_and_gate_studio(bundle, log_df_b, gate_df)
 
-    with tab_fc:
+    elif plan_sec == plan_sections[4]:
         st.subheader("Completion forecast (week 1) — forecast that assumes its plan holds")
         st.caption(
             f"**Forecast assumption:** This forecast simulates {fc_rec.answer.get('draws', 200) if fc_rec.ok else 200} "
@@ -278,11 +288,15 @@ def render_plan_and_forecast(root: Path) -> None:
                 "Zones Declared Free (P50 Median)",
                 int(zf_tot.get("P50", 0)),
                 f"P10: {int(zf_tot.get('P10', 0))} · P90: {int(zf_tot.get('P90', 0))}",
+                delta_color="off",
+                delta_arrow="off",
             )
             f2.metric(
                 "Mine Areas Cleared (P50 Median)",
                 int(mc_tot.get("P50", 0)),
                 f"P10: {int(mc_tot.get('P10', 0))} · P90: {int(mc_tot.get('P90', 0))}",
+                delta_color="off",
+                delta_arrow="off",
             )
             zf = fc_rec.answer["zones"].copy()
             n_p50 = int(zf["P50 week"].notna().sum())
@@ -336,7 +350,7 @@ def render_plan_and_forecast(root: Path) -> None:
             model_name=f"Monte Carlo simulation ({fc_rec.answer.get('draws', 200) if fc_rec.ok else 200} draws)",
         )
 
-    with tab_map:
+    else:
         st.subheader("Regional Planning Map Across All 15 Municipalities")
         plan_map_labels = {
             "Initial Optimised Plan (Integer Programme)": "Week-1 plan: integer programme (MILP)",
@@ -520,10 +534,10 @@ def _render_plan_evolution_studio(
     )
 
     k1, k2, k3, k4 = st.columns(4)
-    k1.metric("Total Approved Plans", f"{n_total_plans} Plans", f"{first_id} to {last_id}")
-    k2.metric("Plans Between the Monthly Plans", f"{n_between} Plans", "after changes in the feeds")
-    k3.metric("Plans Stopped by the Solver's Time Limit", f"{n_limited} Plans", "solved to a 1% optimality gap")
-    k4.metric("Consultations Requested by Plans", f"{total_consults_req} Zones", f"{lead_weeks}-week lead time")
+    k1.metric("Total Approved Plans", f"{n_total_plans} Plans", f"{first_id} to {last_id}", delta_color="off", delta_arrow="off")
+    k2.metric("Plans Between the Monthly Plans", f"{n_between} Plans", "after changes in the feeds", delta_color="off", delta_arrow="off")
+    k3.metric("Plans Stopped by the Solver's Time Limit", f"{n_limited} Plans", "solved to a 1% optimality gap", delta_color="off", delta_arrow="off")
+    k4.metric("Consultations Requested by Plans", f"{total_consults_req} Zones", f"{lead_weeks}-week lead time", delta_color="off", delta_arrow="off")
 
     # Build Ledger of All Approved Plans
     ledger_rows = []

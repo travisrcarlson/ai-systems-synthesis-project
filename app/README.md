@@ -17,25 +17,29 @@ the people in the programme would.
 Screens marked *restricted* carry the heading "Inside the twin (restricted)".
 
 - **Command & Planning Overview** (*restricted*): the season at a chosen week (zones declared free, areas released,
-  sign-offs, plans), an interactive map of the twin's cell grid, the risk model's chance of mines beside each week's
-  land release status, the contamination categories, the real-world grounding, the municipality explorer, the
-  planning dashboard and the season's progress.
+  sign-offs, plans), an interactive map of the twin's cell grid (defaulting to the risk model's chance in force in
+  the selected week and distinguishing unflagged areas in surveyed zones from unsurveyed zones), the risk model's
+  chance of mines beside each week's land release status, the contamination categories, the real-world grounding,
+  the municipality explorer, the planning dashboard and the season's progress.
 - **Land Release & Clearance Pipeline** (*restricted*): each area's path through the twin's process, from the desk
   study to the decision, with its log entries, reviews and sign-off sheet.
 - **Literature, Standards & Governance Library**: the project's references, standards, datasets, model cards,
   datasheets and risk register.
-- **1. Weekly Operations** (*restricted*): the plan in force, task orders, team reports, decisions on areas and zones
-  with who decided and the rule check, "insufficient evidence" notices, the season's end, and team deployment.
-- **2. Plan & Completion Forecast** (*restricted*): the week-1 integer programme beside the rule of thumb, the
-  completion forecast (P10, P50, P90; it assumes its plan holds), and the risk overlay's monthly learning.
+- **1. Weekly Operations** (*restricted*): segmented views for the plan in force, task orders, team reports, decisions
+  on areas and zones with who decided and the rule check, "insufficient evidence" notices, team attrition, the
+  season's end, and the regional & municipality map explorer.
+- **2. Plan & Completion Forecast** (*restricted*): segmented views for the visual planning dashboard, the week-1
+  integer programme beside the rule of thumb, monthly plan evolution, the risk overlay's monthly learning, the
+  completion forecast (P10, P50, P90; it assumes its plan holds), and the regional planning map.
 - **3. Operational Log** (*restricted*): the one log of the season, the story of any zone, and a ledger of decisions
   by the four human roles (`twin.season.ROLES`) and the tools they consulted.
 - **4. Dossier Sign-Off Reviews** (*restricted*): the dossier reviews, each sign-off sheet headed "Recommendation
   only: a person decides", and the rule check's results.
 - **5. Weekly Situation Reports** (*restricted*): each week's draft, the facts it was given and the figure check.
 - **6. Public Summary**: `twin.municipal_summary()` only; no zone, area or team named; victims as municipal counts.
-- **7. Evaluation (Hidden Truth)**: the 20-seed replay, forecast coverage, critical failures, scenarios, the agent
-  against the coded rules and the expert review, under "The simulation's hidden truth, for evaluation only".
+- **7. Evaluation (Hidden Truth)**: segmented views for the 20-seed replay, forecast coverage, critical failures,
+  injected scenarios, the agent against the coded rules, seed-0 field truth, the domain-expert audit, and the
+  notebook's figures and documentation, under "The simulation's hidden truth, for evaluation only".
 - **8. About & Data Rules**: what the application is, the data rules, how it was made, the run it shows, and a scan
   of its own code.
 
@@ -54,6 +58,13 @@ streamlit run app.py
 Run `streamlit run app.py` from inside `app/` so that `app/.streamlit/config.toml` (`address = "localhost"`,
 `gatherUsageStats = false`) applies. The first screen rebuilds the season from the saved reviews and reports once
 (`client=None`, no key), which takes about two minutes; after that, screens open at once.
+
+To run the read-only automated viewer check suite (syntax, self-check scans, map/timeline invariants, and screen
+rendering across navigation views) from the repository's root:
+
+```powershell
+.\app\.venv\Scripts\python.exe app\tests\test_viewer.py
+```
 
 ## Data, safety and privacy rules
 

@@ -163,6 +163,8 @@ def render_situation_reports(root: Path) -> None:
         f"Across {len(weeks_with_removals)} week(s)"
         if weeks_with_removals
         else f"100% figure match across all {len(weeks_available)} weeks",
+        delta_color="off",
+        delta_arrow="off",
     )
     c4.metric("Reports Flagged Insufficient Evidence", all_insuff)
 

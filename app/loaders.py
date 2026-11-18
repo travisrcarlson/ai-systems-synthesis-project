@@ -113,7 +113,7 @@ def apply_editorial_style() -> None:
         """
         <style>
         .block-container {
-            padding-top: 1.8rem;
+            padding-top: 3.4rem;
             padding-bottom: 3rem;
             max-width: 1380px;
         }
@@ -121,7 +121,7 @@ def apply_editorial_style() -> None:
             background-color: #ffffff;
             border: 1px solid #e2dfd7;
             border-radius: 10px;
-            padding: 12px 16px;
+            padding: 10px 14px;
             box-shadow: 0 1px 2px rgba(0, 0, 0, 0.03);
         }
         div[data-testid="stMetricLabel"] {
@@ -130,14 +130,16 @@ def apply_editorial_style() -> None:
             font-weight: 600 !important;
         }
         div[data-testid="stMetricValue"] {
-            font-size: 1.55rem !important;
+            font-size: 1.4rem !important;
             color: #181816 !important;
             font-weight: 700 !important;
         }
         .programme-banner {
             display: flex;
+            flex-wrap: wrap;
             align-items: center;
             justify-content: space-between;
+            gap: 4px 16px;
             background-color: #f4efe6;
             border-left: 4px solid #b5651d;
             border-radius: 6px;
@@ -148,8 +150,10 @@ def apply_editorial_style() -> None:
         }
         .public-banner {
             display: flex;
+            flex-wrap: wrap;
             align-items: center;
             justify-content: space-between;
+            gap: 4px 16px;
             background-color: #e9f3ed;
             border-left: 4px solid #2d7d53;
             border-radius: 6px;
@@ -160,8 +164,10 @@ def apply_editorial_style() -> None:
         }
         .eval-banner {
             display: flex;
+            flex-wrap: wrap;
             align-items: center;
             justify-content: space-between;
+            gap: 4px 16px;
             background-color: #faeae6;
             border-left: 4px solid #c44536;
             border-radius: 6px;
@@ -203,7 +209,7 @@ def restricted_header(title: str, subtitle: str = "") -> None:
     """Standard heading for restricted screens inside the twin."""
     st.markdown(
         '<div class="programme-banner">'
-        "<span><strong>Inside the twin (restricted)</strong> · Operational view for programme staff</span>"
+        "<span><strong>Inside the twin (restricted)</strong> · Operational view for programme staff</span> "
         "<span>Includes zones, areas, field teams, community consultation & access feed</span>"
         "</div>",
         unsafe_allow_html=True,

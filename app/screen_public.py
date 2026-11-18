@@ -89,7 +89,7 @@ def _render_municipality_public_card(
 def render_public_summary(root: Path) -> None:
     st.markdown(
         '<div class="public-banner">'
-        "<span><strong>Public Summary</strong> · Open information layers only</span>"
+        "<span><strong>Public Summary</strong> · Open information layers only</span> "
         "<span>No operational zone, area or field team is named · Victims shown only as municipal counts</span>"
         "</div>",
         unsafe_allow_html=True,

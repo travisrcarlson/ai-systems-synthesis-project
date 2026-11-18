@@ -826,31 +826,42 @@ def render_grounding_and_calibration_section(
     forest_total = int(forest_mask.sum())
     forest_freed = int((forest_mask & areas_w["is_released"]).sum())
 
-    k1, k2, k3, k4, k5 = st.columns(5)
+    k1, k2, k3 = st.columns(3)
     k1.metric(
         "Used Land Released",
         f"{freed_prod_km2:,.1f} km²",
         f"of {total_prod_km2:,.1f} km²",
+        delta_color="off",
+        delta_arrow="off",
     )
     k2.metric(
         "Population Score Released",
         f"{freed_pop:,}",
         f"of {total_pop:,} (not residents)",
+        delta_color="off",
+        delta_arrow="off",
     )
     k3.metric(
         "Areas ≥5 km from a Road",
         f"{remote_freed:,} / {remote_total:,}",
         "released",
+        delta_color="off",
+        delta_arrow="off",
     )
+    k4, k5 = st.columns(2)
     k4.metric(
         "Areas ≥50% Forest Land Use",
         f"{forest_freed:,} / {forest_total:,}",
         "released",
+        delta_color="off",
+        delta_arrow="off",
     )
     k5.metric(
         "Zones Needing Consultation",
         f"{int(zones_df['consultation'].sum())} / {len(zones_df)}",
         f"{s_cfg.consultation_weeks}-week lead time",
+        delta_color="off",
+        delta_arrow="off",
     )
     st.caption(
         f"At the end of week {week}. **Used land:** areas whose main land use is farming, livestock, agroforestry or "

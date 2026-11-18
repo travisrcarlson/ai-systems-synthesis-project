@@ -92,9 +92,9 @@ def render_operations(root: Path) -> None:
 
     w1, w2, w3, w4 = st.columns(4)
     w1.metric("Plan in Force", active_plan_id)
-    w2.metric("Task Orders / Actions This Week", len(task_orders))
-    w3.metric("Field Team Reports Received", len(team_reports))
-    w4.metric("Area & Zone Decisions Signed Off", len(land_decisions))
+    w2.metric("Task Orders & Actions", len(task_orders))
+    w3.metric("Team Reports Logged", len(team_reports))
+    w4.metric("Decisions Signed Off", len(land_decisions))
 
     area_dec_w = land_decisions[land_decisions["kind"] == "area"]
     first_area_w = str(area_dec_w.iloc[0]["subject"]) if not area_dec_w.empty else None
@@ -143,16 +143,26 @@ def render_operations(root: Path) -> None:
                 args=("",),
             )
 
-    tab_week, tab_teams, tab_end, tab_map = st.tabs(
-        [
-            f"📋 Week {week} Activity & Sign-Offs",
-            f"🚜 Field Teams (S1–S4, C1–C4), Weather/Access Attrition & Clearance Timeline",
-            f"🏁 Operations Picture at Season's End (All {len(bundle['zones_meta'])} Zones)",
-            f"🗺️ Regional Map in Week {week}",
-        ]
+    ops_sections = [
+        "📋 Weekly Activity & Sign-Offs",
+        "🚜 Field Teams, Attrition & Clearance Timeline",
+        f"🏁 Season-End Picture ({len(bundle['zones_meta'])} Zones)",
+        "🗺️ Regional & Municipality Map",
+    ]
+    ops_sec = (
+        st.segmented_control(
+            "Operations section",
+            options=ops_sections,
+            default=ops_sections[0],
+            required=True,
+            width="stretch",
+            label_visibility="collapsed",
+            key="ops_main_sec",
+        )
+        or ops_sections[0]
     )
 
-    with tab_week:
+    if ops_sec == ops_sections[0]:
         # 1. The plan in force in the chosen week
         st.subheader(f"Plan in force in week {week}")
         if plans_up_to_week.empty:
@@ -351,11 +361,11 @@ def render_operations(root: Path) -> None:
                         width="stretch",
                     )
 
-    with tab_teams:
+    elif ops_sec == ops_sections[1]:
         ord_findings = load_area_ordnance_findings(str(root))
         operational_analytics.render_team_deployment_and_attrition_studio(bundle, ord_findings, week)
 
-    with tab_end:
+    elif ops_sec == ops_sections[2]:
         st.subheader("Operations picture at the season's end")
         zones_df = bundle.get("zones")
         if zones_df is None or zones_df.empty:
@@ -393,5 +403,5 @@ def render_operations(root: Path) -> None:
             st.caption(f"Showing {len(filtered_zones)} of {len(zones_df)} operational zones.")
             st.dataframe(humanize_zone_table(filtered_zones), width="stretch")
 
-    with tab_map:
+    else:
         grid_map.render_municipality_map_explorer(root, bundle, log_df, gate_df, saved_sitreps, week)

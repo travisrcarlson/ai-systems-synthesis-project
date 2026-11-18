@@ -131,21 +131,29 @@ def _render_role_and_writeback_ledger(log_df: pd.DataFrame, reviews_df: pd.DataF
         "Total Log Entries (52 Weeks)",
         f"{len(log_df):,}",
         f"{len(reports_df):,} reports · {len(decisions_df):,} decisions",
+        delta_color="off",
+        delta_arrow="off",
     )
     k2.metric(
         "Human-Signed Decisions",
         f"{len(decisions_df):,}",
         f"Across the {len(ROLES)} roles in `twin.season.ROLES`",
+        delta_color="off",
+        delta_arrow="off",
     )
     k3.metric(
         "Decisions With a Rule Check",
         f"{len(with_rule):,}",
         f"{int((with_rule['rule_check'] == 'pass').sum())} pass · {int((with_rule['rule_check'] != 'pass').sum())} vetoed",
+        delta_color="off",
+        delta_arrow="off",
     )
     k4.metric(
         "Decisions Citing an Overlay Tool",
         f"{len(with_overlay):,}",
         "Risk, planner, or dossier reviewer",
+        delta_color="off",
+        delta_arrow="off",
     )
 
     fig_roles = _plot_roles_and_writeback_ledger(log_df)
@@ -362,7 +370,13 @@ def render_log(root: Path) -> None:
 
             story_df = log_df.loc[mask].copy()
             s1, s2, s3 = st.columns(3)
-            s1.metric("Zone", chosen_zone, "Declared free" if chosen_zone in free_set else ("Surveyed" if chosen_zone in surveyed_set else "Not surveyed"))
+            s1.metric(
+                "Zone",
+                chosen_zone,
+                "Declared free" if chosen_zone in free_set else ("Surveyed" if chosen_zone in surveyed_set else "Not surveyed"),
+                delta_color="off",
+                delta_arrow="off",
+            )
             s2.metric("Task Orders Issued", len(story_tasks))
             s3.metric("Log Entries Recorded", len(story_df))
 

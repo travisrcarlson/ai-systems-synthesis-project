@@ -20,11 +20,9 @@ from matplotlib.colors import ListedColormap
 from matplotlib.patches import Patch
 
 from twin import config
-import clearance_pipeline
 import grid_map
 import grounding_panels
 import interactive_map
-import operational_analytics
 import ordnance_library
 from loaders import (
     REVIEW_OUTCOMES,
@@ -432,20 +430,21 @@ def render_planning_dashboard_section(root: Path, bundle: dict, gate_df: pd.Data
     free_fc = totals_fc.get("zones declared free", {})
     clr_fc = totals_fc.get("mine areas cleared", {})
 
-    # Planning KPI metrics
-    p1, p2, p3, p4, p5 = st.columns(5)
+    # Planning KPI metrics (2 rows so values never elide with sidebar open)
+    p1, p2, p3 = st.columns(3)
     p1.metric(
         "Planned Survey / Clearance Zones",
         f"{len(active_plan.get('survey', []))} / {len(active_plan.get('clearance', []))}",
     )
     p2.metric(
-        "Consultations the Plan Requests",
+        "Consultations Requested",
         len(active_plan.get("consultations", [])),
     )
     p3.metric(
         "Expected Yield (Planning Factors)",
-        f"{expected.get('zones declared free', 0)} zones free · {expected.get('mine areas cleared', 0.0):.1f} mine areas cleared",
+        f"{expected.get('zones declared free', 0)} free · {expected.get('mine areas cleared', 0.0):.1f} cleared",
     )
+    p4, p5 = st.columns(2)
     p4.metric(
         "Forecast Zones Free (P10 / P50 / P90)",
         (
@@ -571,35 +570,46 @@ def render_total_dashboard(root: Path) -> None:
     plans_w = [p for p in bundle.get("plans", []) if int(p.get("approved_week", 1)) <= week]
     total_victims = int(bundle["victims_by_municipality"].sum())
 
-    m1, m2, m3, m4, m5, m6 = st.columns(6)
+    m1, m2, m3 = st.columns(3)
     m1.metric(
         "Zones Declared Free",
         f"{int((z_state_w == 'free').sum())} of {len(zones_meta)}",
         f"{int((z_state_w == 'surveyed').sum())} surveyed open",
+        delta_color="off",
+        delta_arrow="off",
     )
     m2.metric(
         "Areas Released",
         int(a_status_w.isin(["cancelled", "reduced", "cleared"]).sum()),
         f"{int((a_status_w == 'cleared').sum())} cleared",
+        delta_color="off",
+        delta_arrow="off",
     )
     m3.metric(
         "Suspected / Confirmed Areas",
         f"{int((a_status_w == 'suspected').sum())} / {int((a_status_w == 'confirmed').sum())}",
     )
+    m4, m5, m6 = st.columns(3)
     m4.metric(
         "Sign-Off Reviews Completed",
         f"{len(rev_w)} of {len(reviews_df)}",
         f"{vetoes_w} vetoed by the rule check",
+        delta_color="off",
+        delta_arrow="off",
     )
     m5.metric(
-        "Monthly Plans Approved",
+        "Plans Approved",
         len(plans_w),
         f"Active: {plans_w[-1].get('plan_id', '')}" if plans_w else "—",
+        delta_color="off",
+        delta_arrow="off",
     )
     m6.metric(
         "Recorded Victims (All Years)",
         f"{total_victims:,}",
         "15 municipalities (context)",
+        delta_color="off",
+        delta_arrow="off",
     )
 
     # ---- Interactive map of the twin's cell grid + the risk model's chance of mines --------------------------------

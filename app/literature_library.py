@@ -983,13 +983,15 @@ def render_report_checker_inspector(root: Path) -> None:
     )
 
     c1, c2, c3, c4 = st.columns(4)
-    c1.metric("Coded checks", "Hold", "impossible or inconsistent reports; the team resends")
-    c2.metric("Isolation forest", f"{len(checker.FEATURES)} features", "200 trees, contamination 0.01; queries")
-    c3.metric("Rainy-month run", "3 weeks in a row", "work and no day lost to rain or wind: queried (≈ 1 in 30,000)")
+    c1.metric("Coded checks", "Hold", "impossible or inconsistent reports; the team resends", delta_color="off", delta_arrow="off")
+    c2.metric("Isolation forest", f"{len(checker.FEATURES)} features", "200 trees, contamination 0.01; queries", delta_color="off", delta_arrow="off")
+    c3.metric("Rainy-month run", "3 weeks in a row", "work and no day lost to rain or wind: queried (≈ 1 in 30,000)", delta_color="off", delta_arrow="off")
     c4.metric(
         "Shortest finish allowed",
         "A quarter of the planned days",
         f"clearance {0.25 * clearance_days:g} of {clearance_days:g} days; technical survey {0.25 * ts_days:g} of {ts_days:g}",
+        delta_color="off",
+        delta_arrow="off",
     )
 
     col_rules, col_feats = st.columns([1.25, 1.0])
@@ -1709,25 +1711,34 @@ def render_reland_covariate_and_gate_explorer(root: Path, key_prefix: str = "rel
     n_onehot = sum(1 for fam in families.values() if fam in (FAMILY_LAND_USE, FAMILY_CLIMATE, FAMILY_RELIEF))
     n_other = len(feat_list) - n_log - n_onehot
 
-    c1, c2, c3, c4, c5 = st.columns(5)
-    c1.metric("RELand Grid Cells", f"{len(cells_df):,}", f"500 m × 500 m across {cells_df['municipality_code'].nunique()} municipalities")
-    c2.metric("RELand Features", f"{len(feat_list)} Features", f"{n_log} log-scaled · {n_other} scaled · {n_onehot} one-hot (logistic regression)")
     if not gate_df.empty:
         summary = _gate_summary(gate_df)
         n_m = summary["n"]
         rank = summary["by_rank"]
         chosen = summary["chosen"]
+        c1, c2, c3 = st.columns(3)
+        c1.metric("RELand Grid Cells", f"{len(cells_df):,}", f"500 m × 500 m across {cells_df['municipality_code'].nunique()} municipalities", delta_color="off", delta_arrow="off")
+        c2.metric("RELand Features", f"{len(feat_list)} Features", f"{n_log} log-scaled · {n_other} scaled · {n_onehot} one-hot (logistic regression)", delta_color="off", delta_arrow="off")
         c3.metric(
             "Beat the Baseline on Ranking Alone",
             f"{n_m - rank['baseline']} / {n_m} Municipalities",
             f"ranking alone picks logistic regression in {rank['lr']}, the trees in {rank['hgb']}",
+            delta_color="off",
+            delta_arrow="off",
         )
+        c4, c5 = st.columns(2)
         c4.metric(
             "Beat It on Ranking and Calibration",
             f"{len(chosen['lr']) + len(chosen['hgb'])} / {n_m} Municipalities",
             f"trees: {', '.join(chosen['hgb']) or 'none'}; logistic regression: {', '.join(chosen['lr']) or 'none'}",
+            delta_color="off",
+            delta_arrow="off",
         )
-        c5.metric("Baseline Used", f"{len(chosen['baseline'])} / {n_m} Municipalities", "nearness to past accidents")
+        c5.metric("Baseline Used", f"{len(chosen['baseline'])} / {n_m} Municipalities", "nearness to past accidents", delta_color="off", delta_arrow="off")
+    else:
+        c1, c2 = st.columns(2)
+        c1.metric("RELand Grid Cells", f"{len(cells_df):,}", f"500 m × 500 m across {cells_df['municipality_code'].nunique()} municipalities", delta_color="off", delta_arrow="off")
+        c2.metric("RELand Features", f"{len(feat_list)} Features", f"{n_log} log-scaled · {n_other} scaled · {n_onehot} one-hot (logistic regression)", delta_color="off", delta_arrow="off")
 
     fig_diag = plot_reland_covariate_and_gate_diagnostics(cells_df, gate_df)
     st.pyplot(fig_diag)
@@ -1816,16 +1827,19 @@ def render_literature_library_studio(root: Path, key_prefix: str = "lit_studio")
     )
     cells_df, feat_list = _reland_cells(root)
 
-    k1, k2, k3, k4, k5 = st.columns(5)
-    k1.metric("References & Datasets", f"{n_refs} References · {n_data} Datasets", "the notebook's (§12) and paper's references")
-    k2.metric("Dataset Datasheets", f"{n_datasheets} Datasheets", "Gebru et al. (2021) + SHA-256")
-    k3.metric("Model Cards", f"{n_model_cards} Model Cards", "Mitchell et al. (2019), each with a section on replacing it")
+    k1, k2, k3 = st.columns(3)
+    k1.metric("References & Datasets", f"{n_refs} References · {n_data} Datasets", "the notebook's (§12) and paper's references", delta_color="off", delta_arrow="off")
+    k2.metric("Dataset Datasheets", f"{n_datasheets} Datasheets", "Gebru et al. (2021) + SHA-256", delta_color="off", delta_arrow="off")
+    k3.metric("Model Cards", f"{n_model_cards} Model Cards", "Mitchell et al. (2019), each with a section on replacing it", delta_color="off", delta_arrow="off")
+    k4, k5 = st.columns(2)
     k4.metric(
         "Risk Register (NIST AI RMF)",
         f"{len(register_df)} Risks",
         " · ".join(f"{fn} ({n})" for fn, n in by_function.items()),
+        delta_color="off",
+        delta_arrow="off",
     )
-    k5.metric("RELand Grid", f"{len(feat_list)} Features · {len(cells_df):,} Cells", "the baseline-first gate (`models/gate.csv`)")
+    k5.metric("RELand Grid", f"{len(feat_list)} Features · {len(cells_df):,} Cells", "the baseline-first gate (`models/gate.csv`)", delta_color="off", delta_arrow="off")
 
     lit_sections = [
         "📚 1. References & Datasets (+ BibTeX/APA)",

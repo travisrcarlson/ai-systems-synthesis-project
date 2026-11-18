@@ -30,10 +30,17 @@ from grid_map import (
 # Antioquia"), Chigorodó in Urabá, Sabanalarga in Occidente, the other twelve in the Oriente
 SUBREGION_OF = {"05172": "Urabá", "05628": "Occidente", "05670": "Nordeste"}
 
-# Area status codes for the page: released areas keep codes 3 to 5; "not suspected" (zone surveyed, area not
-# flagged) shares code 0 with "unknown", as neither is flagged as hazardous
-AREA_CODE = {"unknown": 0, "not_suspected": 0, "suspected": 1, "confirmed": 2, "cancelled": 3, "reduced": 4,
-             "cleared": 5}
+# Area status codes for the page: 0 unknown (zone not yet surveyed), 1 not_suspected (zone surveyed, area not
+# flagged), 2 suspected, 3 confirmed, 4 cancelled, 5 reduced, 6 cleared
+AREA_CODE = {
+    "unknown": 0,
+    "not_suspected": 1,
+    "suspected": 2,
+    "confirmed": 3,
+    "cancelled": 4,
+    "reduced": 5,
+    "cleared": 6,
+}
 ZONE_CODE = {"not surveyed": 0, "in survey": 1, "surveyed": 2, "free": 3}
 
 
@@ -95,6 +102,23 @@ def _build_interactive_payload(
     else:
         pb_ser = p1_ser.copy()
 
+    # Per-municipality Bayesian odds multipliers in force for weeks 1..52 (52 x 15 floats)
+    muni_k_by_week: list[list[float]] = []
+    for w in range(1, 53):
+        _, rec_w = chance_in_force(bundle, w)
+        learned_w = (
+            rec_w.answer.get("learned")
+            if (rec_w is not None and rec_w.ok and isinstance(rec_w.answer, dict))
+            else None
+        )
+        row_k = []
+        for code in muni_codes:
+            if learned_w is not None and not learned_w.empty and code in learned_w.index:
+                row_k.append(round(float(learned_w.loc[code, "multiplier"]), 6))
+            else:
+                row_k.append(1.0)
+        muni_k_by_week.append(row_k)
+
     # Each cell carries its area's own chance (no smoothing)
     cell_area_ids = canvas_df["area_id"]
     cell_sm52 = np.round(p52_ser.reindex(cell_area_ids).to_numpy(dtype=float), 4).tolist()
@@ -108,7 +132,7 @@ def _build_interactive_payload(
     area_events: dict[int, list[list[int]]] = {}
     zone_events: dict[str, list[list[int]]] = {}
     if weekly_a:
-        prev = pd.Series([1 if bool(e) else 0 for e in areas_meta["event_inside"]], index=areas_meta.index)
+        prev = pd.Series([2 if bool(e) else 0 for e in areas_meta["event_inside"]], index=areas_meta.index)
         for w in sorted(weekly_a):
             cur = weekly_a[w].reindex(areas_meta.index).map(AREA_CODE).fillna(0).astype(int)
             for aid in cur.index[cur != prev]:
@@ -147,7 +171,7 @@ def _build_interactive_payload(
     areas_list = []
     for idx, aid in enumerate(area_ids):
         arow = areas_meta.loc[aid]
-        init_st = 1 if bool(arow["event_inside"]) else 0
+        init_st = 2 if bool(arow["event_inside"]) else 0
         f_info = ord_findings.get(aid, {})
         # Evidence tags: mines found in clearance (log), evidence classes in the reviewer's registers, and a past
         # accident recorded inside (desk study); no device type is assigned
@@ -402,10 +426,12 @@ def _build_interactive_payload(
         "H": REGIONAL_CANVAS_H,
         "W": REGIONAL_CANVAS_W,
         "vmax": {
+            "pw": round(max(0.18, min(0.45, vmax_52)), 3),
             "p52": round(max(0.18, min(0.45, vmax_52)), 3),
             "p1": round(max(0.18, min(0.45, vmax_1)), 3),
             "pb": round(max(0.18, min(0.45, vmax_b)), 3),
         },
+        "muni_k": muni_k_by_week,
         "months": [m[:3] for m in config.MONTHS],
         "munis": munis_list,
         "zones": zones_list,
@@ -435,7 +461,7 @@ def render_interactive_country_explorer(
     initial_week: int = 52,
 ) -> None:
     """Render the interactive HTML5 Canvas map explorer for the 15 pilot municipalities."""
-    data_json = _cached_payload_json(bundle, log_df, reviews_df, gate_df, cache_version=11)
+    data_json = _cached_payload_json(bundle, log_df, reviews_df, gate_df, cache_version=12)
 
     html_doc = f"""<!DOCTYPE html>
 <html lang="en">
@@ -481,24 +507,24 @@ def render_interactive_country_explorer(
     flex-wrap: wrap;
     align-items: center;
     justify-content: space-between;
-    gap: 10px;
-    padding: 10px 14px;
+    gap: 6px;
+    padding: 6px 10px;
     background: var(--panel-alt);
     border-bottom: 1px solid var(--border);
   }}
   .layer-group {{
     display: flex;
     flex-wrap: wrap;
-    gap: 5px;
+    gap: 4px;
     align-items: center;
   }}
   .layer-btn {{
     border: 1px solid #c9c5b9;
     background: #ffffff;
     color: var(--ink);
-    padding: 5px 10px;
+    padding: 3px 7px;
     border-radius: 6px;
-    font-size: 12px;
+    font-size: 11px;
     font-weight: 600;
     cursor: pointer;
     transition: all 0.12s ease;
@@ -550,24 +576,24 @@ def render_interactive_country_explorer(
     flex-wrap: wrap;
     align-items: center;
     justify-content: space-between;
-    gap: 8px;
-    padding: 7px 14px;
+    gap: 5px 8px;
+    padding: 4px 10px;
     background: #f8f7f2;
     border-bottom: 1px solid var(--border);
-    font-size: 12px;
+    font-size: 11.5px;
   }}
   .sub-left, .sub-right {{
     display: flex;
     flex-wrap: wrap;
     align-items: center;
-    gap: 10px;
+    gap: 8px;
   }}
   select.ctrl-select {{
-    padding: 4px 8px;
+    padding: 3px 6px;
     border-radius: 5px;
     border: 1px solid #c9c5b9;
     background: #ffffff;
-    font-size: 12px;
+    font-size: 11.5px;
     color: var(--ink);
     font-weight: 500;
   }}
@@ -582,10 +608,10 @@ def render_interactive_country_explorer(
   /* Main 2-column body: Map Canvas Left + Live Inspector Right */
   .main-grid {{
     display: grid;
-    grid-template-columns: 1.55fr 1fr;
-    min-height: 610px;
+    grid-template-columns: 1.62fr 1fr;
+    min-height: 550px;
   }}
-  @media (max-width: 980px) {{
+  @media (max-width: 720px) {{
     .main-grid {{
       grid-template-columns: 1fr;
     }}
@@ -598,9 +624,14 @@ def render_interactive_country_explorer(
     display: flex;
     flex-direction: column;
   }}
+  .canvas-stage {{
+    position: relative;
+    overflow: hidden;
+    flex: 0 0 auto;
+  }}
   #mapCanvas {{
     width: 100%;
-    height: 555px;
+    height: 525px;
     display: block;
     cursor: grab;
   }}
@@ -634,44 +665,46 @@ def render_interactive_country_explorer(
   /* Colombia -> Antioquia Mini Context Locator Card */
   .country-card {{
     position: absolute;
-    bottom: 54px;
-    left: 10px;
-    width: 192px;
+    bottom: 8px;
+    left: 8px;
+    width: 178px;
     background: rgba(250, 249, 245, 0.95);
     border: 1px solid #c5c1b6;
     border-radius: 8px;
-    padding: 8px 10px;
+    padding: 6px 8px;
     box-shadow: 0 2px 6px rgba(0,0,0,0.07);
     z-index: 9;
   }}
   .country-card-title {{
-    font-size: 10.5px;
+    font-size: 10px;
     font-weight: 700;
     text-transform: uppercase;
-    letter-spacing: 0.03em;
+    letter-spacing: 0.02em;
     color: var(--ink);
-    margin-bottom: 4px;
+    margin-bottom: 2px;
     display: flex;
     justify-content: space-between;
     align-items: center;
+    white-space: nowrap;
   }}
   .region-pill-row {{
     display: flex;
     flex-direction: column;
-    gap: 3px;
-    margin-top: 4px;
+    gap: 2px;
+    margin-top: 3px;
   }}
   .region-pill {{
     display: flex;
     justify-content: space-between;
     align-items: center;
-    font-size: 10.5px;
-    padding: 3px 6px;
+    font-size: 9.8px;
+    padding: 2px 5px;
     border-radius: 4px;
     background: #ffffff;
-    border: 1px solid #dfdco3;
+    border: 1px solid #dfdcd3;
     cursor: pointer;
     color: var(--ink);
+    white-space: nowrap;
   }}
   .region-pill:hover {{
     border-color: var(--blue);
@@ -738,7 +771,7 @@ def render_interactive_country_explorer(
     display: flex;
     flex-direction: column;
     gap: 10px;
-    max-height: 610px;
+    max-height: 620px;
     overflow-y: auto;
   }}
   .insp-card {{
@@ -871,7 +904,8 @@ def render_interactive_country_explorer(
     <div class="sub-left">
       <span><strong>Chance of mines:</strong></span>
       <select id="heatSourceSel" class="ctrl-select">
-        <option value="p52">In force at week 52 (season end; updated at each monthly plan)</option>
+        <option value="pw" selected>In force in the selected week (updated at each monthly plan)</option>
+        <option value="p52">In force at week 52 (season end)</option>
         <option value="p1">Start of season (week 1)</option>
         <option value="pb">Nearness to past accidents (the baseline)</option>
         <option value="delta">Change, week 52 minus week 1 (monthly update by municipality)</option>
@@ -925,9 +959,11 @@ def render_interactive_country_explorer(
       <span><strong>Status:</strong></span>
       <select id="stFilterSel" class="ctrl-select">
         <option value="all">All Statuses</option>
-        <option value="5">Cleared</option>
-        <option value="2">Confirmed</option>
-        <option value="1">Suspected</option>
+        <option value="6">Cleared</option>
+        <option value="3">Confirmed</option>
+        <option value="2">Suspected</option>
+        <option value="1">Not suspected (unflagged in zone survey)</option>
+        <option value="0">Unknown (zone not yet surveyed)</option>
         <option value="rel">Released (cleared, reduced or cancelled)</option>
       </select>
       <span id="ordMatchCountBadge" class="badge" style="background:#e7e2d3;color:#3d3a33;">Showing all areas</span>
@@ -945,41 +981,43 @@ def render_interactive_country_explorer(
   <div class="main-grid">
     <!-- Left Column: Interactive HTML5 Map Canvas -->
     <div class="canvas-wrap">
-      <canvas id="mapCanvas" width="820" height="555"></canvas>
-      <div id="hoverTip"></div>
+      <div class="canvas-stage">
+        <canvas id="mapCanvas" width="820" height="525"></canvas>
+        <div id="hoverTip"></div>
 
-      <!-- Floating Zoom Controls -->
-      <div class="zoom-Readout">
-        <button class="z-btn" id="zoomInBtn" title="Zoom in">＋</button>
-        <button class="z-btn" id="zoomOutBtn" title="Zoom out">－</button>
-        <button class="z-btn" id="zoomResetBtn" title="Reset full regional view">Reset View</button>
-      </div>
+        <!-- Floating Zoom Controls -->
+        <div class="zoom-Readout">
+          <button class="z-btn" id="zoomInBtn" title="Zoom in">＋</button>
+          <button class="z-btn" id="zoomOutBtn" title="Zoom out">－</button>
+          <button class="z-btn" id="zoomResetBtn" title="Reset full regional view">Reset View</button>
+        </div>
 
-      <!-- Schematic Colombia / Antioquia Sub-Region Locator -->
-      <div class="country-card">
-        <div class="country-card-title">
-          <span>Colombia · Antioquia Pilot</span>
-          <span style="font-weight:500;color:#6e6b63;font-size:9.5px;">No coordinates</span>
-        </div>
-        <div style="font-size:10.5px;color:#52514e;line-height:1.3;">
-          Click a sub-region or any municipality on the map to zoom &amp; inspect:
-        </div>
-        <div class="region-pill-row">
-          <div class="region-pill" data-sub="all">
-            <span><strong>Full Pilot Region</strong></span>
-            <span>15 munis · {len(bundle["zones_meta"])} zones</span>
+        <!-- Schematic Colombia / Antioquia Sub-Region Locator -->
+        <div class="country-card">
+          <div class="country-card-title">
+            <span>Antioquia Pilot</span>
+            <span style="font-weight:500;color:#6e6b63;font-size:9px;text-transform:none;">No coordinates</span>
           </div>
-          <div class="region-pill" data-sub="east">
-            <span>• Oriente and San Roque</span>
-            <span>12 Oriente + San Roque (Nordeste)</span>
+          <div style="font-size:9.8px;color:#52514e;line-height:1.25;white-space:nowrap;">
+            Click a sub-region to zoom:
           </div>
-          <div class="region-pill" data-sub="uraba">
-            <span>• Urabá Sub-Region</span>
-            <span>Chigorodó</span>
-          </div>
-          <div class="region-pill" data-sub="occ">
-            <span>• Occidente Sub-Region</span>
-            <span>Sabanalarga</span>
+          <div class="region-pill-row">
+            <div class="region-pill" data-sub="all">
+              <span><strong>Full Region</strong></span>
+              <span>15 munis · {len(bundle["zones_meta"])}z</span>
+            </div>
+            <div class="region-pill" data-sub="east">
+              <span>• Oriente &amp; San Roque</span>
+              <span>13 munis</span>
+            </div>
+            <div class="region-pill" data-sub="uraba">
+              <span>• Urabá</span>
+              <span>Chigorodó</span>
+            </div>
+            <div class="region-pill" data-sub="occ">
+              <span>• Occidente</span>
+              <span>Sabanalarga</span>
+            </div>
           </div>
         </div>
       </div>
@@ -1050,7 +1088,7 @@ def render_interactive_country_explorer(
                 <th>Zone</th>
                 <th>State (W<span id="tblWkHdr">{int(initial_week)}</span>)</th>
                 <th>Released</th>
-                <th>Expected Mine Areas (Wk 52)</th>
+                <th>Expected Mine Areas (W<span id="tblExpWkHdr">{int(initial_week)}</span>)</th>
                 <th>Plan (Wk 1)</th>
                 <th>P50 Wk (Wk-1 Fcst)</th>
               </tr>
@@ -1067,8 +1105,8 @@ def render_interactive_country_explorer(
 const DATA = {data_json};
 
 // Status & colour constants
-const AREA_STATUS_NAMES = ["Unknown or not suspected", "Suspected", "Confirmed", "Cancelled (released)", "Reduced (released)", "Cleared (released)"];
-const AREA_STATUS_COLORS = ["#e6e4dd", "#f09436", "#cf3a2b", "#8fd1a8", "#48b078", "#1b6ca8"];
+const AREA_STATUS_NAMES = ["Unknown (zone not yet surveyed)", "Not suspected (zone surveyed, not flagged)", "Suspected", "Confirmed", "Cancelled (released)", "Reduced (released)", "Cleared (released)"];
+const AREA_STATUS_COLORS = ["#e6e4dd", "#d5d2c6", "#f09436", "#cf3a2b", "#8fd1a8", "#48b078", "#1b6ca8"];
 const ZONE_STATE_NAMES = ["Not surveyed", "In survey", "Surveyed (open)", "Declared free"];
 const ZONE_STATE_COLORS = ["#e8e5dc", "#f5e4be", "#8cb8e8", "#3b9a72"];
 const PLAN_ROLE_NAMES = ["Not in initial plan", "Survey only", "Survey + clearance"];
@@ -1157,7 +1195,7 @@ let state = {{
   luFilter: "all",
   stFilter: "all",
   week: {int(initial_week)},
-  heatSource: "p52",
+  heatSource: "pw",
   showCleanedOutline: true,
   showMuniLabels: true,
   playing: false,
@@ -1176,7 +1214,7 @@ function passesExtraFilters(aIdx, a) {{
   if (state.stFilter !== "all") {{
     const st = curAreaStatus[aIdx];
     if (state.stFilter === "rel") {{
-      if (st < 3) return false;
+      if (st < 4) return false;
     }} else if (st !== parseInt(state.stFilter, 10)) {{
       return false;
     }}
@@ -1327,7 +1365,7 @@ function populateAreaMatchJump() {{
 function exportMatchedAreasCsv() {{
   const flt = state.ordFilter;
   const rows = [
-    ["Area_ID", "Zone_ID", "Municipality", "Land_Use", "Area_km2", "Status_Week_" + state.week, "Mine_Cells_Found_In_Clearance", "Evidence_Tags", "Chance_Week52_Pct", "Chance_Week1_Pct", "Clearance_And_Dossier_Notes_Simulated"]
+    ["Area_ID", "Zone_ID", "Municipality", "Land_Use", "Area_km2", "Status_Week_" + state.week, "Mine_Cells_Found_In_Clearance", "Evidence_Tags", "Chance_Week_" + state.week + "_Pct", "Chance_Week52_Pct", "Chance_Week1_Pct", "Clearance_And_Dossier_Notes_Simulated"]
   ];
   for (let i = 0; i < DATA.areas.length; i++) {{
     const a = DATA.areas[i];
@@ -1340,6 +1378,7 @@ function exportMatchedAreasCsv() {{
     }}
     const aSt = curAreaStatus[i];
     const tags = (a.ot || []).join(";");
+    const pwPct = (curAreaChance[i] * 100).toFixed(1);
     const p52 = (a.p52 * 100).toFixed(1);
     const p1 = (a.p1 * 100).toFixed(1);
     const notes = [];
@@ -1355,6 +1394,7 @@ function exportMatchedAreasCsv() {{
       `"${{AREA_STATUS_NAMES[aSt]}}"`,
       a.mc || 0,
       `"${{tags}}"`,
+      pwPct,
       p52,
       p1,
       `"${{noteStr}}"`
@@ -1371,11 +1411,15 @@ function exportMatchedAreasCsv() {{
   document.body.removeChild(link);
 }}
 
-// Pre-compute area status & zone state at state.week
+// Pre-compute area status, zone state & Bayesian chance in force at state.week
 const curAreaStatus = new Uint8Array(DATA.areas.length);
 const curZoneState = new Uint8Array(DATA.zones.length);
+const curAreaChance = new Float32Array(DATA.areas.length);
+const curZoneExp = new Float32Array(DATA.zones.length);
 
 function recomputeWeekState(week) {{
+  const kRow = (DATA.muni_k && DATA.muni_k[week - 1]) ? DATA.muni_k[week - 1] : null;
+  curZoneExp.fill(0);
   for (let i = 0; i < DATA.areas.length; i++) {{
     const a = DATA.areas[i];
     let st = a.s0;
@@ -1384,6 +1428,11 @@ function recomputeWeekState(week) {{
       if (ch[j][0] <= week) st = ch[j][1];
     }}
     curAreaStatus[i] = st;
+    const p1 = a.p1;
+    const k = kRow ? (kRow[a.m] ?? 1.0) : 1.0;
+    const pw = (k === 1.0 || p1 <= 0 || p1 >= 1) ? p1 : (k * p1) / (1.0 - p1 + k * p1);
+    curAreaChance[i] = pw;
+    curZoneExp[a.z] += pw;
   }}
   for (let i = 0; i < DATA.zones.length; i++) {{
     const z = DATA.zones[i];
@@ -1442,16 +1491,16 @@ function renderOffscreenCells() {{
           ];
         }}
       }} else {{
-        const hVal = cell[srcIdx];
+        const hVal = state.heatSource === "pw" ? curAreaChance[aIdx] : cell[srcIdx];
         rgb = sampleRamp(HEAT_STOPS, hVal / vmax);
       }}
       // Draw the areas released by the selected week on top of the heat map
-      if (state.showCleanedOutline && aSt >= 3) {{
+      if (state.showCleanedOutline && aSt >= 4) {{
         rgb = AREA_RGB[aSt];
       }}
     }} else if (state.layer === "land_use") {{
       const baseLu = LAND_USE_RGB[a.lu] || [120, 120, 120];
-      if (aSt >= 3) {{
+      if (aSt >= 4) {{
         rgb = baseLu;
       }} else {{
         rgb = [
@@ -1475,10 +1524,10 @@ function renderOffscreenCells() {{
       }}
     }} else if (state.layer === "ordnance_dist") {{
       // Shade background by log-scaled recorded items in municipality, with active/cleared areas on top
-      if (aSt === 2) rgb = [196, 69, 54];      // Confirmed hazard
-      else if (aSt === 1) rgb = [240, 148, 54]; // Suspected hazard
-      else if (aSt === 5) rgb = [27, 108, 168]; // Released: cleared
-      else if (aSt >= 3) rgb = [102, 187, 138]; // Released: cancelled or reduced
+      if (aSt === 3) rgb = [196, 69, 54];      // Confirmed hazard
+      else if (aSt === 2) rgb = [240, 148, 54]; // Suspected hazard
+      else if (aSt === 6) rgb = [27, 108, 168]; // Released: cleared
+      else if (aSt >= 4) rgb = [102, 187, 138]; // Released: cancelled or reduced
       else {{
         const t = Math.log1p(m.tot || 0) / Math.log1p(maxMuniTot);
         rgb = [
@@ -1488,7 +1537,7 @@ function renderOffscreenCells() {{
         ];
       }}
     }} else if (state.layer === "area_status") {{
-      if (aSt === 0) {{
+      if (aSt <= 1) {{
         // Background tinted by zone state
         if (zSt === 3) rgb = [213, 239, 224];
         else if (zSt === 2) rgb = [217, 231, 245];
@@ -1541,6 +1590,24 @@ function renderOffscreenCells() {{
 const canvas = document.getElementById("mapCanvas");
 const ctx = canvas.getContext("2d");
 
+function getBaseZoom() {{
+  return Math.min(1.95, Math.max(1.35, Math.min((canvas.width - 20) / W, (canvas.height - 16) / H)));
+}}
+
+function syncCanvasSize(resetCam) {{
+  const cw = Math.max(420, Math.round(canvas.clientWidth || 820));
+  const ch = Math.max(380, Math.round(canvas.clientHeight || 525));
+  if (canvas.width !== cw || canvas.height !== ch) {{
+    canvas.width = cw;
+    canvas.height = ch;
+  }}
+  if (resetCam) {{
+    state.camX = W / 2;
+    state.camY = H / 2;
+    state.zoom = getBaseZoom();
+  }}
+}}
+
 function gridToScreen(gx, gy) {{
   const sx = canvas.width / 2 + (gx - state.camX) * state.zoom;
   const sy = canvas.height / 2 + (gy - state.camY) * state.zoom;
@@ -1579,8 +1646,8 @@ function drawBoundaryPass() {{
     const zIdx = cellZoneGrid[pos];
     const mIdx = cellMuniGrid[pos];
     const aSt = curAreaStatus[aIdx];
-    const isCleaned = aSt >= 3;
-    const isCleared = aSt === 5;
+    const isCleaned = aSt >= 4;
+    const isCleared = aSt === 6;
 
     const x0 = ox + c * z;
     const y0 = oy + r * z;
@@ -1606,8 +1673,8 @@ function drawBoundaryPass() {{
     const botM = botPos >= 0 ? cellMuniGrid[botPos] : -1;
     const botZ = botPos >= 0 ? cellZoneGrid[botPos] : -1;
     const botA = botPos >= 0 ? cellAreaGrid[botPos] : -1;
-    const botCleaned = botA >= 0 ? curAreaStatus[botA] >= 3 : false;
-    const botCleared = botA >= 0 ? curAreaStatus[botA] === 5 : false;
+    const botCleaned = botA >= 0 ? curAreaStatus[botA] >= 4 : false;
+    const botCleared = botA >= 0 ? curAreaStatus[botA] === 6 : false;
 
     if (botM === -1) {{
       outerPath.moveTo(x0, y1); outerPath.lineTo(x1, y1);
@@ -1641,8 +1708,8 @@ function drawBoundaryPass() {{
     const rightM = rightPos >= 0 ? cellMuniGrid[rightPos] : -1;
     const rightZ = rightPos >= 0 ? cellZoneGrid[rightPos] : -1;
     const rightA = rightPos >= 0 ? cellAreaGrid[rightPos] : -1;
-    const rightCleaned = rightA >= 0 ? curAreaStatus[rightA] >= 3 : false;
-    const rightCleared = rightA >= 0 ? curAreaStatus[rightA] === 5 : false;
+    const rightCleaned = rightA >= 0 ? curAreaStatus[rightA] >= 4 : false;
+    const rightCleared = rightA >= 0 ? curAreaStatus[rightA] === 6 : false;
 
     if (rightM === -1) {{
       outerPath.moveTo(x1, y0); outerPath.lineTo(x1, y1);
@@ -1973,6 +2040,7 @@ function updateInspector() {{
   document.getElementById("weekBadge").textContent = `Week ${{wk}} / 52`;
   document.getElementById("natTitle").textContent = `15 Pilot Municipalities — Week ${{wk}}`;
   document.getElementById("tblWkHdr").textContent = String(wk);
+  document.getElementById("tblExpWkHdr").textContent = String(wk);
 
   // Compute national summary counters at week
   let zFree = 0, zSurv = 0;
@@ -1983,12 +2051,12 @@ function updateInspector() {{
   let aRel = 0, aClr = 0, aSusp = 0, aConf = 0, nRev = 0;
   for (let i = 0; i < DATA.areas.length; i++) {{
     const st = curAreaStatus[i];
-    if (st >= 3) {{
+    if (st >= 4) {{
       aRel++;
-      if (st === 5) aClr++;
+      if (st === 6) aClr++;
     }} else {{
-      if (st === 1) aSusp++;
-      if (st === 2) aConf++;
+      if (st === 2) aSusp++;
+      if (st === 3) aConf++;
     }}
     nRev += (DATA.areas[i].rev || []).filter(r => r.w <= state.week).length;
   }}
@@ -2018,7 +2086,7 @@ function updateInspector() {{
     fSub.textContent = `${{m.sub}} · Recorded victims in municipality (all years): ${{m.vic.toLocaleString()}} (not weighed in plan)`;
     fBadge.textContent = isPinned ? "📌 Pinned" : AREA_STATUS_NAMES[aSt];
     fBadge.style.background = isPinned ? "#235789" : AREA_STATUS_COLORS[aSt];
-    fBadge.style.color = isPinned || aSt === 5 || aSt === 2 ? "#ffffff" : "#181816";
+    fBadge.style.color = isPinned || aSt === 6 || aSt === 3 ? "#ffffff" : "#181816";
 
     // Build 12-month schedule strip for this zone
     const sSet = new Set(z.ms);
@@ -2048,11 +2116,13 @@ function updateInspector() {{
       </div>`;
     }}
 
-    const cleanedNote = aSt >= 3
+    const cleanedNote = aSt >= 4
       ? `<span style="color:#0d8a72;font-weight:700;">Released (${{AREA_STATUS_NAMES[aSt]}})</span>`
-      : `<span style="color:#b55016;font-weight:700;">${{AREA_STATUS_NAMES[aSt]}}</span>`;
+      : (aSt === 2 || aSt === 3
+        ? `<span style="color:#b55016;font-weight:700;">${{AREA_STATUS_NAMES[aSt]}}</span>`
+        : `<span style="color:#475569;font-weight:600;">${{AREA_STATUS_NAMES[aSt]}}</span>`);
 
-    const chanceStr = `${{(a.p52 * 100).toFixed(1)}}% at week 52 (week 1: ${{(a.p1 * 100).toFixed(1)}}%)`;
+    const chanceStr = `${{(curAreaChance[fIdx] * 100).toFixed(1)}}% in week ${{wk}} (week 1: ${{(a.p1 * 100).toFixed(1)}}% · week 52: ${{(a.p52 * 100).toFixed(1)}}%)`;
 
     // Build Ordnance, Clearance & Field Evidence box for this area
     let ordHtml = "";
@@ -2130,7 +2200,7 @@ function updateInspector() {{
     // Count released areas in this zone at week
     let relInZ = 0;
     for (let i = 0; i < DATA.areas.length; i++) {{
-      if (DATA.areas[i].z === zIdx && curAreaStatus[i] >= 3) relInZ++;
+      if (DATA.areas[i].z === zIdx && curAreaStatus[i] >= 4) relInZ++;
     }}
     const tr = document.createElement("tr");
     if (zIdx === activeZoneIdx) tr.className = "selected-row";
@@ -2139,7 +2209,7 @@ function updateInspector() {{
       <td><strong>${{z.id}}</strong></td>
       <td>${{ZONE_STATE_NAMES[zSt]}}</td>
       <td>${{relInZ}} / ${{z.na}}</td>
-      <td>${{z.e52.toFixed(1)}}</td>
+      <td>${{curZoneExp[zIdx].toFixed(1)}}</td>
       <td>${{z.mp === 2 ? "Surv+Clr" : (z.mp === 1 ? "Survey" : "—")}}</td>
       <td>${{z.p50 > 0 ? "W" + z.p50 : "—"}}</td>
     `;
@@ -2214,19 +2284,23 @@ canvas.addEventListener("mousemove", e => {{
       const z = DATA.zones[a.z];
       const m = DATA.munis[a.m];
       const aSt = curAreaStatus[aIdx];
-      const pRaw = state.heatSource === "delta" ? (a.p52 - a.p1) : a[state.heatSource];
+      const pRaw = state.heatSource === "delta"
+        ? (a.p52 - a.p1)
+        : (state.heatSource === "pw" ? curAreaChance[aIdx] : a[state.heatSource]);
       const pVal = (pRaw * 100).toFixed(1);
       const resTxt = state.heatSource === "delta"
         ? `Change in chance, week 52 minus week 1: <strong>${{pVal}} points</strong>`
-        : `Risk model's chance of mines: <strong>${{pVal}}%</strong>`;
+        : (state.heatSource === "pw"
+          ? `Risk model's chance of mines (W${{state.week}}): <strong>${{pVal}}%</strong>`
+          : `Risk model's chance of mines: <strong>${{pVal}}%</strong>`);
       tip.style.display = "block";
-      tip.style.left = Math.min(canvas.width - 265, e.clientX - rect.left + 14) + "px";
+      tip.style.left = Math.max(8, Math.min(rect.width - 270, e.clientX - rect.left + 14)) + "px";
       tip.style.top = Math.max(10, e.clientY - rect.top - 18) + "px";
       tip.innerHTML = `
         <strong>${{m.name}}</strong> · Zone ${{z.short}} · Area ${{a.id}}<br/>
         Status (W${{state.week}}): <strong>${{AREA_STATUS_NAMES[aSt]}}</strong><br/>
         ${{resTxt}}<br/>
-        Municipality items found: <strong>${{m.map || 0}} MAP · ${{m.uxo || 0}} UXO · ${{m.ied || 0}} IED</strong>
+        National register (2008–2023): <strong>${{m.map || 0}} MAP · ${{m.uxo || 0}} MUSE · ${{m.ied || 0}} AEI</strong>
       `;
       return;
     }}
@@ -2285,7 +2359,7 @@ canvas.addEventListener("wheel", e => {{
   const sy = (e.clientY - rect.top) * (canvas.height / rect.height);
   const [gxBefore, gyBefore] = screenToGrid(sx, sy);
   const factor = e.deltaY < 0 ? 1.18 : 1 / 1.18;
-  state.zoom = Math.max(1.3, Math.min(12.0, state.zoom * factor));
+  state.zoom = Math.max(1.15, Math.min(12.0, state.zoom * factor));
   state.camX = gxBefore - (sx - canvas.width / 2) / state.zoom;
   state.camY = gyBefore - (sy - canvas.height / 2) / state.zoom;
   renderMap();
@@ -2310,6 +2384,7 @@ weekSlider.addEventListener("input", () => {{
   if (state.stFilter !== "all") populateAreaMatchJump();
   renderOffscreenCells();
   renderMap();
+  updateLegendBar();
   updateInspector();
 }});
 
@@ -2326,6 +2401,7 @@ playBtn.addEventListener("click", () => {{
       recomputeWeekState(state.week);
       renderOffscreenCells();
       renderMap();
+      updateLegendBar();
       updateInspector();
       if (state.week === 52) {{
         clearInterval(state.playTimer);
@@ -2364,7 +2440,7 @@ muniJumpSel.addEventListener("change", e => {{
   if (idx < 0) {{
     state.camX = W / 2;
     state.camY = H / 2;
-    state.zoom = 1.95;
+    state.zoom = getBaseZoom();
   }} else {{
     const m = DATA.munis[idx];
     state.selectedMuniIdx = idx;
@@ -2389,13 +2465,13 @@ document.getElementById("zoomInBtn").addEventListener("click", () => {{
   renderMap();
 }});
 document.getElementById("zoomOutBtn").addEventListener("click", () => {{
-  state.zoom = Math.max(1.3, state.zoom / 1.35);
+  state.zoom = Math.max(1.15, state.zoom / 1.35);
   renderMap();
 }});
 document.getElementById("zoomResetBtn").addEventListener("click", () => {{
   state.camX = W / 2;
   state.camY = H / 2;
-  state.zoom = 1.95;
+  state.zoom = getBaseZoom();
   muniJumpSel.value = "-1";
   renderMap();
 }});
@@ -2447,7 +2523,7 @@ document.querySelectorAll(".region-pill").forEach(pill => {{
   pill.addEventListener("click", () => {{
     const sub = pill.getAttribute("data-sub");
     if (sub === "all") {{
-      state.camX = W / 2; state.camY = H / 2; state.zoom = 1.95;
+      state.camX = W / 2; state.camY = H / 2; state.zoom = getBaseZoom();
     }} else if (sub === "east") {{
       state.camX = 192; state.camY = 128; state.zoom = 2.25;
     }} else if (sub === "uraba") {{
@@ -2463,6 +2539,8 @@ document.querySelectorAll(".region-pill").forEach(pill => {{
 }});
 
 // Initial render
+syncCanvasSize(true);
+window.addEventListener("resize", () => {{ syncCanvasSize(false); renderMap(); }});
 recomputeWeekState(state.week);
 populateAreaMatchJump();
 renderOffscreenCells();
@@ -2474,4 +2552,4 @@ renderMap();
 </html>
 """
     # st.iframe replaces the deprecated st.components.v1.html; the page is built here from the twin's records
-    st.iframe(html_doc, height=780)
+    st.iframe(html_doc, height=900)

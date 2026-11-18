@@ -320,11 +320,12 @@ def render_safety_rule_audit_studio(root: Path) -> None:
         "wrongly, it checks the wrong class."
     )
 
-    # Top safeguard metrics bar (strictly honest counts from saved files)
-    m1, m2, m3, m4, m5, m6 = st.columns(6)
+    # Top safeguard metrics bar (strictly honest counts from saved files; 2x3 grid to prevent truncation)
+    m1, m2, m3 = st.columns(3)
     m1.metric("Rule Checks Passed", f"{int((audit_df['rule_check_result'] == 'pass').sum())} / {len(audit_df)}")
     m2.metric("Re-Survey (`FURTHER_NTS`)", int((audit_df["outcome"] == "FURTHER_NTS").sum()))
     m3.metric("Sentences Removed by the Handling-Advice Filter", int(audit_df["handling_blocked_count"].sum()))
+    m4, m5, m6 = st.columns(3)
     m4.metric("Flags for the Person Signing Off", int(audit_df["uncertainty_flags_count"].sum()))
     m5.metric("Fallbacks / Vetoes / Quote Err", f"{int(audit_df['fallback'].sum())} / {int(audit_df['vetoes_count'].sum())} / {int(audit_df['quote_failures_count'].sum())}")
     m6.metric(f"Total Reviewer Cost ({len(audit_df)} reviews)", f"${float(audit_df['cost_usd'].sum()):.2f}")
@@ -784,10 +785,11 @@ def render_team_deployment_and_attrition_studio(
     rain_pct = 100.0 * (tot_rain + tot_acc) / max(1, tot_cal)
     n_started = int(((tasks_df["started_week"] > 0) & (tasks_df["started_week"] <= week)).sum())
 
-    k1, k2, k3, k4, k5 = st.columns(5)
+    k1, k2, k3 = st.columns(3)
     k1.metric("Field Teams", f"{n_teams} (S1–S4 · C1–C4)")
     k2.metric(f"Tasks Started (≤ W{week})", f"{n_started} of {len(tasks_df)}")
     k3.metric(f"Team-Days Worked (Weeks 1–{week})", f"{tot_work:,} d")
+    k4, k5 = st.columns(2)
     k4.metric(f"Team-Days Lost (Weeks 1–{week})", f"{tot_rain:,} d weather · {tot_acc:,} d zone closures")
     k5.metric(f"Share of Team-Days Lost (Weeks 1–{week})", f"{rain_pct:.1f}% of field days")
 
@@ -1183,8 +1185,8 @@ def render_bayesian_learning_and_gate_studio(
     )
     k1, k2, k3, k4 = st.columns(4)
     k1.metric("Areas Updated by Bayesian Learning", f"{n_shifted:,} of {len(shift_df):,}")
-    k2.metric("Revised Upward (+Δp)", f"{n_up:,} areas", f"Max: +{max_up_row['delta_pct_pts']:.2f} pp ({max_up_row['area_id']})")
-    k3.metric("Revised Downward (−Δp)", f"{n_down:,} areas", f"Min: {max_dn_row['delta_pct_pts']:.2f} pp ({max_dn_row['area_id']})")
+    k2.metric("Revised Upward (+Δp)", f"{n_up:,} areas", f"Max: +{max_up_row['delta_pct_pts']:.2f} pp ({max_up_row['area_id']})", delta_color="off", delta_arrow="off")
+    k3.metric("Revised Downward (−Δp)", f"{n_down:,} areas", f"Min: {max_dn_row['delta_pct_pts']:.2f} pp ({max_dn_row['area_id']})", delta_color="off", delta_arrow="off")
     k4.metric(
         f"Gated Risk Models ({len(gate_df)} Munis)",
         f"{int(gate_counts.get('baseline', 0))} Nearness · {int(gate_counts.get('hgb', 0))} Trees · "

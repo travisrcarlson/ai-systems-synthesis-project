@@ -867,12 +867,21 @@ def plot_all_municipalities_grid(
             Patch(color=ZONE_COLOURS[i], label=f"Zone colour slot {i + 1}") for i in range(len(ZONE_COLOURS))
         ]
 
+    is_week_layer = layer_name in (
+        "Area status in selected week",
+        "Zone state in selected week",
+        "Area risk chance (in force in the selected week)",
+    )
+    z_state_w = zone_state_at_week(bundle, week) if is_week_layer else None
+
     for idx, (code, name) in enumerate(config.NAME_OF.items()):
         ax = axes_flat[idx]
         n_zones = int((zones_meta["municipality_code"] == code).sum())
         n_areas = int((areas_meta["municipality_code"] == code).sum())
-        free_note = ""
-        if zones_end is not None and not zones_end.empty:
+        if z_state_w is not None:
+            n_free_w = int((z_state_w[zones_meta["municipality_code"] == code] == "free").sum())
+            free_note = f"{n_free_w}/{n_zones} zones free at w{week}"
+        elif zones_end is not None and not zones_end.empty:
             m_zones = zones_end[zones_end["municipality"] == name]
             n_free = int((m_zones["free_week"] > 0).sum())
             free_note = f"{n_free}/{n_zones} zones free at w52"
@@ -1167,6 +1176,7 @@ def render_municipality_map_explorer(
     gate_df: pd.DataFrame,
     saved_sitreps: dict,
     week: int,
+    key_prefix: str = "muni_exp",
 ) -> None:
     """Interactive visual map explorer combining the 15-municipality grid map and a single-municipality
     all-in-one dashboard (zones, tasks, plan, forecast, dossier reviews with sign-off sheets, log, and sitrep).
@@ -1236,7 +1246,7 @@ def render_municipality_map_explorer(
         if not g_row.empty:
             gate_choice_label = str(g_row.iloc[0].get("chosen_label", g_row.iloc[0].get("chosen", "—")))
 
-    k1, k2, k3, k4, k5 = st.columns(5)
+    k1, k2, k3 = st.columns(3)
     k1.metric("Zones Declared Free", f"{int((z_state_w == 'free').sum())} of {len(m_zones_ids)}")
     k2.metric(
         "Areas Released",
@@ -1246,21 +1256,32 @@ def render_municipality_map_explorer(
         "Suspected / Confirmed Areas",
         f"{int((status_w == 'suspected').sum())} / {int((status_w == 'confirmed').sum())}",
     )
+    k4, k5 = st.columns(2)
     k4.metric("Recorded Victims (All Years)", f"{int(victims_by_muni.get(selected_name, 0)):,}")
     k5.metric("Selected Risk Method", gate_choice_label)
 
-    # Unified Dashboard Tabs for the selected municipality
-    tab_ops, tab_plan, tab_rev, tab_log, tab_sitrep = st.tabs(
-        [
-            f"Zones & Field Tasks ({selected_name})",
-            f"Plan & Forecast ({selected_name})",
-            f"Sign-Off Reviews ({selected_name})",
-            f"Activity History ({selected_name})",
-            f"Week {week} Situation Report",
-        ]
+    # Segmented section navigation (week- and municipality-independent so selections persist)
+    muni_sections = [
+        "🗺️ Zones & Field Tasks",
+        "📅 Plan & Forecast",
+        "📄 Sign-Off Reviews",
+        "📖 Activity History",
+        "📰 Weekly Situation Report",
+    ]
+    active_m_sec = (
+        st.segmented_control(
+            "Municipality explorer view",
+            options=muni_sections,
+            default=muni_sections[0],
+            required=True,
+            width="stretch",
+            label_visibility="collapsed",
+            key=f"{key_prefix}_sec",
+        )
+        or muni_sections[0]
     )
 
-    with tab_ops:
+    if active_m_sec == muni_sections[0]:
         st.markdown(f"**Operational zones in {selected_name}** (status in week {week} and at season's end)")
         if zones_end is not None and not zones_end.empty:
             m_ztable = zones_end.loc[[z for z in m_zones_ids if z in zones_end.index]].copy()
@@ -1305,7 +1326,7 @@ def render_municipality_map_explorer(
                 )
                 st.dataframe(show_t, width="stretch", hide_index=True)
 
-    with tab_plan:
+    elif active_m_sec == muni_sections[1]:
         st.caption(
             f"**Recorded victims in {selected_name}: {int(victims_by_muni.get(selected_name, 0)):,}** "
             "(shown beside the plan as municipal context; **not weighed in the integer programme**)."
@@ -1369,7 +1390,7 @@ def render_municipality_map_explorer(
             )
         st.dataframe(pd.DataFrame(rows), width="stretch", hide_index=True)
 
-    with tab_rev:
+    elif active_m_sec == muni_sections[2]:
         rev_df = load_saved_reviews_public(str(root))
         m_rev = rev_df[rev_df["municipality"] == selected_name].copy() if not rev_df.empty else pd.DataFrame()
         if m_rev.empty:
@@ -1420,7 +1441,7 @@ def render_municipality_map_explorer(
             with st.container(border=True):
                 st.markdown(detail.get("signoff_md", "_Sign-off sheet not found._"))
 
-    with tab_log:
+    elif active_m_sec == muni_sections[3]:
         subjects = set(m_zones_ids) | set(m_areas_ids) | {selected_code, selected_name}
         m_log = log_df[
             (log_df["subject"].isin(subjects)) & (log_df["week"] <= week)
@@ -1455,7 +1476,7 @@ def render_municipality_map_explorer(
                 hide_index=True,
             )
 
-    with tab_sitrep:
+    elif active_m_sec == muni_sections[4]:
         sr = saved_sitreps.get(week)
         if not sr:
             st.info(f"No saved situation report found for week {week}.")

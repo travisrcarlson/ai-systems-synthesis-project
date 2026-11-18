@@ -1357,8 +1357,6 @@ def render_clearance_pipeline_studio(
         if not rev_df.empty
         else pd.DataFrame()
     )
-    if area_revs_w.empty and not rev_df.empty:
-        area_revs_w = rev_df[rev_df["area_id"].astype(str) == str(selected_area_id)].sort_values(["week", "visit"])
 
     sfx = "emb" if embedded else "main"
     nj1, nj2, nj3 = st.columns(3)
